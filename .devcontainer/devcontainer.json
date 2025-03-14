@@ -2,7 +2,7 @@
     "name": "Neighborly Codespace",
     "dockerFile": "Dockerfile",
     "postCreateCommand": "pip install -r requirements.txt && npm install --prefix react-app",
-    "postStartCommand": "./start_servers.sh",
+    "postStartCommand": "./.devcontainer/start_servers.sh",
     "customizations": {
       "vscode": {
         "extensions": [
