@@ -1,0 +1,21 @@
+{
+    "name": "Neighborly Codespace",
+    "dockerFile": "Dockerfile",
+    "postCreateCommand": "pip install -r requirements.txt && npm install --prefix react-app",
+    "postStartCommand": "./start_servers.sh",
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "ms-python.python",
+          "dbaeumer.vscode-eslint",
+          "GitHub.vscode-github-actions"
+        ]
+      }
+    },
+    "forwardPorts": [
+      8000,
+      3000
+    ],
+    "remoteUser": "vscode"
+  }
+  

@@ -1,0 +1,48 @@
+name: Deployment Tests (No Deployment)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Django setup and testing
+      - name: Set up Python for Django
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Django dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Django tests
+        run: python manage.py test
+
+      # React setup and testing
+      - name: Set up Node.js for React
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install React dependencies
+        working-directory: react-app
+        run: npm install
+
+      - name: Run React tests
+        working-directory: react-app
+        run: npm test -- --watchAll=false
+
+      # Deployment step is commented out for now
+      # - name: Deploy to Azure Web App
+      #   uses: azure/webapps-deploy@v2
+      #   with:
+      #     app-name: 'neighborly-django-app-6063'
+      #     slot-name: production
+      #     publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
