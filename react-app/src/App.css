@@ -2,6 +2,7 @@
   text-align: center;
 }
 
+/* Keep existing styles */
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -35,4 +36,56 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* =========================== */
+/* ADDITIONS FOR DASHBOARD LAYOUT */
+/* =========================== */
+
+.content {
+  flex-grow: 1;
+  padding: 40px;
+  margin-left: 290px; /* Pushes content away from sidebar */
+  margin-top: 20px;
+  text-align: left;
+}
+
+.layout {
+  display: flex;
+  flex-direction: row;
+  margin-top: 92px; /* Space for navbar */
+}
+
+
+/* Ensure Navbar spans the full width and is fixed */
+.navbar {
+  width: 100%;
+  height: 92px;
+  background-color: #F1F3F7;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  font-family: 'Inter', sans-serif;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure Sidebar is properly positioned and has spacing */
+.sidebar {
+  width: 250px;
+  background-color: #493CAE;
+  color: white;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 110px;
+  left: 20px;
+  border-radius: 12px;
+  height: auto;
+  min-height: 350px; /* Stops at Petition */
 }
