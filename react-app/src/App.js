@@ -1,8 +1,8 @@
 import React from "react";
-import Navbar from "/workspaces/Neighborly/react-app/src/components/Navbar/Navbar.js";
-import Sidebar from "/workspaces/Neighborly/react-app/src/components/Sidebar/Sidebar.js";
+import Navbar from "components/Navbar/Navbar.js";
+import Sidebar from "components/Sidebar/Sidebar.js";
 
-import "/workspaces/Neighborly/react-app/src/App.css";
+import "App.css";
 
 function App() {
   return (
