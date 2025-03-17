@@ -1,8 +1,8 @@
 import React from "react";
-import Navbar from "components/Navbar/Navbar.js";
-import Sidebar from "components/Sidebar/Sidebar.js";
+import Navbar from "./components/Navbar/Navbar.js";
+import Sidebar from "./components/Sidebar/Sidebar.js";
 
-import "App.css";
+import "./App.css"; // Import your CSS file for styling
 
 function App() {
   return (
