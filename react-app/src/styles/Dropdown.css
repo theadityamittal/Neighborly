@@ -1,0 +1,47 @@
+.filter-icon {
+    color: #6a1b9a;
+    background: none !important;
+    border-radius: 50%;
+    transition: 0.3s;
+  }
+  
+  .filter-icon:hover {
+    background: rgba(106, 27, 154, 0.1) !important;
+  }
+  
+  .dropdown-menu {
+    width: 250px;
+    padding: 8px;
+    background: #f9f2ff;
+    border-radius: 12px;
+  }
+  
+  .dropdown-title {
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  .dropdown-divider {
+    margin: 5px 0;
+  }
+  
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  .dropdown-avatar {
+    background-color: #dfc7ff !important;
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    margin-right: 10px !important;
+  }
+  
+  .dropdown-checkbox {
+    margin-left: auto;
+  }
+  
