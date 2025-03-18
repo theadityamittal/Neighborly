@@ -1,0 +1,81 @@
+/* =========================== */
+/* BULLETIN PAGE STYLES */
+/* =========================== */
+
+.main-content {
+    flex-grow: 1;
+    margin-left: 160px; /* Pushes content right to make space for sidebar */
+    margin-top: 40px; /* Ensures content does not overlap navbar */
+    padding: 20px;
+    background-color: #fff;
+    overflow-y: auto;
+    min-height: calc(100vh - 92px);
+  }
+  
+  /* Header section */
+  .bulletin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .edit-profile-btn {
+    background-color: #6C5ED8;
+    color: white;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  /* Filter section */
+  .filter-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .filter-options {
+    display: flex;
+    gap: 10px;
+  }
+  
+  /* Cards Layout */
+  .bulletin-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  /* Individual Card */
+  .card {
+    width: 300px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Tags */
+  .tags {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .tag {
+    background-color: #6C5ED8;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 12px;
+  }
+  

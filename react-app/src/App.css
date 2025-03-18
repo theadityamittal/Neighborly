@@ -1,63 +1,18 @@
+/* =========================== */
+/* GENERAL STYLES */
+/* =========================== */
+
 .App {
-  text-align: center;
-}
-
-/* Keep existing styles */
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* =========================== */
-/* ADDITIONS FOR DASHBOARD LAYOUT */
-/* =========================== */
-
-.content {
-  flex-grow: 1;
-  padding: 40px;
-  margin-left: 290px; /* Pushes content away from sidebar */
-  margin-top: 20px;
-  text-align: left;
-}
-
-.layout {
   display: flex;
   flex-direction: row;
-  margin-top: 92px; /* Space for navbar */
+  height: 100vh;
 }
 
+/* =========================== */
+/* NAVBAR STYLES */
+/* =========================== */
 
-/* Ensure Navbar spans the full width and is fixed */
+/* Ensure Navbar is properly fixed at the top */
 .navbar {
   width: 100%;
   height: 92px;
@@ -66,7 +21,6 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 40px;
-  font-family: 'Inter', sans-serif;
   position: fixed;
   top: 0;
   left: 0;
@@ -74,7 +28,7 @@
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Ensure Sidebar is properly positioned and has spacing */
+/* Fix Sidebar Position & Gap */
 .sidebar {
   width: 250px;
   background-color: #493CAE;
@@ -83,9 +37,43 @@
   display: flex;
   flex-direction: column;
   position: fixed;
-  top: 110px;
-  left: 20px;
+  top: 92px; /* Move it below Navbar */
+  left: 0px;
   border-radius: 12px;
-  height: auto;
-  min-height: 350px; /* Stops at Petition */
+  height: calc(100vh - 92px); /* Ensure it fits within the screen */
+  overflow-y: auto;
+}
+
+/* Ensure Main Content is Properly Spaced */
+.main-content {
+  margin-left: 280px; /* Adjust based on sidebar width */
+  margin-top: 110px; /* Space from navbar */
+  padding: 20px;
+}
+
+.bulletin-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.bulletin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.bulletin-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.card {
+  width: 300px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
