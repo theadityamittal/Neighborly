@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText, Avatar, Checkbox, Divider } from "@mui/material";
+import { Menu, MenuItem, IconButton, ListItemText, Checkbox } from "@mui/material";
 import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded"; // Import the filter icon
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import "../styles/Dropdown.css"; // Import CSS
 
 const UiDropdown = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [filters, setFilters] = useState({
+    posts: true,
     tools: true,
     services: true,
     events: true,
