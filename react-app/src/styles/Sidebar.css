@@ -1,0 +1,39 @@
+.sidebar {
+  width: 250px;
+  background-color: #493CAE;
+  color: white;
+  padding: 24px;
+  position: fixed;
+  top: 105px;
+  left: 15px;
+  border-radius: 12px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.menu-item:hover {
+  background: #5A41DC;
+}
+
+.menu-item.active {
+  background: white !important;
+  color: #493CAE !important;
+}
+
+.menu-icon {
+  color: white !important;
+  font-size: 20px !important;
+}
+
+.menu-item.active .menu-icon {
+  color: #493CAE !important;
+}
