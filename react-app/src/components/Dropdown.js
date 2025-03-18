@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Menu, MenuItem, IconButton, ListItemText, Checkbox } from "@mui/material";
-import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded"; // Import the filter icon
+import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded';
 import "../styles/Dropdown.css"; // Import CSS
 
 const UiDropdown = () => {
@@ -29,7 +29,7 @@ const UiDropdown = () => {
     <div>
       {/* Filter Icon Button */}
       <IconButton onClick={handleClick} className="filter-icon">
-        <FilterAltRoundedIcon fontSize="large" />
+        <FilterListRoundedIcon fontSize="large" />
       </IconButton>
 
       {/* Dropdown Menu */}
