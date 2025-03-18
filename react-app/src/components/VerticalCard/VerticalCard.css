@@ -1,0 +1,67 @@
+.vertical-card-image {
+    border-radius: 5px;
+    object-fit: cover;
+    flex: 1;
+    width: 100%;
+    height: 50%;
+}
+.vertical-card {
+    display: flex;
+    flex: 1 1 400px;
+    max-width: 100%;
+    height: 500px;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+}
+.vertical-card-content {
+    padding: 15px 30px 30px 30px;
+    row-gap: 7px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 1%;
+}
+.vertical-card-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+.vertical-card-provider {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.vertical-card-description {
+    font-size: 1.1rem;
+    color: #666;
+}
+.vertical-card-signed {
+    font-size: 1rem;
+    color: #666;
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+}
+.vertical-card-tab {
+    position: relative;
+    padding: 5px 12px;
+    border-radius: 25px;
+    border: none;
+    color: #585966;
+    background-color:rgb(241, 239, 239);
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+.vertical-card-tabs {
+    flex-direction: row;
+    justify-content: space-between;
+    display: flex;
+    margin-bottom: 10px;
+}

@@ -1,18 +1,19 @@
-import React from "react";
-import Navbar from "./components/Navbar/Navbar.js";
-import Sidebar from "./components/Sidebar/Sidebar.js";
-
-import "./App.css"; // Import your CSS file for styling
+import './App.css';
+import {BrowserRouter, Route, Routes } from 'react-router-dom';
+import Test from './screens/Test';
 
 function App() {
   return (
-    <div className="app-container">
-      <Navbar />
-      <div className="layout">
-        <Sidebar />
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route exact path="/" element={<Test />} />
+        
+        <Route path="/test" element={<Test />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
 export default App;
+
+
