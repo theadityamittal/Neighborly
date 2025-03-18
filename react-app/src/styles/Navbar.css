@@ -15,6 +15,11 @@
   align-items: center;
 }
 
+.navbar-left:hover {
+  border-radius: 10px;
+  cursor: pointer;
+}
+
 .logo-text {
   font-size: 20px;
   font-weight: bold;
@@ -45,6 +50,12 @@
   gap: 10px;
   padding: 5px 10px;
   background: #F1F3F7;
+}
+
+.user-profile:hover {
+  background: #E6E6E6;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 .username {
