@@ -15,4 +15,18 @@ function App() {
   );
 }
 
+/* Persistor Layout when User Sessions are implemented
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistor, store } from './redux/store';
+import { Provider } from 'react-redux';
+
+
+<Provider store={store}>
+<PersistGate loading={null} persistor={persistor}>
+// App in here
+</PersistGate>
+</Provider>
+
+*/
+
 export default App;
