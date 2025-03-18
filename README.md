@@ -13,7 +13,7 @@ Neighborly is a community engagement website that connects local residents by al
   Provides a modern, interactive user interface that integrates with the Django backend.
 
 - **Remote Development Environment**  
-  Instead of relying on local Docker (which can be problematic on some MacBooks), a custom Gitpod configuration is provided in `.gitpod.Dockerfile` and `.gitpod.yml` for a consistent, cloud-based workspace.
+  The project is configured for GitHub Codespaces. A custom development container is defined in the `.devcontainer/` directory (including a `devcontainer.json` and a corresponding `Dockerfile`) to provide a consistent, cloud-based workspace that supports both Python (for Django) and Node.js (for React).
 
 - **CI/CD**  
   GitHub Actions are configured in `.github/workflows/deploy.yml` to automatically run tests for both Django and React on each push to the `main` branch.  
@@ -24,7 +24,7 @@ Neighborly is a community engagement website that connects local residents by al
 ### Prerequisites
 - Python 3.9+  
 - Node.js and npm  
-- (Optional) Docker—for those who prefer containerization locally, though remote development is recommended via Gitpod
+- (Optional) Docker—for those who prefer local containerization, though remote development is recommended via GitHub Codespaces
 
 ### Django Setup
 1. **Create a virtual environment and install dependencies:**
@@ -58,16 +58,12 @@ Neighborly is a community engagement website that connects local residents by al
    ```
    The app will open at [http://localhost:3000](http://localhost:3000).
 
-### Remote Development via Gitpod (Recommended)
-1. **Gitpod Configuration:**  
-   - The project includes a custom Gitpod Dockerfile (`.gitpod.Dockerfile`) and a Gitpod configuration file (`.gitpod.yml`).  
-   - These files provision a consistent cloud-based development environment with both Python (for Django) and Node.js (for React).
+### Remote Development via GitHub Codespaces (Recommended)
+1. **Codespace Configuration:**  
+   - The project is configured with a development container defined in the `.devcontainer/` directory. This container installs Python, Node.js, and all required dependencies to run both the Django backend and the React frontend.
 2. **Opening the Workspace:**  
-   - To launch Gitpod, use the URL:
-     ```
-     https://gitpod.io/#https://github.com/group-5-swe6063/Neighborly
-     ```
-   - Alternatively, install the Gitpod browser extension and open the workspace directly from your GitHub repository page.
+   - To launch a GitHub Codespace, navigate to the repository on GitHub, click the **Code** button, then select **Open with Codespaces**.  
+   - Alternatively, use the GitHub Codespaces extension for Visual Studio Code to open a codespace directly from your repository.
 
 ### Running Tests
 - **Django Tests:**  
@@ -83,11 +79,11 @@ Neighborly is a community engagement website that connects local residents by al
 
 ### CI/CD Pipeline
 - **GitHub Actions:**  
-  The CI/CD pipeline is defined in `.github/workflows/deploy.yml`. It performs the following on every push to `main`:
+  The CI/CD pipeline is defined in `.github/workflows/deploy.yml`. On every push to the `main` branch, the pipeline performs the following:
   - Checks out the code.
   - Sets up Python and runs Django tests.
   - Sets up Node.js, installs React dependencies, and runs React tests.
-  - The deployment step is currently disabled.
+  - (The deployment step is currently disabled.)
   
   To view CI/CD results, check the **Actions** tab on GitHub after pushing changes.
 
