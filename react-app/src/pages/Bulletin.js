@@ -7,18 +7,6 @@ import UiDropdown from "../components/Dropdown";
 
 
 const Bulletin = () => {
-  // Checkbox filter states
-  const [filters, setFilters] = useState({
-    tools: true,
-    services: true,
-    events: true,
-    petitions: true
-  });
-
-  const handleFilterChange = (event) => {
-    setFilters({ ...filters, [event.target.name]: event.target.checked });
-  };
-
   return (
     <div className="main-content">
       {/* User Profile Header */}
@@ -43,5 +31,4 @@ const Bulletin = () => {
     </div>
   );
 };
-
 export default Bulletin;

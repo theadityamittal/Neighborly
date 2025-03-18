@@ -7,6 +7,7 @@ import Bulletin from "../pages/Bulletin";
 import Services from "../pages/Services";
 import Events from "../pages/Events";
 import Petitions from "../pages/Petitions";
+import UserProfile from "../pages/UserProfile";
 
 const AppRoutes = () => {
   return (
@@ -20,6 +21,7 @@ const AppRoutes = () => {
           <Route path="/services" element={<Services />} />
           <Route path="/events" element={<Events />} />
           <Route path="/petitions" element={<Petitions />} />
+          <Route path="/profile" element={<UserProfile />} />
         </Routes>
       </div>
     </div>
