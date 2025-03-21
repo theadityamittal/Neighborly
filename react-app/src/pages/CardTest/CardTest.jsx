@@ -1,8 +1,8 @@
-import HorizontalCard from "../components/HorizontalCard/HorizontalCard";
-import VerticalCard from "../components/VerticalCard/VerticalCard";
-import './Test.css';
+import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
+import VerticalCard from "../../components/VerticalCard/VerticalCard";
+import './CardTest.css';
 
-function Test () {
+function CardTest () {
     const fakeData = [
         {
           id: "1",
@@ -175,4 +175,4 @@ function Test () {
     )
 }
 
-export default Test;
+export default CardTest;

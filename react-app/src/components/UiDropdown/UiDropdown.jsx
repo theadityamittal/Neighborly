@@ -1,0 +1,64 @@
+import React, { useState } from "react";
+import { Menu, MenuItem, IconButton, ListItemText, Checkbox } from "@mui/material";
+import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded';
+import "./UiDropdown.css"; // Import CSS
+
+const UiDropdown = () => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [filters, setFilters] = useState({
+    posts: true,
+    tools: true,
+    services: true,
+    events: true,
+    petitions: true
+  });
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleFilterChange = (key) => {
+    setFilters({ ...filters, [key]: !filters[key] });
+  };
+
+  return (
+    <div>
+      {/* Filter Icon Button */}
+      <IconButton onClick={handleClick} className="filter-icon">
+        <FilterListRoundedIcon fontSize="large" />
+      </IconButton>
+
+      {/* Dropdown Menu */}
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        PaperProps={{ className: "dropdown-menu" }} // Apply CSS class
+      >
+        
+        {[
+          { key: "posts", label: "My Posts"},
+          { key: "tools", label: "Listed Tools"},
+          { key: "services", label: "Requested Services"},
+          { key: "events", label: "Hosted Events"},
+          { key: "petitions", label: "Signed Petitions"},
+        ].map((item) => (
+          <MenuItem key={item.key} onClick={() => handleFilterChange(item.key)} className="dropdown-item">
+            <ListItemText primary={item.label} />
+            <Checkbox
+              checked={filters[item.key]}
+              onChange={() => handleFilterChange(item.key)}
+              className="dropdown-checkbox"
+            />
+          </MenuItem>
+        ))}
+      </Menu>
+    </div>
+  );
+};
+
+export default UiDropdown;
