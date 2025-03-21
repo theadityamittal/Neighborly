@@ -1,0 +1,16 @@
+.button {
+    position: relative;
+    padding: 10px 22px;
+    border-radius: 6px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    background-color: #EA942C;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+  }
+  
+  .button:active {
+    transform: scale(0.96);
+  }
