@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import { useRoute } from "../context/RouteContext";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { checkAuthState } from "../services/authService";
 import Dashboard from "../components/Dashboard/Dashboard";
 import Login from "../pages/Auth/Login/Login";
@@ -9,23 +9,23 @@ import Register from "../pages/Auth/Register/Regsiter";
 import CardTest from "../pages/CardTest/CardTest";
 
 // Protected route component
-const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated, loading } = useSelector(state => state.user);
+// const ProtectedRoute = ({ children }) => {
+//   const { isAuthenticated, loading } = useSelector(state => state.user);
   
-  if (loading) return <div>Loading...</div>;
+//   if (loading) return <div>Loading...</div>;
   
-  if (!isAuthenticated) {
-    return <Navigate to="/login" />;
-  }
+//   if (!isAuthenticated) {
+//     return <Navigate to="/login" />;
+//   }
   
-  return children;
-};
+//   return children;
+// };
 
 const AppRoutes = () => {
   const { currentRoute, setCurrentRoute } = useRoute();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user, isAuthenticated } = useSelector(state => state.user);
+  // const { user, isAuthenticated } = useSelector(state => state.user);
 
   const handleItemClick=(path) => {
     navigate(path);
