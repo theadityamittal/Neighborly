@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Menu, MenuItem, IconButton, ListItemText, Checkbox } from "@mui/material";
 import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded';
-import "../styles/Dropdown.css"; // Import CSS
+import "./UiDropdown.css"; // Import CSS
 
 const UiDropdown = () => {
   const [anchorEl, setAnchorEl] = useState(null);

@@ -1,24 +1,6 @@
 /* =========================== */
-/* BULLETIN PAGE STYLES */
+/* USER PROFILE PAGE STYLES */
 /* =========================== */
-
-.main-content {
-    flex-grow: 1;
-    margin-left: 160px; /* Pushes content right to make space for sidebar */
-    margin-top: 40px; /* Ensures content does not overlap navbar */
-    padding: 20px;
-    background-color: #fff;
-    overflow-y: auto;
-    min-height: calc(100vh - 92px);
-  }
-  
-  /* Header section */
-  .bulletin-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
   
   .profile {
     display: flex;
@@ -57,7 +39,7 @@
   
   /* Individual Card */
   .card {
-    width: 320px;
+    width: 300px;
     background-color: white;
     border-radius: 10px;
     padding: 15px;

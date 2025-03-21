@@ -1,21 +1,21 @@
-.navbar {
+.header {
   background-color: #F1F3F7 !important;
   box-shadow: none;
   padding: 10px 20px;
 }
 
-.navbar-content {
+.header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.navbar-left {
+.header-left {
   display: flex;
   align-items: center;
 }
 
-.navbar-left:hover {
+.header-left:hover {
   border-radius: 10px;
   cursor: pointer;
 }
@@ -27,7 +27,7 @@
   margin-left: 10px;
 }
 
-.navbar-right {
+.header-right {
   display: flex;
   align-items: center;
   gap: 15px;

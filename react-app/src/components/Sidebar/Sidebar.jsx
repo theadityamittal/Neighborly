@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { List, ListItemButton, ListItemIcon, ListItemText, Box } from "@mui/material";
 import { Dashboard, Build, Event, HowToVote, MiscellaneousServices } from "@mui/icons-material";
-import "../styles/Sidebar.css";
+import "./Sidebar.css";
 
 const Sidebar = () => {
   const [activeItem, setActiveItem] = useState("Bulletin");

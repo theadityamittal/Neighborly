@@ -2,78 +2,11 @@
 /* GENERAL STYLES */
 /* =========================== */
 
-.App {
-  display: flex;
-  flex-direction: row;
-  height: 100vh;
-}
-
-/* =========================== */
-/* NAVBAR STYLES */
-/* =========================== */
-
-/* Ensure Navbar is properly fixed at the top */
-.navbar {
-  width: 100%;
-  height: 92px;
-  background-color: #F1F3F7;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 40px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Fix Sidebar Position & Gap */
-.sidebar {
-  width: 250px;
-  background-color: #493CAE;
-  color: white;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  top: 92px; /* Move it below Navbar */
-  left: 0px;
-  border-radius: 12px;
-  height: calc(100vh - 92px); /* Ensure it fits within the screen */
-  overflow-y: auto;
-}
-
 /* Ensure Main Content is Properly Spaced */
 .main-content {
-  margin-left: 280px; /* Adjust based on sidebar width */
-  margin-top: 110px; /* Space from navbar */
+  margin-left: 320px; /* Adjust based on sidebar width */
+  margin-top: 90px; /* Space from header */
   padding: 20px;
-}
-
-.bulletin-container {
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-}
-
-.bulletin-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.bulletin-cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.card {
-  width: 300px;
-  background-color: white;
-  border-radius: 10px;
-  padding: 15px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  height: calc(100vh - 130px); /* Full height minus header */
+  overflow-y: auto; /* Enable scrolling if content overflows */
 }

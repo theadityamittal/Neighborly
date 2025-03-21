@@ -1,13 +1,12 @@
 import React from "react";
 import { Avatar, Button, Typography } from "@mui/material";
-import "../styles/UserProfile.css"  // Ensure CSS styles are properly included
-import avatar from "../assets/avatar.png";
-import UiDropdown from "../components/Dropdown";
-
+import "./UserProfile.css"  // Ensure CSS styles are properly included
+import avatar from "../../assets/avatar.png";
+import UiDropdown from "../../components/UiDropdown/UiDropdown";
 
 const UserProfle = () => {
   return (
-    <div className="main-content">
+    <>
       {/* User Profile Header */}
       <div className="bulletin-header">
         <div className="profile">
@@ -26,8 +25,7 @@ const UserProfle = () => {
       </div>
 
       {/* UserProfle Cards Section */}
-      
-    </div>
+    </>
   );
 };
 export default UserProfle;

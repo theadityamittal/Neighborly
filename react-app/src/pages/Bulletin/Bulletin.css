@@ -1,11 +1,11 @@
 /* =========================== */
-/* USER PROFILE PAGE STYLES */
+/* BULLETIN PAGE STYLES */
 /* =========================== */
 
 .main-content {
     flex-grow: 1;
     margin-left: 160px; /* Pushes content right to make space for sidebar */
-    margin-top: 40px; /* Ensures content does not overlap navbar */
+    margin-top: 40px; /* Ensures content does not overlap header */
     padding: 20px;
     background-color: #fff;
     overflow-y: auto;
@@ -57,7 +57,7 @@
   
   /* Individual Card */
   .card {
-    width: 300px;
+    width: 320px;
     background-color: white;
     border-radius: 10px;
     padding: 15px;

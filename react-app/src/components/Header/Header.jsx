@@ -1,12 +1,12 @@
 import React from "react";
 import { AppBar, Toolbar, Typography, IconButton, Avatar, Box } from "@mui/material";
 import { Notifications, Mail } from "@mui/icons-material";
-import "../styles/Navbar.css";
-import avatar from "../assets/avatar.png"; 
-import logo from "../assets/logo.png";
+import "./Header.css";
+import avatar from "../../assets/avatar.png"; 
+import logo from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 
-const Navbar = () => {
+const Header = () => {
   const navigate = useNavigate();
   
   // Function to handle logo click and navigate to the home page
@@ -15,15 +15,15 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="fixed" className="navbar">
-      <Toolbar className="navbar-content">
+    <AppBar position="fixed" className="header">
+      <Toolbar className="header-content">
         {/* Logo Section */}
-        <Box className="navbar-left" onClick={() => handleItemClick("/")}>
+        <Box className="header-left" onClick={() => handleItemClick("/")}>
           <img src={logo} alt="Neighbourly Logo" className="logo" />
         </Box>
 
         {/* Icons & Profile Section */}
-        <Box className="navbar-right">
+        <Box className="header-right">
           <IconButton className="icon-button">
             <Mail />
           </IconButton>
@@ -42,4 +42,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Header;
