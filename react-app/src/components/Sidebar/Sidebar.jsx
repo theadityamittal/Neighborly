@@ -14,7 +14,7 @@ const Sidebar = ({menuItems, activeItem, handleItemClick}) => {
             className={`menu-item ${activeItem === item.name ? "active" : ""}`}
           >
             <ListItemIcon className="menu-icon">{item.icon}</ListItemIcon>
-            <ListItemText primary={item.name} />
+            <ListItemText primary={item.name}/>
           </ListItemButton>
         ))}
       </List>
