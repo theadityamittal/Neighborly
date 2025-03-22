@@ -1,17 +1,20 @@
 import React from "react";
 import AppRoutes from "./routes/AppRoutes"; // Ensure this path is correct
 import { BrowserRouter } from "react-router-dom";
-import Header from "./components/Header/Header";
-import Sidebar from "./components/Sidebar/Sidebar";
 import "./App.css";
+import { RouteProvider } from "./context/RouteContext";
+import { Provider } from "react-redux";
+import store from "./store";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Header /> {/* Header should always be visible */}
-      <Sidebar /> {/* Sidebar should always be visible */}
-      <AppRoutes /> {/* Main content area for routing */}
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <RouteProvider>
+          <AppRoutes /> {/* Main content area for routing */}
+        </RouteProvider>
+      </BrowserRouter>
+    </Provider>
   );
 }
 

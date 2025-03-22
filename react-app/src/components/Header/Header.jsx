@@ -4,16 +4,8 @@ import { Notifications, Mail } from "@mui/icons-material";
 import "./Header.css";
 import avatar from "../../assets/avatar.png"; 
 import logo from "../../assets/logo.png";
-import { useNavigate } from "react-router-dom";
 
-const Header = () => {
-  const navigate = useNavigate();
-  
-  // Function to handle logo click and navigate to the home page
-  const handleItemClick = (path) => {
-    navigate(path); // Navigate to the home page when the logo is clicked
-  };
-
+const Header = ({handleItemClick}) => {
   return (
     <AppBar position="fixed" className="header">
       <Toolbar className="header-content">
@@ -23,11 +15,11 @@ const Header = () => {
         </Box>
 
         {/* Icons & Profile Section */}
-        <Box className="header-right">
-          <IconButton className="icon-button">
+        <Box className="header-right" >
+          <IconButton className="icon-button" onClick={() => handleItemClick("/messages")}>
             <Mail />
           </IconButton>
-          <IconButton className="icon-button">
+          <IconButton className="icon-button" onClick={() => handleItemClick("/notifications")}>
             <Notifications />
           </IconButton>
 
