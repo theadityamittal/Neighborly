@@ -1,2 +1,5 @@
 __pycache__/
 *.pyc
+
+apps/core/__pycache__/
+apps/__pycache__/
