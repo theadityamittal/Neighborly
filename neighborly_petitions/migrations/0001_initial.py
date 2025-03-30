@@ -12,30 +12,29 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="ServiceItem",
+            name="Petition",
             fields=[
-                ("service_id", models.AutoField(primary_key=True, serialize=False)),
+                ("petition_id", models.AutoField(primary_key=True, serialize=False)),
                 ("title", models.CharField(max_length=255)),
                 ("description", models.TextField()),
-                ("service_provider", models.IntegerField()),
-                ("location", models.CharField(max_length=255)),
-                ("date_posted", models.DateTimeField(auto_now_add=True)),
-                ("available", models.BooleanField(default=True)),
-                ("waitlist", models.JSONField(blank=True, default=list)),
-                ("earliest_availability", models.DateField(blank=True, null=True)),
+                ("organizer_id", models.CharField(max_length=255)),
+                ("visibility", models.BooleanField(default=True)),
+                ("tags", models.JSONField(blank=True, default=list)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("target", models.IntegerField()),
             ],
         ),
         migrations.CreateModel(
-            name="ServiceSignUp",
+            name="PetitionSignature",
             fields=[
-                ("signup_id", models.AutoField(primary_key=True, serialize=False)),
+                ("signature_id", models.AutoField(primary_key=True, serialize=False)),
                 ("user_id", models.CharField(max_length=255)),
                 ("signed_at", models.DateTimeField(auto_now_add=True)),
                 (
-                    "service_id",
+                    "petition",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to="neighborly_services.serviceitem",
+                        to="neighborly_petitions.petition",
                     ),
                 ),
             ],

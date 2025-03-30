@@ -12,30 +12,34 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="ServiceItem",
+            name="Event",
             fields=[
-                ("service_id", models.AutoField(primary_key=True, serialize=False)),
-                ("title", models.CharField(max_length=255)),
+                ("event_id", models.AutoField(primary_key=True, serialize=False)),
+                ("event_name", models.CharField(max_length=255)),
+                ("organizer_name", models.CharField(max_length=255)),
+                ("organizer_id", models.CharField(max_length=255)),
                 ("description", models.TextField()),
-                ("service_provider", models.IntegerField()),
                 ("location", models.CharField(max_length=255)),
-                ("date_posted", models.DateTimeField(auto_now_add=True)),
-                ("available", models.BooleanField(default=True)),
-                ("waitlist", models.JSONField(blank=True, default=list)),
-                ("earliest_availability", models.DateField(blank=True, null=True)),
+                ("date", models.DateField()),
+                ("time", models.TimeField()),
+                ("visibility", models.CharField(max_length=255)),
+                ("tags", models.JSONField(blank=True, default=list)),
+                ("recurring", models.BooleanField(default=False)),
+                ("max_attendees", models.IntegerField(blank=True, null=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
             ],
         ),
         migrations.CreateModel(
-            name="ServiceSignUp",
+            name="EventSignUp",
             fields=[
                 ("signup_id", models.AutoField(primary_key=True, serialize=False)),
                 ("user_id", models.CharField(max_length=255)),
                 ("signed_at", models.DateTimeField(auto_now_add=True)),
                 (
-                    "service_id",
+                    "event",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to="neighborly_services.serviceitem",
+                        to="neighborly_events.event",
                     ),
                 ),
             ],
