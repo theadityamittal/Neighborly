@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { checkAuthState } from "../services/authService";
 import Dashboard from "../components/Dashboard/Dashboard";
 import Login from "../pages/Auth/Login/Login";
-import Register from "../pages/Auth/Register/Regsiter";
+import Register from "../pages/Auth/Register/Register";
 import CardTest from "../pages/CardTest/CardTest";
 
 // Protected route component

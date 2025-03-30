@@ -54,8 +54,8 @@ const Register = () => {
     
     if (!formData.zipCode) {
       newErrors.zipCode = 'Zip code is required';
-    } else if (!/^\d{5}(-\d{4})?$/.test(formData.zipCode)) {
-      newErrors.zipCode = 'Zip code is invalid';
+//     } else if (!/^\d{5}(-\d{4})?$/.test(formData.zipCode)) {
+//      newErrors.zipCode = 'Zip code is invalid';
     }
     
     return newErrors;
@@ -73,8 +73,17 @@ const Register = () => {
     try {
       // Remove confirmPassword before sending to API
       const { confirmPassword, ...registrationData } = formData;
-      await dispatch(registerUser(registrationData));
-      navigate('/login', { state: { message: 'Registration successful! Please log in.' } });
+      const userData = {
+        'name': registrationData['firstName'] + " " + registrationData['lastName'],
+        'email': registrationData['email'],
+        'phone_number': '3333333333',
+        'address': '123 Street, City',
+        'neighborhood': 'Brooklyn',
+        'account_type': 'user',
+        'password': registrationData['password']
+      }
+     await dispatch(registerUser(userData));
+    navigate('/login', { state: { message: 'Registration successful! Please log in.' } });
     } catch (err) {
       // Error handling is done in the reducer
       console.error('Registration failed:', err);

@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import "./App.css";
 import { RouteProvider } from "./context/RouteContext";
 import { Provider } from "react-redux";
-import store from "./store";
+import { store, persistor } from "./redux/store";
 
 function App() {
   return (

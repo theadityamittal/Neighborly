@@ -1,62 +1,28 @@
 import { loginStart, loginSuccess, loginFailure, logout } from '../store/userSlice';
+import { login } from '../redux/authSlice';
+import axiosInstance from "../utils/axiosInstance";
+import { useDispatch } from 'react-redux';
 
-// Add the register user function
-export const registerUser = (userData) => async (dispatch) => {
+export const registerUser = async (userData) => {
   try {
-    dispatch(loginStart());
+    console.log(userData)
+    const response = await axiosInstance.post('/auth/register/', userData);
+    console.log(response);
     
-    // Replace with your actual API call
-    const response = await fetch('/api/auth/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userData),
-    });
-    
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || 'Registration failed');
-    }
-    
-    // Registration successful but we don't log in automatically
-    dispatch(logout());
-    return await response.json();
   } catch (error) {
-    dispatch(loginFailure(error.message));
-    throw error;
+    console.error(error);
   }
 };
 
-// Example login function
-export const loginUser = (credentials) => async (dispatch) => {
+export const loginUser = async (userData) => {
   try {
-    dispatch(loginStart());
-    
-    // Replace with your actual API call
-    const response = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(credentials),
-    });
-    
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || 'Login failed');
-    }
-    
-    const userData = await response.json();
-    
-    // Save token to localStorage for persistence
-    localStorage.setItem('token', userData.token);
-    
-    dispatch(loginSuccess(userData.user));
-    return userData;
+    console.log(userData);
+    const response = await axiosInstance.post('/auth/login/', userData);
+
+    return response;
+
   } catch (error) {
-    dispatch(loginFailure(error.message));
-    throw error;
+    console.error(error);
   }
 };
 
