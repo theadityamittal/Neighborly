@@ -142,17 +142,17 @@
     border-color: #5a48fa;
     box-shadow: 0 0 0 3px rgba(90, 72, 250, 0.2);
   }
-  
+
   .date-picker-row {
     display: flex;
-    gap: 1rem;
-    align-items: flex-end;
+    gap: 1rem;          /* space between From/To columns */
+    align-items: flex-start; /* keep the columns aligned at the top */
   }
   
-  .date-picker-row .modal-field {
+  .date-picker-column {
     display: flex;
-    gap: 1rem;
-    align-items: flex-end;
+    flex-direction: column; /* label above the picker */
+    gap: 0.5rem;            /* small space between label & picker */
   }
   
   .horizontal-modal-button {

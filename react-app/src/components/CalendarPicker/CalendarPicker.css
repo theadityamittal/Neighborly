@@ -1,5 +1,28 @@
-/* Root container */
-.react-datepicker {
+/* ===== Closed State Input Styling ===== */
+.react-datepicker__input-container input {
+    background-color: #fafafa; /* light background */
+    border: 1px solid #ccc;
+    border-radius: 8px;       /* pill shape */
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: #333;
+    text-align: left;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  
+  .react-datepicker__input-container input::placeholder {
+    color: #999;
+    font-style: italic;
+  }
+  
+  .react-datepicker__input-container input:focus {
+    outline: none;
+    border-color: #5a48fa;
+    box-shadow: 0 0 0 3px rgba(90, 72, 250, 0.2);
+  }
+  
+  /* ===== Calendar Popup Styling ===== */
+  .react-datepicker {
     border: none;
     border-radius: 12px;
     padding: 1rem;
@@ -16,7 +39,7 @@
   }
   
   .react-datepicker__current-month {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: 600;
     margin-bottom: 0.25rem;
     text-transform: uppercase;
@@ -49,16 +72,15 @@
     transition: background-color 0.2s;
   }
   
-  /* Hover effect on days */
   .react-datepicker__day:hover {
     background-color: #e0e0e0;
     border-radius: 50%;
   }
-
+  
   /* Selected Day */
   .react-datepicker__day--selected,
   .react-datepicker__day--keyboard-selected {
-    background-color: #5a48fa !important; /* or your preferred color */
+    background-color: #5a48fa !important;
     color: #fff !important;
     outline: none;
     border: none;
@@ -86,14 +108,14 @@
   }
   
   .react-datepicker__navigation--previous {
-    border-right-color: #666; /* arrow color */
+    border-right-color: #666;
   }
   
   .react-datepicker__navigation--next {
-    border-left-color: #666; /* arrow color */
+    border-left-color: #666;
   }
   
-  /* Month / Year Dropdowns (if you use them) */
+  /* Month / Year Dropdowns */
   .react-datepicker__month-dropdown,
   .react-datepicker__year-dropdown {
     background-color: #fff;
@@ -101,15 +123,13 @@
     border-radius: 6px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   }
+  
   .react-datepicker__month-dropdown-option,
   .react-datepicker__year-dropdown-option {
     padding: 0.5rem 1rem;
   }
+  
   .react-datepicker__month-dropdown-option:hover,
   .react-datepicker__year-dropdown-option:hover {
     background-color: #e0e0e0;
   }
-
-
-  
-  /* Make sure your overrides come after the default react-datepicker.css */

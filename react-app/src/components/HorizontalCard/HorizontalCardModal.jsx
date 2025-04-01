@@ -152,7 +152,7 @@ const HorizontalCardModal = ({ isOpen, onClose, item }) => {
           </label>
           
           {/* Date Picker Row */}
-          <div className="date-picker-row">
+          {/* <div className="date-picker-row">
             <div className="modal-field">
               <strong>From</strong><br />
               <CalendarPicker 
@@ -171,7 +171,27 @@ const HorizontalCardModal = ({ isOpen, onClose, item }) => {
                 disableBeforeToday={item.disableBeforeToday}
               />
             </div>
-          </div>
+          </div> */}
+          <div className="date-picker-row">
+            <div className="date-picker-column">
+                <strong>From</strong>
+                <CalendarPicker 
+                selectedDate={fromDate}
+                onSelect={setFromDate}
+                unavailableDates={item.unavailableDates}
+                disableBeforeToday={item.disableBeforeToday}
+                />
+            </div>
+            <div className="date-picker-column">
+                <strong>To</strong>
+                <CalendarPicker 
+                selectedDate={toDate}
+                onSelect={setToDate}
+                unavailableDates={item.unavailableDates}
+                disableBeforeToday={item.disableBeforeToday}
+                />
+            </div>
+            </div>
           
           {/* Request Message Field */}
           <label className="modal-field">
