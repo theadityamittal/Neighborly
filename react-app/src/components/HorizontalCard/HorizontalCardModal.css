@@ -1,0 +1,185 @@
+/* Combined Information Line */
+.modal-info-line {
+    display: flex;
+    align-items: center;
+    /* Increase the gap so each section is more distinct */
+    gap: 2rem;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+    /* Optionally center them, or space them out more */
+    /* justify-content: center; */
+  }
+  
+  .modal-info-line span {
+    display: inline-flex;
+    align-items: center;
+    /* Provide a smaller gap between the icon and text */
+    gap: 0.35rem;
+    font-weight: 500; /* or 600 for bolder text */
+  }
+  
+  /* Make the icons bigger and more colorful */
+  .location-icon {
+    font-size: 1.3rem;
+    color: #ff4d4d;   /* bright red for location */
+  }
+  
+  .price-icon {
+    font-size: 1.3rem;
+    color: #2ecc71;   /* bright green for price */
+  }
+  
+  /* If you want to highlight each item with a subtle background or border, you can do so: */
+  .modal-location,
+  .modal-price {
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    background-color: #f9f9f9; /* a subtle background */
+  }
+  
+  /* Existing styles remain unchanged */
+  .horizontal-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+  }
+  
+  .horizontal-modal-content {
+    background: #fff;
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 700px;
+    width: 90%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .horizontal-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .modal-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .modal-gallery {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+  }
+  
+  .modal-gallery img {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  
+  .modal-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .modal-availability {
+    margin: 0;
+  }
+  
+  .modal-field {
+    display: block;
+    margin-top: 0.5rem;
+  }
+  
+  .horizontal-modal-input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    background-color: #fafafa;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    resize: vertical;
+  }
+  
+  .horizontal-modal-textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    height: 80px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    background-color: #fafafa;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    resize: vertical;
+  }
+  .horizontal-modal-textarea:focus {
+    outline: none;
+    border-color: #5a48fa;
+    box-shadow: 0 0 0 3px rgba(90, 72, 250, 0.2);
+  }
+  
+  .date-picker-row {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+  }
+  
+  .date-picker-row .modal-field {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+  }
+  
+  .horizontal-modal-button {
+    margin-top: 1rem;
+    background-color: #5a48fa;
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    width: 100%;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .horizontal-card-tab {
+    position: relative;
+    padding: 5px 12px;
+    border-radius: 25px;
+    border: none;
+    color: #585966;
+    background-color: rgb(241, 239, 239);
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+  .horizontal-card-tabs {
+    flex-direction: row;
+    /* justify-content: space-between; */
+    justify-content: flex-start;
+    display: flex;
+  }
