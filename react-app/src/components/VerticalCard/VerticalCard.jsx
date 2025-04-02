@@ -1,4 +1,6 @@
 import './VerticalCard.css'
+import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
+
 function VerticalCard({ id, title, provider, location, closestAvailability, tabs, image, viewType, numberSigned }) {
 
     const handleClick = () => {
@@ -8,12 +10,14 @@ function VerticalCard({ id, title, provider, location, closestAvailability, tabs
   return (
     <div className="vertical-card">
       <img className="vertical-card-image" src={image} alt={title} />
+      <div onClick={handleClick} className="vertical-card-button">
+        <ArrowForwardRoundedIcon style={{ color: 'white', fontSize: '40px' }} />
+      </div>
       <div className="vertical-card-content">
         <div className='vertical-card-tabs'>{ tabs && tabs.map((item) => <div className="vertical-card-tab">{item}</div> )}</div>
         <div className="vertical-card-title">{title}</div>
         <div className="vertical-card-provider">{provider}</div>
         <div className='vertical-card-description'>Short Description</div>
-        <div onClick={handleClick}>Learn More</div>
         <div className='vertical-card-signed'>{numberSigned} people signed</div>
       </div>
     </div>
