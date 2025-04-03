@@ -72,7 +72,6 @@ const Dashboard = ({currentRoute, setCurrentRoute, handleItemClick}) => {
     const renderActiveContent = () => {
         // Special case for petition detail pages
         if (currentRoute.startsWith('/petition/')) {
-            const petitionId = currentRoute.split('/').pop();
             if (!petitionDetails) {
                 // If we don't have the details, fetch them or redirect
                 // For now, let's just go to the petitions page
