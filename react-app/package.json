@@ -51,6 +51,9 @@
   "jest": {
     "transformIgnorePatterns": [
       "/node_modules/(?!react-router-dom)"
-    ]
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less)$": "identity-obj-proxy"
+    }
   }
 }
