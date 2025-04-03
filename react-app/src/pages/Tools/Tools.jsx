@@ -1,9 +1,9 @@
 import React from "react";
+import CardTest from "../CardTest/CardTest";
 const Tools = () => {
   return (
     <div>
-      <h1>Tools Page</h1>
-      <p>This is the Tools section.</p>
+      <CardTest />
     </div>
   );
 };
