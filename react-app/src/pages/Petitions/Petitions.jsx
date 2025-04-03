@@ -33,7 +33,7 @@ const Petitions = ({setPetitionDetails}) => {
   const handleCardClick = (id) => {
     console.log(`Card with ID ${id} clicked`);
     // First set the petition details
-    const selectedPetition = petitionData.find(item => item.id === id);
+    const selectedPetition = petitions.find(item => item.id === id);
     setPetitionDetails(selectedPetition);
     // Then navigate
     navigate(`/petition/${id}`);
