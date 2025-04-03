@@ -8,8 +8,8 @@ import Tools from "../../pages/Tools/Tools";
 import Services from "../../pages/Services/Services";
 import Events from "../../pages/Events/Events";
 import Petitions from "../../pages/Petitions/Petitions";
-import DetailedPetiton from "../../pages/Petitions/DetailedPetiton";
-import UserProfie from "../../pages/UserProfile/UserProfile";
+import DetailedPetition from "../../pages/Petitions/DetailedPetition";
+import UserProfile from "../../pages/UserProfile/UserProfile";
 
 const Dashboard = ({currentRoute, setCurrentRoute, handleItemClick}) => {
     const [activeItem, setActiveItem] = useState(null);
@@ -28,7 +28,7 @@ const Dashboard = ({currentRoute, setCurrentRoute, handleItemClick}) => {
     { name: "Home", path: "/", content: <Bulletin /> },
     { name: "Messages", path: "/messages", content: <Bulletin />  },
     { name: "Notifications", path: "/notifications", content: <Bulletin />  },
-    { name: "Profile", path: "/profile", content: <UserProfie />  }
+    { name: "Profile", path: "/profile", content: <UserProfile />  }
     ], []);
 
     const individualItems = useMemo(() => [
@@ -79,13 +79,13 @@ const Dashboard = ({currentRoute, setCurrentRoute, handleItemClick}) => {
                 return null;
             }
             // Pass petitionDetails as a prop, not as a child
-            return <DetailedPetiton petitionDetails={petitionDetails} />;
+            return <DetailedPetition petitionDetails={petitionDetails} />;
         }
         
         if (activeItem && activeItem.content) {
             // Special case for the content marker we set above
             if (activeItem.content === "petition-detail") {
-                return <DetailedPetiton petitionDetails={petitionDetails} />;
+                return <DetailedPetition petitionDetails={petitionDetails} />;
             }
             return activeItem.content;
         }
