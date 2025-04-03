@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { registerUser } from '../../../services/authService';
+import { selectAuth } from '../../../redux/authSlice';
 import './Register.css';
 
 const Register = () => {
@@ -20,7 +21,7 @@ const Register = () => {
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error } = useSelector(state => state.user);
+  const { loading } = useSelector(selectAuth);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -95,8 +96,6 @@ const Register = () => {
       <div className="register-form-wrapper">
         <h2>Create an Account</h2>
         <p>Join your neighborhood community</p>
-        
-        {error && <div className="error-message">{error}</div>}
         
         <form onSubmit={handleSubmit} className="register-form">
           <div className="form-row">

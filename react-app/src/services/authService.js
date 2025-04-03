@@ -1,4 +1,3 @@
-import { loginStart, loginSuccess, loginFailure, logout } from '../store/userSlice';
 import { login } from '../redux/authSlice';
 import axiosInstance from "../utils/axiosInstance";
 import { useDispatch } from 'react-redux';
@@ -29,7 +28,6 @@ export const loginUser = async (userData) => {
 export const logoutUser = () => (dispatch) => {
   // Clear local storage
   localStorage.removeItem('token');
-  dispatch(logout());
 };
 
 // Function to check if user is already logged in on page refresh
@@ -48,14 +46,11 @@ export const checkAuthState = () => async (dispatch) => {
     
     if (response.ok) {
       const userData = await response.json();
-      dispatch(loginSuccess(userData.user));
     } else {
       // If token is invalid, log the user out
-      dispatch(logout());
       localStorage.removeItem('token');
     }
   } catch (error) {
-    dispatch(logout());
     localStorage.removeItem('token');
   }
 };

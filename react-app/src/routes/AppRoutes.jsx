@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import { useRoute } from "../context/RouteContext";
 import { useDispatch } from "react-redux";
-import { checkAuthState } from "../services/authService";
 import Dashboard from "../components/Dashboard/Dashboard";
 import Login from "../pages/Auth/Login/Login";
 import Register from "../pages/Auth/Register/Register";
@@ -32,7 +31,6 @@ const AppRoutes = () => {
   }
 
   useEffect(() => {
-    dispatch(checkAuthState());
     // set auth to true for development purposes
   }, [dispatch]);
 
