@@ -53,6 +53,7 @@ const AppRoutes = () => {
         <Route path="/services" element={<Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>} />
         <Route path="/events" element={<Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>} />
         <Route path="/petitions" element={<Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>} />
+        <Route path="/petition/:id" element={<Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>} />
         <Route path="/profile" element={<Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>} />
         <Route path="/messages" element={<Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>} />
         <Route path="/notifications" element={<Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>} />

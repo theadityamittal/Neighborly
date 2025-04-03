@@ -8,10 +8,12 @@ import Tools from "../../pages/Tools/Tools";
 import Services from "../../pages/Services/Services";
 import Events from "../../pages/Events/Events";
 import Petitions from "../../pages/Petitions/Petitions";
+import DetailedPetiton from "../../pages/Petitions/DetailedPetiton";
 import UserProfie from "../../pages/UserProfile/UserProfile";
 
 const Dashboard = ({currentRoute, setCurrentRoute, handleItemClick}) => {
     const [activeItem, setActiveItem] = useState(null);
+    const [petitionDetails, setPetitionDetails] = useState(null);
     const navigate = useNavigate();
 
     const menuItems = useMemo(() => [
@@ -19,7 +21,7 @@ const Dashboard = ({currentRoute, setCurrentRoute, handleItemClick}) => {
         { name: "Tools", icon: <Build />, path: "/tools" , content: <Tools />},
         { name: "Services", icon: <MiscellaneousServices />, path: "/services", content: <Services /> },
         { name: "Events", icon: <EventIcon />, path: "/events" , content: <Events />},
-        { name: "Petitions", icon: <HowToVote />, path: "/petitions", content: <Petitions /> }
+        { name: "Petitions", icon: <HowToVote />, path: "/petitions", content: <Petitions setPetitionDetails={setPetitionDetails}/> }
     ], []);
 
     const headerItems = useMemo(() => [
@@ -27,6 +29,16 @@ const Dashboard = ({currentRoute, setCurrentRoute, handleItemClick}) => {
     { name: "Messages", path: "/messages", content: <Bulletin />  },
     { name: "Notifications", path: "/notifications", content: <Bulletin />  },
     { name: "Profile", path: "/profile", content: <UserProfie />  }
+    ], []);
+
+    const individualItems = useMemo(() => [
+        { 
+            name: "Petition", 
+            pathPattern: "/petition/", 
+            path: "/petition/:id", 
+            // Don't directly render the component here with props
+            content: "petition-detail" // Just use a marker instead
+        }
     ], []);
 
     // Update the current route when URL changes
@@ -38,19 +50,44 @@ const Dashboard = ({currentRoute, setCurrentRoute, handleItemClick}) => {
     
     // Update activeItem based on currentRoute
     useEffect(() => {
-        const currentItem = menuItems.find((item) => item.path === currentRoute) ||
-        headerItems.find((item) => item.path === currentRoute);
+        // Check standard menu items first
+        const menuItem = menuItems.find((item) => item.path === currentRoute);
+        const headerItem = headerItems.find((item) => item.path === currentRoute);
+        
+        // Special handling for pattern matching (like "/petition/123")
+        const individualItem = individualItems.find((item) => 
+            currentRoute.startsWith(item.pathPattern)
+        );
+        
+        const currentItem = menuItem || headerItem || individualItem;
+        
         if (currentItem) {
-          setActiveItem(currentItem);
+            setActiveItem(currentItem);
+        } else {
+            setActiveItem(menuItems[0]); // Default to the first item if no match
         }
-        else {
-          setActiveItem(menuItems[0]); // Default to the first item if no match
-        }
-    }, [currentRoute, menuItems, headerItems]);
+    }, [currentRoute, menuItems, headerItems, individualItems]);
 
     // Render the active content based on currentRoute
     const renderActiveContent = () => {
+        // Special case for petition detail pages
+        if (currentRoute.startsWith('/petition/')) {
+            const petitionId = currentRoute.split('/').pop();
+            if (!petitionDetails) {
+                // If we don't have the details, fetch them or redirect
+                // For now, let's just go to the petitions page
+                navigate('/petitions');
+                return null;
+            }
+            // Pass petitionDetails as a prop, not as a child
+            return <DetailedPetiton petitionDetails={petitionDetails} />;
+        }
+        
         if (activeItem && activeItem.content) {
+            // Special case for the content marker we set above
+            if (activeItem.content === "petition-detail") {
+                return <DetailedPetiton petitionDetails={petitionDetails} />;
+            }
             return activeItem.content;
         }
         return null;
@@ -62,7 +99,12 @@ const Dashboard = ({currentRoute, setCurrentRoute, handleItemClick}) => {
             <div style={{ display: "flex" }}>
                 <Sidebar
                     menuItems={menuItems}
-                    activeItem={activeItem?.name}
+                    activeItem={
+                        // Mark Petitions as active when viewing a petition detail
+                        currentRoute.startsWith('/petition/') 
+                            ? "Petitions" 
+                            : activeItem?.name
+                    }
                     handleItemClick={(item, path) => {
                         setActiveItem(item);
                         navigate(path);

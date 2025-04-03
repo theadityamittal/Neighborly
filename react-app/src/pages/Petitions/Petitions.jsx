@@ -1,89 +1,59 @@
-import React from "react";
-import VerticalCard from '../../components/VerticalCard/VerticalCard'
+import React, { useState, useEffect } from "react";
+import VerticalCard from '../../components/VerticalCard/VerticalCard';
+import petitionData from './petitionData.json';
+import { useNavigate } from "react-router";
 
-const Petitions = () => {
+const Petitions = ({setPetitionDetails}) => {
+  const [petitions, setPetitions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  const fakePetitionData = [
-    {
-      id: "1",
-      title: "Protect Local Green Spaces",
-      provider: "Eco Warriors",
-      location: "Portland, OR",
-      closestAvailability: "April 5, 2025",
-      image: "https://placehold.co/100x100",
-      viewType: "card",
-      tabs: ["Environment", "Community"],
-      numberSigned: 2_500,
-    },
-    {
-      id: "2",
-      title: "Increase Teacher Salaries",
-      provider: "Educators United",
-      location: "Chicago, IL",
-      closestAvailability: "March 28, 2025",
-      image: "https://placehold.co/100x100",
-      viewType: "card",
-      tabs: ["Education", "Policy"],
-      numberSigned: 4_100,
-    },
-    {
-      id: "3",
-      title: "Ban Single-Use Plastics",
-      provider: "Ocean Protection League",
-      location: "San Francisco, CA",
-      closestAvailability: "April 10, 2025",
-      image: "https://placehold.co/100x100",
-      viewType: "card",
-      tabs: ["Environment", "Legislation"],
-      numberSigned: 7_800,
-    },
-    {
-      id: "4",
-      title: "Lower Prescription Drug Prices",
-      provider: "Healthcare for All",
-      location: "New York, NY",
-      closestAvailability: "March 22, 2025",
-      image: "https://placehold.co/100x100",
-      viewType: "card",
-      tabs: ["Healthcare", "Policy"],
-      numberSigned: 5_600,
-    },
-    {
-      id: "5",
-      title: "Stop Animal Testing for Cosmetics",
-      provider: "Ethical Beauty Advocates",
-      location: "Los Angeles, CA",
-      closestAvailability: "April 15, 2025",
-      image: "https://placehold.co/100x100",
-      viewType: "card",
-      tabs: ["Animal Rights", "Ethics"],
-      numberSigned: 3_900,
-    },
-    {
-      id: "6",
-      title: "Expand Public Transportation",
-      provider: "Transit for All",
-      location: "Austin, TX",
-      closestAvailability: "March 30, 2025",
-      image: "https://placehold.co/100x100",
-      viewType: "card",
-      tabs: ["Infrastructure", "Sustainability"],
-      numberSigned: 6_200,
-    },
-  ];  
+  useEffect(() => {
+    const fetchPetitions = async () => {
+      setLoading(true);
+      try {
+        // In a real app, this would be your API endpoint
+        // const response = await fetch('https://api.example.com/petitions');
+        // const data = await response.json();
+        
+        // For development, use the local JSON file
+        setPetitions(petitionData);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching petition data:", err);
+        setError("Failed to load petitions. Please try again later.");
+        setLoading(false);
+      }
+    };
+
+    fetchPetitions();
+  }, []);
+
+  const handleCardClick = (id) => {
+    console.log(`Card with ID ${id} clicked`);
+    // First set the petition details
+    const selectedPetition = petitionData.find(item => item.id === id);
+    setPetitionDetails(selectedPetition);
+    // Then navigate
+    navigate(`/petition/${id}`);
+  };
+
+  if (loading) return <div>Loading petitions...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div style={{
       display: 'flex',
       flexDirection: 'row',
       flexWrap: 'wrap',
-      alignItems: 'flex-start',
-      gap: '0px'
+      gap: '20px',
+      padding: '20px'
     }}>
       {
-        fakePetitionData.map((item) => (
+        petitions.map((item) => (
           <div key={item.id} style={{ 
-            width: 'calc(25%)',
+            width: 'calc(25% - 20px)',
             minWidth: '350px',
             marginBottom: '20px'
           }}>
@@ -97,6 +67,7 @@ const Petitions = () => {
               viewType={item.viewType}
               tabs={item.tabs}
               numberSigned={item.numberSigned}
+              handleClick={() => handleCardClick(item.id)}
             />
           </div>
         ))
@@ -104,4 +75,5 @@ const Petitions = () => {
     </div>
   );
 };
+
 export default Petitions;
