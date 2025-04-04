@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
 import CreateEvent from "./CreateEvent";
 
-// 📍 Modal Component
 const Modal = ({ event, onClose }) => {
   if (!event) return null;
 
@@ -77,7 +76,6 @@ const Modal = ({ event, onClose }) => {
   );
 };
 
-// 🔧 Utilities
 const formatDate = (iso) => new Date(iso).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' });
 const formatTime = (time) => {
   const [h, m] = time.split(":");
