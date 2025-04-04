@@ -1,28 +1,22 @@
 from django.db import models
-from django.contrib.auth.models import User
-from django.contrib.postgres.fields import ArrayField
+import uuid
 
-
-class ToolItem(models.Model):
-    tool_id = models.AutoField(primary_key=True)
+class Tool(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     owner_id = models.CharField(max_length=255)
-    title = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
     description = models.TextField()
-    condition = models.CharField(max_length=255)
-    location = models.CharField(max_length=255)
-    date_posted = models.DateTimeField(auto_now_add=True)
+    condition = models.CharField(max_length=50, choices=[('New', 'New'), ('Used', 'Used')])
+    availability = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.title
+        return self.name
 
-
-class ToolStatus(models.Model):
-    status_id = models.AutoField(primary_key=True)
-    tool_id = models.IntegerField()
-    available = models.BooleanField(default=True)
-    current_user = models.IntegerField(null=True, blank=True)
-    waitlist = ArrayField(models.IntegerField(), blank=True, default=list)
-    earliest_availability = models.DateField(null=True, blank=True)
+class BorrowRequest(models.Model):
+    tool = models.ForeignKey(Tool, on_delete=models.CASCADE, related_name="borrow_requests")
+    user_id = models.CharField(max_length=255)
+    borrow_date = models.DateField()
+    return_date = models.DateField()
 
     def __str__(self):
-        return f"Service ID {self.tool_id_id}"
+        return f"{self.user_id} borrowing {self.tool.name}"
