@@ -11,7 +11,7 @@ const Register = () => {
     lastName: '',
     email: '',
     password: '',
-    confirmPassword: '',
+    phoneNumber: '',
     address: '',
     city: '',
     state: '',
@@ -49,9 +49,9 @@ const Register = () => {
       newErrors.password = 'Password must be at least 6 characters';
     }
     
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
-    }
+    // if (formData.password !== formData.confirmPassword) {
+    //   newErrors.confirmPassword = 'Passwords do not match';
+    // }
     
     if (!formData.zipCode) {
       newErrors.zipCode = 'Zip code is required';
@@ -72,19 +72,17 @@ const Register = () => {
     }
     
     try {
-      // Remove confirmPassword before sending to API
-      const { confirmPassword, ...registrationData } = formData;
       const userData = {
-        'name': registrationData['firstName'] + " " + registrationData['lastName'],
-        'email': registrationData['email'],
-        'phone_number': '3333333333',
-        'address': '123 Street, City',
-        'neighborhood': 'Brooklyn',
+        'name': formData['firstName'] + " " + formData['lastName'],
+        'email': formData['email'],
+        'phone_number': formData['phoneNumber'],
+        'address': formData['address'],
+        'neighborhood': formData['city'],
         'account_type': 'user',
-        'password': registrationData['password']
+        'password': formData['password']
       }
-     await dispatch(registerUser(userData));
-    navigate('/login', { state: { message: 'Registration successful! Please log in.' } });
+      const response = await registerUser(userData);
+      navigate('/login', { state: { message: 'Registration successful! Please log in.' } });
     } catch (err) {
       // Error handling is done in the reducer
       console.error('Registration failed:', err);
@@ -154,16 +152,15 @@ const Register = () => {
             </div>
             
             <div className="form-group">
-              <label htmlFor="confirmPassword">Confirm Password</label>
+              <label htmlFor="phoneNumber">Phone Number</label>
               <input
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                value={formData.confirmPassword}
+                id="phoneNumber"
+                name="phoneNumber"
+                value={formData.phoneNumber}
                 onChange={handleChange}
-                className={errors.confirmPassword ? 'error' : ''}
+                className={errors.phoneNumber ? 'error' : ''}
               />
-              {errors.confirmPassword && <span className="error-text">{errors.confirmPassword}</span>}
+              {/* {errors.confirmPassword && <span className="error-text">{errors.confirmPassword}</span>} */}
             </div>
           </div>
           

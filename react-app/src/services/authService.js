@@ -1,13 +1,10 @@
-import { login } from '../redux/authSlice';
 import axiosInstance from "../utils/axiosInstance";
-import { useDispatch } from 'react-redux';
 
 export const registerUser = async (userData) => {
   try {
-    console.log(userData)
     const response = await axiosInstance.post('/auth/register/', userData);
-    console.log(response);
-    
+    return response;
+
   } catch (error) {
     console.error(error);
   }
@@ -15,7 +12,6 @@ export const registerUser = async (userData) => {
 
 export const loginUser = async (userData) => {
   try {
-    console.log(userData);
     const response = await axiosInstance.post('/auth/login/', userData);
 
     return response;
@@ -25,12 +21,8 @@ export const loginUser = async (userData) => {
   }
 };
 
-export const logoutUser = () => (dispatch) => {
-  // Clear local storage
-  localStorage.removeItem('token');
-};
-
 // Function to check if user is already logged in on page refresh
+// saved for reference later
 export const checkAuthState = () => async (dispatch) => {
   const token = localStorage.getItem('token');
   
