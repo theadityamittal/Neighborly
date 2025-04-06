@@ -1,72 +1,28 @@
-import { loginStart, loginSuccess, loginFailure, logout } from '../store/userSlice';
+import axiosInstance from "../utils/axiosInstance";
 
-// Add the register user function
-export const registerUser = (userData) => async (dispatch) => {
+export const registerUser = async (userData) => {
   try {
-    dispatch(loginStart());
-    
-    // Replace with your actual API call
-    const response = await fetch('/api/auth/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userData),
-    });
-    
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || 'Registration failed');
-    }
-    
-    // Registration successful but we don't log in automatically
-    dispatch(logout());
-    return await response.json();
+    const response = await axiosInstance.post('/auth/register/', userData);
+    return response;
+
   } catch (error) {
-    dispatch(loginFailure(error.message));
-    throw error;
+    console.error(error);
   }
 };
 
-// Example login function
-export const loginUser = (credentials) => async (dispatch) => {
+export const loginUser = async (userData) => {
   try {
-    dispatch(loginStart());
-    
-    // Replace with your actual API call
-    const response = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(credentials),
-    });
-    
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || 'Login failed');
-    }
-    
-    const userData = await response.json();
-    
-    // Save token to localStorage for persistence
-    localStorage.setItem('token', userData.token);
-    
-    dispatch(loginSuccess(userData.user));
-    return userData;
-  } catch (error) {
-    dispatch(loginFailure(error.message));
-    throw error;
-  }
-};
+    const response = await axiosInstance.post('/auth/login/', userData);
 
-export const logoutUser = () => (dispatch) => {
-  // Clear local storage
-  localStorage.removeItem('token');
-  dispatch(logout());
+    return response;
+
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 // Function to check if user is already logged in on page refresh
+// saved for reference later
 export const checkAuthState = () => async (dispatch) => {
   const token = localStorage.getItem('token');
   
@@ -82,14 +38,11 @@ export const checkAuthState = () => async (dispatch) => {
     
     if (response.ok) {
       const userData = await response.json();
-      dispatch(loginSuccess(userData.user));
     } else {
       // If token is invalid, log the user out
-      dispatch(logout());
       localStorage.removeItem('token');
     }
   } catch (error) {
-    dispatch(logout());
     localStorage.removeItem('token');
   }
 };

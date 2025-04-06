@@ -1,10 +1,20 @@
 import React from "react";
 import { Avatar, Button, Typography } from "@mui/material";
-import "./UserProfile.css"  // Ensure CSS styles are properly included
+import "./UserProfile.css" 
 import avatar from "../../assets/avatar.png";
 import UiDropdown from "../../components/UiDropdown/UiDropdown";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/authSlice";
+import { useNavigate } from "react-router";
 
 const UserProfle = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    dispatch(logout());
+    navigate('/login', { state: { message: 'Logout Successful! Returning to Login page...' } });
+  }
   return (
     <>
       {/* User Profile Header */}
@@ -17,6 +27,7 @@ const UserProfle = () => {
           </div>
         </div>
         <Button variant="contained" className="edit-profile-btn">Edit Profile</Button>
+        <Button variant="outlined" className="logout-btn" onClick={handleLogOut}>Logout</Button>
       </div>
 
       {/* Filter Section */}

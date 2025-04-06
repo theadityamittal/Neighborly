@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { registerUser } from '../../../services/authService';
+import { selectAuth } from '../../../redux/authSlice';
 import './Register.css';
 
 const Register = () => {
@@ -10,7 +11,7 @@ const Register = () => {
     lastName: '',
     email: '',
     password: '',
-    confirmPassword: '',
+    phoneNumber: '',
     address: '',
     city: '',
     state: '',
@@ -20,7 +21,7 @@ const Register = () => {
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error } = useSelector(state => state.user);
+  const { loading } = useSelector(selectAuth);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,14 +49,14 @@ const Register = () => {
       newErrors.password = 'Password must be at least 6 characters';
     }
     
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
-    }
+    // if (formData.password !== formData.confirmPassword) {
+    //   newErrors.confirmPassword = 'Passwords do not match';
+    // }
     
     if (!formData.zipCode) {
       newErrors.zipCode = 'Zip code is required';
-    } else if (!/^\d{5}(-\d{4})?$/.test(formData.zipCode)) {
-      newErrors.zipCode = 'Zip code is invalid';
+//     } else if (!/^\d{5}(-\d{4})?$/.test(formData.zipCode)) {
+//      newErrors.zipCode = 'Zip code is invalid';
     }
     
     return newErrors;
@@ -71,9 +72,16 @@ const Register = () => {
     }
     
     try {
-      // Remove confirmPassword before sending to API
-      const { confirmPassword, ...registrationData } = formData;
-      await dispatch(registerUser(registrationData));
+      const userData = {
+        'name': formData['firstName'] + " " + formData['lastName'],
+        'email': formData['email'],
+        'phone_number': formData['phoneNumber'],
+        'address': formData['address'],
+        'neighborhood': formData['city'],
+        'account_type': 'user',
+        'password': formData['password']
+      }
+      const response = await registerUser(userData);
       navigate('/login', { state: { message: 'Registration successful! Please log in.' } });
     } catch (err) {
       // Error handling is done in the reducer
@@ -86,8 +94,6 @@ const Register = () => {
       <div className="register-form-wrapper">
         <h2>Create an Account</h2>
         <p>Join your neighborhood community</p>
-        
-        {error && <div className="error-message">{error}</div>}
         
         <form onSubmit={handleSubmit} className="register-form">
           <div className="form-row">
@@ -146,16 +152,15 @@ const Register = () => {
             </div>
             
             <div className="form-group">
-              <label htmlFor="confirmPassword">Confirm Password</label>
+              <label htmlFor="phoneNumber">Phone Number</label>
               <input
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                value={formData.confirmPassword}
+                id="phoneNumber"
+                name="phoneNumber"
+                value={formData.phoneNumber}
                 onChange={handleChange}
-                className={errors.confirmPassword ? 'error' : ''}
+                className={errors.phoneNumber ? 'error' : ''}
               />
-              {errors.confirmPassword && <span className="error-text">{errors.confirmPassword}</span>}
+              {/* {errors.confirmPassword && <span className="error-text">{errors.confirmPassword}</span>} */}
             </div>
           </div>
           
