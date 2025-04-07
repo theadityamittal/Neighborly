@@ -7,4 +7,5 @@ urlpatterns = [
     path('services/', include('neighborly_services.urls')),
     path('petitions/', include('neighborly_petitions.urls')),
     path('events/', include('neighborly_events.urls')),
+    path('', include('apps.core.urls')),
 ]
