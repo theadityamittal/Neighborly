@@ -19,6 +19,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include('neighborly_tools.urls')),
     # Route the root URL to your core app
     path('', include('apps.core.urls')),
 ]

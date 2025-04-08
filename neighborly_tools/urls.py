@@ -1,10 +1,9 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import ToolViewSet, BorrowRequestViewSet
+from .views import ToolViewSet
 
 router = DefaultRouter()
-router.register(r'tools', ToolViewSet)
-router.register(r'borrow_requests', BorrowRequestViewSet)
+router.register(r'tools', ToolViewSet, basename='tool')
 
 urlpatterns = [
     path('', include(router.urls)),
