@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import HorizontalCard from "../../components/HorizontalCard/HorizontalCard"; // adjust if the path is different
 import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal"; // adjust if the path is different
-import "./Services.css";
+//import "./Services.css";
 
 // Iamges
 import yoga1 from "../../assets/img/yoga1.jpg";
