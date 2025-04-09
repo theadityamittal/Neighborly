@@ -14,7 +14,7 @@ const ProtectedRoute = ({ children }) => {
   console.log(access);
 
   // uncomment for development purposes
-  return children;
+  // return children;
   
   if (!access) {
     return <Navigate to="/login" />;
