@@ -21,7 +21,8 @@ const CalendarPicker = ({
     // Disable any date that matches an unavailable date
     return !unavailableDates.some(
       (unavailableDate) =>
-        date.toDateString() === unavailableDate.toDateString()
+        unavailableDate instanceof Date &&
+      date.toDateString() === unavailableDate.toDateString()
     );
   };
 
