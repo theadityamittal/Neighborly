@@ -54,7 +54,8 @@
       "/node_modules/(?!react-router-dom)"
     ],
     "moduleNameMapper": {
-      "\\.(css|less)$": "identity-obj-proxy"
+      "\\.(css|less)$": "identity-obj-proxy",
+      "^axios$": "axios/dist/node/axios.cjs"
     }
   }
 }
