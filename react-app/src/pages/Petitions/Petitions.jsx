@@ -48,7 +48,6 @@ const Petitions = ({setPetitionDetails}) => {
       flexDirection: 'row',
       flexWrap: 'wrap',
       gap: '20px',
-      padding: '20px'
     }}>
       {
         petitions.map((item) => (
