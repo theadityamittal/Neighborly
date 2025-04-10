@@ -13,7 +13,7 @@ const ProtectedRoute = ({ children }) => {
   const { access } = useSelector(selectAuth);
   console.log(access);
   
-  if (!access) {
+  if (access) {
     return <Navigate to="/login" />;
   }
   
