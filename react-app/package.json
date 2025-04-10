@@ -13,7 +13,9 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.8.4",
     "react": "^19.0.0",
+    "react-datepicker": "^8.2.1",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
     "react-router": "^6.26.2",
@@ -50,6 +52,10 @@
   "jest": {
     "transformIgnorePatterns": [
       "/node_modules/(?!react-router-dom)"
-    ]
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less)$": "identity-obj-proxy",
+      "^axios$": "axios/dist/node/axios.cjs"
+    }
   }
 }

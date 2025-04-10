@@ -1,38 +1,35 @@
 import React, { useEffect } from "react";
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import { useRoute } from "../context/RouteContext";
-import { useDispatch } from "react-redux";
-import { checkAuthState } from "../services/authService";
+import { useDispatch, useSelector } from "react-redux";
 import Dashboard from "../components/Dashboard/Dashboard";
 import Login from "../pages/Auth/Login/Login";
-import Register from "../pages/Auth/Register/Regsiter";
+import Register from "../pages/Auth/Register/Register";
 import CardTest from "../pages/CardTest/CardTest";
+import { selectAuth } from "../redux/authSlice";
 
 // Protected route component
-// const ProtectedRoute = ({ children }) => {
-//   const { isAuthenticated, loading } = useSelector(state => state.user);
+const ProtectedRoute = ({ children }) => {
+  const { access } = useSelector(selectAuth);
+  console.log(access);
   
-//   if (loading) return <div>Loading...</div>;
+  if (!access) {
+    return <Navigate to="/login" />;
+  }
   
-//   if (!isAuthenticated) {
-//     return <Navigate to="/login" />;
-//   }
-  
-//   return children;
-// };
+  return children;
+};
 
 const AppRoutes = () => {
   const { currentRoute, setCurrentRoute } = useRoute();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const { user, isAuthenticated } = useSelector(state => state.user);
 
   const handleItemClick=(path) => {
     navigate(path);
   }
 
   useEffect(() => {
-    dispatch(checkAuthState());
     // set auth to true for development purposes
   }, [dispatch]);
 
@@ -47,18 +44,8 @@ const AppRoutes = () => {
     <>
       {/* Main layout */}
       <Routes>
-        <Route path="/" element={<Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>} />
-        <Route path="/bulletin" element={<Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>} />
-        <Route path="/tools" element={<Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>} />
-        <Route path="/services" element={<Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>} />
-        <Route path="/events" element={<Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>} />
-        <Route path="/petitions" element={<Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>} />
-        <Route path="/profile" element={<Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>} />
-        <Route path="/messages" element={<Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>} />
-        <Route path="/notifications" element={<Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>} />
-
         {/* Protected routes */}
-        {/* <Route path="/" element={
+        <Route path="/" element={
           <ProtectedRoute>
             <Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>
           </ProtectedRoute>
@@ -92,7 +79,7 @@ const AppRoutes = () => {
           <ProtectedRoute>
             <Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>
           </ProtectedRoute>
-        } /> */}
+        } />
 
         {/* Dev Test Route */}
         <Route path="/test" element={<CardTest/>} />

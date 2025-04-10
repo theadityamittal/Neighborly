@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { loginUser } from '../../../services/authService';
+import { login } from '../../../redux/authSlice';
 import './Login.css';
 
 const Login = () => {
@@ -14,7 +15,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const { loading, error, isAuthenticated } = useSelector(state => state.user);
+  const { loading, error, isAuthenticated } = [false, false, false];
   const [registrationMessage, setRegistrationMessage] = useState('');
 
   // Check for registration success message from location state
@@ -67,8 +68,12 @@ const Login = () => {
     }
     
     try {
-      await dispatch(loginUser(formData));
-      // No need to navigate here as the useEffect will handle redirect when isAuthenticated changes
+      const response = await loginUser(formData);
+      console.log(response.data);
+
+      dispatch(login(response.data));
+      navigate('/', { state: { message: 'Registration successful! Please log in.' } });
+
     } catch (err) {
       // Error handling is done in the reducer
       console.error('Login failed:', err);

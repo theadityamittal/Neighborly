@@ -1,2 +1,6 @@
 __pycache__/
 *.pyc
+apps/core/__pycache__/
+apps/__pycache__/
+node_modules/
+venv/
