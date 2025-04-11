@@ -78,6 +78,11 @@ const AppRoutes = () => {
             <Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>
           </ProtectedRoute>
         } />
+        <Route path="/create-petition" element={
+          <ProtectedRoute>
+            <Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>
+          </ProtectedRoute>
+        } />
         <Route path="/profile" element={
           <ProtectedRoute>
             <Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>
