@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Avatar, Button, Typography } from "@mui/material";
-import "./UserProfile.css";
 import avatar from "../../assets/avatar.png";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/authSlice";
@@ -8,8 +7,11 @@ import { useNavigate } from "react-router";
 import UserProfileForm from "./UserProfileForm";
 import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
 import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
+import VerticalCard from "../../components/VerticalCard/VerticalCard";
+import petitionData from "../Petitions/petitionData.json";
+import "./UserProfile.css";
 
-// Image imports
+// Images
 import yoga1 from "../../assets/img/yoga1.jpg";
 import cooking1 from "../../assets/img/cooking1.jpg";
 import tree1 from "../../assets/img/tree1.jpg";
@@ -19,6 +21,9 @@ import marketing1 from "../../assets/img/marketing1.jpg";
 const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
+
   const [filters, setFilters] = useState({
     myPosts: true,
     listedTools: true,
@@ -26,9 +31,6 @@ const UserProfile = () => {
     hostedEvents: true,
     signedPetitions: true,
   });
-
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -40,6 +42,16 @@ const UserProfile = () => {
     });
   };
 
+  const handleCardClick = (cardData) => {
+    setSelectedCard(cardData);
+    setModalOpen(true);
+  };
+
+  const handlePetitionClick = (petition) => {
+    console.log("Clicked Petition:", petition.title);
+    // You can set up a modal or redirect logic here
+  };
+
   const handleFilterChange = (key) => {
     setFilters((prev) => ({
       ...prev,
@@ -48,14 +60,7 @@ const UserProfile = () => {
   };
 
   const formatLabel = (key) =>
-    key
-      .replace(/([A-Z])/g, " $1")
-      .replace(/^./, (str) => str.toUpperCase());
-
-  const handleCardClick = (cardData) => {
-    setSelectedCard(cardData);
-    setModalOpen(true);
-  };
+    key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase());
 
   const cardData = {
     myPosts: [
@@ -100,17 +105,6 @@ const UserProfile = () => {
         closestAvailability: "April 10, 2025",
         image: pilates1,
         tabs: ["Events", "Games"],
-      },
-    ],
-    signedPetitions: [
-      {
-        id: "5",
-        title: "Petition for New Crosswalk",
-        provider: "Bay Ridge Safety Group",
-        location: "Bay Ridge, NY",
-        closestAvailability: "Signed: March 1, 2025",
-        image: marketing1,
-        tabs: ["Safety", "Petition"],
       },
     ],
   };
@@ -162,16 +156,15 @@ const UserProfile = () => {
             </div>
           </div>
 
-          {/* Filter Dropdown */}
+          {/* Filter Panel */}
           {showFilters && (
             <div className="filters-panel">
               {Object.entries(filters).map(([key, value]) => (
-                <label key={key} style={{ display: "block", marginBottom: 8 }}>
+                <label key={key}>
                   <input
                     type="checkbox"
                     checked={value}
                     onChange={() => handleFilterChange(key)}
-                    style={{ marginRight: 8 }}
                   />
                   {formatLabel(key)}
                 </label>
@@ -179,7 +172,7 @@ const UserProfile = () => {
             </div>
           )}
 
-          {/* Cards Section */}
+          {/* Card Grid */}
           <div className="bulletin-cards">
             {Object.keys(filters).map(
               (key) =>
@@ -197,9 +190,26 @@ const UserProfile = () => {
                   />
                 ))
             )}
+
+            {/* Petition Cards (2 max) */}
+            {filters.signedPetitions &&
+              petitionData.slice(0, 2).map((petition) => (
+                <VerticalCard
+                  key={petition.id}
+                  id={petition.id}
+                  title={petition.title}
+                  provider={petition.provider}
+                  location={petition.location}
+                  closestAvailability={petition.closestAvailability}
+                  image={petition.image}
+                  tabs={petition.tabs}
+                  numberSigned={petition.numberSigned}
+                  handleClick={() => handlePetitionClick(petition)}
+                />
+              ))}
           </div>
 
-          {/* Optional Modal */}
+          {/* Modal */}
           {modalOpen && selectedCard && (
             <HorizontalCardModal
               open={modalOpen}
