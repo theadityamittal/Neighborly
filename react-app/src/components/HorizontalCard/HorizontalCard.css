@@ -1,59 +1,88 @@
-
 .horizontal-card {
     display: flex;
-    flex: 1 1 350px;
-    max-width: 100%;
-    height: 250px;
     flex-direction: row;
+    height: 250px;
+    width: 100%;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin: 20px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s;
-}
-.horizontal-card-content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px;
-    flex: 1;
-    row-gap: 7px;
-}
-.horizontal-card-image {
-    flex: 1;
-    border-radius: 5px;
-    object-fit: cover;
+    overflow: hidden;
+    background-color: #fff;
+  }
+  
+  .horizontal-card-image {
     width: 50%;
-}
-.horizontal-card-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 5px;
-}
-.horizontal-card-provider {
-    font-size: 1rem;
-    color: #666;
-}
-.button-container {
-    flex: 1;
-    align-items: flex-end;
-    flex-direction: column;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .horizontal-card-content {
     display: flex;
-    justify-content: flex-end;
-}
-.horizontal-card-tab {
-    position: relative;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px;
+    flex: 1;
+    box-sizing: border-box;
+  }
+  
+  .horizontal-card-tabs {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .horizontal-card-tab {
     padding: 5px 12px;
     border-radius: 25px;
     border: none;
     color: #585966;
-    background-color:rgb(241, 239, 239);
+    background-color: rgb(241, 239, 239);
+    font-size: 12px;
+  }
+  
+  .horizontal-card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  
+  .horizontal-card-provider {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 2px;
+  }
+  
+  .horizontal-card-location {
+    font-size: 0.9rem;
+    color: #444;
+  }
+  
+  .horizontal-card-availability {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-top: 4px;
+  }
+  
+  .button-container {
     display: flex;
-    align-items: center;
-    margin-right: 10px;
-}
-.horizontal-card-tabs {
-    flex-direction: row;
-    justify-content: space-between;
-    display: flex;
-}
+    justify-content: flex-start;
+    margin-top: 12px;
+  }
+  
+  .button-container button {
+    padding: 6px 16px;
+    font-size: 0.875rem;
+    background-color: #f7931e;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .button-container button:hover {
+    background-color: #d97706;
+  }
+  
