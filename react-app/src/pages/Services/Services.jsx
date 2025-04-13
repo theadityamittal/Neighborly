@@ -1,6 +1,8 @@
-import React, { useState } from "react";
-import HorizontalCard from "../../components/HorizontalCard/HorizontalCard"; // adjust if the path is different
-import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal"; // adjust if the path is different
+import React, { useEffect, useState } from "react";
+import axiosInstance from "../../utils/axiosInstance"; 
+import HorizontalCard from "../../components/HorizontalCard/HorizontalCard"; 
+import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
+
 //import "./Services.css";
 
 // Iamges
@@ -98,56 +100,52 @@ const dummyServices = [
 
 const Services = () => {
   const [selectedServiceId, setSelectedServiceId] = useState(null);
-  
-  const handleView = (id) => {
-    setSelectedServiceId(id);
-  };
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const handleClose = () => {
-    setSelectedServiceId(null);
-  };
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const res = await axiosInstance.get("/api/services/");
+        setServices(res.data);
+      } catch (err) {
+        console.error("❌ Failed to fetch services:", err);
+        setError("Could not load services.");
+      }
+    };
 
-  const selectedService = dummyServices.find(service => service.id === selectedServiceId);
+    fetchServices();
+  }, []);
 
-  // Add disableBeforeToday flag to the selected service if it exists
-  const selectedServiceWithDisable =
-    selectedService ? { ...selectedService, disableBeforeToday: true } : null;
+  // if (loading) return <p>Loading services...</p>;
+  // if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
-    <div style={{ padding: "1rem" }}>
-      <h1>Services</h1>
-      <div
-        style={{
-          display: "grid",
-          gap: "1rem",
-          gridTemplateColumns: "repeat(2, 1fr)"
-        }}
-      >
-        {dummyServices.map(service => (
-          <HorizontalCard
-            key={service.id}
-            {...service}
-            image={service.images[0]}  // Use first image as thumbnail
-            onView={() => handleView(service.id)}
-          />
+    <div className="services-container">
+      <h2>Available Services</h2>
+      <div className="services-grid">
+        {services.map(service => (
+          <div className="service-card" key={service.service_id}>
+            <h3>{service.title}</h3>
+            <p>{service.description}</p>
+            <p><strong>Location:</strong> {service.location}</p>
+            <p><strong>Price:</strong> {service.price}</p>
+            <p><strong>Tags:</strong> {service.tabs?.join(", ")}</p>
+            <div className="image-gallery">
+              {service.images?.map((img, index) => (
+                <img key={index} src={img} alt={service.title} />
+              ))}
+            </div>
+          </div>
         ))}
       </div>
-
-      {selectedService && (
-        <HorizontalCardModal
-          isOpen={!!selectedService}
-          onClose={handleClose}
-          item={selectedServiceWithDisable}
-        />
-      )}
     </div>
   );
 };
 
-// const Services = () => {
-//   const [selectedServiceId, setSelectedServiceId] = useState(null);
-//   const [createModalOpen, setCreateModalOpen] = useState(false);
-
+export default Services;
+  
 //   const handleView = (id) => {
 //     setSelectedServiceId(id);
 //   };
@@ -156,31 +154,28 @@ const Services = () => {
 //     setSelectedServiceId(null);
 //   };
 
-//   const selectedService = dummyServices.find(
-//     (service) => service.id === selectedServiceId
-//   );
+
+//   const selectedService = dummyServices.find(service => service.id === selectedServiceId);
 
 //   // Add disableBeforeToday flag to the selected service if it exists
 //   const selectedServiceWithDisable =
 //     selectedService ? { ...selectedService, disableBeforeToday: true } : null;
 
 //   return (
-//     <div className="services-container">
-//       <header className="services-header">
-//         <h1>Services</h1>
-//         <button
-//           className="create-service-btn"
-//           onClick={() => setCreateModalOpen(true)}
-//         >
-//           Create Service
-//         </button>
-//       </header>
-//       <div className="services-grid">
-//         {dummyServices.map((service) => (
+//     <div style={{ padding: "1rem" }}>
+//       <h1>Services</h1>
+//       <div
+//         style={{
+//           display: "grid",
+//           gap: "1rem",
+//           gridTemplateColumns: "repeat(2, 1fr)"
+//         }}
+//       >
+//         {dummyServices.map(service => (
 //           <HorizontalCard
 //             key={service.id}
 //             {...service}
-//             image={service.images[0]} // Use first image as thumbnail
+//             image={service.images[0]}  // Use first image as thumbnail
 //             onView={() => handleView(service.id)}
 //           />
 //         ))}
@@ -193,26 +188,7 @@ const Services = () => {
 //           item={selectedServiceWithDisable}
 //         />
 //       )}
-
-//       {createModalOpen && (
-//         <div
-//           className="fullpage-modal-overlay"
-//           onClick={() => setCreateModalOpen(false)}
-//         >
-//           <div className="fullpage-modal-content" onClick={(e) => e.stopPropagation()}>
-//             <button
-//               className="fullpage-modal-close"
-//               onClick={() => setCreateModalOpen(false)}
-//             >
-//               ×
-//             </button>
-//             <CreateServices onClose={() => setCreateModalOpen(false)} />
-//           </div>
-//         </div>
-//       )}
 //     </div>
 //   );
 // };
 
-
-export default Services;
