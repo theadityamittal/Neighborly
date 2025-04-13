@@ -6,7 +6,6 @@
     flex-direction: column;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     transition: all 0.3s;
     overflow: hidden;

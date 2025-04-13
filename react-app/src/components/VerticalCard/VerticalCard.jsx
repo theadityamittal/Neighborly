@@ -20,7 +20,7 @@ function VerticalCard({ id, title, provider, location, closestAvailability, tabs
           </div>
           <div className="vertical-card-title">{title}</div>
           <div className="vertical-card-provider">{provider}</div>
-          <div className='vertical-card-description'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec feugiat egestas posuere. Phasellus congue justo magna. Aliquam rutrum justo ac dui lacinia, non tincidunt ex consequat.</div>
+          <div className='vertical-card-description'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec feugiat egestas posuere</div>
         </div>
       </div>
       <div className='vertical-card-footer'>

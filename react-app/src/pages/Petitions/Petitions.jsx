@@ -2,14 +2,18 @@ import React, { useState, useEffect } from "react";
 import VerticalCard from '../../components/VerticalCard/VerticalCard';
 import petitionData from './petitionData.json';
 import { useNavigate } from "react-router";
+import CreatePetition from "./CreatePetition";
+import "./petitions.css"
 
 const Petitions = ({setPetitionDetails}) => {
   const [petitions, setPetitions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [newpetition, setNewPetition] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
+    setNewPetition(false);
     const fetchPetitions = async () => {
       setLoading(true);
       try {
@@ -47,30 +51,62 @@ const Petitions = ({setPetitionDetails}) => {
       display: 'flex',
       flexDirection: 'row',
       flexWrap: 'wrap',
-      gap: '20px',
-      padding: '20px'
+      gap: '10px',
     }}>
       {
-        petitions.map((item) => (
-          <div key={item.id} style={{ 
-            width: 'calc(25% - 20px)',
-            minWidth: '350px',
-            marginBottom: '20px'
-          }}>
-            <VerticalCard
-              id={item.id}
-              title={item.title}
-              provider={item.provider}
-              location={item.location}
-              closestAvailability={item.closestAvailability}
-              image={item.image}
-              viewType={item.viewType}
-              tabs={item.tabs}
-              numberSigned={item.numberSigned}
-              handleClick={() => handleCardClick(item.id)}
-            />
-          </div>
-        ))
+        newpetition ? (
+          <CreatePetition setNewPetition={setNewPetition}/>
+        ) :
+        (
+          <>
+            <div className="petition-header">
+              <div className="header-text">
+                <h2>
+                  Petitions
+                </h2>
+                <p>
+                  Explore and support petitions that matter to you.
+                </p>
+              </div>
+              <div className="petition-header-btn" onClick={() => setNewPetition(true)}>
+                + Create Petition
+              </div>
+            </div>
+            <hr className="petition-divider"/>
+            <div className="petition-cards">
+              {petitions.length === 0 ?
+                <div style={{
+                  width: '100%',
+                  textAlign: 'center',
+                  fontSize: '18px',
+                  color: '#555',
+                }}>
+                  No petitions available.
+                </div>
+              :
+                petitions.map((item) => (
+                <div key={item.id} style={{ 
+                  width: 'calc(25% - 20px)',
+                  minWidth: '350px',
+                  marginBottom: '20px'
+                }}>
+                  <VerticalCard
+                    id={item.id}
+                    title={item.title}
+                    provider={item.provider}
+                    location={item.location}
+                    closestAvailability={item.closestAvailability}
+                    image={item.image}
+                    viewType={item.viewType}
+                    tabs={item.tabs}
+                    numberSigned={item.numberSigned}
+                    handleClick={() => handleCardClick(item.id)}
+                  />
+                </div>
+              ))}
+            </div>
+          </>
+        )
       }
     </div>
   );

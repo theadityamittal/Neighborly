@@ -10,7 +10,12 @@ const Sidebar = ({menuItems, activeItem, handleItemClick}) => {
           <ListItemButton
             key={item.name}
             selected={activeItem === item.name}
-            onClick={() => handleItemClick(item.name, item.path)}
+            onClick={() => {
+              // avoid clicking on active item
+              if (activeItem === item.name) return;
+              // handle item click
+              handleItemClick(item.name, item.path)
+            }}
             className={`menu-item ${activeItem === item.name ? "active" : ""}`}
           >
             <ListItemIcon className="menu-icon">{item.icon}</ListItemIcon>
