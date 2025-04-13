@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.core',
     'drf_yasg',
+    'neighborly_tools',
+    'neighborly_bulletin',
 ]
 
 REST_FRAMEWORK = {
@@ -76,7 +78,8 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://3.145.158.84"
+    "http://3.145.158.84",
+    "http://127.0.0.1:3000",
 ]
 
 ROOT_URLCONF = 'neighborly.urls'
