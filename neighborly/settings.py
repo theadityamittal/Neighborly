@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.core',
+    'neighborly_tools',
+    'neighborly_bulletin',
 ]
 
 REST_FRAMEWORK = {
