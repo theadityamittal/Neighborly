@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { registerUser } from '../../../services/authService';
 import { selectAuth } from '../../../redux/authSlice';
@@ -19,7 +19,6 @@ const Register = () => {
   });
   
   const [errors, setErrors] = useState({});
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading } = useSelector(selectAuth);
 
@@ -49,14 +48,10 @@ const Register = () => {
       newErrors.password = 'Password must be at least 6 characters';
     }
     
-    // if (formData.password !== formData.confirmPassword) {
-    //   newErrors.confirmPassword = 'Passwords do not match';
-    // }
-    
     if (!formData.zipCode) {
       newErrors.zipCode = 'Zip code is required';
-//     } else if (!/^\d{5}(-\d{4})?$/.test(formData.zipCode)) {
-//      newErrors.zipCode = 'Zip code is invalid';
+    } else if (!/^\d{5}(-\d{4})?$/.test(formData.zipCode)) {
+     newErrors.zipCode = 'Zip code is invalid';
     }
     
     return newErrors;
@@ -86,6 +81,10 @@ const Register = () => {
     } catch (err) {
       // Error handling is done in the reducer
       console.error('Registration failed:', err);
+      const newErrors = {};
+      newErrors.email = 'Email already exists';
+      setErrors(newErrors);
+      return;
     }
   };
 
@@ -94,6 +93,8 @@ const Register = () => {
       <div className="register-form-wrapper">
         <h2>Create an Account</h2>
         <p>Join your neighborhood community</p>
+
+        {errors.email && <div className="error-message">{errors.email}</div>}
         
         <form onSubmit={handleSubmit} className="register-form">
           <div className="form-row">
