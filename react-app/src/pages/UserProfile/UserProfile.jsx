@@ -5,6 +5,7 @@ import avatar from "../../assets/avatar.png";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/authSlice";
 import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 import UserProfileForm from "./UserProfileForm";
 import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
 import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
@@ -32,6 +33,7 @@ const UserProfile = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { name, neighborhood } = useSelector((state) => state.auth);
 
   const handleLogOut = () => {
     dispatch(logout());
@@ -126,8 +128,8 @@ const UserProfile = () => {
             <div className="profile">
               <Avatar src={avatar} alt="User Avatar" sx={{ width: 80, height: 80 }} />
               <div>
-                <Typography variant="h4" className="username">Peter Smith</Typography>
-                <Typography variant="body2" className="location">📍 Bay Ridge, NY</Typography>
+                <Typography variant="h4" className="username">{name}</Typography>
+                <Typography variant="body2" className="location">📍 {neighborhood}</Typography>
               </div>
             </div>
 

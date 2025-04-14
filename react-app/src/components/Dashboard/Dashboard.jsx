@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { use, useEffect, useMemo, useState } from "react";
 import { Dashboard as DashboardIcon, Build, Event as EventIcon, HowToVote, MiscellaneousServices } from "@mui/icons-material";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
@@ -10,11 +10,16 @@ import Events from "../../pages/Events/Events";
 import Petitions from "../../pages/Petitions/Petitions";
 import DetailedPetition from "../../pages/Petitions/DetailedPetition";
 import UserProfile from "../../pages/UserProfile/UserProfile";
+import { getUserInformation } from "../../services/authService";
+import { useDispatch, useSelector } from "react-redux";
+import { storeUserInformation } from "../../redux/authSlice";
 
 const Dashboard = ({currentRoute, setCurrentRoute, handleItemClick}) => {
     const [activeItem, setActiveItem] = useState(null);
     const [petitionDetails, setPetitionDetails] = useState(null);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const token = useSelector((state) => state.auth.access);
 
     const menuItems = useMemo(() => [
         { name: "Bulletin", icon: <DashboardIcon />, path: "/bulletin", content: <Bulletin /> },
@@ -30,6 +35,7 @@ const Dashboard = ({currentRoute, setCurrentRoute, handleItemClick}) => {
     { name: "Notifications", path: "/notifications", content: <Bulletin />  },
     { name: "Profile", path: "/profile", content: <UserProfile />  }
     ], []);
+    
 
     const individualItems = useMemo(() => [
         { 
@@ -40,6 +46,20 @@ const Dashboard = ({currentRoute, setCurrentRoute, handleItemClick}) => {
             content: "petition-detail" // Just use a marker instead
         }
     ], []);
+
+    // Grab User Information on Load
+    useEffect(() => {
+        const UserInformation = async () => {
+            try {
+                const response = await getUserInformation(token);
+                console.log(response.data);
+                dispatch(storeUserInformation(response.data));
+            } catch (e) {
+                console.error("Error fetching user information:", e);
+            }
+        }
+        UserInformation();
+    }, []);
 
     // Update the current route when URL changes
     useEffect(() => {

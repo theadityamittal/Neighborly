@@ -75,7 +75,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://3.145.158.84"
+    "http://3.145.158.84",
 ]
 
 ROOT_URLCONF = 'neighborly.urls'
