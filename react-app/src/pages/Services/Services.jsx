@@ -97,10 +97,9 @@ const dummyServices = [
   },
 ];
 
-
 const Services = () => {
-  const [selectedServiceId, setSelectedServiceId] = useState(null);
   const [services, setServices] = useState([]);
+  const [selectedServiceId, setSelectedServiceId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -109,42 +108,114 @@ const Services = () => {
       try {
         const res = await axiosInstance.get("/api/services/");
         setServices(res.data);
+        setLoading(false);
       } catch (err) {
         console.error("❌ Failed to fetch services:", err);
         setError("Could not load services.");
+        setLoading(false);
       }
     };
 
     fetchServices();
   }, []);
 
-  // if (loading) return <p>Loading services...</p>;
-  // if (error) return <p style={{ color: "red" }}>{error}</p>;
+  const handleView = (id) => {
+    setSelectedServiceId(id);
+  };
+
+  const handleClose = () => {
+    setSelectedServiceId(null);
+  };
+
+  const selectedService = services.find(service => service.service_id === selectedServiceId);
+  const selectedServiceWithDisable = selectedService
+    ? { ...selectedService, disableBeforeToday: true }
+    : null;
+
+  if (loading) return <p>Loading services...</p>;
+  if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
-    <div className="services-container">
-      <h2>Available Services</h2>
-      <div className="services-grid">
+    <div style={{ padding: "1rem" }}>
+      <h1>Services</h1>
+      <div
+        style={{
+          display: "grid",
+          gap: "1rem",
+          gridTemplateColumns: "repeat(2, 1fr)"
+        }}
+      >
         {services.map(service => (
-          <div className="service-card" key={service.service_id}>
-            <h3>{service.title}</h3>
-            <p>{service.description}</p>
-            <p><strong>Location:</strong> {service.location}</p>
-            <p><strong>Price:</strong> {service.price}</p>
-            <p><strong>Tags:</strong> {service.tabs?.join(", ")}</p>
-            <div className="image-gallery">
-              {service.images?.map((img, index) => (
-                <img key={index} src={img} alt={service.title} />
-              ))}
-            </div>
-          </div>
+          <HorizontalCard
+            key={service.service_id}
+            {...service}
+            image={service.images?.[0]} // Use first image as thumbnail
+            onView={() => handleView(service.service_id)}
+          />
         ))}
       </div>
+
+      {selectedService && (
+        <HorizontalCardModal
+          isOpen={!!selectedService}
+          onClose={handleClose}
+          item={selectedServiceWithDisable}
+        />
+      )}
     </div>
   );
 };
 
 export default Services;
+
+
+// const Services = () => {
+//   const [selectedServiceId, setSelectedServiceId] = useState(null);
+//   const [services, setServices] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState("");
+
+//   useEffect(() => {
+//     const fetchServices = async () => {
+//       try {
+//         const res = await axiosInstance.get("/api/services/");
+//         setServices(res.data);
+//       } catch (err) {
+//         console.error("❌ Failed to fetch services:", err);
+//         setError("Could not load services.");
+//       }
+//     };
+
+//     fetchServices();
+//   }, []);
+
+//   // if (loading) return <p>Loading services...</p>;
+//   // if (error) return <p style={{ color: "red" }}>{error}</p>;
+
+//   return (
+//     <div className="services-container">
+//       <h2>Available Services</h2>
+//       <div className="services-grid">
+//         {services.map(service => (
+//           <div className="service-card" key={service.service_id}>
+//             <h3>{service.title}</h3>
+//             <p>{service.description}</p>
+//             <p><strong>Location:</strong> {service.location}</p>
+//             <p><strong>Price:</strong> {service.price}</p>
+//             <p><strong>Tags:</strong> {service.tabs?.join(", ")}</p>
+//             <div className="image-gallery">
+//               {service.images?.map((img, index) => (
+//                 <img key={index} src={img} alt={service.title} />
+//               ))}
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Services;
   
 //   const handleView = (id) => {
 //     setSelectedServiceId(id);
