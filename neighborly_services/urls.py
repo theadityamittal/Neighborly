@@ -5,6 +5,6 @@ from .views import ServiceItemSignUpView
 
 urlpatterns = [
     path('grabServiceData/', TestServiceView.as_view(), name='grabServiceData'),
-    path('services/', ServiceItemListView.as_view(), name='service-list'),
-    path('services/<int:service_id>/signup/', ServiceItemSignUpView.as_view(), name='signup-for-service'),
+    path('', ServiceItemListView.as_view(), name='service-list'),
+    path('<int:service_id>/signup/', ServiceItemSignUpView.as_view(), name='signup-for-service'),
 ]
