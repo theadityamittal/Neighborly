@@ -17,6 +17,7 @@ class ServiceItem(models.Model):
     price = models.CharField(max_length=50, blank=True)  # or use DecimalField for calculations
     view_type = models.CharField(max_length=50, default="card")
     tabs = models.JSONField(default=list, blank=True)
+    images = models.JSONField(default=list, blank=True)
 
     def update_availability(self):
         self.earliest_availability = get_earliest_availability(self.unavailable_dates)
