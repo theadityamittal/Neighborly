@@ -92,12 +92,8 @@ const Dashboard = ({currentRoute, setCurrentRoute, handleItemClick}) => {
 
     // Handle search functionality
     const filterActiveContent = (searchTerm) => {
-        alert(`Searching for: ${searchTerm}`);
-        // Implement your search logic here
-        activeItem.content = activeItem.content.filter(item =>
-            item.name.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setActiveItem(activeItem);
+        console.log("Filtering content with search term:", searchTerm);
+        console.log("Active item before filtering:", activeItem);
     }
 
     // Render the active content based on currentRoute
