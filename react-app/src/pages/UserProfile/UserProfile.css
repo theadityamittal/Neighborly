@@ -210,6 +210,7 @@
   background-color: #f1efff;
   border-color: #5a4dcf;
 }
+
 .filters-panel {
   background: #ffffff;
   border-radius: 12px;
@@ -234,7 +235,7 @@
 .filters-panel input[type="checkbox"] {
   width: 18px;
   height: 18px;
-  accent-color: #2b6cb0; /* modern blue tint */
+  accent-color: #2b6cb0;
   cursor: pointer;
   transition: transform 0.1s ease-in-out;
 }
@@ -242,6 +243,7 @@
 .filters-panel input[type="checkbox"]:hover {
   transform: scale(1.1);
 }
+
 .left-buttons {
   display: flex;
   gap: 10px;
@@ -249,4 +251,67 @@
 
 .right-button {
   margin-left: auto;
+}
+
+/* =========================== */
+/* VERTICAL CARD FOR PETITIONS */
+/* =========================== */
+
+.vertical-card {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.vertical-card:hover {
+  transform: translateY(-3px);
+}
+
+.vertical-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.vertical-card-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.vertical-card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #222;
+}
+
+.vertical-card-subtitle {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.vertical-card-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.vertical-card-tag {
+  background-color: #e0e0e0;
+  border-radius: 16px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  color: #333;
+}
+
+.vertical-card-footer {
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: auto;
 }
