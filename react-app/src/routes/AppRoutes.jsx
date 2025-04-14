@@ -11,7 +11,6 @@ import { selectAuth } from "../redux/authSlice";
 // Protected route component
 const ProtectedRoute = ({ children }) => {
   const { access } = useSelector(selectAuth);
-  console.log(access);
 
   // uncomment for development purposes
   // return children;
