@@ -6,6 +6,7 @@ import avatar from "../../assets/avatar.png";
 import logo from "../../assets/logo.png";
 
 const Header = ({handleItemClick}) => {
+
   return (
     <AppBar position="fixed" className="header">
       <Toolbar className="header-content">
@@ -16,12 +17,12 @@ const Header = ({handleItemClick}) => {
 
         {/* Icons & Profile Section */}
         <Box className="header-right" >
-          <IconButton className="icon-button" onClick={() => handleItemClick("/messages")}>
+          {/* <IconButton className="icon-button" onClick={() => handleItemClick("/messages")}>
             <Mail />
           </IconButton>
           <IconButton className="icon-button" onClick={() => handleItemClick("/notifications")}>
             <Notifications />
-          </IconButton>
+          </IconButton> */}
 
           {/* Avatar & Name */}
           <Box className="user-profile" onClick={() => handleItemClick("/profile")}>

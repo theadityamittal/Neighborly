@@ -9,11 +9,13 @@ import Services from "../../pages/Services/Services";
 import Events from "../../pages/Events/Events";
 import Petitions from "../../pages/Petitions/Petitions";
 import DetailedPetition from "../../pages/Petitions/DetailedPetition";
+import SearchBar from "../SearchBar";
 import UserProfile from "../../pages/UserProfile/UserProfile";
 
 const Dashboard = ({currentRoute, setCurrentRoute, handleItemClick}) => {
     const [activeItem, setActiveItem] = useState(null);
     const [petitionDetails, setPetitionDetails] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
     const navigate = useNavigate();
 
     const menuItems = useMemo(() => [
@@ -68,6 +70,16 @@ const Dashboard = ({currentRoute, setCurrentRoute, handleItemClick}) => {
         }
     }, [currentRoute, menuItems, headerItems, individualItems]);
 
+    // Handle search functionality
+    const filterActiveContent = (searchTerm) => {
+        alert(`Searching for: ${searchTerm}`);
+        // Implement your search logic here
+        activeItem.content = activeItem.content.filter(item =>
+            item.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setActiveItem(activeItem);
+    }
+
     // Render the active content based on currentRoute
     const renderActiveContent = () => {
         // Special case for petition detail pages
@@ -110,6 +122,10 @@ const Dashboard = ({currentRoute, setCurrentRoute, handleItemClick}) => {
                     }}
                 />
                 <div className="page-content" style={{ flex: 1, marginLeft: "20px" }}>
+                    {/* Render SearchBar if activeItem is part of menuItems */}
+                    { activeItem && menuItems.some(item => item.name === activeItem.name) && (
+                        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterActiveContent}/>
+                    )}
                     {renderActiveContent()}
                 </div>
             </div>
