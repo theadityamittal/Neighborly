@@ -1,63 +1,317 @@
 /* =========================== */
 /* USER PROFILE PAGE STYLES */
 /* =========================== */
-  
-  .profile {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
-  
-  .edit-profile-btn {
-    background-color: #6C5ED8;
-    color: white;
-    padding: 8px 16px;
-    font-size: 14px;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  
-  /* Filter section */
-  .filter-section {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 20px;
-  }
-  
-  .filter-options {
-    display: flex;
-    gap: 10px;
-  }
-  
-  /* Cards Layout */
-  .bulletin-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  /* Individual Card */
-  .card {
-    width: 300px;
-    background-color: white;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Tags */
-  .tags {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .tag {
-    background-color: #6C5ED8;
-    color: white;
-    padding: 4px 8px;
-    border-radius: 5px;
-    font-size: 12px;
-  }
-  
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.edit-profile-btn {
+  background-color: #6C5ED8;
+  color: white;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.logout-btn {
+  margin-left: 10px;
+}
+
+.filter-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.filter-options {
+  display: flex;
+  gap: 10px;
+}
+
+.bulletin-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.card {
+  width: 300px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.tags {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.tag {
+  background-color: #6C5ED8;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+.profile-form-wrapper {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-form .MuiTextField-root {
+  width: 100%;
+}
+
+.profile-form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.cancel-btn,
+.save-btn {
+  min-width: 90px;
+  padding: 8px 16px;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+.filters-panel {
+  background-color: white;
+  padding: 16px;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+  max-width: 300px;
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filter-btn {
+  text-transform: none;
+}
+
+.logout-btn-blue {
+  background-color: #1976d2;
+  color: white;
+  text-transform: none;
+}
+
+.logout-btn-blue:hover {
+  background-color: #115293;
+}
+
+/* =========================== */
+/* HORIZONTAL CARD STYLES */
+/* =========================== */
+
+.horizontal-card {
+  display: flex;
+  flex-direction: row;
+  height: 250px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.horizontal-card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.horizontal-card-image {
+  width: 50%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.horizontal-card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.horizontal-card-provider {
+  font-size: 1rem;
+  color: #666;
+}
+
+.button-container {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.horizontal-card-tab {
+  position: relative;
+  padding: 5px 12px;
+  border-radius: 25px;
+  border: none;
+  color: #585966;
+  background-color: rgb(241, 239, 239);
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.horizontal-card-tabs {
+  flex-direction: row;
+  justify-content: space-between;
+  display: flex;
+}
+
+/* Filter Toggle Button */
+.filter-toggle-btn {
+  background-color: white;
+  border: 1px solid #6C5ED8;
+  color: #6C5ED8;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-toggle-btn:hover {
+  background-color: #f1efff;
+  border-color: #5a4dcf;
+}
+
+.filters-panel {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  padding: 20px 24px;
+  max-width: 340px;
+  margin-top: 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+.filters-panel label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 14px;
+  cursor: pointer;
+}
+
+.filters-panel input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #2b6cb0;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+}
+
+.filters-panel input[type="checkbox"]:hover {
+  transform: scale(1.1);
+}
+
+.left-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.right-button {
+  margin-left: auto;
+}
+
+/* =========================== */
+/* VERTICAL CARD FOR PETITIONS */
+/* =========================== */
+
+.vertical-card {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.vertical-card:hover {
+  transform: translateY(-3px);
+}
+
+.vertical-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.vertical-card-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.vertical-card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #222;
+}
+
+.vertical-card-subtitle {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.vertical-card-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.vertical-card-tag {
+  background-color: #e0e0e0;
+  border-radius: 16px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  color: #333;
+}
+
+.vertical-card-footer {
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: auto;
+}

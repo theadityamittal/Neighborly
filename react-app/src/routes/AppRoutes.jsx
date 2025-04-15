@@ -11,7 +11,9 @@ import { selectAuth } from "../redux/authSlice";
 // Protected route component
 const ProtectedRoute = ({ children }) => {
   const { access } = useSelector(selectAuth);
-  console.log(access);
+
+  // uncomment for development purposes
+  // return children;
   
   if (!access) {
     return <Navigate to="/login" />;
@@ -66,6 +68,16 @@ const AppRoutes = () => {
           </ProtectedRoute>
         } />
         <Route path="/petitions" element={
+          <ProtectedRoute>
+            <Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>
+          </ProtectedRoute>
+        } />
+        <Route path="/petition/:id" element={
+          <ProtectedRoute>
+            <Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>
+          </ProtectedRoute>
+        } />
+        <Route path="/create-petition" element={
           <ProtectedRoute>
             <Dashboard currentRoute={currentRoute} setCurrentRoute={setCurrentRoute} handleItemClick={handleItemClick}/>
           </ProtectedRoute>

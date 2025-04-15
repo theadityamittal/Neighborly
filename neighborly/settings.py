@@ -12,10 +12,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import environ
+import os
 
 # Load Env variables
 env = environ.Env()
-environ.Env.read_env()
+environ.Env.read_env('./.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,7 +31,7 @@ SECRET_KEY = 'django-insecure-x9ie=8q$d7jsxo#mg%(5)*ul8uxq!4%m92w(7lwt9qjo8swe4s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['3.145.158.84', 'localhost']
+ALLOWED_HOSTS = ['3.145.158.84', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -50,6 +51,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.core',
+    'drf_yasg',
+    'neighborly_tools',
+    'neighborly_bulletin',
+    'storages',
 ]
 
 REST_FRAMEWORK = {
@@ -74,7 +79,8 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://3.145.158.84"
+    "http://3.145.158.84",
+    "http://127.0.0.1:3000",
 ]
 
 ROOT_URLCONF = 'neighborly.urls'
@@ -97,6 +103,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'neighborly.wsgi.application'
 
+AWS_ACCESS_KEY_ID = env('access_key')
+AWS_SECRET_ACCESS_KEY = env('secret_key')
+AWS_STORAGE_BUCKET_NAME = env('bucket_name')
+AWS_S3_REGION_NAME = env('region_name')
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+AWS_QUERYSTRING_AUTH = False
+
+# Use S3 as the default storage for uploaded files:
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases

@@ -1,6 +1,10 @@
-from django.urls import path
-from .views import TestEvents
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import EventViewSet
+
+router = DefaultRouter()
+router.register(r'events', EventViewSet)
 
 urlpatterns = [
-    path('grabEventsData/', TestEvents.as_view(), name='grabEventsData'),
+    path('api/', include(router.urls)),
 ]

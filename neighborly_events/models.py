@@ -1,4 +1,12 @@
 from django.db import models
+import os
+import uuid
+from django.utils.timezone import now
+
+def event_image_upload_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = f"{uuid.uuid4().hex}.{ext}"
+    return os.path.join("events/uploads/", filename)
 
 class Event(models.Model):
     
@@ -15,6 +23,7 @@ class Event(models.Model):
     recurring = models.BooleanField(default=False)
     max_attendees = models.IntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to=event_image_upload_path, null=True, blank=True)
 
 class EventSignUp(models.Model):
     signup_id = models.AutoField(primary_key=True)
