@@ -12,7 +12,6 @@ function HorizontalCard({
   viewType,
   onView // this is passed from CardTest to trigger showing VerticalCard
 }) {
-  // console.log("HorizontalCard props:", {id, title, provider, location, closestAvailability, image, tabs, viewType, onView});
   const handleClick = () => {
     console.log(`You clicked on card ID: ${id}`);
     if (onView) {
