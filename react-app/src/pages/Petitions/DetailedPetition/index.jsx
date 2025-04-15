@@ -1,10 +1,91 @@
 import React from "react";
 import './styles.css'; // You'll need to create this CSS file
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { useState, useEffect } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // Assuming you're using Material UI
 
-const DetailedPetition = ({petitionDetails}) => {
-  // Check if petitionDetails exists to avoid errors
-  if (!petitionDetails) {
+const DetailedPetition = () => {
+  const { id } = useParams();
+  const [petitionDetails, setPetitionDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const handleSignPetition = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      await axios.post(`http://localhost:8000/petitions/signPetition/${id}/`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      // Re-fetch petition details to update count
+      const response = await axios.get(`http://localhost:8000/petitions/grabPetitionData/${id}/`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const { petition, petition_signatures } = response.data;
+
+      setPetitionDetails(prev => ({
+        ...prev,
+        numberSigned: petition_signatures.length
+      }));
+    } catch (err) {
+      console.error("Error signing petition:", err);
+      alert("Failed to sign petition.");
+    }
+  };
+
+  const handleShare = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      alert("Petition link copied to clipboard!");
+    } catch (err) {
+      console.error("Clipboard error:", err);
+      alert("Could not copy link.");
+    }
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    const fetchPetition = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/petitions/grabPetitionData/${id}/`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        const { petition, petition_signatures } = response.data;
+
+        const processed = {
+          ...petition,
+          id: petition.petition_id,
+          provider: petition.organizer_id,
+          tabs: petition.tags,
+          numberSigned: petition_signatures.length,
+          petitionDate: new Date(petition.created_at).toLocaleDateString(),
+          targetSignatures: petition.target,
+          location: "Community Center", // Optional placeholder
+          detailedDescription: petition.description,
+          image: "/default.jpg"
+        };
+
+        setPetitionDetails(processed);
+      } catch (err) {
+        console.error("Error fetching petition details:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPetition();
+  }, [id]);
+
+  if (loading || !petitionDetails) {
     return <div className="loading">Loading petition details...</div>;
   }
 
@@ -72,8 +153,8 @@ const DetailedPetition = ({petitionDetails}) => {
             <p className="petition-description">{petitionDetails.detailedDescription}</p>
           </div>
           <div className="petition-cta">
-            <button className="sign-petition-button">Sign this petition</button>
-            <button className="share-petition-button">Share</button>
+            <button className="sign-petition-button" onClick={handleSignPetition}>Sign this petition</button>
+            <button className="share-petition-button" onClick={handleShare}>Share</button>
           </div>
         </div>
       </div>

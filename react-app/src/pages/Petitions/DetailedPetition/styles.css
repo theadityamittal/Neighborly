@@ -197,3 +197,21 @@
     font-size: 18px;
     color: #666;
   }
+
+  .sign-petition-button.signed {
+    background-color: #aaa;
+  }
+  
+  .progress-bar-container {
+    background-color: #e0e0e0;
+    height: 16px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .animated-bar {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.6s ease-in-out;
+    border-radius: 8px;
+  }

@@ -72,6 +72,8 @@ const Login = () => {
       console.log(response.data);
 
       dispatch(login(response.data));
+      localStorage.setItem('token', response.data.access);
+      localStorage.setItem('refresh', response.data.refresh);
       navigate('/', { state: { message: 'Registration successful! Please log in.' } });
 
     } catch (err) {

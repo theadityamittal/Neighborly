@@ -9,5 +9,6 @@ urlpatterns = [
     path('petitions/', include('neighborly_petitions.urls')),
     path('events/', include('neighborly_events.urls')),
     path('', include('apps.core.urls')),
-    path('api/bulletin/', include('neighborly_bulletin.urls')),
+    path('posts/', include('neighborly_bulletin.urls')),  # ✅ This must be added
+
 ]
