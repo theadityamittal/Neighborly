@@ -16,7 +16,7 @@ const Petitions = ({ setPetitionDetails }) => {
   const fetchPetitions = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('access_token');
       console.log("🪪 Token being used for auth:", token);
       const response = await axios.get("http://localhost:8000/petitions/grabPetitionData/", {
         headers: {

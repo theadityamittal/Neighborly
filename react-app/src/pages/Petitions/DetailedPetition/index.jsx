@@ -11,7 +11,7 @@ const DetailedPetition = () => {
   const [loading, setLoading] = useState(true);
 
   const handleSignPetition = async () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     try {
       await axios.post(`http://localhost:8000/petitions/signPetition/${id}/`, {}, {
         headers: {
@@ -49,7 +49,7 @@ const DetailedPetition = () => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
 
     const fetchPetition = async () => {
       try {

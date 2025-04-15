@@ -28,7 +28,7 @@ const CreatePetition = ({ setNewPetition, refreshPetitions }) => {
     setSuccessMessage(null);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
       const tagsList = formData.tags.split(",").map(tag => tag.trim());
 
       const payload = {

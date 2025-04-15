@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { loginUser } from '../../../services/authService';
-import { login } from '../../../redux/authSlice';
+import { loginUser, getUserInformation } from '../../../services/authService';
+import { login, storeUserInformation } from '../../../redux/authSlice';
 import './Login.css';
 
 const Login = () => {
@@ -72,8 +72,9 @@ const Login = () => {
       console.log(response.data);
 
       dispatch(login(response.data));
-      localStorage.setItem('token', response.data.access);
-      localStorage.setItem('refresh', response.data.refresh);
+      localStorage.setItem("access_token", response.data.access);
+      localStorage.setItem("refresh_token", response.data.refresh); 
+
       navigate('/', { state: { message: 'Registration successful! Please log in.' } });
 
     } catch (err) {

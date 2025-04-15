@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.core',
+    'drf_yasg',
     'neighborly_tools',
     'neighborly_bulletin',
 ]
