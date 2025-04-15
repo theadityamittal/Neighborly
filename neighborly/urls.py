@@ -37,7 +37,7 @@ urlpatterns = [
     
     #api
     path('api/bulletin/', include('neighborly_bulletin.urls')),
-    path('api/', include('neighborly_services.urls')),
+    path('api/services/', include('neighborly_services.urls')),
 
     # JWT Token endpoints
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # login

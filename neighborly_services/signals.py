@@ -7,7 +7,7 @@ from utils.availability import get_earliest_availability
 @receiver(post_save, sender=ServiceSignUp)
 def update_service_availability_on_signup(sender, instance, created, **kwargs):
     if created:
-        service = instance.service_id
+        service = instance.service
         today_str = date.today().isoformat()
 
         # Make sure unavailable_dates is a list
