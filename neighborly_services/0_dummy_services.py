@@ -12,8 +12,8 @@ dummy_services = [
         "price": "$7 / Day",
         "viewType": "card",
         "tabs": ["Yoga", "Fitness"],
-        "images": ["/static/images/yoga1.jpg", "/static/images/yoga2.jpg"]
-    },
+        "images": ["https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/yoga1.jpg", "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/yoga2.jpg"]
+    }, 
     {
         "title": "Gourmet Cooking Workshop",
         "provider": "MasterChef Academy",
@@ -23,7 +23,7 @@ dummy_services = [
         "price": "$15 / Day",
         "viewType": "card",
         "tabs": ["Cooking", "Food"],
-        "images": ["/static/images/cooking1.jpg", "/static/images/cooking2.jpg"]
+        "images": ["https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/cooking1.jpg", "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/cooking2.jpg"]
     },
     {
         "title": "Photography Bootcamp",
@@ -34,7 +34,7 @@ dummy_services = [
         "price": "$20 / Day",
         "viewType": "card",
         "tabs": ["Photography", "Art"],
-        "images": ["/static/images/photo1.jpg"]
+        "images": ["https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/photo1.jpg"]
     },
     {
         "title": "Digital Marketing Course",
@@ -45,7 +45,7 @@ dummy_services = [
         "price": "$10 / Day",
         "viewType": "card",
         "tabs": ["Marketing", "Business"],
-        "images": ["/static/images/marketing1.jpg"]
+        "images": ["https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/marketing1.jpg"]
     },
     {
         "title": "Pilates Training Session",
@@ -56,7 +56,7 @@ dummy_services = [
         "price": "$12 / Day",
         "viewType": "card",
         "tabs": ["Pilates", "Fitness"],
-        "images": ["/static/images/pilates1.jpg"]
+        "images": ["https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/pilates1.jpg"]
     },
     {
         "title": "Tree Climbing Workshop",
@@ -67,7 +67,7 @@ dummy_services = [
         "price": "$18 / Day",
         "viewType": "card",
         "tabs": ["Adventure", "Fitness"],
-        "images": ["/static/images/tree1.jpg"]
+        "images": ["https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/tree1.jpg"]
     },
 ]
 
