@@ -71,7 +71,7 @@ const DetailedPetition = () => {
           targetSignatures: petition.target,
           location: "Community Center", // Optional placeholder
           detailedDescription: petition.description,
-          image: "/default.jpg"
+          image: petition.hero_image,
         };
 
         setPetitionDetails(processed);

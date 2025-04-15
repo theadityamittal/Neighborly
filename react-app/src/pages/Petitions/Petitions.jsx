@@ -37,7 +37,7 @@ const Petitions = ({ setPetitionDetails }) => {
           provider: petition.organizer_id,
           tabs: petition.tags,
           numberSigned,
-          image: '/default.jpg', // Optional: set based on tag or ID
+          image: petition.hero_image, // Optional: set based on tag or ID
         };
       });
 
