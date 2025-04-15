@@ -162,7 +162,7 @@ const Services = () => {
           isOpen={!!selectedService}
           onClose={handleClose}
           item={selectedServiceWithDisable}
-          type="service" //must match with api prefix
+          type="service" //must match with api prefix without s
         />
       )}
     </div>

@@ -2,9 +2,29 @@ from rest_framework import serializers
 from .models import ServiceItem, ServiceSignUp#, ServiceStatus
 
 class ServiceItemSerializer(serializers.ModelSerializer):
+    # class Meta:
+    #     model = ServiceItem
+    #     fields = '__all__'
+    closestAvailability = serializers.DateField(source="earliest_availability", read_only=True)
+
     class Meta:
         model = ServiceItem
-        fields = '__all__'
+        fields = [
+            "service_id",
+            "title",
+            "description",
+            "service_provider",      # still the user ID for now
+            "location",
+            "date_posted",
+            "available",
+            "waitlist",
+            "closestAvailability",   # renamed from earliest_availability
+            "unavailable_dates",
+            "price",
+            "view_type",
+            "tabs",
+            "images"
+        ]
 
 class ServiceSignupSerializer(serializers.ModelSerializer):
     class Meta:
