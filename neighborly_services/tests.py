@@ -3,6 +3,9 @@ from rest_framework.test import APITestCase
 from django.urls import reverse
 from rest_framework import status
 
+from neighborly_services.models import ServiceItem, ServiceSignUp
+
+
 class ServiceTests(APITestCase):
     
     def setUp(self):

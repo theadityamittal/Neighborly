@@ -21,6 +21,8 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type }) => {
     // Dynamically resolve the item ID key (e.g., service_id, event_id, etc.)
     const idKey = `${type}_id`;
     const itemId = item?.[idKey]
+
+    console.log("Item ID:", item);
   
     if (!itemId || !type) {
       alert("Invalid item or type.");
@@ -28,17 +30,22 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type }) => {
     }
   
     const url = `${process.env.REACT_APP_BACKEND_URL}/api/${type}s/${itemId}/signup/`;
+    console.log("RSVP URL:", url);
   
     try {
       const response = await axiosInstance.post(url, {
-        start_date: startDate?.toISOString().split("T")[0], // "YYYY-MM-DD"
-        end_date: endDate?.toISOString().split("T")[0],
+        // start_date: startDate?.toISOString().split("T")[0], // "YYYY-MM-DD"
+        // end_date: endDate?.toISOString().split("T")[0],
+        start_date: new Date(startDate).toISOString().split("T")[0],
+        end_date: new Date(endDate).toISOString().split("T")[0],
         messages: message,
         price: price,
       });
       console.log("Submitting RSVP with:", {
-        start_date: startDate?.toISOString().split("T")[0],
-        end_date: endDate?.toISOString().split("T")[0],
+        // start_date: startDate?.toISOString().split("T")[0],
+        // end_date: endDate?.toISOString().split("T")[0],
+        start_date: new Date(startDate).toISOString().split("T")[0],
+        end_date: new Date(endDate).toISOString().split("T")[0],
         messages: message,
         price: price
       });

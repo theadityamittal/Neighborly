@@ -6,11 +6,11 @@ class ServiceItemSerializer(serializers.ModelSerializer):
     #     model = ServiceItem
     #     fields = '__all__'
     closestAvailability = serializers.DateField(source="earliest_availability", read_only=True)
-    id = serializers.IntegerField(source="service_id", read_only=True)
+    #id = serializers.IntegerField(source="service_id", read_only=True)
     class Meta:
         model = ServiceItem
         fields = [
-            "id",
+            "service_id",
             "title",
             "description",
             "service_provider",      # still the user ID for now
