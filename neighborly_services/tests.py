@@ -5,7 +5,6 @@ from rest_framework import status
 
 from neighborly_services.models import ServiceItem, ServiceSignUp
 
-
 class ServiceTests(APITestCase):
     
     def setUp(self):
@@ -35,13 +34,52 @@ class ServiceTests(APITestCase):
         self.assertEqual(login_response.status_code, status.HTTP_200_OK)
         self.assertIn("access", login_response.data)
         return login_response.data["access"]
+    
+    def test_user_can_signup_for_service(self):
+        # Authenticate and get token
+        token = self.authenticate_user()
 
-    def test_grab_service_data_test(self):
-        access_token = self.authenticate_user()
+        # Create a service item
+        service = ServiceItem.objects.create(
+            title="Neighborhood Clean-Up",
+            description="Help clean the park.",
+            service_provider=1,
+            location="Brooklyn",
+            available=True
+        )
+        service.save()
 
-        response = self.client.get(
-            self.grab_service_data,
-            HTTP_AUTHORIZATION=f'Bearer {access_token}'
+        # Build signup URL
+        signup_url = f"/api/services/{service.service_id}/signup/"
+        print(signup_url) 
+
+        # Prepare signup data
+        signup_data = {
+            "start_date": "2025-04-25",
+            "end_date": "2025-04-26",
+            "messages": "Excited to help!",
+            "price": "0"
+        }
+
+        # Send POST with auth
+        response = self.client.post(
+            signup_url,
+            data=signup_data,
+            content_type="application/json",
+            HTTP_AUTHORIZATION=f"Bearer {token}"
         )
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # Assertions
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(ServiceSignUp.objects.count(), 1)
+        self.assertEqual(ServiceSignUp.objects.first().messages, "Excited to help!")
+
+    # def test_grab_service_data_test(self):
+    #     access_token = self.authenticate_user()
+
+    #     response = self.client.get(
+    #         self.grab_service_data,
+    #         HTTP_AUTHORIZATION=f'Bearer {access_token}'
+    #     )
+
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)

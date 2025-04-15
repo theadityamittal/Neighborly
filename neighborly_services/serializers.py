@@ -26,6 +26,11 @@ class ServiceItemSerializer(serializers.ModelSerializer):
             "images"
         ]
 
+class ServiceItemDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ServiceItem
+        fields = '__all__'
+
 class ServiceSignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceSignUp
