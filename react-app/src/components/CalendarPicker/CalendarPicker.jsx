@@ -8,7 +8,7 @@ import { PickersDay } from "@mui/x-date-pickers/PickersDay";
 import clsx from "clsx";
 import "./CalendarPicker.css";
 
-const CalendarPicker = ({ selectedDate, onSelect, unavailableDates = [], disableBeforeToday = false }) => {
+const CalendarPicker = ({ selectedDate, onSelect, unavailableDates = [], disableBeforeToday = false, minDate = null }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const pickerRef = useRef();
@@ -64,6 +64,7 @@ const CalendarPicker = ({ selectedDate, onSelect, unavailableDates = [], disable
             setIsOpen(false);
           }}
           shouldDisableDate={(date) => isUnavailable(date) || isBeforeToday(date)}
+          minDate={minDate ? dayjs(minDate) : undefined}
           renderDay={renderDay}
           format="YYYY-MM-DD"
           slotProps={{

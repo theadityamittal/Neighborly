@@ -131,6 +131,7 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type }) => {
                 onSelect={setEndDate}
                 unavailableDates={item.unavailableDates}
                 disableBeforeToday={item.disableBeforeToday}
+                minDate={startDate} // Disable dates before the start date
                 />
             </div>
             </div>
