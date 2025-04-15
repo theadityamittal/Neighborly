@@ -16,7 +16,7 @@ import os
 
 # Load Env variables
 env = environ.Env()
-environ.Env.read_env()
+environ.Env.read_env('./.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'neighborly_tools',
     'neighborly_bulletin',
+    'storages',
 ]
 
 REST_FRAMEWORK = {
@@ -102,6 +103,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'neighborly.wsgi.application'
 
+AWS_ACCESS_KEY_ID = env('access_key')
+AWS_SECRET_ACCESS_KEY = env('secret_key')
+AWS_STORAGE_BUCKET_NAME = env('bucket_name')
+AWS_S3_REGION_NAME = env('region_name')
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+AWS_QUERYSTRING_AUTH = False
+
+# Use S3 as the default storage for uploaded files:
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
