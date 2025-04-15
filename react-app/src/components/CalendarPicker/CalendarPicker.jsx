@@ -53,22 +53,29 @@ const CalendarPicker = ({ selectedDate, onSelect, unavailableDates = [], disable
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker
-        value={selectedDate ? dayjs(selectedDate) : null}
-        onChange={(newDate) =>
-          onSelect(newDate ? newDate.format("YYYY-MM-DD") : null)
-        }
-        shouldDisableDate={(date) => isUnavailable(date) || isBeforeToday(date)}
-        renderDay={renderDay}
-        format="YYYY-MM-DD"
-        slotProps={{
-          textField: {
-            size: 'small',
-            fullWidth: true,
-            placeholder: 'Select a date',
-          },
-        }}
-      />
+      <div ref={pickerRef}>
+        <DatePicker
+          open={isOpen}
+          onOpen={() => setIsOpen(true)}
+          onClose={() => setIsOpen(false)}
+          value={selectedDate ? dayjs(selectedDate) : null}
+          onChange={(newDate) => {
+            onSelect(newDate ? newDate.format("YYYY-MM-DD") : null);
+            setIsOpen(false);
+          }}
+          shouldDisableDate={(date) => isUnavailable(date) || isBeforeToday(date)}
+          renderDay={renderDay}
+          format="YYYY-MM-DD"
+          slotProps={{
+            textField: {
+              size: "small",
+              fullWidth: true,
+              placeholder: "Select a date",
+              onClick: () => setIsOpen(true),
+            },
+          }}
+        />
+      </div>
     </LocalizationProvider>
   );
 };
