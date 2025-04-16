@@ -4,23 +4,26 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // Assuming you're using Material UI
+import axiosInstance from "../../../utils/axiosInstance";
+import { useSelector } from "react-redux";
 
 const DetailedPetition = () => {
   const { id } = useParams();
   const [petitionDetails, setPetitionDetails] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { access } = useSelector((state) => state.auth);
 
   const handleSignPetition = async () => {
     const token = localStorage.getItem("access_token");
     try {
-      await axios.post(`http://localhost:8000/petitions/signPetition/${id}/`, {}, {
+      await axiosInstance.post(`/petitions/signPetition/${id}/`, {}, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
 
       // Re-fetch petition details to update count
-      const response = await axios.get(`http://localhost:8000/petitions/grabPetitionData/${id}/`, {
+      const response = await axiosInstance.get(`/petitions/grabPetitionData/${id}/`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -49,13 +52,12 @@ const DetailedPetition = () => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("access_token");
 
     const fetchPetition = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/petitions/grabPetitionData/${id}/`, {
+        const response = await axiosInstance.get(`/petitions/grabPetitionData/${id}/`, {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${access}`
           }
         });
 
