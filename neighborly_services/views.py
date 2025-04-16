@@ -38,7 +38,7 @@ class ServiceItemDetailView(APIView):
         except ServiceItem.DoesNotExist:
             return Response({"error": "Service not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = ServiceItemDetailSerializer(service)  # ✅ Pass a single object
+        serializer = ServiceItemDetailSerializer(service) 
         return Response(serializer.data)
 
 class ServiceItemSignUpView(APIView):
