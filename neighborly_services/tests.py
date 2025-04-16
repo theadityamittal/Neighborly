@@ -32,8 +32,8 @@ class ServiceTests(APITestCase):
         }, format='json')
 
         self.assertEqual(login_response.status_code, status.HTTP_200_OK)
-        self.assertIn("access", login_response.data)
-        return login_response.data["access"]
+        self.assertIn("access_token", login_response.data)
+        return login_response.data["access_token"]
     
     def test_user_can_signup_for_service(self):
         # Authenticate and get token

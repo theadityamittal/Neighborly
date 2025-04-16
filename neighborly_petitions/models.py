@@ -10,7 +10,13 @@ class Petition(models.Model):
     tags = models.JSONField(default=list, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     target = models.IntegerField()
-
+    location = models.CharField(max_length=100, default="Unknown")
+    provider = models.CharField(max_length=100, default="Anonymous")
+    voting_ends_at = models.DateField(null=True, blank=True)
+    hero_image = models.URLField(
+        max_length=500,
+        default="https://source.unsplash.com/featured/?nature,protest"
+    )
     def __str__(self):
         return self.title
 

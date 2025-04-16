@@ -1,5 +1,6 @@
 __pycache__/
 *.pyc
+.DS_Store
 apps/core/__pycache__/
 apps/__pycache__/
 node_modules/
