@@ -113,7 +113,7 @@ class ServiceTests(APITestCase):
         )
 
         # Build PATCH URL
-        patch_url = f"/api/services/signup/{signup.signup_id}/status/"  # make sure this matches your url pattern
+        patch_url = f"/api/services/signup/{signup.signup_id}/status/"
 
         # Send PATCH
         response = self.client.patch(
