@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import ServiceItem, ServiceSignUp
 
-from .serializers import ServiceItemSerializer, ServiceSignupSerializer
+from .serializers import ServiceItemSerializer, ServiceSignupSerializer, ServiceItemDetailSerializer
 from utils.availability import get_earliest_availability
 
 from datetime import timedelta
@@ -28,6 +28,17 @@ class ServiceItemListView(APIView):
     def get(self, request):
         services = ServiceItem.objects.all()
         serializer = ServiceItemSerializer(services, many=True)
+        return Response(serializer.data)
+
+class ServiceItemDetailView(APIView):
+    permission_classes = [IsAuthenticated] 
+    def get(self, request, service_id):
+        try:
+            service = ServiceItem.objects.get(service_id=service_id)
+        except ServiceItem.DoesNotExist:
+            return Response({"error": "Service not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = ServiceItemDetailSerializer(service) 
         return Response(serializer.data)
 
 class ServiceItemSignUpView(APIView):

@@ -26,7 +26,7 @@ const CalendarPicker = ({ selectedDate, onSelect, unavailableDates = [], disable
   }, []);
 
   const unavailableSet = new Set(unavailableDates);
-  console.log("Unavailable Dates:", unavailableDates);
+  // console.log("Unavailable Dates:", unavailableDates);
   const isUnavailable = (date) => {
     const formatted = dayjs(date).format("YYYY-MM-DD");
     return unavailableSet.has(formatted);
