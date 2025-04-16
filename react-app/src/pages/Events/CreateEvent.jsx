@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { uploadEvent } from "../../services/eventService";
+import { useNavigate } from "react-router-dom";
 
 const CreateEvent = ({ onBack }) => {
   const [title, setTitle] = useState('');
@@ -10,6 +11,7 @@ const CreateEvent = ({ onBack }) => {
   const [image, setImage] = useState(null);
   const {name, user_id, access } = useSelector((state) => state.auth);
   const [time, setTime] = useState('');
+  const navigate = useNavigate();
 
   const handleEventSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +31,10 @@ const CreateEvent = ({ onBack }) => {
 
     try {
       const response = await uploadEvent(formData, access);
-            console.log("Profile updated successfully:", response.data);
+      console.log("Created Event successfully:", response.data);
+      alert("Event created successfully!");
+      onBack();
+
     } catch (error) {
       console.error("Error updating profile:", error);
     }
