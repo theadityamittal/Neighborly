@@ -1,7 +1,9 @@
 {
   "dependencies": {
+    "@mui/x-date-pickers": "^7.28.3",
     "axios": "^1.8.4",
     "date-fns": "^4.1.0",
+    "dayjs": "^1.11.13",
     "lucide-react": "^0.488.0",
     "react-datepicker": "^8.2.1",
     "react-toastify": "^11.0.5"
