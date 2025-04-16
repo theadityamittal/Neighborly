@@ -3,6 +3,8 @@ import axios from "axios";
 import VerticalCard from '../../components/VerticalCard/VerticalCard';
 import { useNavigate } from "react-router";
 import CreatePetition from "./CreatePetition";
+import { useSelector } from "react-redux";
+import axiosInstance from "../../utils/axiosInstance"; 
 import "./petitions.css";
 
 const Petitions = ({ setPetitionDetails }) => {
@@ -11,16 +13,14 @@ const Petitions = ({ setPetitionDetails }) => {
   const [error, setError] = useState(null);
   const [newpetition, setNewPetition] = useState(false);
   const navigate = useNavigate();
-
+  const { access } = useSelector((state) => state.auth);
   // Define fetchPetitions as a separate function
   const fetchPetitions = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem('access_token');
-      console.log("🪪 Token being used for auth:", token);
-      const response = await axios.get("http://localhost:8000/petitions/grabPetitionData/", {
+      const response = await axiosInstance.get("/petitions/grabPetitionData/", {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${access}`
         }
       });
 
