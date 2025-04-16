@@ -6,7 +6,7 @@ class ServiceItemSerializer(serializers.ModelSerializer):
     #     model = ServiceItem
     #     fields = '__all__'
     closestAvailability = serializers.DateField(source="earliest_availability", read_only=True)
-
+    #id = serializers.IntegerField(source="service_id", read_only=True)
     class Meta:
         model = ServiceItem
         fields = [
@@ -25,6 +25,11 @@ class ServiceItemSerializer(serializers.ModelSerializer):
             "tabs",
             "images"
         ]
+
+class ServiceItemDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ServiceItem
+        fields = '__all__'
 
 class ServiceSignupSerializer(serializers.ModelSerializer):
     class Meta:

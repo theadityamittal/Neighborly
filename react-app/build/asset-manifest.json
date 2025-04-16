@@ -1,14 +1,26 @@
 {
   "files": {
-    "main.css": "/static/css/main.532f322d.css",
-    "main.js": "/static/js/main.3c64f4ea.js",
+    "main.css": "/static/css/main.525e37da.css",
+    "main.js": "/static/js/main.71466a17.js",
+    "static/media/pilates1.jpg": "/static/media/pilates1.9916cc1aa0e2c6ed8c78.jpg",
+    "static/media/cooking2.jpg": "/static/media/cooking2.65d114925ebe92c91f12.jpg",
+    "static/media/cooking1.jpg": "/static/media/cooking1.b7212a5b9ae2896db62c.jpg",
+    "static/media/tree1.jpg": "/static/media/tree1.4594727da6c8faa95b68.jpg",
+    "static/media/yoga1.jpg": "/static/media/yoga1.6aae77e84c65d02c8ab6.jpg",
+    "static/media/photo1.jpg": "/static/media/photo1.d4e18e49e3d5914fe25f.jpg",
+    "static/media/yoga2.jpg": "/static/media/yoga2.3d9248b3de3029383430.jpg",
+    "static/media/drill1.jpg": "/static/media/drill1.158ec1423c04f1d92bad.jpg",
+    "static/media/wrench1.jpg": "/static/media/wrench1.6dacf970be4c9c11bfd7.jpg",
+    "static/media/marketing1.jpg": "/static/media/marketing1.a4dfeb0bb2592fa14689.jpg",
+    "static/media/chainsaw1.jpg": "/static/media/chainsaw1.92e738a9c726d3d2bfe5.jpg",
+    "static/media/mower1.jpg": "/static/media/mower1.22dbb1d0c868a6648453.jpg",
     "static/media/avatar.png": "/static/media/avatar.61739076a11d206f0e0c.png",
     "index.html": "/index.html",
-    "main.532f322d.css.map": "/static/css/main.532f322d.css.map",
-    "main.3c64f4ea.js.map": "/static/js/main.3c64f4ea.js.map"
+    "main.525e37da.css.map": "/static/css/main.525e37da.css.map",
+    "main.71466a17.js.map": "/static/js/main.71466a17.js.map"
   },
   "entrypoints": [
-    "static/css/main.532f322d.css",
-    "static/js/main.3c64f4ea.js"
+    "static/css/main.525e37da.css",
+    "static/js/main.71466a17.js"
   ]
 }
