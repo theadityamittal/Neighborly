@@ -25,7 +25,7 @@ export const getEventsByUser = async (formData, token) => {
     return null;
   }
   try {
-    const response = await axiosInstance.post('/events/api/events/filter_organizer_id/', formData, {
+    const response = await axiosInstance.get('/events/api/events/', {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'multipart/form-data'
