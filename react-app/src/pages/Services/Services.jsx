@@ -127,6 +127,8 @@ const Services = () => {
     setSelectedServiceId(null);
   };
 
+  
+
   const selectedService = services.find(service => service.service_id === selectedServiceId);
   const selectedServiceWithDisable = selectedService
     ? { ...selectedService, disableBeforeToday: true }
@@ -160,6 +162,7 @@ const Services = () => {
           isOpen={!!selectedService}
           onClose={handleClose}
           item={selectedServiceWithDisable}
+          type="service" //must match with api prefix without s
         />
       )}
     </div>

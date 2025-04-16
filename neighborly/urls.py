@@ -36,9 +36,8 @@ urlpatterns = [
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     
     #api
-    path('posts/', include('neighborly_bulletin.urls')),  # ✅ This must be added
-
-    path('api/', include('neighborly_services.urls')),
+    path('api/bulletin/', include('neighborly_bulletin.urls')),
+    path('api/services/', include('neighborly_services.urls')),
 
     # JWT Token endpoints
     path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),  # login
