@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../../utils/axiosInstance"; 
 import HorizontalCard from "../../components/HorizontalCard/HorizontalCard"; 
 import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
+import { useSelector } from "react-redux";
 
 //import "./Services.css";
 
@@ -102,11 +103,16 @@ const Services = () => {
   const [selectedServiceId, setSelectedServiceId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const { access } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await axiosInstance.get("/api/services/");
+        const res = await axiosInstance.get("/api/services/", {
+          headers: {
+            'Authorization': `Bearer ${access}`
+          }
+        });
         setServices(res.data);
         setLoading(false);
       } catch (err) {
@@ -129,7 +135,9 @@ const Services = () => {
 
   
 
-  const selectedService = services.find(service => service.service_id === selectedServiceId);
+  const selectedService = Array.isArray(services)
+  ? services.find(service => service.service_id === selectedServiceId)
+  : null;
   const selectedServiceWithDisable = selectedService
     ? { ...selectedService, disableBeforeToday: true }
     : null;
