@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "../petitions.css";
+import { useSelector } from "react-redux";
+import axiosInstance from "../../../utils/axiosInstance";
 
 const CreatePetition = ({ setNewPetition, refreshPetitions }) => {
   const [submitError, setSubmitError] = useState(null);
@@ -17,6 +19,7 @@ const CreatePetition = ({ setNewPetition, refreshPetitions }) => {
     description: "",
     hero_image: "",
   });
+  const { access } = useSelector((state) => state.auth);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,7 +31,6 @@ const CreatePetition = ({ setNewPetition, refreshPetitions }) => {
     setSuccessMessage(null);
 
     try {
-      const token = localStorage.getItem("access_token");
       const tagsList = formData.tags.split(",").map(tag => tag.trim());
 
       const payload = {
@@ -43,9 +45,9 @@ const CreatePetition = ({ setNewPetition, refreshPetitions }) => {
         hero_image: formData.hero_image || "https://source.unsplash.com/featured/?nature,protest"
       };
 
-      const res = await axios.post("http://localhost:8000/petitions/createPetition/", payload, {
+      const res = await axiosInstance.post("/petitions/createPetition/", payload, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${access}`,
           "Content-Type": "application/json",
         },
       });

@@ -94,7 +94,7 @@ const Services = () => {
 
   return (
     <div style={{ padding: "1rem" }}>
-      <h1>Services</h1>
+      <h1>Tools</h1>
       <div
         style={{
           display: "grid",
