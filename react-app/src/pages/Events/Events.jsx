@@ -208,7 +208,7 @@ const Events = () => {
   
 
   return (
-    <div className="p-6 max-w-7xl mx-auto" style={{ paddingLeft: "40px", paddingRight: "40px" }}>
+    <div className="p-6">
       {!showCreate ? (
         <>
           <div className="flex justify-between items-center mb-6">
@@ -224,7 +224,8 @@ const Events = () => {
                 key={event.event_id}
                 style={{
                   width: "50%",
-                  padding: "12px",
+                  paddingRight: "12px",
+                  paddingTop: "12px",
                   boxSizing: "border-box",
                 }}
               >
