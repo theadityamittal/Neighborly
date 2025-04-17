@@ -9,7 +9,6 @@ import Services from "../../pages/Services/Services";
 import Events from "../../pages/Events/Events";
 import Petitions from "../../pages/Petitions/Petitions";
 import DetailedPetition from "../../pages/Petitions/DetailedPetition";
-import SearchBar from "../SearchBar";
 import UserProfile from "../../pages/UserProfile/UserProfile";
 import { getUserInformation } from "../../services/authService";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,7 +17,6 @@ import { storeUserInformation } from "../../redux/authSlice";
 const Dashboard = ({currentRoute, setCurrentRoute, handleItemClick}) => {
     const [activeItem, setActiveItem] = useState(null);
     const [petitionDetails, setPetitionDetails] = useState(null);
-    const [searchTerm, setSearchTerm] = useState("");
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.access);
@@ -138,10 +136,6 @@ const Dashboard = ({currentRoute, setCurrentRoute, handleItemClick}) => {
                     }}
                 />
                 <div className="page-content" style={{ flex: 1, marginLeft: "20px" }}>
-                    {/* Render SearchBar if activeItem is part of menuItems */}
-                    { activeItem && menuItems.some(item => item.name === activeItem.name) && (
-                        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterActiveContent}/>
-                    )}
                     {renderActiveContent()}
                 </div>
             </div>
