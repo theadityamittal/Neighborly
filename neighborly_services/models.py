@@ -12,15 +12,15 @@ class ServiceItem(models.Model):
     date_posted = models.DateTimeField(auto_now_add=True)
     available = models.BooleanField(default=True)
     waitlist = models.JSONField(default=list, blank=True)
-    earliest_availability = models.DateField(null=True, blank=True)
+    closestAvailability = models.DateField(null=True, blank=True)
     unavailable_dates = models.JSONField(default=list, blank=True)
     price = models.CharField(max_length=50, blank=True)  # or use DecimalField for calculations
     view_type = models.CharField(max_length=50, default="card")
-    tabs = models.JSONField(default=list, blank=True)
+    tags = models.JSONField(default=list, blank=True)
     images = models.JSONField(default=list, blank=True)
 
     def update_availability(self):
-        self.earliest_availability = get_earliest_availability(self.unavailable_dates)
+        self.closestAvailability = get_earliest_availability(self.unavailable_dates)
         self.save()
 
     def __str__(self):
