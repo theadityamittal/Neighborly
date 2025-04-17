@@ -4,6 +4,9 @@ from django.dispatch import receiver
 from datetime import date
 from .models import ServiceSignUp, ServiceItem
 from utils.availability import get_earliest_availability
+import logging
+
+logger = logging.getLogger(__name__)
 
 @receiver(post_save, sender=ServiceSignUp)
 def update_service_availability_on_signup(sender, instance, created, **kwargs):
@@ -20,7 +23,8 @@ def update_service_availability_on_signup(sender, instance, created, **kwargs):
             ud = json.loads(ud)
             if not isinstance(ud, list):
                 ud = []
-        except Exception:
+        except Exception as e:
+            logger.warning("Failed to decode unavailable_dates for service %s: %s", service.id, str(e))
             ud = []
     # Now safely append
     if today_str not in ud:
