@@ -6,8 +6,10 @@ import { selectAuth } from "../../redux/authSlice";
 import "./Header.css";
 import avatar from "../../assets/avatar.png"; 
 import logo from "../../assets/logo.png";
+import { useNavigate } from "react-router";
 
-const Header = ({handleItemClick}) => {
+const Header = () => {
+  const navigate = useNavigate();
 
   const { name } = useSelector(selectAuth);
   
@@ -15,7 +17,7 @@ const Header = ({handleItemClick}) => {
     <AppBar position="fixed" className="header">
       <Toolbar className="header-content">
         {/* Logo Section */}
-        <Box className="header-left" onClick={() => handleItemClick("/")}>
+        <Box className="header-left" onClick={() => navigate("/")}>
           <img src={logo} alt="Neighbourly Logo" className="logo" />
         </Box>
 
@@ -29,7 +31,7 @@ const Header = ({handleItemClick}) => {
           </IconButton> */}
 
           {/* Avatar & Name */}
-          <Box className="user-profile" onClick={() => handleItemClick("/profile")}>
+          <Box className="user-profile" onClick={() => navigate("/profile")}>
             <Avatar src={avatar} alt="User Avatar" className="profile-pic" />
             <Typography variant="body1" className="username">{name}</Typography>
           </Box>

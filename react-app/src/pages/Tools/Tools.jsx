@@ -75,7 +75,7 @@ const dummyTools = [
 ];
 
 
-const Services = () => {
+const Tools = () => {
   const [selectedServiceId, setSelectedServiceId] = useState(null);
   
   const handleView = (id) => {
@@ -123,4 +123,4 @@ const Services = () => {
   );
 };
 
-export default Services;
+export default Tools;

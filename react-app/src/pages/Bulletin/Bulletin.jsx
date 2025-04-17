@@ -3,7 +3,7 @@ import PostCard from "../../components/VerticalCard/PostCard";
 import CreatePost from "../../components/VerticalCard/CreatePost";
 import photo1 from "../../assets/img/photo1.jpg";
 
-const PostBoardPage = () => {
+const Bulletin = () => {
   const [posts, setPosts] = useState([
     {
       userName: "Jane Smith",
@@ -40,4 +40,4 @@ const PostBoardPage = () => {
   );
 };
 
-export default PostBoardPage;
+export default Bulletin;
