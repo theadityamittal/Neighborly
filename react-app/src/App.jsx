@@ -6,7 +6,6 @@ import { RouteProvider } from "./context/RouteContext";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import { store, persistor } from "./redux/store";
-import UpdatedRoutes from "./routes/UpdatesRoutes";
 
 function App() {
   return (
@@ -14,7 +13,7 @@ function App() {
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
           <RouteProvider>
-            <UpdatedRoutes />
+            <AppRoutes />
           </RouteProvider>
         </BrowserRouter>
       </PersistGate>      
