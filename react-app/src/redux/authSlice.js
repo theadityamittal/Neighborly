@@ -1,52 +1,63 @@
-import { Verified } from '@mui/icons-material';
+// authSlice.js
 import { createSlice } from '@reduxjs/toolkit';
-import { add } from 'date-fns';
-
 
 const initialState = {
-    name: '',
-    email: '',
-    address: '',
-    phoneNumber: '',
-    neighborhood: '',
-    access: '',
-    refresh: '',
-    user_id: '',
-    verified: false,
+  name: '',
+  email: '',
+  address: '',
+  phoneNumber: '',
+  neighborhood: '',
+  accountType: '',     // ← new
+  access: '',
+  refresh: '',
+  user_id: '',
+  verified: false,
 };
 
 export const authSlice = createSlice({
-    name: 'auth',
-    initialState,
-    reducers: {
-        login: (state, action) => {
-            state.access = action.payload.access;
-            state.refresh = action.payload.refresh;
-        },
-        storeUserInformation: (state, action) => {
-            state.name = action.payload.name;
-            state.address = action.payload.address;
-            state.phoneNumber = action.payload.phone_number;
-            state.email = action.payload.email;
-            state.neighborhood = action.payload.neighborhood;
-            state.user_id = action.payload.user_id;
-            state.verified = action.payload.verified;
-        },
-        setAccessToken: (state, action) => {
-            state.access = action.payload;
-        },
-        logout: (state) => {
-            state.name = '';
-            state.email = '';
-            state.address = '';
-            state.phoneNumber = '';
-            state.neighborhood = '';
-            state.access = '';
-            state.refresh = '';
-        },
+  name: 'auth',
+  initialState,
+  reducers: {
+    login: (state, action) => {
+      state.access  = action.payload.access;
+      state.refresh = action.payload.refresh;
     },
+    storeUserInformation: (state, action) => {
+      // destructure exactly the fields our DRF serializer returns
+      const {
+        name,
+        email,
+        address,
+        phone_number,
+        neighborhood,
+        account_type,
+        verified,
+        user_id,
+      } = action.payload;
+
+      state.name         = name;
+      state.email        = email;
+      state.address      = address;
+      state.phoneNumber  = phone_number;
+      state.neighborhood = neighborhood;
+      state.accountType  = account_type;   // ← map account_type
+      state.verified     = verified;
+      state.user_id      = user_id
+    },
+    setAccessToken: (state, action) => {
+      state.access = action.payload;
+    },
+    logout: (state) => {
+      Object.assign(state, initialState);
+    },
+  },
 });
 
-export const { login, logout, storeUserInformation, setAccessToken} = authSlice.actions;
+export const {
+  login,
+  logout,
+  storeUserInformation,
+  setAccessToken
+} = authSlice.actions;
 
 export const selectAuth = (state) => state.auth;

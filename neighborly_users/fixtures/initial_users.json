@@ -20,8 +20,8 @@
         "pk": 2,
         "fields": {
         "user_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
-        "name": "Bob Volunteer",
-        "email": "bob.volunteer@example.com",
+        "name": "Aditya Mittal",
+        "email": "aditya@gmail.com",
         "phone_number": "+15555550124",
         "address": "456 Oak Ave, Springfield",
         "neighborhood": "Uptown",
