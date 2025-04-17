@@ -1,0 +1,113 @@
+[
+    {
+      "model": "neighborly_tools.tool",
+      "pk": "b1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a3",
+      "fields": {
+        "owner_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "name": "Cordless Drill",
+        "description": "A powerful cordless drill suitable for all your drilling needs.",
+        "condition": "Used",
+        "availability": true
+      }
+    },
+    {
+      "model": "neighborly_tools.tool",
+      "pk": "c2a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1b4",
+      "fields": {
+        "owner_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+        "name": "Lawn Mower",
+        "description": "Electric lawn mower, perfect for medium‑sized yards.",
+        "condition": "New",
+        "availability": false
+      }
+    },
+    {
+      "model": "neighborly_tools.tool",
+      "pk": "d3a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1c5",
+      "fields": {
+        "owner_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "name": "Paint Sprayer",
+        "description": "High‑volume paint sprayer for walls and fences.",
+        "condition": "Used",
+        "availability": true
+      }
+    },
+    {
+      "model": "neighborly_tools.tool",
+      "pk": "e4a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1d6",
+      "fields": {
+        "owner_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+        "name": "Hammer",
+        "description": "Classic claw hammer, 16 oz head.",
+        "condition": "New",
+        "availability": true
+      }
+    },
+    {
+      "model": "neighborly_tools.tool",
+      "pk": "f5a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1e7",
+      "fields": {
+        "owner_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "name": "Electric Sander",
+        "description": "Orbital sander for smooth finishing of wood surfaces.",
+        "condition": "Used",
+        "availability": false
+      }
+    },
+    {
+      "model": "neighborly_tools.tool",
+      "pk": "a6a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1f8",
+      "fields": {
+        "owner_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+        "name": "Circular Saw",
+        "description": "7¼-inch circular saw, includes two blades.",
+        "condition": "New",
+        "availability": true
+      }
+    },
+    {
+      "model": "neighborly_tools.tool",
+      "pk": "b7a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a8",
+      "fields": {
+        "owner_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "name": "Leaf Blower",
+        "description": "Electric backpack leaf blower for easy yard cleanup.",
+        "condition": "Used",
+        "availability": true
+      }
+    },
+    {
+      "model": "neighborly_tools.tool",
+      "pk": "c8a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1b9",
+      "fields": {
+        "owner_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+        "name": "Pressure Washer",
+        "description": "Pressure washer with adjustable nozzle and detergent tank.",
+        "condition": "New",
+        "availability": false
+      }
+    },
+    {
+      "model": "neighborly_tools.tool",
+      "pk": "d9a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1c0",
+      "fields": {
+        "owner_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "name": "Electric Chainsaw",
+        "description": "Lightweight electric chainsaw for trimming branches.",
+        "condition": "Used",
+        "availability": true
+      }
+    },
+    {
+      "model": "neighborly_tools.tool",
+      "pk": "e1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1d1",
+      "fields": {
+        "owner_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+        "name": "Garden Tiller",
+        "description": "Electric garden tiller for soil preparation.",
+        "condition": "New",
+        "availability": true
+      }
+    }
+  ]
+  
