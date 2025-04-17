@@ -6,6 +6,8 @@ from .models import CustomUser
 from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import AllowAny
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class RegisterUserView(APIView):
     permission_classes = [AllowAny]
@@ -34,4 +36,14 @@ class UserDetailView(APIView):
         user = get_object_or_404(CustomUser, email=request.user.email)
         serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        return {
+            'access_token': data['access'],
+            'refresh_token': data['refresh']
+        }
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer

@@ -4,7 +4,7 @@ from django.urls import path, include
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-
+from neighborly_users.views import CustomTokenObtainPairView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -37,9 +37,9 @@ urlpatterns = [
     
     #api
     path('api/bulletin/', include('neighborly_bulletin.urls')),
-    path('api/', include('neighborly_services.urls')),
+    path('api/services/', include('neighborly_services.urls')),
 
     # JWT Token endpoints
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # login
+    path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),  # login
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # get new access token
 ]

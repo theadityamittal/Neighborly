@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Avatar, Button, Typography } from "@mui/material";
 import avatar from "../../assets/avatar.png";
 import { useDispatch } from "react-redux";
@@ -11,6 +11,7 @@ import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardM
 import VerticalCard from "../../components/VerticalCard/VerticalCard";
 import petitionData from "../Petitions/petitionData.json";
 import "./UserProfile.css";
+import { getEventsByUser } from "../../services/eventService";
 
 // Images
 import yoga1 from "../../assets/img/yoga1.jpg";
@@ -24,6 +25,7 @@ const UserProfile = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
+  const {access, user_id } = useSelector((state) => state.auth);
 
   const [filters, setFilters] = useState({
     myPosts: true,
@@ -32,6 +34,18 @@ const UserProfile = () => {
     hostedEvents: true,
     signedPetitions: true,
   });
+
+  useEffect(() => {
+    const getEventsUser = async () => {
+      try {
+        const response = await getEventsByUser({"organizer_id": user_id}, access);
+        return response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getEventsUser();
+  }, []);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

@@ -1,37 +1,58 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import VerticalCard from '../../components/VerticalCard/VerticalCard';
-import petitionData from './petitionData.json';
 import { useNavigate } from "react-router";
 import CreatePetition from "./CreatePetition";
-import "./petitions.css"
+import { useSelector } from "react-redux";
+import axiosInstance from "../../utils/axiosInstance"; 
+import "./petitions.css";
 
-const Petitions = ({setPetitionDetails}) => {
+const Petitions = ({ setPetitionDetails }) => {
   const [petitions, setPetitions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [newpetition, setNewPetition] = useState(false);
   const navigate = useNavigate();
+  const { access } = useSelector((state) => state.auth);
+  // Define fetchPetitions as a separate function
+  const fetchPetitions = async () => {
+    setLoading(true);
+    try {
+      const response = await axiosInstance.get("/petitions/grabPetitionData/", {
+        headers: {
+          Authorization: `Bearer ${access}`
+        }
+      });
+
+      const data = response.data;
+
+      const processed = data.petition.map((petition) => {
+        const numberSigned = data.petition_signatures.filter(
+          sig => sig.petition_id === petition.petition_id
+        ).length;
+
+        return {
+          ...petition,
+          id: petition.petition_id,
+          provider: petition.organizer_id,
+          tabs: petition.tags,
+          numberSigned,
+          image: petition.hero_image, // Optional: set based on tag or ID
+        };
+      });
+
+      setPetitions(processed);
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching petition data:", err);
+      setError("Failed to load petitions. Please try again later.");
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    setNewPetition(false);
-    const fetchPetitions = async () => {
-      setLoading(true);
-      try {
-        // In a real app, this would be your API endpoint
-        // const response = await fetch('https://api.example.com/petitions');
-        // const data = await response.json();
-        
-        // For development, use the local JSON file
-        setPetitions(petitionData);
-        setLoading(false);
-      } catch (err) {
-        console.error("Error fetching petition data:", err);
-        setError("Failed to load petitions. Please try again later.");
-        setLoading(false);
-      }
-    };
-
-    fetchPetitions();
+    setNewPetition(false); // reset new petition state
+    fetchPetitions(); // initial fetch when component mounts
   }, []);
 
   const handleCardClick = (id) => {
@@ -55,18 +76,16 @@ const Petitions = ({setPetitionDetails}) => {
     }}>
       {
         newpetition ? (
-          <CreatePetition setNewPetition={setNewPetition}/>
-        ) :
-        (
+          <CreatePetition 
+            setNewPetition={setNewPetition} 
+            refreshPetitions={fetchPetitions} // pass down the callback
+          />
+        ) : (
           <>
             <div className="petition-header">
               <div className="header-text">
-                <h2>
-                  Petitions
-                </h2>
-                <p>
-                  Explore and support petitions that matter to you.
-                </p>
+                <h2>Petitions</h2>
+                <p>Explore and support petitions that matter to you.</p>
               </div>
               <div className="petition-header-btn" onClick={() => setNewPetition(true)}>
                 + Create Petition
@@ -85,25 +104,26 @@ const Petitions = ({setPetitionDetails}) => {
                 </div>
               :
                 petitions.map((item) => (
-                <div key={item.id} style={{ 
-                  width: 'calc(25% - 20px)',
-                  minWidth: '350px',
-                  marginBottom: '20px'
-                }}>
-                  <VerticalCard
-                    id={item.id}
-                    title={item.title}
-                    provider={item.provider}
-                    location={item.location}
-                    closestAvailability={item.closestAvailability}
-                    image={item.image}
-                    viewType={item.viewType}
-                    tabs={item.tabs}
-                    numberSigned={item.numberSigned}
-                    handleClick={() => handleCardClick(item.id)}
-                  />
-                </div>
-              ))}
+                  <div key={item.id} style={{ 
+                    width: 'calc(25% - 20px)',
+                    minWidth: '350px',
+                    marginBottom: '20px'
+                  }}>
+                    <VerticalCard
+                      id={item.id}
+                      title={item.title}
+                      provider={item.provider}
+                      location={item.location}
+                      closestAvailability={item.closestAvailability}
+                      image={item.image}
+                      viewType={item.viewType}
+                      tabs={item.tabs}
+                      numberSigned={item.numberSigned}
+                      handleClick={() => handleCardClick(item.id)}
+                    />
+                  </div>
+                ))
+              }
             </div>
           </>
         )

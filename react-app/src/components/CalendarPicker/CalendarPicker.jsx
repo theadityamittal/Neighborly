@@ -1,39 +1,83 @@
-import React from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import React, { useEffect, useRef, useState } from "react";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
+import TextField from "@mui/material/TextField";
+import { PickersDay } from "@mui/x-date-pickers/PickersDay";
+import clsx from "clsx";
 import "./CalendarPicker.css";
 
-const CalendarPicker = ({
-  unavailableDates = [],
-  selectedDate,
-  onSelect,
-  disableBeforeToday = false,
-}) => {
-  const today = new Date();
+const CalendarPicker = ({ selectedDate, onSelect, unavailableDates = [], disableBeforeToday = false, minDate = null }) => {
+  const [isOpen, setIsOpen] = useState(false);
 
-  // Ensure unavailableDates are Date objects
-  // (Assuming they are already Date objects; if not, convert them here.)
+  const pickerRef = useRef();
 
-  // Function to determine if a date is selectable
-  const isDateAvailable = (date) => {
-    // If disableBeforeToday is true, disable dates before today
-    if (disableBeforeToday && date < today) return false;
-    // Disable any date that matches an unavailable date
-    return !unavailableDates.some(
-      (unavailableDate) =>
-        unavailableDate instanceof Date &&
-      date.toDateString() === unavailableDate.toDateString()
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (pickerRef.current && !pickerRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const unavailableSet = new Set(unavailableDates);
+  // console.log("Unavailable Dates:", unavailableDates);
+  const isUnavailable = (date) => {
+    const formatted = dayjs(date).format("YYYY-MM-DD");
+    return unavailableSet.has(formatted);
+  };
+
+  const isBeforeToday = (date) => {
+    return disableBeforeToday && dayjs().isAfter(date, "day");
+  };
+
+  const renderDay = (day, _value, DayComponentProps) => {
+    const unavailable = isUnavailable(day);
+    const tooEarly = isBeforeToday(day);
+
+    return (
+      <PickersDay
+        {...DayComponentProps}
+        disabled={unavailable || tooEarly}
+        className={clsx(DayComponentProps.className, {
+          "crossed-out-date": unavailable,
+        })}
+      />
     );
   };
 
   return (
-    <DatePicker
-      selected={selectedDate}
-      onChange={(date) => onSelect(date)}
-      filterDate={isDateAvailable}
-      placeholderText="Select a date"
-      className="calendar-picker-input"
-    />
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <div ref={pickerRef}>
+        <DatePicker
+          open={isOpen}
+          onOpen={() => setIsOpen(true)}
+          onClose={() => setIsOpen(false)}
+          value={selectedDate ? dayjs(selectedDate) : null}
+          onChange={(newDate) => {
+            onSelect(newDate ? newDate.format("YYYY-MM-DD") : null);
+            setIsOpen(false);
+          }}
+          shouldDisableDate={(date) => isUnavailable(date) || isBeforeToday(date)}
+          minDate={minDate ? dayjs(minDate) : undefined}
+          renderDay={renderDay}
+          format="YYYY-MM-DD"
+          slotProps={{
+            textField: {
+              size: "small",
+              fullWidth: true,
+              placeholder: "Select a date",
+              onClick: () => setIsOpen(true),
+            },
+          }}
+        />
+      </div>
+    </LocalizationProvider>
   );
 };
 

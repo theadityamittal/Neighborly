@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
 import CreateEvent from "./CreateEvent";
+import { getEventsByUser } from "../../services/eventService";
+import { useSelector } from "react-redux";
 
 const Modal = ({ event, onClose }) => {
   if (!event) return null;
@@ -88,6 +90,7 @@ const Events = () => {
   const [events, setEvents] = useState([]);
   const [showCreate, setShowCreate] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const { access, user_id } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const data = [
@@ -189,13 +192,23 @@ const Events = () => {
         tags: ["Music", "Culture"],
       }
     ];
-  
-    setEvents(data);
+
+    const getEventsUser = async () => {
+      try {
+        const response = await getEventsByUser({"organizer_id": user_id}, access);
+        console.log(response.data);
+        setEvents(response.data);
+        return response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getEventsUser();
   }, []);
   
 
   return (
-    <div className="p-6 max-w-7xl mx-auto" style={{ paddingLeft: "40px", paddingRight: "40px" }}>
+    <div className="p-6">
       {!showCreate ? (
         <>
           <div className="flex justify-between items-center mb-6">
@@ -211,7 +224,8 @@ const Events = () => {
                 key={event.event_id}
                 style={{
                   width: "50%",
-                  padding: "12px",
+                  paddingRight: "12px",
+                  paddingTop: "12px",
                   boxSizing: "border-box",
                 }}
               >
@@ -241,7 +255,7 @@ const Events = () => {
                     </span>
                   }                  
                   closestAvailability={`${formatDate(event.date)} at ${formatTime(event.time)}`}
-                  image={`https://placehold.co/600x400?text=${encodeURIComponent(event.event_name)}`}
+                  image={event.image}
                   tabs={[...(event.tags || []), event.visibility]}
                   viewType="card"
                   onView={() => setSelectedEvent(event)}

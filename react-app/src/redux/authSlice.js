@@ -32,6 +32,9 @@ export const authSlice = createSlice({
             state.user_id = action.payload.user_id;
             state.verified = action.payload.verified;
         },
+        setAccessToken: (state, action) => {
+            state.access = action.payload;
+        },
         logout: (state) => {
             state.name = '';
             state.email = '';
@@ -44,6 +47,6 @@ export const authSlice = createSlice({
     },
 });
 
-export const { login, logout, storeUserInformation } = authSlice.actions;
+export const { login, logout, storeUserInformation, setAccessToken} = authSlice.actions;
 
 export const selectAuth = (state) => state.auth;
