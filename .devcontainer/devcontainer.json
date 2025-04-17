@@ -1,21 +1,17 @@
 {
-    "name": "Neighborly Codespace",
-    "dockerFile": "Dockerfile",
-    "postCreateCommand": "pip install -r requirements.txt && npm install --prefix react-app && ./.devcontainer/post-create.sh",
-    "postStartCommand": "./.devcontainer/start_servers.sh",
-    "customizations": {
-      "vscode": {
-        "extensions": [
-          "ms-python.python",
-          "dbaeumer.vscode-eslint",
-          "GitHub.vscode-github-actions"
-        ]
-      }
-    },
-    "forwardPorts": [
-      8000,
-      3000
-    ],
-    "remoteUser": "vscode"
-  }
-  
+  "name": "Neighborly Codespace",
+  "dockerFile": "Dockerfile",
+  "postCreateCommand": "pip install -r requirements.txt && npm install --prefix react-app && python manage.py dev_setup",
+  "postStartCommand": "nohup python manage.py runserver 0.0.0.0:8000 > django.log 2>&1 & cd react-app && nohup npm start > react.log 2>&1 &",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "dbaeumer.vscode-eslint",
+        "GitHub.vscode-github-actions"
+      ]
+    }
+  },
+  "forwardPorts": [8000, 3000],
+  "remoteUser": "vscode"
+}
