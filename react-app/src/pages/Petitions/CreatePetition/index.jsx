@@ -3,10 +3,12 @@ import axios from "axios";
 import "../petitions.css";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../../utils/axiosInstance";
+import { useNavigate } from "react-router";
 
 const CreatePetition = ({ setNewPetition, refreshPetitions }) => {
   const [submitError, setSubmitError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
     location: "",
@@ -79,7 +81,7 @@ const CreatePetition = ({ setNewPetition, refreshPetitions }) => {
 
   return (
     <div className="create-petition-page">
-      <button className="back-btn" onClick={() => setNewPetition(false)}>
+      <button className="back-btn" onClick={() => navigate("/petitions")}>
         ← Back to Petitions
       </button>
       <div className="form-container">

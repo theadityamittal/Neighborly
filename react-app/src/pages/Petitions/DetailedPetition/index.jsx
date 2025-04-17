@@ -1,17 +1,20 @@
 import React from "react";
 import './styles.css'; // You'll need to create this CSS file
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // Assuming you're using Material UI
 import axiosInstance from "../../../utils/axiosInstance";
 import { useSelector } from "react-redux";
+import petitionsJson from "../petitionData.json"; // Import the local JSON file
 
 const DetailedPetition = () => {
   const { id } = useParams();
   const [petitionDetails, setPetitionDetails] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { access } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   const handleSignPetition = async () => {
     const token = localStorage.getItem("access_token");
@@ -54,6 +57,31 @@ const DetailedPetition = () => {
   useEffect(() => {
 
     const fetchPetition = async () => {
+      // tempotarily fetch from local json
+      // const petition = petitionsJson.find(petition => petition.id === id);
+      // if (!petition) {
+      //   setLoading(false);
+      //   setPetitionDetails(null);
+      //   console.error("Petition not found");
+      //   setError("Petition not found");
+      //   return;
+      // }
+      // const processed = {
+      //   id: petition.id,
+      //   provider: petition.provider,
+      //   tabs: petition.tabs,
+      //   numberSigned: petition.numberSigned,
+      //   petitionDate: new Date(petition.petitionDate).toLocaleDateString(),
+      //   targetSignatures: petition.targetSignatures,
+      //   location: petition.location, // Optional placeholder
+      //   detailedDescription: petition.detailedDescription,
+      //   image: petition.heroImage,
+      // };
+      // setPetitionDetails(processed);
+      // setLoading(false);
+      // setError(null);
+      // return
+
       try {
         const response = await axiosInstance.get(`/petitions/grabPetitionData/${id}/`, {
           headers: {
@@ -79,13 +107,18 @@ const DetailedPetition = () => {
         setPetitionDetails(processed);
       } catch (err) {
         console.error("Error fetching petition details:", err);
+        setError("Failed to load petition details. Please try again later.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchPetition();
-  }, [id]);
+  }, [access, id]);
+
+  if (error) {
+    return <div className="error">{error}</div>;
+  }
 
   if (loading || !petitionDetails) {
     return <div className="loading">Loading petition details...</div>;
@@ -94,7 +127,7 @@ const DetailedPetition = () => {
   return (
     <div className="detailed-petition-container">
       <div className="petition-header">
-        <button className="back-button" onClick={() => window.history.back()}>
+        <button className="back-button" onClick={() => navigate("/petitions")}>
           <ArrowBackIcon /> Back
         </button>
         <div className="petition-tags">

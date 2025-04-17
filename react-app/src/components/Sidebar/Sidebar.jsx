@@ -1,26 +1,35 @@
 import React from "react";
 import { List, ListItemButton, ListItemIcon, ListItemText, Box } from "@mui/material";
+import { Dashboard as DashboardIcon, Build, Event as EventIcon, HowToVote, MiscellaneousServices } from "@mui/icons-material";
 import "./Sidebar.css";
+import { NavLink } from "react-router-dom";
 
-const Sidebar = ({menuItems, activeItem, handleItemClick}) => {
+const menuItems = [
+  { name: "Bulletin",  path: "/bulletin",  icon: <DashboardIcon /> },
+  { name: "Events",    path: "/events",    icon: <EventIcon /> },
+  { name: "Tools",     path: "/tools",     icon: <Build /> },
+  { name: "Services",  path: "/services",  icon: <MiscellaneousServices /> },
+  { name: "Petitions", path: "/petitions", icon: <HowToVote /> },
+];
+
+const Sidebar = () => {
   return (
     <Box className="sidebar">
       <List>
-        {menuItems.map((item) => (
-          <ListItemButton
-            key={item.name}
-            selected={activeItem === item.name}
-            onClick={() => {
-              // avoid clicking on active item
-              if (activeItem === item.name) return;
-              // handle item click
-              handleItemClick(item.name, item.path)
-            }}
-            className={`menu-item ${activeItem === item.name ? "active" : ""}`}
+        {menuItems.map(({ name, path, icon }) => (
+          <NavLink
+            key={path}
+            to={path}
+            className={({ isActive }) => 
+              `menu-item ${isActive ? "active" : ""}`
+            }
+            style={{ textDecoration: "none"}}
           >
-            <ListItemIcon className="menu-icon">{item.icon}</ListItemIcon>
-            <ListItemText primary={item.name}/>
-          </ListItemButton>
+            <ListItemButton key={name} style={{ padding: "0" }}>
+              <ListItemIcon className="menu-icon">{icon}</ListItemIcon>
+              <ListItemText className="menu-text" primary={name}/>
+            </ListItemButton>
+          </NavLink>
         ))}
       </List>
     </Box>

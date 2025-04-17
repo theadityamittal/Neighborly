@@ -13,7 +13,7 @@ function App() {
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
           <RouteProvider>
-            <AppRoutes /> {/* Main content area for routing */}
+            <AppRoutes />
           </RouteProvider>
         </BrowserRouter>
       </PersistGate>      
