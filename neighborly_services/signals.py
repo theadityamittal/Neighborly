@@ -1,3 +1,4 @@
+import json
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from datetime import date
@@ -6,15 +7,24 @@ from utils.availability import get_earliest_availability
 
 @receiver(post_save, sender=ServiceSignUp)
 def update_service_availability_on_signup(sender, instance, created, **kwargs):
-    if created:
-        service = instance.service
-        today_str = date.today().isoformat()
+    if not created:
+        return
 
-        # Make sure unavailable_dates is a list
-        if service.unavailable_dates is None:
-            service.unavailable_dates = []
+    service = instance.service
+    today_str = date.today().isoformat()
 
-        if today_str not in service.unavailable_dates:
-            service.unavailable_dates.append(today_str)
-            service.earliest_availability = get_earliest_availability(service.unavailable_dates)
-            service.save()
+    # Normalize unavailable_dates to a Python list
+    ud = service.unavailable_dates
+    if not isinstance(ud, list):
+        try:
+            ud = json.loads(ud)
+            if not isinstance(ud, list):
+                ud = []
+        except Exception:
+            ud = []
+    # Now safely append
+    if today_str not in ud:
+        ud.append(today_str)
+        service.unavailable_dates = ud
+        service.earliest_availability = get_earliest_availability(ud)
+        service.save()
