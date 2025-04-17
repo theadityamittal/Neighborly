@@ -6,62 +6,80 @@ import { useSelector } from "react-redux";
 import axiosInstance from "../../utils/axiosInstance"; 
 import petitionsJson from "./petitionData.json"; // Import the local JSON file
 import "./petitions.css";
+import SearchBar from "../../components/SearchBar";
+import AddIcon from '@mui/icons-material/Add';
 
 const Petitions = () => {
   const [petitions, setPetitions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const { access } = useSelector((state) => state.auth);
   // Define fetchPetitions as a separate function
   const fetchPetitions = async () => {
     // temporarily fetch from local json
-    // const data = petitionsJson; // Uncomment this line to use local JSON data
-    // setPetitions(data);
-    // setLoading(false);
-    // setError(null);
-    // return
+    const data = petitionsJson; // Uncomment this line to use local JSON data
+    setPetitions(data);
+    setLoading(false);
+    setError(null);
+    return
 
     // Fetch petitions from the API
-    setLoading(true);
-    try {
-      const response = await axiosInstance.get("/petitions/grabPetitionData/", {
-        headers: {
-          Authorization: `Bearer ${access}`
-        }
-      });
+    // setLoading(true);
+    // try {
+    //   const response = await axiosInstance.get("/petitions/grabPetitionData/", {
+    //     headers: {
+    //       Authorization: `Bearer ${access}`
+    //     }
+    //   });
 
-      const data = response.data;
+    //   const data = response.data;
 
-      const processed = data.petition.map((petition) => {
-        const numberSigned = data.petition_signatures.filter(
-          sig => sig.petition_id === petition.petition_id
-        ).length;
+    //   const processed = data.petition.map((petition) => {
+    //     const numberSigned = data.petition_signatures.filter(
+    //       sig => sig.petition_id === petition.petition_id
+    //     ).length;
 
-        return {
-          ...petition,
-          id: petition.petition_id,
-          provider: petition.organizer_id,
-          tabs: petition.tags,
-          numberSigned,
-          image: petition.hero_image, // Optional: set based on tag or ID
-        };
-      });
+    //     return {
+    //       ...petition,
+    //       id: petition.petition_id,
+    //       provider: petition.organizer_id,
+    //       tabs: petition.tags,
+    //       numberSigned,
+    //       image: petition.hero_image, // Optional: set based on tag or ID
+    //     };
+    //   });
 
-      setPetitions(processed);
-      setLoading(false);
-    } catch (err) {
-      console.error("Error fetching petition data:", err);
-      setError("Failed to load petitions. Please try again later.");
-      setLoading(false);
-    }
+    //   setPetitions(processed);
+    //   setLoading(false);
+    // } catch (err) {
+    //   console.error("Error fetching petition data:", err);
+    //   setError("Failed to load petitions. Please try again later.");
+    //   setLoading(false);
+    // }
   };
 
-  const handleCardClick = (id) => {
+  const viewPetition = (id) => {
     console.log(`Card with ID ${id} clicked`);
     // Navigate to the detailed petition page
     navigate(`/petition/${id}`);
   };
+
+  // filter petitions
+  const filterPetitions = (searchTerm) => {
+    const filteredPetitions = petitions.filter((petition) => {
+      const titleMatch = petition.title.toLowerCase().includes(searchTerm.toLowerCase());
+      return titleMatch;
+    })
+
+    setPetitions(filteredPetitions);
+  }
+  // Reset petitions to original state
+  const resetPetitions = () => {
+    fetchPetitions(); // Fetch original petitions
+    setSearchTerm(""); // Reset search term
+  }
 
   useEffect(() => {
     fetchPetitions(); // Fetch petitions when the component mounts
@@ -82,12 +100,9 @@ const Petitions = () => {
       gap: '10px',
     }}>
       <div className="petition-header">
-        <div className="header-text">
-          <h2>Petitions</h2>
-          <p>Explore and support petitions that matter to you.</p>
-        </div>
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterPetitions} resetFilter={resetPetitions}/>
         <div className="petition-header-btn" onClick={() => navigate("/create-petition")}>
-          + Create Petition
+          <AddIcon fontSize="large"/>
         </div>
       </div>
       <hr className="petition-divider"/>
@@ -118,7 +133,7 @@ const Petitions = () => {
                 viewType={item.viewType}
                 tabs={item.tabs}
                 numberSigned={item.numberSigned}
-                handleClick={() => handleCardClick(item.id)}
+                handleClick={() => viewPetition(item.id)}
               />
             </div>
           ))
