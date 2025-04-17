@@ -4,6 +4,7 @@ import VerticalCard from '../../components/VerticalCard/VerticalCard';
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../utils/axiosInstance"; 
+import petitionsJson from "./petitionData.json"; // Import the local JSON file
 import "./petitions.css";
 
 const Petitions = () => {
@@ -14,6 +15,14 @@ const Petitions = () => {
   const { access } = useSelector((state) => state.auth);
   // Define fetchPetitions as a separate function
   const fetchPetitions = async () => {
+    // temporarily fetch from local json
+    // const data = petitionsJson; // Uncomment this line to use local JSON data
+    // setPetitions(data);
+    // setLoading(false);
+    // setError(null);
+    // return
+
+    // Fetch petitions from the API
     setLoading(true);
     try {
       const response = await axiosInstance.get("/petitions/grabPetitionData/", {
