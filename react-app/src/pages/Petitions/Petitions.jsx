@@ -18,46 +18,51 @@ const Petitions = () => {
   const { access } = useSelector((state) => state.auth);
   // Define fetchPetitions as a separate function
   const fetchPetitions = async () => {
-    // temporarily fetch from local json
-    const data = petitionsJson; // Uncomment this line to use local JSON data
-    setPetitions(data);
-    setLoading(false);
-    setError(null);
-    return
+    // ▶️ LOCAL MOCK (uncomment to use):
+    // const data = petitionsJson;
+    // const processed = data.map(pet => ({
+    //   id: pet.petition_id,
+    //   title: pet.title,
+    //   provider: pet.provider,
+    //   location: pet.location,
+    //   tags: pet.tags,
+    //   numberSigned: 0,
+    //   image: pet.hero_image
+    // }));
+    // setPetitions(processed);
+    // setLoading(false);
+    // setError(null);
+    // return;
 
     // Fetch petitions from the API
-    // setLoading(true);
-    // try {
-    //   const response = await axiosInstance.get("/petitions/grabPetitionData/", {
-    //     headers: {
-    //       Authorization: `Bearer ${access}`
-    //     }
-    //   });
+    setLoading(true);
+    try {
+      const response = await axiosInstance.get("/petitions/grabPetitionData/", {
+        headers: {
+          Authorization: `Bearer ${access}`
+        }
+      });
 
-    //   const data = response.data;
+      const data = response.data;
+      console.log("Fetched petition data:", data);
 
-    //   const processed = data.petition.map((petition) => {
-    //     const numberSigned = data.petition_signatures.filter(
-    //       sig => sig.petition_id === petition.petition_id
-    //     ).length;
+      const processed = data.petition.map(pet => ({
+        id: pet.petition_id,
+        title: pet.title,
+        provider: pet.provider,       // use display name
+        location: pet.location,
+        tags: pet.tags,
+        numberSigned: pet.signature_count,  // if you surface that in your view
+        image: pet.hero_image
+      }));
 
-    //     return {
-    //       ...petition,
-    //       id: petition.petition_id,
-    //       provider: petition.organizer_id,
-    //       tabs: petition.tags,
-    //       numberSigned,
-    //       image: petition.hero_image, // Optional: set based on tag or ID
-    //     };
-    //   });
-
-    //   setPetitions(processed);
-    //   setLoading(false);
-    // } catch (err) {
-    //   console.error("Error fetching petition data:", err);
-    //   setError("Failed to load petitions. Please try again later.");
-    //   setLoading(false);
-    // }
+      setPetitions(processed);
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching petition data:", err);
+      setError("Failed to load petitions. Please try again later.");
+      setLoading(false);
+    }
   };
 
   const viewPetition = (id) => {
@@ -131,7 +136,7 @@ const Petitions = () => {
                 closestAvailability={item.closestAvailability}
                 image={item.image}
                 viewType={item.viewType}
-                tabs={item.tabs}
+                tags={item.tags}
                 numberSigned={item.numberSigned}
                 handleClick={() => viewPetition(item.id)}
               />

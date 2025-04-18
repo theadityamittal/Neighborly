@@ -1,0 +1,21 @@
+[
+    {
+      "model": "neighborly_bulletin.bulletin",
+      "pk": 1,
+      "fields": {
+        "title": "Welcome to Neighborly!",
+        "body": "This is your first bulletin.",
+        "published_at": "2025-04-17T12:00:00Z"
+      }
+    },
+    {
+      "model": "neighborly_bulletin.bulletin",
+      "pk": 2,
+      "fields": {
+        "title": "Second test post",
+        "body": "…and so on.",
+        "published_at": "2025-04-16T09:30:00Z"
+      }
+    }
+  ]
+  
