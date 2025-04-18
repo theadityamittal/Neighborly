@@ -14,77 +14,63 @@ const Register = () => {
     phoneNumber: '',
     address: '',
     city: '',
-    state: '',
-    zipCode: ''
+    accountType: 'resident',  // ← default
   });
-  
+
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const { loading } = useSelector(selectAuth);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+    setFormData((f) => ({ ...f, [name]: value }));
   };
 
   const validate = () => {
     const newErrors = {};
-    
     if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
-    if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
-    
+    if (!formData.lastName.trim())  newErrors.lastName  = 'Last name is required';
+
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email is invalid';
     }
-    
+
     if (!formData.password) {
       newErrors.password = 'Password is required';
     } else if (formData.password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
     }
-    
-    if (!formData.zipCode) {
-      newErrors.zipCode = 'Zip code is required';
-    } else if (!/^\d{5}(-\d{4})?$/.test(formData.zipCode)) {
-     newErrors.zipCode = 'Zip code is invalid';
-    }
-    
+
+    // you could add phoneNumber validation here if desired
     return newErrors;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     const validationErrors = validate();
-    if (Object.keys(validationErrors).length > 0) {
+    if (Object.keys(validationErrors).length) {
       setErrors(validationErrors);
       return;
     }
-    
+
+    const userData = {
+      name:        `${formData.firstName} ${formData.lastName}`,
+      email:       formData.email,
+      password:    formData.password,
+      phone_number: formData.phoneNumber,
+      address:     formData.address,
+      neighborhood: formData.city,
+      account_type: formData.accountType,   // ← now dynamic
+    };
+
     try {
-      const userData = {
-        'name': formData['firstName'] + " " + formData['lastName'],
-        'email': formData['email'],
-        'phone_number': formData['phoneNumber'],
-        'address': formData['address'],
-        'neighborhood': formData['city'],
-        'account_type': 'user',
-        'password': formData['password']
-      }
-      const response = await registerUser(userData);
+      await registerUser(userData);
       navigate('/login', { state: { message: 'Registration successful! Please log in.' } });
     } catch (err) {
-      // Error handling is done in the reducer
       console.error('Registration failed:', err);
-      const newErrors = {};
-      newErrors.email = 'Email already exists';
-      setErrors(newErrors);
-      return;
+      setErrors({ email: 'Email already exists' });
     }
   };
 
@@ -95,131 +81,109 @@ const Register = () => {
         <p>Join your neighborhood community</p>
 
         {errors.email && <div className="error-message">{errors.email}</div>}
-        
+
         <form onSubmit={handleSubmit} className="register-form">
+
+          {/* Name */}
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="firstName">First Name</label>
               <input
-                type="text"
-                id="firstName"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
+                id="firstName" name="firstName" type="text"
+                value={formData.firstName} onChange={handleChange}
                 className={errors.firstName ? 'error' : ''}
               />
               {errors.firstName && <span className="error-text">{errors.firstName}</span>}
             </div>
-            
             <div className="form-group">
               <label htmlFor="lastName">Last Name</label>
               <input
-                type="text"
-                id="lastName"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
+                id="lastName" name="lastName" type="text"
+                value={formData.lastName} onChange={handleChange}
                 className={errors.lastName ? 'error' : ''}
               />
               {errors.lastName && <span className="error-text">{errors.lastName}</span>}
             </div>
           </div>
-          
+
+          {/* Email */}
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
+              id="email" name="email" type="email"
+              value={formData.email} onChange={handleChange}
               className={errors.email ? 'error' : ''}
             />
             {errors.email && <span className="error-text">{errors.email}</span>}
           </div>
-          
+
+          {/* Password & Phone */}
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
+                id="password" name="password" type="password"
+                value={formData.password} onChange={handleChange}
                 className={errors.password ? 'error' : ''}
               />
               {errors.password && <span className="error-text">{errors.password}</span>}
             </div>
-            
             <div className="form-group">
               <label htmlFor="phoneNumber">Phone Number</label>
               <input
-                id="phoneNumber"
-                name="phoneNumber"
-                value={formData.phoneNumber}
-                onChange={handleChange}
-                className={errors.phoneNumber ? 'error' : ''}
+                id="phoneNumber" name="phoneNumber" type="text"
+                value={formData.phoneNumber} onChange={handleChange}
               />
-              {/* {errors.confirmPassword && <span className="error-text">{errors.confirmPassword}</span>} */}
             </div>
           </div>
-          
+
+          {/* Address */}
           <div className="form-group">
             <label htmlFor="address">Street Address</label>
             <input
-              type="text"
-              id="address"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
+              id="address" name="address" type="text"
+              value={formData.address} onChange={handleChange}
             />
           </div>
-          
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="city">City</label>
-              <input
-                type="text"
-                id="city"
-                name="city"
-                value={formData.city}
-                onChange={handleChange}
-              />
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="state">State</label>
-              <input
-                type="text"
-                id="state"
-                name="state"
-                value={formData.state}
-                onChange={handleChange}
-              />
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="zipCode">Zip Code</label>
-              <input
-                type="text"
-                id="zipCode"
-                name="zipCode"
-                value={formData.zipCode}
-                onChange={handleChange}
-                className={errors.zipCode ? 'error' : ''}
-              />
-              {errors.zipCode && <span className="error-text">{errors.zipCode}</span>}
-            </div>
+
+          {/* City (→ neighborhood) */}
+          <div className="form-group">
+            <label htmlFor="city">City / Neighborhood</label>
+            <input
+              id="city" name="city" type="text"
+              value={formData.city} onChange={handleChange}
+            />
           </div>
-          
-          <button type="submit" className="register-button" disabled={loading}>
+
+          {/* Account Type */}
+          <div className="form-group">
+            <label htmlFor="accountType">Account Type</label>
+            <select
+              id="accountType"
+              name="accountType"
+              value={formData.accountType}
+              onChange={handleChange}
+            >
+              <option value="resident">Resident</option>
+              <option value="volunteer">Volunteer</option>
+              <option value="ngo">NGO</option>
+            </select>
+          </div>
+
+          {/* Submit */}
+          <button
+            type="submit"
+            className="register-button"
+            disabled={loading}
+          >
             {loading ? 'Creating Account...' : 'Create Account'}
           </button>
         </form>
-        
+
         <div className="register-footer">
-          <p>Already have an account? <Link to="/login">Log in</Link></p>
+          <p>
+            Already have an account? <Link to="/login">Log in</Link>
+          </p>
         </div>
       </div>
     </div>

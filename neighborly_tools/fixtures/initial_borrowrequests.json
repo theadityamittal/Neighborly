@@ -1,0 +1,53 @@
+[
+    {
+      "model": "neighborly_tools.borrowrequest",
+      "pk": 1,
+      "fields": {
+        "tool": "b1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a3",
+        "user_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+        "borrow_date": "2025-04-18",
+        "return_date": "2025-04-21"
+      }
+    },
+    {
+      "model": "neighborly_tools.borrowrequest",
+      "pk": 2,
+      "fields": {
+        "tool": "c2a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1b4",
+        "user_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "borrow_date": "2025-04-19",
+        "return_date": "2025-04-22"
+      }
+    },
+    {
+      "model": "neighborly_tools.borrowrequest",
+      "pk": 3,
+      "fields": {
+        "tool": "d3a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1c5",
+        "user_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+        "borrow_date": "2025-04-20",
+        "return_date": "2025-04-25"
+      }
+    },
+    {
+      "model": "neighborly_tools.borrowrequest",
+      "pk": 4,
+      "fields": {
+        "tool": "e4a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1d6",
+        "user_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "borrow_date": "2025-04-15",
+        "return_date": "2025-04-20"
+      }
+    },
+    {
+      "model": "neighborly_tools.borrowrequest",
+      "pk": 5,
+      "fields": {
+        "tool": "f5a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1e7",
+        "user_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+        "borrow_date": "2025-04-10",
+        "return_date": "2025-04-12"
+      }
+    }
+  ]
+  

@@ -55,33 +55,30 @@ const DetailedPetition = () => {
   };
 
   useEffect(() => {
-
     const fetchPetition = async () => {
-      // tempotarily fetch from local json
-      // const petition = petitionsJson.find(petition => petition.id === id);
-      // if (!petition) {
+      // ▶️ LOCAL MOCK (uncomment to use)
+      // const pet = petitionsJson.find(pet => String(pet.petition_id) === id);
+      // if (pet) {
+      //   const processed = {
+      //     id: pet.petition_id,
+      //     title: pet.title,
+      //     provider: pet.provider,
+      //     tabs: pet.tags,
+      //     numberSigned: 0,
+      //     petitionDate: new Date(pet.created_at).toLocaleDateString(),
+      //     targetSignatures: pet.target,
+      //     location: pet.location,
+      //     detailedDescription: pet.description,
+      //     image: pet.hero_image,
+      //     votingEndsAt: pet.voting_ends_at
+      //   };
+      //   setPetitionDetails(processed);
       //   setLoading(false);
-      //   setPetitionDetails(null);
-      //   console.error("Petition not found");
-      //   setError("Petition not found");
+      //   setError(null);
       //   return;
       // }
-      // const processed = {
-      //   id: petition.id,
-      //   provider: petition.provider,
-      //   tabs: petition.tabs,
-      //   numberSigned: petition.numberSigned,
-      //   petitionDate: new Date(petition.petitionDate).toLocaleDateString(),
-      //   targetSignatures: petition.targetSignatures,
-      //   location: petition.location, // Optional placeholder
-      //   detailedDescription: petition.detailedDescription,
-      //   image: petition.heroImage,
-      // };
-      // setPetitionDetails(processed);
-      // setLoading(false);
-      // setError(null);
-      // return
 
+      // ▶️ LIVE API FETCH
       try {
         const response = await axiosInstance.get(`/petitions/grabPetitionData/${id}/`, {
           headers: {
@@ -94,14 +91,16 @@ const DetailedPetition = () => {
         const processed = {
           ...petition,
           id: petition.petition_id,
-          provider: petition.organizer_id,
+          title: petition.title,
+          provider: petition.provider || petition.organizer_id,
           tabs: petition.tags,
           numberSigned: petition_signatures.length,
           petitionDate: new Date(petition.created_at).toLocaleDateString(),
           targetSignatures: petition.target,
-          location: "Community Center", // Optional placeholder
+          location: petition.location,
           detailedDescription: petition.description,
           image: petition.hero_image,
+          votingEndsAt: petition.voting_ends_at
         };
 
         setPetitionDetails(processed);

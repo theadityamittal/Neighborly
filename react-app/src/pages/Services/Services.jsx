@@ -107,23 +107,24 @@ const Services = () => {
 
   useEffect(() => {
     const fetchServices = async () => {
+      setLoading(true);
       try {
         const res = await axiosInstance.get("/api/services/", {
           headers: {
-            'Authorization': `Bearer ${access}`
+            Authorization: `Bearer ${access}`
           }
         });
         setServices(res.data);
-        setLoading(false);
       } catch (err) {
         console.error("❌ Failed to fetch services:", err);
         setError("Could not load services.");
+      } finally {
         setLoading(false);
       }
     };
 
     fetchServices();
-  }, []);
+  }, [access]);
 
   const handleView = (id) => {
     setSelectedServiceId(id);
@@ -133,11 +134,9 @@ const Services = () => {
     setSelectedServiceId(null);
   };
 
-  
-
-  const selectedService = Array.isArray(services)
-  ? services.find(service => service.service_id === selectedServiceId)
-  : null;
+  const selectedService = services.find(
+    service => service.service_id === selectedServiceId
+  );
   const selectedServiceWithDisable = selectedService
     ? { ...selectedService, disableBeforeToday: true }
     : null;
@@ -158,19 +157,26 @@ const Services = () => {
         {services.map(service => (
           <HorizontalCard
             key={service.service_id}
-            {...service}
-            image={service.images?.[0]} // Use first image as thumbnail
+            id={service.service_id}
+            title={service.title}
+            description={service.description}
+            location={service.location}
+            price={service.price}
+            available={service.available}
+            closestAvailability={service.closestAvailability}
+            tags={service.tags}
+            image={service.images?.[0]}
             onView={() => handleView(service.service_id)}
           />
         ))}
       </div>
 
-      {selectedService && (
+      {selectedServiceWithDisable && (
         <HorizontalCardModal
           isOpen={!!selectedService}
           onClose={handleClose}
           item={selectedServiceWithDisable}
-          type="service" //must match with api prefix without s
+          type="service" // must match the API prefix without 's'
         />
       )}
     </div>

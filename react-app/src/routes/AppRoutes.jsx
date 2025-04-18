@@ -14,6 +14,7 @@ import CreatePetition from "../pages/Petitions/CreatePetition";
 import DetailedPetition from "../pages/Petitions/DetailedPetition";
 import UserProfile from "../pages/UserProfile/UserProfile";
 import Bulletin from "../pages/Bulletin/Bulletin";
+import CreateEvent from "../pages/Events/CreateEvent";
 
 // Protected route component
 const ProtectedRoute = ({ children }) => {
@@ -51,7 +52,7 @@ const AppRoutes = () => {
             <Route path="/bulletin" element={<Bulletin />} />
 
             <Route path="/events" element={<Events />} />
-            {/* <Route path="/create-event" element={<CreateEvent />} /> */}
+            <Route path="/create-event" element={<CreateEvent />} />
 
             <Route path="/tools" element={<Tools />} />
             {/* <Route path="/create-tool" element={<CreateTool />} /> */}

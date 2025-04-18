@@ -1,0 +1,111 @@
+[
+    {
+      "model": "neighborly_events.eventsignup",
+      "pk": 1,
+      "fields": {
+        "event": 1,
+        "user_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "signed_at": "2025-04-16T09:00:00Z"
+      }
+    },
+    {
+      "model": "neighborly_events.eventsignup",
+      "pk": 2,
+      "fields": {
+        "event": 1,
+        "user_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+        "signed_at": "2025-04-16T10:00:00Z"
+      }
+    },
+    {
+      "model": "neighborly_events.eventsignup",
+      "pk": 3,
+      "fields": {
+        "event": 1,
+        "user_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "signed_at": "2025-04-16T11:00:00Z"
+      }
+    },
+    {
+      "model": "neighborly_events.eventsignup",
+      "pk": 4,
+      "fields": {
+        "event": 2,
+        "user_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+        "signed_at": "2025-04-11T12:00:00Z"
+      }
+    },
+    {
+      "model": "neighborly_events.eventsignup",
+      "pk": 5,
+      "fields": {
+        "event": 2,
+        "user_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "signed_at": "2025-04-11T13:00:00Z"
+      }
+    },
+    {
+      "model": "neighborly_events.eventsignup",
+      "pk": 6,
+      "fields": {
+        "event": 3,
+        "user_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "signed_at": "2025-04-13T10:30:00Z"
+      }
+    },
+    {
+      "model": "neighborly_events.eventsignup",
+      "pk": 7,
+      "fields": {
+        "event": 3,
+        "user_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+        "signed_at": "2025-04-13T11:45:00Z"
+      }
+    },
+    {
+      "model": "neighborly_events.eventsignup",
+      "pk": 8,
+      "fields": {
+        "event": 3,
+        "user_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "signed_at": "2025-04-13T12:15:00Z"
+      }
+    },
+    {
+      "model": "neighborly_events.eventsignup",
+      "pk": 9,
+      "fields": {
+        "event": 4,
+        "user_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "signed_at": "2025-04-09T09:15:00Z"
+      }
+    },
+    {
+      "model": "neighborly_events.eventsignup",
+      "pk": 10,
+      "fields": {
+        "event": 4,
+        "user_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+        "signed_at": "2025-04-09T09:45:00Z"
+      }
+    },
+    {
+      "model": "neighborly_events.eventsignup",
+      "pk": 11,
+      "fields": {
+        "event": 5,
+        "user_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+        "signed_at": "2025-04-15T18:00:00Z"
+      }
+    },
+    {
+      "model": "neighborly_events.eventsignup",
+      "pk": 12,
+      "fields": {
+        "event": 5,
+        "user_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "signed_at": "2025-04-15T18:30:00Z"
+      }
+    }
+  ]
+  

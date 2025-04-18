@@ -15,12 +15,21 @@ const Petitions = () => {
   const { access } = useSelector((state) => state.auth);
   // Define fetchPetitions as a separate function
   const fetchPetitions = async () => {
-    // temporarily fetch from local json
-    // const data = petitionsJson; // Uncomment this line to use local JSON data
-    // setPetitions(data);
+    // ▶️ LOCAL MOCK (uncomment to use):
+    // const data = petitionsJson;
+    // const processed = data.map(pet => ({
+    //   id: pet.petition_id,
+    //   title: pet.title,
+    //   provider: pet.provider,
+    //   location: pet.location,
+    //   tags: pet.tags,
+    //   numberSigned: 0,
+    //   image: pet.hero_image
+    // }));
+    // setPetitions(processed);
     // setLoading(false);
     // setError(null);
-    // return
+    // return;
 
     // Fetch petitions from the API
     setLoading(true);
@@ -32,21 +41,17 @@ const Petitions = () => {
       });
 
       const data = response.data;
+      console.log("Fetched petition data:", data);
 
-      const processed = data.petition.map((petition) => {
-        const numberSigned = data.petition_signatures.filter(
-          sig => sig.petition_id === petition.petition_id
-        ).length;
-
-        return {
-          ...petition,
-          id: petition.petition_id,
-          provider: petition.organizer_id,
-          tabs: petition.tags,
-          numberSigned,
-          image: petition.hero_image, // Optional: set based on tag or ID
-        };
-      });
+      const processed = data.petition.map(pet => ({
+        id: pet.petition_id,
+        title: pet.title,
+        provider: pet.provider,       // use display name
+        location: pet.location,
+        tags: pet.tags,
+        numberSigned: pet.signature_count,  // if you surface that in your view
+        image: pet.hero_image
+      }));
 
       setPetitions(processed);
       setLoading(false);
@@ -116,7 +121,7 @@ const Petitions = () => {
                 closestAvailability={item.closestAvailability}
                 image={item.image}
                 viewType={item.viewType}
-                tabs={item.tabs}
+                tags={item.tags}
                 numberSigned={item.numberSigned}
                 handleClick={() => handleCardClick(item.id)}
               />
