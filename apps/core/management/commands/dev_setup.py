@@ -19,15 +19,16 @@ class Command(BaseCommand):
             'neighborly_events/fixtures/initial_eventsignups.json',
             'neighborly_services/fixtures/initial_services.json',
             'neighborly_petitions/fixtures/initial_petitions.json',
+            "neighborly_petitions/fixtures/initial_petition_signatures.json"
         ]
         for f in fixts:
             call_command('loaddata', f, verbosity=0)
 
-        self.stdout.write("🌱 Seeding faker data…")
-        call_command('seed', 'neighborly_users', '--number=5',  '--verbosity=0')
-        call_command('seed', 'neighborly_tools', '--number=5',      '--verbosity=0')
-        call_command('seed', 'neighborly_events', '--number=5',     '--verbosity=0')
-        call_command('seed', 'neighborly_services', '--number=10',   '--verbosity=0')
-        call_command('seed', 'neighborly_petitions', '--number=10',  '--verbosity=0')
+        # self.stdout.write("🌱 Seeding faker data…")
+        # call_command('seed', 'neighborly_users', '--number=5',  '--verbosity=0')
+        # call_command('seed', 'neighborly_tools', '--number=5',      '--verbosity=0')
+        # call_command('seed', 'neighborly_events', '--number=5',     '--verbosity=0')
+        # call_command('seed', 'neighborly_services', '--number=10',   '--verbosity=0')
+        # call_command('seed', 'neighborly_petitions', '--number=10',  '--verbosity=0')
 
         self.stdout.write(self.style.SUCCESS("✅ Dev DB ready!"))

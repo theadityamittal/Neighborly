@@ -46,7 +46,7 @@ const Petitions = () => {
       const data = response.data;
       console.log("Fetched petition data:", data);
 
-      const processed = data.petition.map(pet => ({
+      const processed = data.petitions.map(pet => ({
         id: pet.petition_id,
         title: pet.title,
         provider: pet.provider,       // use display name
