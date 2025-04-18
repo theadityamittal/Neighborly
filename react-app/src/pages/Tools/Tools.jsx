@@ -4,6 +4,7 @@ import axiosInstance from "../../utils/axiosInstance";
 import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
 import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
 import dummyTools from "./toolsData.json"; // your local fixture file
+import "./Tools.css";
 
 // Iamges
 import drill1 from "../../assets/img/drill1.jpg";
@@ -11,7 +12,7 @@ import mower1 from "../../assets/img/mower1.jpg";
 import wrench1 from "../../assets/img/wrench1.jpg";
 import chainsaw1 from "../../assets/img/chainsaw1.jpg";
 import carjack1 from "../../assets/img/carjack1.jpg";
-
+import { useNavigate } from "react-router-dom"; // Import navigate
 
 const Tools = () => {
   const [tools, setTools] = useState([]);
@@ -19,6 +20,7 @@ const Tools = () => {
   const [error, setError] = useState("");
   const [selectedToolId, setSelectedToolId] = useState(null);
   const { access } = useSelector((state) => state.auth);
+  const navigate = useNavigate(); // Initialize navigate for redirection
 
   useEffect(() => {
     const fetchTools = async () => {
@@ -59,7 +61,15 @@ const Tools = () => {
 
   return (
     <div style={{ padding: "1rem" }}>
-      <h1>Tools</h1>
+      <h1>Upcoming Tools</h1>
+
+      {/* Create New Tool Button */}
+      <button
+        onClick={() => navigate("/tools/create")}
+        className="create-tool-btn"
+      >
+        + Create New Tool
+      </button>
       <div
         style={{
           display: "grid",
