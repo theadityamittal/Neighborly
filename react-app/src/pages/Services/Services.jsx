@@ -147,7 +147,7 @@ const Services = () => {
 
   return (
     <div style={{ padding: "1rem" }}>
-      <h1>Services</h1>
+      <h1>Upcoming Services</h1>
       <button
         onClick={() => navigate("/services/create")}
         className="create-service-btn"
