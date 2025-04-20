@@ -50,7 +50,7 @@ class ServiceItemDetailView(APIView):
     permission_classes = [IsAuthenticated] 
     def get(self, request, service_id):
         try:
-            service = service = get_object_or_404(ServiceItem, service_id=service_id) #ServiceItem.objects.get(service_id=service_id)
+            service = get_object_or_404(ServiceItem, service_id=service_id) #ServiceItem.objects.get(service_id=service_id)
         except ServiceItem.DoesNotExist:
             return Response({"error": "Service not found"}, status=status.HTTP_404_NOT_FOUND)
 
