@@ -9,7 +9,6 @@ class ServiceTests(APITestCase):
     
     def setUp(self):
         self.register_url = reverse('register')
-        self.grab_service_data = reverse('grabServiceData')
         self.login_url = reverse('token_obtain_pair')
 
         self.user_data = {
@@ -69,7 +68,7 @@ class ServiceTests(APITestCase):
             "start_date": "2025-04-25",
             "end_date": "2025-04-26",
             "messages": "Excited to help!",
-            "price": "0",
+            "price": 0,
             "user_id": "1"
         }
 
@@ -108,12 +107,12 @@ class ServiceTests(APITestCase):
             start_date="2025-04-25",
             end_date="2025-04-26",
             messages="I'd love to help!",
-            price="0",
+            price=0,
             status="pending"
         )
 
         # Build PATCH URL
-        patch_url = f"/api/services/signup/{signup.signup_id}/status/"
+        patch_url = f"/api/services/signup/{signup.signup_id}/"
 
         # Send PATCH
         response = self.client.patch(
@@ -125,5 +124,104 @@ class ServiceTests(APITestCase):
         # Assertions
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         print("\n√ test_service_signup_status_patch passed!")
+    
+    def test_patch_signup_status_without_blocking_dates(self):
+        token = self.authenticate_user()
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
 
+        # Create service
+        service = ServiceItem.objects.create(
+            title="Bike Repair",
+            description="Fix my bike",
+            service_provider=1,  # or self.user.id if you store it
+            location="Brooklyn",
+            latitude=40.6782,
+            longitude=-73.9442,
+            closestAvailability=None,
+            unavailable_dates=[],
+            available=True
+        )
+
+        # Create signup
+        signup = ServiceSignUp.objects.create(
+            service=service,
+            user_id=1,
+            start_date="2025-05-01",
+            end_date="2025-05-03",
+            messages="I'll bring tools!",
+            price=0,
+            status="pending"
+        )
+
+
+        # Send PATCH request to accept the signup
+        patch_url = f"/api/services/signup/{signup.signup_id}/"
+        response = self.client.patch(patch_url, data={"status": "accepted"}, format="json")
+
+        # Assertions
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["message"], "Signup status updated to 'accepted'.")
+
+        # Refresh objects from DB
+        signup.refresh_from_db()
+        service.refresh_from_db()
+
+        # Ensure status changed
+        self.assertEqual(signup.status, "accepted")
+
+        # Ensure unavailable_dates did NOT change
+        self.assertEqual(service.unavailable_dates, [])
+        self.assertIsNone(service.closestAvailability)
+
+        print("\n√ test_patch_signup_status_without_blocking_dates passed!")
+
+    def test_get_service_by_id(self):
+        token = self.authenticate_user()
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
+
+        service = ServiceItem.objects.create(
+            title="Grocery Delivery",
+            description="Help deliver groceries to seniors.",
+            service_provider=1,
+            location="Brooklyn",
+            latitude=40.6782,
+            longitude=-73.9442,
+            available=True
+        )
+
+        url = f"/api/services/{service.service_id}/"
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["title"], service.title)
+        self.assertEqual(response.data["service_id"], service.service_id)
+        print("\n√ test_get_service_by_id passed!")
+
+    def test_get_invalid_service_returns_404(self):
+        token = self.authenticate_user()
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
+
+        url = "/api/services/invalid-id/"
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        print("\n√ test_get_invalid_service_returns_404 passed!")
+
+    def test_get_service_requires_authentication(self):
+        service = ServiceItem.objects.create(
+            title="Dog Walking",
+            description="Walk dogs in the neighborhood.",
+            service_provider=1,
+            location="Brooklyn",
+            latitude=40.6782,
+            longitude=-73.9442,
+            available=True
+        )
+
+        url = f"/api/services/{service.service_id}/"
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        print("\n√ test_get_service_requires_authentication passed!")
     

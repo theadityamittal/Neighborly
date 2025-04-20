@@ -9,9 +9,9 @@ dummy_services = [
         "location": "Los Angeles, CA",
         "closestAvailability": "March 20, 2025",
         "unavailableDates": ["2025-03-20", "2025-03-21"],
-        "price": "$7 / Day",
+        "price": 7,
         "viewType": "card",
-        "tabs": ["Yoga", "Fitness"],
+        "tags": ["Yoga", "Fitness"],
         "images": ["https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/yoga1.jpg", "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/yoga2.jpg"]
     }, 
     {
@@ -20,9 +20,9 @@ dummy_services = [
         "location": "New York, NY",
         "closestAvailability": "April 5, 2025",
         "unavailableDates": ["2025-04-05", "2025-04-06"],
-        "price": "$15 / Day",
+        "price": 15,
         "viewType": "card",
-        "tabs": ["Cooking", "Food"],
+        "tags": ["Cooking", "Food"],
         "images": ["https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/cooking1.jpg", "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/cooking2.jpg"]
     },
     {
@@ -31,9 +31,9 @@ dummy_services = [
         "location": "Chicago, IL",
         "closestAvailability": "April 12, 2025",
         "unavailableDates": [],
-        "price": "$20 / Day",
+        "price": 20,
         "viewType": "card",
-        "tabs": ["Photography", "Art"],
+        "tags": ["Photography", "Art"],
         "images": ["https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/photo1.jpg"]
     },
     {
@@ -42,9 +42,9 @@ dummy_services = [
         "location": "San Francisco, CA",
         "closestAvailability": "March 25, 2025",
         "unavailableDates": ["2025-03-25"],
-        "price": "$10 / Day",
+        "price": 10,
         "viewType": "card",
-        "tabs": ["Marketing", "Business"],
+        "tags": ["Marketing", "Business"],
         "images": ["https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/marketing1.jpg"]
     },
     {
@@ -53,9 +53,9 @@ dummy_services = [
         "location": "Seattle, WA",
         "closestAvailability": "April 8, 2025",
         "unavailableDates": [],
-        "price": "$12 / Day",
+        "price": 12,
         "viewType": "card",
-        "tabs": ["Pilates", "Fitness"],
+        "tags": ["Pilates", "Fitness"],
         "images": ["https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/pilates1.jpg"]
     },
     {
@@ -64,9 +64,9 @@ dummy_services = [
         "location": "Denver, CO",
         "closestAvailability": "April 15, 2025",
         "unavailableDates": ["2025-04-15"],
-        "price": "$18 / Day",
+        "price": 18,
         "viewType": "card",
-        "tabs": ["Adventure", "Fitness"],
+        "tags": ["Adventure", "Fitness"],
         "images": ["https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/tree1.jpg"]
     },
 ]
@@ -87,11 +87,11 @@ for service in dummy_services:
             "description": f"{service['title']} by {service['provider']}.",
             "service_provider": provider_map.get(service["provider"], 0),
             "location": service["location"],
-            "earliest_availability": datetime.strptime(service["closestAvailability"], "%B %d, %Y").date(),
+            "closestAvailability": datetime.strptime(service["closestAvailability"], "%B %d, %Y").date(),
             "unavailable_dates": service["unavailableDates"],
             "price": service["price"],
             "view_type": service["viewType"],
-            "tabs": service["tabs"],
+            "tags": service["tags"],
             "images": service["images"],
             "waitlist": [],
             "available": True,
