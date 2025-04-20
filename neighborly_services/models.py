@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
-from utils.availability import get_earliest_availability
+# from utils.availability import get_earliest_availability
 
 class ServiceItem(models.Model):
     service_id = models.AutoField(primary_key=True)
@@ -18,7 +18,8 @@ class ServiceItem(models.Model):
     unavailable_dates = models.JSONField(default=list, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     quota = models.IntegerField(default=0, blank=True)
-    view_type = models.CharField(max_length=50, default="card")
+    visibility = models.CharField(max_length=10, default='public')  # public, neighborhood, private (=invite only)
+    #view_type = models.CharField(max_length=50, default="card")
     tags = models.JSONField(default=list, blank=True)
     images = models.JSONField(default=list, blank=True)
 
