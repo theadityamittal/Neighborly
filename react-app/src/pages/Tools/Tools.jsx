@@ -65,7 +65,7 @@ const Tools = () => {
 
       {/* Create New Tool Button */}
       <button
-        onClick={() => navigate("/tools/create")}
+        onClick={() => navigate("/create-tool")}
         className="create-tool-btn"
       >
         + Create New Tool

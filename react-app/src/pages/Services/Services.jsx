@@ -149,7 +149,7 @@ const Services = () => {
     <div style={{ padding: "1rem" }}>
       <h1>Upcoming Services</h1>
       <button
-        onClick={() => navigate("/services/create")}
+        onClick={() => navigate("/create-service")}
         className="create-service-btn"
       >
         + Create New Service
