@@ -9,6 +9,7 @@ class ServiceTests(APITestCase):
     
     def setUp(self):
         self.register_url = reverse('register')
+        # self.grab_service_data = reverse('grabServiceData')
         self.login_url = reverse('token_obtain_pair')
 
         self.user_data = {
@@ -34,6 +35,32 @@ class ServiceTests(APITestCase):
         self.assertIn("access_token", login_response.data)
         return login_response.data["access_token"]
     
+    '''==============Creation of service=============='''
+    def test_user_can_create_service_item(self):
+        token = self.authenticate_user()
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
+        payload = {
+            "title": "Pet Sitting",
+            "description": "Need someone to feed my cat while I’m away.",
+            "location": "Queens",
+            "available": True
+        }
+
+        url = "/api/services/"
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
+        response = self.client.post(url, data=payload, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(ServiceItem.objects.count(), 1)
+
+        service = ServiceItem.objects.first()
+        self.assertEqual(service.title, "Pet Sitting")
+        self.assertEqual(service.location, "Queens")
+        self.assertEqual(service.service_provider, 1)
+
+        print("\n√ test_user_can_create_service_item passed!")
+
+    '''==============Signup for the service=============='''
     def test_user_can_signup_for_service(self):
         # Authenticate and get token
         token = self.authenticate_user()
@@ -59,7 +86,6 @@ class ServiceTests(APITestCase):
         self.assertEqual(get_response.data["title"], "Neighborhood Clean-Up")
         print("\n√ create service passed!")
 
-        '''==============Signup for the service=============='''
         # Build signup URL
         signup_url = f"/api/services/{service.service_id}/signup/"
 
@@ -87,6 +113,8 @@ class ServiceTests(APITestCase):
         self.assertEqual(ServiceSignUp.objects.first().messages, "Excited to help!")
         print("\n√ signup service passed!")
 
+
+    '''==============Update Signup Details (approve request)=============='''
     def test_service_signup_status_patch(self):
         token = self.authenticate_user()
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
@@ -125,6 +153,8 @@ class ServiceTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         print("\n√ test_service_signup_status_patch passed!")
     
+
+    '''==============Update Signup Details (approve request) - check dates=============='''
     def test_patch_signup_status_without_blocking_dates(self):
         token = self.authenticate_user()
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
@@ -175,6 +205,8 @@ class ServiceTests(APITestCase):
 
         print("\n√ test_patch_signup_status_without_blocking_dates passed!")
 
+
+    '''==============Get Service Details=============='''
     def test_get_service_by_id(self):
         token = self.authenticate_user()
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
@@ -198,6 +230,8 @@ class ServiceTests(APITestCase):
         self.assertEqual(response.data["service_id"], service.service_id)
         print("\n√ test_get_service_by_id passed!")
 
+
+    '''==============Get Service Details - invalid case=============='''
     def test_get_invalid_service_returns_404(self):
         token = self.authenticate_user()
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
@@ -208,6 +242,8 @@ class ServiceTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         print("\n√ test_get_invalid_service_returns_404 passed!")
 
+
+    '''==============Get Service Details - invalid case=============='''
     def test_get_service_requires_authentication(self):
         service = ServiceItem.objects.create(
             title="Dog Walking",
