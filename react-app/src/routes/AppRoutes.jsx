@@ -3,7 +3,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Login from "../pages/Auth/Login/Login";
 import Register from "../pages/Auth/Register/Register";
-import CardTest from "../pages/CardTest/CardTest";
 import { selectAuth } from "../redux/authSlice";
 import ProtectedLayout from "../components/ProtectedLayout";
 import Events from "../pages/Events/Events";
@@ -17,6 +16,10 @@ import Bulletin from "../pages/Bulletin/Bulletin";
 import CreateEvent from "../pages/Events/CreateEvent";
 import CreateTool from "../pages/Tools/CreateTool"; 
 import CreateService from "../pages/Services/CreateService";
+
+// Testing purpose
+import CardTest from "../pages/CardTest/CardTest";
+import MapTest from "../pages/MapTest/MapTest";
 
 // Protected route component
 const ProtectedRoute = ({ children }) => {
@@ -39,7 +42,9 @@ const AppRoutes = () => {
       <Routes>
         {/* ----------- Public routes ----------- */}
         
+        {/* Testing purpose */}
         <Route path="/test" element={<CardTest/>} />
+        <Route path="/map-test" element={<MapTest/>} />
 
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register/>} />
