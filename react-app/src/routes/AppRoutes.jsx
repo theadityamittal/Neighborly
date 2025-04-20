@@ -58,11 +58,11 @@ const AppRoutes = () => {
 
             <Route path="/tools" element={<Tools />} />
             {/* <Route path="/create-tool" element={<CreateTool />} /> */}
-            <Route path="/tools/create" element={<CreateTool />} />
+            <Route path="/create-tool" element={<CreateTool />} />
 
             <Route path="/services" element={<Services />} />
             {/* <Route path="/create-service" element={<CreateService />} /> */}
-            <Route path="/services/create" element={<CreateService />} />
+            <Route path="/create-service" element={<CreateService />} />
 
             <Route path="/petitions" element={<Petitions />} />
             <Route path="/petition/:id" element={<DetailedPetition />} />
