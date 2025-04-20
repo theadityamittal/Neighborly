@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
+import LocationPicker from '../../components/LocationPicker/LocationPicker';
 
 const CreateService = () => {
   const [title, setTitle] = useState('');
@@ -25,7 +26,7 @@ const CreateService = () => {
     if (image) formData.append('image', image);  // Image upload
 
     try {
-      const response = await axiosInstance.post("/services/api/create/", formData, {
+      const response = await axiosInstance.post("/api/services/", formData, {
         headers: {
           Authorization: `Bearer ${access}`,
           "Content-Type": "multipart/form-data",
