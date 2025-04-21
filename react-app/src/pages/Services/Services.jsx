@@ -3,7 +3,8 @@ import axiosInstance from "../../utils/axiosInstance";
 import HorizontalCard from "../../components/HorizontalCard/HorizontalCard"; 
 import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
 import { useSelector } from "react-redux";
-
+import "./Services.css";
+import { useNavigate } from "react-router-dom";
 //import "./Services.css";
 
 // Iamges
@@ -104,7 +105,7 @@ const Services = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const { access } = useSelector((state) => state.auth);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchServices = async () => {
       setLoading(true);
@@ -146,7 +147,13 @@ const Services = () => {
 
   return (
     <div style={{ padding: "1rem" }}>
-      <h1>Services</h1>
+      <h1>Upcoming Services</h1>
+      <button
+        onClick={() => navigate("/create-service")}
+        className="create-service-btn"
+      >
+        + Create New Service
+      </button>
       <div
         style={{
           display: "grid",

@@ -15,6 +15,8 @@ import DetailedPetition from "../pages/Petitions/DetailedPetition";
 import UserProfile from "../pages/UserProfile/UserProfile";
 import Bulletin from "../pages/Bulletin/Bulletin";
 import CreateEvent from "../pages/Events/CreateEvent";
+import CreateTool from "../pages/Tools/CreateTool"; 
+import CreateService from "../pages/Services/CreateService";
 
 // Protected route component
 const ProtectedRoute = ({ children }) => {
@@ -56,9 +58,11 @@ const AppRoutes = () => {
 
             <Route path="/tools" element={<Tools />} />
             {/* <Route path="/create-tool" element={<CreateTool />} /> */}
+            <Route path="/create-tool" element={<CreateTool />} />
 
             <Route path="/services" element={<Services />} />
             {/* <Route path="/create-service" element={<CreateService />} /> */}
+            <Route path="/create-service" element={<CreateService />} />
 
             <Route path="/petitions" element={<Petitions />} />
             <Route path="/petition/:id" element={<DetailedPetition />} />

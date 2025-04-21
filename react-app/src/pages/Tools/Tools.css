@@ -1,0 +1,29 @@
+/* Tools.css */
+
+.create-tool-btn {
+  background-color: #493CAE;
+  color: white;
+  padding: 14px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(25,33,61,0.08);
+  transition: background-color 0.2s ease;
+  margin-bottom: 20px;
+}
+
+.create-tool-btn:hover {
+  background-color: #3e3191;
+}
+  
+  .tools-container {
+    padding: 1rem;
+  }
+  
+  .tools-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
