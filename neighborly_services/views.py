@@ -8,23 +8,10 @@ from django.shortcuts import get_object_or_404
 from .models import ServiceItem, ServiceSignUp
 
 from .serializers import ServiceItemSerializer, ServiceSignupSerializer, ServiceItemDetailSerializer
-from utils.availability import get_earliest_availability
+# from utils.availability import get_earliest_availability
 
 # Geolocation
-# from .utils.geolocation import geocode_location
-
-
-# class TestServiceView(APIView):
-#     permission_classes = [IsAuthenticated]
-    
-#     def get(self, request):
-#         services = ServiceItem.objects.all().values()
-#         signup = ServiceSignUp.objects.all().values()
-        
-#         return Response({
-#             "services": list(services),
-#             "signup": list(signup)
-#         })
+from utils.geolocation import geocode_location
 
 '''For all service items & creation of new service items'''    
 class ServiceItemListView(APIView):
@@ -129,3 +116,4 @@ class ServiceSignUpDetailView(APIView):
         signup = get_object_or_404(ServiceSignUp, signup_id=signup_id)
         signup.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+

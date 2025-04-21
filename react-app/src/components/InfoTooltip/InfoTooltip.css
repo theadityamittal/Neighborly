@@ -1,0 +1,30 @@
+.tooltip-wrapper {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .info-icon {
+    cursor: pointer;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  
+  .tooltip-box {
+    display: none;
+    position: absolute;
+    top: 130%;
+    left: 0;
+    z-index: 10;
+    background-color: #f0f0f0;
+    color: #333;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .tooltip-wrapper:hover .tooltip-box {
+    display: block;
+  }

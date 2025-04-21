@@ -1,14 +1,38 @@
-import React, { useState } from "react";
+import React, { Component, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 
+// Reusable Component
+import FormLocationPicker from '../../components/LocationPicker/FormLocationPicker';
+import InfoTooltip from '../../components/InfoTooltip/InfoTooltip'; 
+
+// Styles
+import "./CreateService.css";
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+
 const CreateService = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [location, setLocation] = useState('');
+  const [visibility, setVisibility] = useState('public');
   const [image, setImage] = useState(null);
   const [earliestAvailability, setEarliestAvailability] = useState('');
+  const [price, setPrice] = useState('');
+  const [quota, setQuota] = useState('');
+
+  // Location
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+  const [streetAddress, setStreetAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [stateRegion, setStateRegion] = useState('');
+  const [zipCode, setZipCode] = useState('');
+  const [location, setLocation] = useState('');
+
   const { name, user_id, access } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
@@ -19,13 +43,24 @@ const CreateService = () => {
     formData.append('title', title);
     formData.append('description', description);
     formData.append('service_provider', user_id);  // Use logged-in user's ID for the provider
+
+    formData.append('latitude', latitude ?? '');
+    formData.append('longitude', longitude ?? '');
     formData.append('location', location);
+    formData.append('street_address', streetAddress);
+    formData.append('city', city);
+    formData.append('state', stateRegion);
+    formData.append('zip_code', zipCode);
+    formData.append('visibility', visibility);
     formData.append('date_posted', new Date().toISOString());  // Current date
     formData.append('earliest_availability', earliestAvailability);
+    formData.append('price', price);
+    formData.append('quota', quota);
     if (image) formData.append('image', image);  // Image upload
-
+// Debug logging loop removed to prevent exposure of sensitive data.
+  
     try {
-      const response = await axiosInstance.post("/services/api/create/", formData, {
+      const response = await axiosInstance.post("/api/services/", formData, {
         headers: {
           Authorization: `Bearer ${access}`,
           "Content-Type": "multipart/form-data",
@@ -45,101 +80,68 @@ const CreateService = () => {
       <form className="form-container" encType="multipart/form-data" onSubmit={handleServiceSubmit}>
         <h1 className="form-title">Create New Service</h1>
 
-        <label className="input-label">Title</label>
-        <input className="input" placeholder="Service Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+        <div className="two-column-row">
+          <div className="form-left">
+            <label className="input-label">Title</label>
+            <input className="input" value={title} onChange={(e) => setTitle(e.target.value)} />
 
-        <label className="input-label">Location</label>
-        <input className="input" placeholder="Location" value={location} onChange={(e) => setLocation(e.target.value)} />
+            <label className="input-label">Earliest Availability</label>
+            <input className="input" type="date" value={earliestAvailability} onChange={(e) => setEarliestAvailability(e.target.value)} />
 
-        <label className="input-label">Earliest Availability</label>
-        <input className="input" type="date" value={earliestAvailability} onChange={(e) => setEarliestAvailability(e.target.value)} />
+            <label className="input-label">Description</label>
+            <textarea className="textarea" value={description} onChange={(e) => setDescription(e.target.value)} />
 
-        <label className="input-label">Description</label>
-        <textarea className="textarea" placeholder="Write a short description..." value={description} onChange={(e) => setDescription(e.target.value)} />
+            <label className="input-label">Image Upload</label>
+            <input className="input" type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
+            
+            <label className="input-label">
+              Price (optional)
+              <InfoTooltip text="Set a daily price if you'd like to charge for this service. Leave it blank for free services." />
+            </label>
+            <input className="input" type="number" min="0" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="e.g. 25"/>
 
-        <label className="input-label">Image Upload</label>
-        <input className="input" type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
+            <label className="input-label">Quota (optional)</label>
+            <input className="input" type="number" min="1" value={quota} onChange={(e) => setQuota(e.target.value)} placeholder="Max number of participants"/>          
+
+          </div>
+
+          <div className="form-right">
+          <FormControl>
+              <label className="input-label">Visibility</label>
+              <RadioGroup
+                row
+                aria-labelledby="visibility-group-label"
+                name="visibility"
+                value={visibility}
+                onChange={(e) => setVisibility(e.target.value)}
+              >
+                <FormControlLabel value="public" control={<Radio />} label="Public" />
+                <FormControlLabel value="neighborhood" control={<Radio />} label="Neighborhood Only" />
+                <FormControlLabel value="invitation" control={<Radio />} label="Invitation Only" />
+              </RadioGroup>
+            </FormControl>
+          <FormLocationPicker
+            location={location}
+            setLocation={(val) => {
+              if (val) setLocation(val);
+            }}
+            onCoordinatesChange={(loc) => {
+              if (loc.latitude) setLatitude(loc.latitude);
+              if (loc.longitude) setLongitude(loc.longitude);
+              if (loc.streetAddress) setStreetAddress(loc.streetAddress);
+              if (loc.city) setCity(loc.city);
+              if (loc.state) setStateRegion(loc.state);
+              if (loc.zipCode) setZipCode(loc.zipCode);
+            }}
+          />
+          
+          </div>
+        </div>
 
         
-
-        <button className="submit-btn" type="submit">Create Service</button>
+        <button className="submit-btn" type="submit">Create Service</button> 
       </form>
 
-      <style>{`
-        .create-service-page {
-          max-width: 1000px;
-          margin: 0 auto;
-          padding: 40px;
-          background-color: #fff;
-          font-family: 'Inter', sans-serif;
-        }
-
-        .back-btn {
-          color: #493CAE;
-          background: none;
-          border: none;
-          font-weight: 600;
-          cursor: pointer;
-          margin-bottom: 20px;
-        }
-
-        .form-container {
-          display: flex;
-          flex-direction: column;
-          background-color: #F5F5F5;
-          padding: 30px;
-          border-radius: 12px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .form-title {
-          font-size: 24px;
-          font-weight: 700;
-          margin-bottom: 20px;
-          color: #000;
-        }
-
-        .input-label {
-          font-weight: 600;
-          font-size: 14px;
-          color: #6D758F;
-          margin-top: 20px;
-          margin-bottom: 6px;
-        }
-
-        .input, .textarea {
-          background: #FFFFFF;
-          border: 1px solid #F1F3F7;
-          box-shadow: 0px 1px 4px rgba(25, 33, 61, 0.08);
-          border-radius: 6px;
-          padding: 12px;
-          font-size: 14px;
-          width: 100%;
-          box-sizing: border-box;
-        }
-
-        .textarea {
-          resize: vertical;
-          min-height: 80px;
-        }
-
-        .submit-btn {
-          margin-top: 30px;
-          background-color: #493CAE;
-          color: #fff;
-          border: none;
-          padding: 14px 20px;
-          font-size: 16px;
-          font-weight: 600;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: background 0.2s ease;
-        }
-
-        .submit-btn:hover {
-          background-color: #3b2e94;
-        }
-      `}</style>
     </div>
   );
 };
