@@ -101,8 +101,7 @@ const CreateService = () => {
         </div>
 
         
-        <button className="submit-btn">Create Service</button>
-        {/* <button className="submit-btn" type="submit">Create Service</button> */}
+        <button className="submit-btn" type="submit">Create Service</button> 
       </form>
 
       
