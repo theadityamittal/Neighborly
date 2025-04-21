@@ -30,6 +30,22 @@
         "created_at": "2025-04-16T09:30:00Z",
         "password": "pbkdf2_sha256$600000$soDNyxoNsN70JFVU6kB6ya$clhgnxzWrddkjyJn25aIdyrnIbSHsKHjvrlLHI5wrHA="
         }
+    },
+    {
+        "model": "neighborly_users.customuser",
+        "pk": 3,
+        "fields": {
+        "user_id": "6cffc2dffe9247aba9c36f5ac89c59a5",
+        "name": "Cathy Tsui",
+        "email": "cathytest@gmail.com",
+        "phone_number": "+1234567891",
+        "address": "370 Jay St, Brooklyn",
+        "neighborhood": "Downtown Brooklyn",
+        "account_type": "resident",
+        "verified": true,
+        "created_at": "2025-04-21 19:56:23.635498",
+        "password": "pbkdf2_sha256$600000$y3RcdrGz9JMhFzLIWyrSo3$BbZnX4kXz+Sfowf1HyCouV6WYzPYdBRdSfj4ZhcWYUE="
+        }
     }
 ]
   
