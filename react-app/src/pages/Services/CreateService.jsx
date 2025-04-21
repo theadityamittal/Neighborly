@@ -57,9 +57,7 @@ const CreateService = () => {
     formData.append('price', price);
     formData.append('quota', quota);
     if (image) formData.append('image', image);  // Image upload
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
+// Debug logging loop removed to prevent exposure of sensitive data.
   
     try {
       const response = await axiosInstance.post("/api/services/", formData, {
