@@ -13,7 +13,7 @@ const FormLocationPicker = ({ location, setLocation, onCoordinatesChange }) => {
   const geocoderRef = useRef(null);
 
   const [displayAddress, setDisplayAddress] = useState({
-    addressLine1: '',
+    streetAddress: '',
     city: '',
     state: '',
     zipCode: '',
@@ -109,12 +109,12 @@ const FormLocationPicker = ({ location, setLocation, onCoordinatesChange }) => {
         const fullAddress = result.place_name;
 
         setLocation(fullAddress);
-        setDisplayAddress({ addressLine1: address, city: cityName, state: stateName, zipCode: zip, neighborhood: neighborhood });
+        setDisplayAddress({ streetAddress: address, city: cityName, state: stateName, zipCode: zip, neighborhood: neighborhood });
 
         onCoordinatesChange({
           latitude: lat,
           longitude: lng,
-          addressLine1: address,
+          streetAddress: address,
           city: cityName,
           state: stateName,
           zipCode: zip,
@@ -153,7 +153,7 @@ const FormLocationPicker = ({ location, setLocation, onCoordinatesChange }) => {
               📍 Selected Location
             </h4>
             {[
-              ['Street', displayAddress.addressLine1],
+              ['Street', displayAddress.streetAddress],
               ['Neighborhood', displayAddress.neighborhood],
               ['City', displayAddress.city],
               ['State', displayAddress.state],

@@ -27,7 +27,7 @@ const CreateService = () => {
   // Location
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
-  const [addressLine1, setAddressLine1] = useState('');
+  const [streetAddress, setStreetAddress] = useState('');
   const [city, setCity] = useState('');
   const [stateRegion, setStateRegion] = useState('');
   const [zipCode, setZipCode] = useState('');
@@ -48,7 +48,7 @@ const CreateService = () => {
     formData.append('latitude', latitude ?? '');
     formData.append('longitude', longitude ?? '');
     formData.append('location', location);
-    formData.append('address_line1', addressLine1);
+    formData.append('street_address', streetAddress);
     formData.append('city', city);
     formData.append('state', stateRegion);
     formData.append('zip_code', zipCode);
@@ -131,7 +131,7 @@ const CreateService = () => {
             onCoordinatesChange={(loc) => {
               if (loc.latitude) setLatitude(loc.latitude);
               if (loc.longitude) setLongitude(loc.longitude);
-              if (loc.addressLine1) setAddressLine1(loc.addressLine1);
+              if (loc.streetAddress) setStreetAddress(loc.streetAddress);
               if (loc.city) setCity(loc.city);
               if (loc.state) setStateRegion(loc.state);
               if (loc.zipCode) setZipCode(loc.zipCode);
