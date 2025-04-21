@@ -1,7 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
+import os
+import uuid
 # from utils.availability import get_earliest_availability
+
+def services_image_upload_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = f"{uuid.uuid4().hex}.{ext}"
+    return os.path.join("services/uploads/", filename)
 
 class ServiceItem(models.Model):
     service_id = models.AutoField(primary_key=True)
@@ -26,7 +33,7 @@ class ServiceItem(models.Model):
     visibility = models.CharField(max_length=10, default='public')  # public, neighborhood, private (=invite only)
     #view_type = models.CharField(max_length=50, default="card")
     tags = models.JSONField(default=list, blank=True)
-    images = models.JSONField(default=list, blank=True)
+    images = models.ImageField(upload_to=services_image_upload_path, null=True, blank=True)
 
 
     def __str__(self):
