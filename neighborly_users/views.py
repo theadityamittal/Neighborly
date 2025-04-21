@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from .permissions import IsStaffPermission
+from .permissions import IsStaffPermission, IsVerifiedPermission
 
 class RegisterUserView(APIView):
     permission_classes = [AllowAny]
@@ -20,7 +20,7 @@ class RegisterUserView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UpdateUserView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVerifiedPermission]
 
     def patch(self, request):
         user = get_object_or_404(CustomUser, email=request.user.email)

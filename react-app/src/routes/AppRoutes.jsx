@@ -16,6 +16,7 @@ import Bulletin from "../pages/Bulletin/Bulletin";
 import CreateEvent from "../pages/Events/CreateEvent";
 import CreateTool from "../pages/Tools/CreateTool"; 
 import CreateService from "../pages/Services/CreateService";
+import Verification from "../pages/Auth/Verification/Verification";
 
 // Testing purpose
 import CardTest from "../pages/CardTest/CardTest";
@@ -24,13 +25,17 @@ import MapTest from "../pages/MapTest/MapTest";
 
 // Protected route component
 const ProtectedRoute = ({ children }) => {
-  const { access } = useSelector(selectAuth);
+  const { access, verified } = useSelector(selectAuth);
 
   // uncomment for development purposes
   // return children;
   
   if (!access) {
     return <Navigate to="/login" />;
+  }
+
+  if (!verified) {
+    return <Navigate to="/verification" />;
   }
   
   return children;
@@ -49,6 +54,7 @@ const AppRoutes = () => {
 
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register/>} />
+        <Route path="/verification" element={<Verification/>} />
         
         {/* --------- Protected routes ---------- */}
         <Route element = {

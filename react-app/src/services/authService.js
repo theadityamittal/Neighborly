@@ -79,3 +79,61 @@ export const checkAuthState = () => async (dispatch) => {
     localStorage.removeItem('token');
   }
 };
+
+export const getVerificationForm = async (token) => {
+  try {
+    const response = await axiosInstance.get('/documents/UserDocuments/', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    console.log(response.data);
+    return response.data;
+
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export const getVerificationStatus = async (token) => {
+  try {
+    const response = await axiosInstance.get('/auth/user/info/', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response.data.verified;
+  }
+  catch (error) {
+    console.error(error);
+  }
+}
+
+export const uploadVerificationForm = async (formData, token) => {
+  try {
+    const response = await axiosInstance.post('/documents/verificationDocument/', formData, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export const updateVerificationForm = async (formData, token) => {
+  try {
+    const response = await axiosInstance.put('/documents/verificationDocument/', formData, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    return response.data;
+  }
+  catch (error) {
+    console.error(error);
+  }
+}

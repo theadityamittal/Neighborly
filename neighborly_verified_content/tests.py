@@ -125,7 +125,7 @@ class DocumentTests(APITestCase):
 
         # staff user can update users account to approve (verified=True)
         url = reverse('VerificationDocument')
-        response = self.client.put(url, data={"user_id": user_id}, format="json")
+        response = self.client.patch(url, data={"user_id": user_id}, format="json")
         print(response.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
