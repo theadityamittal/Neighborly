@@ -9,9 +9,16 @@ import "./CreateService.css";
 const CreateService = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+
+  // Location
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
+  const [addressLine1, setAddressLine1] = useState('');
+  const [city, setCity] = useState('');
+  const [stateRegion, setStateRegion] = useState('');
+  const [zipCode, setZipCode] = useState('');
   const [location, setLocation] = useState('');
+
   const [image, setImage] = useState(null);
   const [earliestAvailability, setEarliestAvailability] = useState('');
   const { name, user_id, access } = useSelector((state) => state.auth);
@@ -24,13 +31,20 @@ const CreateService = () => {
     formData.append('title', title);
     formData.append('description', description);
     formData.append('service_provider', user_id);  // Use logged-in user's ID for the provider
-    formData.append('location', location);
     formData.append('latitude', latitude ?? '');
     formData.append('longitude', longitude ?? '');
+    formData.append('location', location);
+    formData.append('address_line1', addressLine1);
+    formData.append('city', city);
+    formData.append('state', stateRegion);
+    formData.append('zip_code', zipCode);
     formData.append('date_posted', new Date().toISOString());  // Current date
     formData.append('earliest_availability', earliestAvailability);
     if (image) formData.append('image', image);  // Image upload
-
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
+  
     try {
       const response = await axiosInstance.post("/api/services/", formData, {
         headers: {
@@ -68,20 +82,27 @@ const CreateService = () => {
           </div>
 
           <div className="form-right">
-            <FormLocationPicker
-              location={location}
-              setLocation={setLocation}
-              onCoordinatesChange={({ latitude, longitude }) => {
-                setLatitude(latitude);
-                setLongitude(longitude);
-              }}
-            />
+          <FormLocationPicker
+            location={location}
+            setLocation={(val) => {
+              if (val) setLocation(val);
+            }}
+            onCoordinatesChange={(loc) => {
+              if (loc.latitude) setLatitude(loc.latitude);
+              if (loc.longitude) setLongitude(loc.longitude);
+              if (loc.addressLine1) setAddressLine1(loc.addressLine1);
+              if (loc.city) setCity(loc.city);
+              if (loc.state) setStateRegion(loc.state);
+              if (loc.zipCode) setZipCode(loc.zipCode);
+              if (loc.fullAddress) setLocation(loc.fullAddress);
+            }}
+          />
           </div>
         </div>
 
         
-
-        <button className="submit-btn" type="submit">Create Service</button>
+        <button className="submit-btn">Create Service</button>
+        {/* <button className="submit-btn" type="submit">Create Service</button> */}
       </form>
 
       
