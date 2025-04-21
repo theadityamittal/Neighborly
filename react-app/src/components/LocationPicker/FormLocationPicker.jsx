@@ -12,22 +12,42 @@ const FormLocationPicker = ({ location, setLocation, onCoordinatesChange }) => {
   const markerRef = useRef(null);
   const geocoderRef = useRef(null);
 
-  // Init map
   useEffect(() => {
-    if (!mapInstance.current && mapRef.current) {
-      mapInstance.current = new mapboxgl.Map({
-        container: mapRef.current,
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [-73.935242, 40.73061],
-        zoom: 12,
-        interactive: false,
+    if (!mapRef.current || mapInstance.current) return;
+
+    const map = new mapboxgl.Map({
+      container: mapRef.current,
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [-73.935242, 40.73061],
+      zoom: 12,
+      interactive: true,
+    });
+    mapInstance.current = map;
+
+    // Add click handler once
+    map.on('click', (e) => {
+      const { lng, lat } = e.lngLat;
+      setLocation(`Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}`);
+      onCoordinatesChange({ latitude: lat, longitude: lng });
+
+      if (!markerRef.current) {
+        markerRef.current = new mapboxgl.Marker({ draggable: true })
+          .setLngLat([lng, lat])
+          .addTo(map);
+      } else {
+        markerRef.current.setLngLat([lng, lat]);
+      }
+
+      markerRef.current.on('dragend', () => {
+        const pos = markerRef.current.getLngLat();
+        setLocation(`Lat: ${pos.lat.toFixed(5)}, Lng: ${pos.lng.toFixed(5)}`);
+        onCoordinatesChange({ latitude: pos.lat, longitude: pos.lng });
       });
-    }
+    });
   }, []);
 
-  // Add geocoder
   useEffect(() => {
-    if (geocoderRef.current || !mapInstance.current) return;
+    if (!mapInstance.current || geocoderRef.current) return;
 
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
@@ -57,24 +77,32 @@ const FormLocationPicker = ({ location, setLocation, onCoordinatesChange }) => {
         mapInstance.current?.flyTo({ center: [lng, lat], zoom: 13 });
 
         if (!markerRef.current) {
-          markerRef.current = new mapboxgl.Marker().setLngLat([lng, lat]).addTo(mapInstance.current);
+          markerRef.current = new mapboxgl.Marker({ draggable: true })
+            .setLngLat([lng, lat])
+            .addTo(mapInstance.current);
         } else {
           markerRef.current.setLngLat([lng, lat]);
         }
+
+        markerRef.current.on('dragend', () => {
+          const pos = markerRef.current.getLngLat();
+          setLocation(`Lat: ${pos.lat.toFixed(5)}, Lng: ${pos.lng.toFixed(5)}`);
+          onCoordinatesChange({ latitude: pos.lat, longitude: pos.lng });
+        });
       });
     }
   }, [setLocation, onCoordinatesChange]);
 
   return (
     <div>
-      <label className="input-label" style={{ marginTop: '20px',  marginBottom: '10px'}}>Location</label>
+      <label className="input-label" style={{ marginTop: '20px', marginBottom: '10px' }}>Location</label>
       <div id="form-location-geocoder" style={{ marginBottom: '10px' }} />
       <div
         ref={mapRef}
         style={{ height: '250px', width: '100%', borderRadius: '8px', marginTop: '10px' }}
       />
-    
-    <style>{`
+
+      <style>{`
         .mapboxgl-ctrl-geocoder {
             background: none !important;
             border: none !important;
@@ -94,29 +122,14 @@ const FormLocationPicker = ({ location, setLocation, onCoordinatesChange }) => {
             font-size: 14px;
             width: 100%;
             box-sizing: border-box;
+            padding-left: 36px;
         }
 
-        /* Ensure dropdown suggestions display correctly */
         .mapboxgl-ctrl-geocoder--suggestion {
             font-size: 14px;
             font-family: 'Inter', sans-serif;
         }
 
-        .mapboxgl-ctrl-geocoder {
-            position: relative;
-            }
-
-        .tooltip-label {
-            position: absolute;
-            left: 36px; /* leaves space for the search icon */
-            top: 50px;
-            font-size: 14px;
-            color: #6D758F;
-            pointer-events: none;
-        }
-        .mapboxgl-ctrl-geocoder input {
-            padding-left: 36px; /* matches tooltip label */
-        }
         .mapboxgl-ctrl-geocoder--icon-search {
             left: 12px;
             top: 15px;
@@ -124,12 +137,9 @@ const FormLocationPicker = ({ location, setLocation, onCoordinatesChange }) => {
             height: 16px;
             opacity: 0.5;
         }
-    `}</style>
+      `}</style>
     </div>
-
-
   );
 };
-
 
 export default FormLocationPicker;
