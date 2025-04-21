@@ -33,8 +33,6 @@ const CreateService = () => {
   const [zipCode, setZipCode] = useState('');
   const [location, setLocation] = useState('');
 
-  
-
   const { name, user_id, access } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
@@ -45,6 +43,7 @@ const CreateService = () => {
     formData.append('title', title);
     formData.append('description', description);
     formData.append('service_provider', user_id);  // Use logged-in user's ID for the provider
+
     formData.append('latitude', latitude ?? '');
     formData.append('longitude', longitude ?? '');
     formData.append('location', location);
@@ -145,7 +144,6 @@ const CreateService = () => {
         <button className="submit-btn" type="submit">Create Service</button> 
       </form>
 
-      
     </div>
   );
 };

@@ -13,19 +13,6 @@ from .serializers import ServiceItemSerializer, ServiceSignupSerializer, Service
 # Geolocation
 from utils.geolocation import geocode_location
 
-
-# class TestServiceView(APIView):
-#     permission_classes = [IsAuthenticated]
-    
-#     def get(self, request):
-#         services = ServiceItem.objects.all().values()
-#         signup = ServiceSignUp.objects.all().values()
-        
-#         return Response({
-#             "services": list(services),
-#             "signup": list(signup)
-#         })
-
 '''For all service items & creation of new service items'''    
 class ServiceItemListView(APIView):
     permission_classes = [IsAuthenticated] 
@@ -50,7 +37,7 @@ class ServiceItemDetailView(APIView):
     permission_classes = [IsAuthenticated] 
     def get(self, request, service_id):
         try:
-            service = service = get_object_or_404(ServiceItem, service_id=service_id) #ServiceItem.objects.get(service_id=service_id)
+            service = get_object_or_404(ServiceItem, service_id=service_id) #ServiceItem.objects.get(service_id=service_id)
         except ServiceItem.DoesNotExist:
             return Response({"error": "Service not found"}, status=status.HTTP_404_NOT_FOUND)
 
@@ -129,3 +116,4 @@ class ServiceSignUpDetailView(APIView):
         signup = get_object_or_404(ServiceSignUp, signup_id=signup_id)
         signup.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
