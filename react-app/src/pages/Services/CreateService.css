@@ -46,7 +46,18 @@
   margin-bottom: 20px;
   color: #000;
 }
+.label-with-tooltip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
+.tooltip-icon {
+  font-size: 14px;
+  cursor: help;
+  color: #999;
+  user-select: none;
+}
 .input-label {
   font-weight: 600;
   font-size: 14px;

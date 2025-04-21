@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { Component, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
+
+// Reusable Component
 import FormLocationPicker from '../../components/LocationPicker/FormLocationPicker';
+import InfoTooltip from '../../components/InfoTooltip/InfoTooltip'; 
 
+// Styles
 import "./CreateService.css";
-
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -15,6 +18,11 @@ import FormLabel from '@mui/material/FormLabel';
 const CreateService = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [visibility, setVisibility] = useState('public');
+  const [image, setImage] = useState(null);
+  const [earliestAvailability, setEarliestAvailability] = useState('');
+  const [price, setPrice] = useState('');
+  const [quota, setQuota] = useState('');
 
   // Location
   const [latitude, setLatitude] = useState(null);
@@ -25,9 +33,8 @@ const CreateService = () => {
   const [zipCode, setZipCode] = useState('');
   const [location, setLocation] = useState('');
 
-  const [visibility, setVisibility] = useState('public');
-  const [image, setImage] = useState(null);
-  const [earliestAvailability, setEarliestAvailability] = useState('');
+  
+
   const { name, user_id, access } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
@@ -48,6 +55,8 @@ const CreateService = () => {
     formData.append('visibility', visibility);
     formData.append('date_posted', new Date().toISOString());  // Current date
     formData.append('earliest_availability', earliestAvailability);
+    formData.append('price', price);
+    formData.append('quota', quota);
     if (image) formData.append('image', image);  // Image upload
     for (let [key, value] of formData.entries()) {
       console.log(`${key}:`, value);
@@ -87,8 +96,20 @@ const CreateService = () => {
 
             <label className="input-label">Image Upload</label>
             <input className="input" type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
+            
+            <label className="input-label">
+              Price (optional)
+              <InfoTooltip text="Set a daily price if you'd like to charge for this service. Leave it blank for free services." />
+            </label>
+            <input className="input" type="number" min="0" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="e.g. 25"/>
 
-            <FormControl sx={{ marginTop: '20px' }}>
+            <label className="input-label">Quota (optional)</label>
+            <input className="input" type="number" min="1" value={quota} onChange={(e) => setQuota(e.target.value)} placeholder="Max number of participants"/>          
+
+          </div>
+
+          <div className="form-right">
+          <FormControl>
               <label className="input-label">Visibility</label>
               <RadioGroup
                 row
@@ -102,10 +123,6 @@ const CreateService = () => {
                 <FormControlLabel value="invitation" control={<Radio />} label="Invitation Only" />
               </RadioGroup>
             </FormControl>
-
-          </div>
-
-          <div className="form-right">
           <FormLocationPicker
             location={location}
             setLocation={(val) => {
@@ -120,6 +137,7 @@ const CreateService = () => {
               if (loc.zipCode) setZipCode(loc.zipCode);
             }}
           />
+          
           </div>
         </div>
 
