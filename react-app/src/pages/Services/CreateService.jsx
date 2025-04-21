@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
-import LocationPicker from '../../components/LocationPicker/LocationPicker';
+import FormLocationPicker from '../../components/LocationPicker/FormLocationPicker';
 
 import "./CreateService.css";
 
 const CreateService = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
   const [location, setLocation] = useState('');
   const [image, setImage] = useState(null);
   const [earliestAvailability, setEarliestAvailability] = useState('');
@@ -23,6 +25,8 @@ const CreateService = () => {
     formData.append('description', description);
     formData.append('service_provider', user_id);  // Use logged-in user's ID for the provider
     formData.append('location', location);
+    formData.append('latitude', latitude ?? '');
+    formData.append('longitude', longitude ?? '');
     formData.append('date_posted', new Date().toISOString());  // Current date
     formData.append('earliest_availability', earliestAvailability);
     if (image) formData.append('image', image);  // Image upload
@@ -48,20 +52,32 @@ const CreateService = () => {
       <form className="form-container" encType="multipart/form-data" onSubmit={handleServiceSubmit}>
         <h1 className="form-title">Create New Service</h1>
 
-        <label className="input-label">Title</label>
-        <input className="input" placeholder="Service Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+        <div className="two-column-row">
+          <div className="form-left">
+            <label className="input-label">Title</label>
+            <input className="input" value={title} onChange={(e) => setTitle(e.target.value)} />
 
-        <label className="input-label">Location</label>
-        <input className="input" placeholder="Location" value={location} onChange={(e) => setLocation(e.target.value)} />
+            <label className="input-label">Earliest Availability</label>
+            <input className="input" type="date" value={earliestAvailability} onChange={(e) => setEarliestAvailability(e.target.value)} />
 
-        <label className="input-label">Earliest Availability</label>
-        <input className="input" type="date" value={earliestAvailability} onChange={(e) => setEarliestAvailability(e.target.value)} />
+            <label className="input-label">Description</label>
+            <textarea className="textarea" value={description} onChange={(e) => setDescription(e.target.value)} />
 
-        <label className="input-label">Description</label>
-        <textarea className="textarea" placeholder="Write a short description..." value={description} onChange={(e) => setDescription(e.target.value)} />
+            <label className="input-label">Image Upload</label>
+            <input className="input" type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
+          </div>
 
-        <label className="input-label">Image Upload</label>
-        <input className="input" type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
+          <div className="form-right">
+            <FormLocationPicker
+              location={location}
+              setLocation={setLocation}
+              onCoordinatesChange={({ latitude, longitude }) => {
+                setLatitude(latitude);
+                setLongitude(longitude);
+              }}
+            />
+          </div>
+        </div>
 
         
 
