@@ -6,6 +6,12 @@ import FormLocationPicker from '../../components/LocationPicker/FormLocationPick
 
 import "./CreateService.css";
 
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+
 const CreateService = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -19,6 +25,7 @@ const CreateService = () => {
   const [zipCode, setZipCode] = useState('');
   const [location, setLocation] = useState('');
 
+  const [visibility, setVisibility] = useState('public');
   const [image, setImage] = useState(null);
   const [earliestAvailability, setEarliestAvailability] = useState('');
   const { name, user_id, access } = useSelector((state) => state.auth);
@@ -38,6 +45,7 @@ const CreateService = () => {
     formData.append('city', city);
     formData.append('state', stateRegion);
     formData.append('zip_code', zipCode);
+    formData.append('visibility', visibility);
     formData.append('date_posted', new Date().toISOString());  // Current date
     formData.append('earliest_availability', earliestAvailability);
     if (image) formData.append('image', image);  // Image upload
@@ -79,6 +87,22 @@ const CreateService = () => {
 
             <label className="input-label">Image Upload</label>
             <input className="input" type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
+
+            <FormControl sx={{ marginTop: '20px' }}>
+              <label className="input-label">Visibility</label>
+              <RadioGroup
+                row
+                aria-labelledby="visibility-group-label"
+                name="visibility"
+                value={visibility}
+                onChange={(e) => setVisibility(e.target.value)}
+              >
+                <FormControlLabel value="public" control={<Radio />} label="Public" />
+                <FormControlLabel value="neighborhood" control={<Radio />} label="Neighborhood Only" />
+                <FormControlLabel value="invitation" control={<Radio />} label="Invitation Only" />
+              </RadioGroup>
+            </FormControl>
+
           </div>
 
           <div className="form-right">
@@ -94,7 +118,6 @@ const CreateService = () => {
               if (loc.city) setCity(loc.city);
               if (loc.state) setStateRegion(loc.state);
               if (loc.zipCode) setZipCode(loc.zipCode);
-              if (loc.fullAddress) setLocation(loc.fullAddress);
             }}
           />
           </div>

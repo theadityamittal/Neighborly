@@ -153,7 +153,6 @@ const FormLocationPicker = ({ location, setLocation, onCoordinatesChange }) => {
               📍 Selected Location
             </h4>
             {[
-              ['Full Address', displayAddress.location],
               ['Street', displayAddress.addressLine1],
               ['Neighborhood', displayAddress.neighborhood],
               ['City', displayAddress.city],
