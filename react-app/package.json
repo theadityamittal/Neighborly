@@ -55,6 +55,7 @@
     ]
   },
   "jest": {
+    "setupFiles": ["<rootDir>/jest.setup.js"],
     "transformIgnorePatterns": [
       "/node_modules/(?!react-router-dom)"
     ],
@@ -62,5 +63,8 @@
       "\\.(css|less)$": "identity-obj-proxy",
       "^axios$": "axios/dist/node/axios.cjs"
     }
+  },
+  "devDependencies": {
+    "util": "^0.12.5"
   }
 }
