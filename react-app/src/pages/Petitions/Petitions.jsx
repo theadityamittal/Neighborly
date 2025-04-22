@@ -6,11 +6,14 @@ import { useSelector } from "react-redux";
 import axiosInstance from "../../utils/axiosInstance"; 
 import petitionsJson from "./petitionData.json"; // Import the local JSON file
 import "./petitions.css";
+import SearchBar from "../../components/SearchBar";
+import AddIcon from '@mui/icons-material/Add';
 
 const Petitions = () => {
   const [petitions, setPetitions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const { access } = useSelector((state) => state.auth);
   // Define fetchPetitions as a separate function
@@ -43,7 +46,7 @@ const Petitions = () => {
       const data = response.data;
       console.log("Fetched petition data:", data);
 
-      const processed = data.petition.map(pet => ({
+      const processed = data.petitions.map(pet => ({
         id: pet.petition_id,
         title: pet.title,
         provider: pet.provider,       // use display name
@@ -62,11 +65,26 @@ const Petitions = () => {
     }
   };
 
-  const handleCardClick = (id) => {
+  const viewPetition = (id) => {
     console.log(`Card with ID ${id} clicked`);
     // Navigate to the detailed petition page
     navigate(`/petition/${id}`);
   };
+
+  // filter petitions
+  const filterPetitions = (searchTerm) => {
+    const filteredPetitions = petitions.filter((petition) => {
+      const titleMatch = petition.title.toLowerCase().includes(searchTerm.toLowerCase());
+      return titleMatch;
+    })
+
+    setPetitions(filteredPetitions);
+  }
+  // Reset petitions to original state
+  const resetPetitions = () => {
+    fetchPetitions(); // Fetch original petitions
+    setSearchTerm(""); // Reset search term
+  }
 
   useEffect(() => {
     fetchPetitions(); // Fetch petitions when the component mounts
@@ -80,22 +98,13 @@ const Petitions = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      gap: '10px',
-    }}>
+    <div>
       <div className="petition-header">
-        <div className="header-text">
-          <h2>Petitions</h2>
-          <p>Explore and support petitions that matter to you.</p>
-        </div>
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterPetitions} resetFilter={resetPetitions}/>
         <div className="petition-header-btn" onClick={() => navigate("/create-petition")}>
-          + Create Petition
+          <AddIcon fontSize="large"/>
         </div>
       </div>
-      <hr className="petition-divider"/>
       <div className="petition-cards">
         {petitions.length === 0 ?
           <div style={{
@@ -109,9 +118,9 @@ const Petitions = () => {
         :
           petitions.map((item) => (
             <div key={item.id} style={{ 
-              width: 'calc(25% - 20px)',
+              width: 'calc(32%)',
               minWidth: '350px',
-              marginBottom: '20px'
+              marginBottom: '20px',
             }}>
               <VerticalCard
                 id={item.id}
@@ -123,7 +132,7 @@ const Petitions = () => {
                 viewType={item.viewType}
                 tags={item.tags}
                 numberSigned={item.numberSigned}
-                handleClick={() => handleCardClick(item.id)}
+                handleClick={() => viewPetition(item.id)}
               />
             </div>
           ))

@@ -5,48 +5,60 @@ import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
 import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
 import dummyTools from "./toolsData.json"; // your local fixture file
 import "./Tools.css";
+import AddIcon from '@mui/icons-material/Add';
 
 // Iamges
-import drill1 from "../../assets/img/drill1.jpg";
-import mower1 from "../../assets/img/mower1.jpg";
-import wrench1 from "../../assets/img/wrench1.jpg";
-import chainsaw1 from "../../assets/img/chainsaw1.jpg";
-import carjack1 from "../../assets/img/carjack1.jpg";
 import { useNavigate } from "react-router-dom"; // Import navigate
+import SearchBar from "../../components/SearchBar";
 
 const Tools = () => {
   const [tools, setTools] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedToolId, setSelectedToolId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const { access } = useSelector((state) => state.auth);
   const navigate = useNavigate(); // Initialize navigate for redirection
 
+  const fetchTools = async () => {
+    setLoading(true);
+
+    // ▶️ LOCAL MOCK: uncomment to force using local JSON
+    // setTools(dummyTools);
+    // setLoading(false);
+    // return;
+
+    try {
+      const res = await axiosInstance.get("/api/tools/", {
+        headers: { Authorization: `Bearer ${access}` },
+      });
+      setTools(res.data);
+    } catch (err) {
+      console.error("❌ Failed to fetch tools:", err);
+      setError("Could not load tools from server, showing local data.");
+      setTools(dummyTools);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchTools = async () => {
-      setLoading(true);
-
-      // ▶️ LOCAL MOCK: uncomment to force using local JSON
-      // setTools(dummyTools);
-      // setLoading(false);
-      // return;
-
-      try {
-        const res = await axiosInstance.get("/api/tools/", {
-          headers: { Authorization: `Bearer ${access}` },
-        });
-        setTools(res.data);
-      } catch (err) {
-        console.error("❌ Failed to fetch tools:", err);
-        setError("Could not load tools from server, showing local data.");
-        setTools(dummyTools);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchTools();
   }, [access]);
+
+  const filterTools = (searchTerm) => {
+    const filteredTools = tools.filter((tool) => {
+      const titleMatch = tool.name.toLowerCase().includes(searchTerm.toLowerCase());
+      return titleMatch;
+    })
+
+    setTools(filteredTools);
+  }
+
+  const resetTools = () => {
+    setSearchTerm("");
+    fetchTools();
+  }
   
   const handleView = (id) => setSelectedToolId(id);
   const handleClose = () => setSelectedToolId(null);
@@ -60,16 +72,13 @@ const Tools = () => {
   if (error && tools.length === 0) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
-    <div style={{ padding: "1rem" }}>
-      <h1>Upcoming Tools</h1>
-
-      {/* Create New Tool Button */}
-      <button
-        onClick={() => navigate("/create-tool")}
-        className="create-tool-btn"
-      >
-        + Create New Tool
-      </button>
+    <div>
+      <div className="tools-header">
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterTools} resetFilter={resetTools}/>
+        <div className="tools-header-btn" onClick={() => navigate("/create-tool")}>
+          <AddIcon fontSize="large"/>
+        </div>
+      </div>
       <div
         style={{
           display: "grid",

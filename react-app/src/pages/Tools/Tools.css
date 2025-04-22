@@ -1,20 +1,37 @@
 /* Tools.css */
 
-.create-tool-btn {
-  background-color: #493CAE;
-  color: white;
-  padding: 14px 22px;
-  font-size: 14px;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(25,33,61,0.08);
-  transition: background-color 0.2s ease;
-  margin-bottom: 20px;
+.tools-header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  margin: 0;
+  margin-bottom: 15px;
 }
+.tools-header h1 {
+    font-size: 24px;
+    color: #333;
+}
+.tools-header p {
+    font-size: 16px;
+    color: #666;
+}
+.tools-header-btn {
+    background-color: #EA942C;
+    color: #fff;
+    padding: 11px 19px;
+    font-weight: 600;
+    border: 3px solid #EA942C;
+    border-radius: 8px;
+    box-shadow: 0px 1px 4px rgba(25, 33, 61, 0.08);
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+  }
 
-.create-tool-btn:hover {
-  background-color: #3e3191;
+.tools-header-btn:hover {
+  background-color: #fff;
+  color: #EA942C;
 }
   
   .tools-container {
