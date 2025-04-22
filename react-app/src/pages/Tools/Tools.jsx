@@ -3,11 +3,10 @@ import { useSelector } from "react-redux";
 import axiosInstance from "../../utils/axiosInstance";
 import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
 import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
-import dummyTools from "./toolsData.json"; // your local fixture file
+
 import "./Tools.css";
 import AddIcon from '@mui/icons-material/Add';
 
-// Iamges
 import { useNavigate } from "react-router-dom"; // Import navigate
 import SearchBar from "../../components/SearchBar";
 
@@ -36,7 +35,6 @@ const Tools = () => {
     } catch (err) {
       console.error("❌ Failed to fetch tools:", err);
       setError("Could not load tools from server, showing local data.");
-      setTools(dummyTools);
     } finally {
       setLoading(false);
     }
@@ -88,13 +86,15 @@ const Tools = () => {
       >
         {tools.map((tool) => (
           <HorizontalCard
-            key={tool.id}
-            id={tool.id}
-            title={tool.name}
+            key={tool.tool_id}
+            id={tool.tool_id}
+            title={tool.title}
             description={tool.description}
-            tags={[tool.condition]}       // show condition as a tag
-            available={tool.availability}
-            image=""                      // no image on tools, or add a placeholder URL
+            location={tool.neighborhood}
+            price={tool.price}
+            tags={[tool.condition]}      
+            available={tool.available}
+            image={tool.images?.[0]}                   
             onView={() => handleView(tool.id)}
           />
         ))}
@@ -106,6 +106,7 @@ const Tools = () => {
           onClose={handleClose}
           item={selectedToolWithDisable}
           type="tool"  // must match your API prefix if used
+          api_key="borrow"
         />
       )}
     </div>

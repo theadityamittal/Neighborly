@@ -3,7 +3,7 @@ import "./HorizontalCardModal.css";
 import axiosInstance from "../../utils/axiosInstance"; 
 import CalendarPicker from "../CalendarPicker/CalendarPicker";
 
-const HorizontalCardModal = ({ isOpen, onClose, item, type }) => {
+const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [message, setMessage] = useState(null);
@@ -28,8 +28,8 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type }) => {
       alert("Invalid item or type.");
       return;
     }
-  
-    const url = `${process.env.REACT_APP_BACKEND_URL}/api/${type}s/${itemId}/signup/`;
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/${type}s/${itemId}/${api_key}/`;
+    // const url = `${process.env.REACT_APP_BACKEND_URL}/api/${type}s/${itemId}/signup/`;
     console.log("RSVP URL:", url);
   
     try {
