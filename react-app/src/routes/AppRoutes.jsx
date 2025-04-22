@@ -17,6 +17,7 @@ import CreateEvent from "../pages/Events/CreateEvent";
 import CreateTool from "../pages/Tools/CreateTool"; 
 import CreateService from "../pages/Services/CreateService";
 import Verification from "../pages/Auth/Verification/Verification";
+import NewUserApps from "../pages/newUserApps/newUserApps";
 
 // Testing purpose
 import CardTest from "../pages/CardTest/CardTest";
@@ -81,6 +82,8 @@ const AppRoutes = () => {
             <Route path="/create-petition" element={<CreatePetition />} />
 
             <Route path="/profile" element={<UserProfile />} />
+
+            <Route path="/newUserApps" element={<NewUserApps />} />
 
             {/* Redirect to home if no match */}
             <Route path="*" element={<Navigate to="/" />} />

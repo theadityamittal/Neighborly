@@ -17,7 +17,8 @@ class AuthenticationTests(APITestCase):
             "address": "123 Street, City",
             "neighborhood": "Brooklyn",
             "account_type": "customer",
-            "password": "password123"
+            "password": "password123",
+            "verified": True,
         }
 
     def test_user_registration(self):
