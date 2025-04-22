@@ -1,15 +1,15 @@
-from django.test import TestCase
-from rest_framework.test import APITestCase
 from django.urls import reverse
+from rest_framework.test import APITestCase
 from rest_framework import status
+from django.contrib.auth import get_user_model
+from .models import ServiceItem, ServiceSignUp
 
-from neighborly_services.models import ServiceItem, ServiceSignUp
+User = get_user_model()
 
 class ServiceTests(APITestCase):
     
     def setUp(self):
         self.register_url = reverse('register')
-        # self.grab_service_data = reverse('grabServiceData')
         self.login_url = reverse('token_obtain_pair')
 
         self.user_data = {
@@ -21,6 +21,10 @@ class ServiceTests(APITestCase):
             "account_type": "customer",
             "password": "password123"
         }
+
+        self.token = self.authenticate_user()
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.token}")
+        self.user_id = User.objects.get(email=self.user_data["email"]).id
 
     def authenticate_user(self):
         register_response = self.client.post(self.register_url, self.user_data, format='json')
@@ -34,11 +38,9 @@ class ServiceTests(APITestCase):
         self.assertEqual(login_response.status_code, status.HTTP_200_OK)
         self.assertIn("access_token", login_response.data)
         return login_response.data["access_token"]
-    
+
     '''==============Creation of service=============='''
     def test_user_can_create_service_item(self):
-        token = self.authenticate_user()
-        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
         payload = {
             "title": "Pet Sitting",
             "description": "Need someone to feed my cat while I’m away.",
@@ -47,7 +49,6 @@ class ServiceTests(APITestCase):
         }
 
         url = "/api/services/"
-        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
         response = self.client.post(url, data=payload, format="json")
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -56,20 +57,17 @@ class ServiceTests(APITestCase):
         service = ServiceItem.objects.first()
         self.assertEqual(service.title, "Pet Sitting")
         self.assertEqual(service.location, "Queens")
-        self.assertEqual(service.service_provider, 1)
+        self.assertEqual(service.service_provider, self.user_id)
 
         print("\n√ test_user_can_create_service_item passed!")
 
     '''==============Signup for the service=============='''
     def test_user_can_signup_for_service(self):
-        # Authenticate and get token
-        token = self.authenticate_user()
-
         # Create a service item
         service = ServiceItem.objects.create(
             title="Neighborhood Clean-Up",
             description="Help clean the park.",
-            service_provider=1,
+            service_provider=self.user_id,
             location="Brooklyn",
             available=True
         )
@@ -77,7 +75,6 @@ class ServiceTests(APITestCase):
 
         # Use the GET API to fetch the service and verify it's accessible
         get_url = f"/api/services/{service.service_id}/"
-        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
         get_response = self.client.get(get_url)
 
         # Assert the service is returned correctly from the API
@@ -95,16 +92,14 @@ class ServiceTests(APITestCase):
             "end_date": "2025-04-26",
             "messages": "Excited to help!",
             "price": 0,
-            "user_id": "1"
+            "user_id": str(self.user_id)
         }
 
         # Send POST with auth
         response = self.client.post(
             signup_url,
             data=signup_data,
-            format='json',
-            # content_type="application/json",
-            HTTP_AUTHORIZATION=f"Bearer {token}"
+            format='json'
         )
         
         # Assertions
@@ -113,17 +108,13 @@ class ServiceTests(APITestCase):
         self.assertEqual(ServiceSignUp.objects.first().messages, "Excited to help!")
         print("\n√ signup service passed!")
 
-
     '''==============Update Signup Details (approve request)=============='''
     def test_service_signup_status_patch(self):
-        token = self.authenticate_user()
-        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
-
         # Create a service
         service = ServiceItem.objects.create(
             title="Garden Help",
             description="Help plant vegetables.",
-            service_provider=1,
+            service_provider=self.user_id,
             location="Brooklyn",
             available=True
         )
@@ -131,7 +122,7 @@ class ServiceTests(APITestCase):
         # Create a signup
         signup = ServiceSignUp.objects.create(
             service=service,
-            user_id="1",
+            user_id=self.user_id,
             start_date="2025-04-25",
             end_date="2025-04-26",
             messages="I'd love to help!",
@@ -152,18 +143,14 @@ class ServiceTests(APITestCase):
         # Assertions
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         print("\n√ test_service_signup_status_patch passed!")
-    
 
     '''==============Update Signup Details (approve request) - check dates=============='''
     def test_patch_signup_status_without_blocking_dates(self):
-        token = self.authenticate_user()
-        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
-
         # Create service
         service = ServiceItem.objects.create(
             title="Bike Repair",
             description="Fix my bike",
-            service_provider=1,  # or self.user.id if you store it
+            service_provider=self.user_id,
             location="Brooklyn",
             latitude=40.6782,
             longitude=-73.9442,
@@ -175,14 +162,13 @@ class ServiceTests(APITestCase):
         # Create signup
         signup = ServiceSignUp.objects.create(
             service=service,
-            user_id=1,
+            user_id=self.user_id,
             start_date="2025-05-01",
             end_date="2025-05-03",
             messages="I'll bring tools!",
             price=0,
             status="pending"
         )
-
 
         # Send PATCH request to accept the signup
         patch_url = f"/api/services/signup/{signup.signup_id}/"
@@ -205,16 +191,12 @@ class ServiceTests(APITestCase):
 
         print("\n√ test_patch_signup_status_without_blocking_dates passed!")
 
-
     '''==============Get Service Details=============='''
     def test_get_service_by_id(self):
-        token = self.authenticate_user()
-        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
-
         service = ServiceItem.objects.create(
             title="Grocery Delivery",
             description="Help deliver groceries to seniors.",
-            service_provider=1,
+            service_provider=self.user_id,
             location="Brooklyn",
             latitude=40.6782,
             longitude=-73.9442,
@@ -222,7 +204,6 @@ class ServiceTests(APITestCase):
         )
 
         url = f"/api/services/{service.service_id}/"
-        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -230,34 +211,58 @@ class ServiceTests(APITestCase):
         self.assertEqual(response.data["service_id"], service.service_id)
         print("\n√ test_get_service_by_id passed!")
 
-
     '''==============Get Service Details - invalid case=============='''
     def test_get_invalid_service_returns_404(self):
-        token = self.authenticate_user()
-        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
-
         url = "/api/services/invalid-id/"
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         print("\n√ test_get_invalid_service_returns_404 passed!")
 
-
     '''==============Get Service Details - invalid case=============='''
     def test_get_service_requires_authentication(self):
-        service = ServiceItem.objects.create(
-            title="Dog Walking",
-            description="Walk dogs in the neighborhood.",
-            service_provider=1,
-            location="Brooklyn",
-            latitude=40.6782,
-            longitude=-73.9442,
-            available=True
-        )
-
-        url = f"/api/services/{service.service_id}/"
-        response = self.client.get(url)
-
+        self.client.credentials()  # clear credentials
+        response = self.client.get("/api/services/")
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         print("\n√ test_get_service_requires_authentication passed!")
     
+    '''==============Filter Services by Fields=============='''
+    def test_filter_services_by_city_and_availability(self):
+        # Create sample services
+        ServiceItem.objects.create(
+            title="Yoga Class",
+            description="Morning yoga in Central Park",
+            service_provider=self.user_id,
+            location="New York",
+            city="NY",
+            available=True
+        )
+
+        ServiceItem.objects.create(
+            title="Cooking Workshop",
+            description="Learn to cook Italian dishes",
+            service_provider=self.user_id,
+            location="Brooklyn",
+            city="NY",
+            available=False
+        )
+
+        ServiceItem.objects.create(
+            title="Dog Walking",
+            description="Evening dog walks",
+            service_provider=self.user_id,
+            location="San Francisco",
+            city="San Francisco",
+        )
+
+        # Filter by city=New York & available=true
+        response = self.client.get("/api/services/?city=NY&title=Yoga")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # Should return only the Yoga Class
+        results = response.data
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0]["title"], "Yoga Class")
+        self.assertEqual(results[0]["city"], "NY")
+
+        print("\n√ test_filter_services_by_city_and_availability passed!")
