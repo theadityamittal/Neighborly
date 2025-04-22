@@ -7,6 +7,8 @@ import { getEventsByUser } from "../../services/eventService";
 import { useSelector } from "react-redux";
 import eventsData from "./eventsData.json";
 import { useNavigate } from "react-router";
+import SearchBar from "../../components/SearchBar";
+import AddIcon from '@mui/icons-material/Add';
 
 const Modal = ({ event, onClose }) => {
   if (!event) return null;
@@ -48,37 +50,50 @@ const Events = () => {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const { access, user_id } = useSelector((state) => state.auth);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      // ▶️ LOCAL MOCK: uncomment to use
-      // setEvents(eventsData);
-      // return;
+  const fetchEvents = async () => {
+    // ▶️ LOCAL MOCK: uncomment to use
+    // setEvents(eventsData);
+    // return;
 
-      try {
-        const response = await getEventsByUser({ organizer_id: user_id }, access);
-        setEvents(response.data);
-      } catch (err) {
-        console.error(err);
-        // fallback to local data
-        setEvents(eventsData);
-      }
-    };
-    fetchData();
+    try {
+      const response = await getEventsByUser({ organizer_id: user_id }, access);
+      setEvents(response.data);
+    } catch (err) {
+      console.error(err);
+      // fallback to local data
+      setEvents(eventsData);
+    }
+  };
+
+  useEffect(() => {
+    fetchEvents();
   }, [access, user_id]);
+
+  const filterEvents = (searchTerm) => {
+    const filteredEvents = events.filter((event) => {
+      const titleMatch = event.event_name.toLowerCase().includes(searchTerm.toLowerCase());
+      return titleMatch;
+    })
+
+    setEvents(filteredEvents);
+  }
+
+  const resetEvents = () => {
+    setSearchTerm("");
+    fetchEvents();
+  }
 
   return (
     <div className="events-page">
-      <>
+      <div>
         <div className="events-header">
-          <h2>Upcoming Events</h2>
-          <button
-            onClick={() => navigate("/create-event")}
-            className="create-event-btn"
-          >
-            + Create Event
-          </button>
+          <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterEvents} resetFilter={resetEvents}/>
+          <div className="events-header-btn" onClick={() => navigate("/create-event")}>
+            <AddIcon fontSize="large"/>
+          </div>
         </div>
         <div className="events-list">
           {events.map((event) => (
@@ -111,7 +126,7 @@ const Events = () => {
             </div>
           ))}
         </div>
-      </>
+      </div>
       <Modal event={selectedEvent} onClose={() => setSelectedEvent(null)} />
     </div>
   );

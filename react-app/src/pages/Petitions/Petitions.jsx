@@ -98,19 +98,13 @@ const Petitions = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      gap: '10px',
-    }}>
+    <div>
       <div className="petition-header">
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterPetitions} resetFilter={resetPetitions}/>
         <div className="petition-header-btn" onClick={() => navigate("/create-petition")}>
           <AddIcon fontSize="large"/>
         </div>
       </div>
-      <hr className="petition-divider"/>
       <div className="petition-cards">
         {petitions.length === 0 ?
           <div style={{
@@ -124,9 +118,9 @@ const Petitions = () => {
         :
           petitions.map((item) => (
             <div key={item.id} style={{ 
-              width: 'calc(25% - 20px)',
+              width: 'calc(32%)',
               minWidth: '350px',
-              marginBottom: '20px'
+              marginBottom: '20px',
             }}>
               <VerticalCard
                 id={item.id}
