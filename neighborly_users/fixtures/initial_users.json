@@ -51,7 +51,7 @@
         "model": "neighborly_users.customuser",
         "pk": 4,
         "fields": {
-        "user_id": "7a8b9c0d-e1f2-4g3h-4i5j-6k7l8m9n0o1p",
+        "user_id": "a3dcb4d5-6f39-4b9e-bf38-5f9cb87d2f63",
         "name": "John Doe",
         "email": "johndoe@gmail.com",
         "phone_number": "+15555550125",
