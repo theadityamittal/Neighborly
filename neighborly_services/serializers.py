@@ -6,31 +6,7 @@ class ServiceItemSerializer(serializers.ModelSerializer):
         model = ServiceItem
         fields = '__all__'
 
-    # # keep this override for renaming earliest_availability
-    # closestAvailability = serializers.DateField(
-    #     source="earliest_availability",
-    #     read_only=True
-    # )
-
-    # class Meta:
-    #     model = ServiceItem
-    #     fields = [
-    #         "service_id",
-    #         "title",
-    #         "description",
-    #         "service_provider",
-    #         "location",
-    #         "date_posted",
-    #         "available",
-    #         "waitlist",
-    #         "closestAvailability",
-    #         "unavailable_dates",
-    #         "price",
-    #         "view_type",
-    #         "tags",     
-    #         "images",
-    #     ]
-
+# can delete?
 class ServiceItemDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceItem
