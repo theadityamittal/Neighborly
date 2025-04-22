@@ -33,6 +33,20 @@
     font-size: 16px;
 }
 
+.apply-button {
+    width: 100%;
+    text-align: center;
+    background-color: #493CAE;
+    color: #fff;
+    border: none;
+    padding: 14px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
 .search-bar-buttons{
     width: calc(15%);
     display: flex;

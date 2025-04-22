@@ -5,32 +5,49 @@ import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardM
 import { useSelector } from "react-redux";
 import "./Services.css";
 import { useNavigate } from "react-router-dom";
+import SearchBar from "../../components/SearchBar";
+import AddIcon from '@mui/icons-material/Add';
+
+const serviceTags = [
+ "Adventure",
+ "Yoga",
+ "Fitness",
+ "Pilates",
+ "Marketing",
+ "Business",
+ "Photography",
+ "Art",
+  "Cooking",
+  "Food"
+];
 
 const Services = () => {
   const [services, setServices] = useState([]);
   const [selectedServiceId, setSelectedServiceId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const { access } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-  useEffect(() => {
-    const fetchServices = async () => {
-      setLoading(true);
-      try {
-        const res = await axiosInstance.get("/api/services/", {
-          headers: {
-            Authorization: `Bearer ${access}`
-          }
-        });
-        setServices(res.data);
-      } catch (err) {
-        console.error("Failed to fetch services:", err);
-        setError("Could not load services.");
-      } finally {
-        setLoading(false);
-      }
-    };
 
+  const fetchServices = async () => {
+    setLoading(true);
+    try {
+      const res = await axiosInstance.get("/api/services/", {
+        headers: {
+          Authorization: `Bearer ${access}`
+        }
+      });
+      setServices(res.data);
+    } catch (err) {
+      console.error("Failed to fetch services:", err);
+      setError("Could not load services.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchServices();
   }, [access]);
 
@@ -41,6 +58,27 @@ const Services = () => {
   const handleClose = () => {
     setSelectedServiceId(null);
   };
+
+  const filterServices = (searchTerm, {tags, radius}) => {
+    console.log(services);
+    console.log(searchTerm);
+    console.log(tags);
+    console.log(radius);
+    
+
+    const filteredServices = services.filter((service) => {
+      const titleMatch = service.title.toLowerCase().includes(searchTerm.toLowerCase());
+      const tagsMatch = tags.length === 0 || service?.tags.some(tag => tags.includes(tag));
+      return titleMatch && tagsMatch;
+    })
+
+    setServices(filteredServices);
+  }
+
+  const resetServices = () => {
+    setSearchTerm("");
+    fetchServices();
+  }
 
   const selectedService = services.find(
     service => service.service_id === selectedServiceId
@@ -53,14 +91,13 @@ const Services = () => {
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
-    <div style={{ padding: "1rem" }}>
-      <h1>Upcoming Services</h1>
-      <button
-        onClick={() => navigate("/create-service")}
-        className="create-service-btn"
-      >
-        + Create New Service
-      </button>
+    <div>
+      <div className="service-header">
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterServices} resetFilter={resetServices} tagOptions={serviceTags}/>
+        <div className="service-header-btn" onClick={() => navigate("/create-service")}>
+          <AddIcon fontSize="large"/>
+        </div>
+      </div>
       <div
         style={{
           display: "grid",

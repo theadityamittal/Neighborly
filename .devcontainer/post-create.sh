@@ -1,4 +1,7 @@
 #!/bin/bash
+pip install -r requirements.txt &&
+npm install --prefix react-app &&
+start_servers.sh
 
 cat <<EOF > .env
 access_key=fake-access-key
