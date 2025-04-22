@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import {
     Box,
-    TextField,
     IconButton,
-    Button,
     Menu,
-    MenuItem,
     Typography,
     FormGroup,
     FormControlLabel,
@@ -13,8 +10,6 @@ import {
     Slider
 } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import "./SearchBar.css";
 
 const SearchBar = ({ searchTerm, setSearchTerm, filterActiveContent, resetFilter, tagOptions=[] }) => {
