@@ -2,8 +2,10 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
+  gap: 10px;
   align-items: center;
   margin: 0;
+  margin-bottom: 15px;
 }
 .petition-header h1 {
     font-size: 24px;
@@ -14,12 +16,11 @@
     color: #666;
 }
 .petition-header-btn {
-    background-color: #493CAE;
-    color: white;
-    padding: 14px 22px;
-    font-size: 14px;
+    background-color: #EA942C;
+    color: #fff;
+    padding: 11px 19px;
     font-weight: 600;
-    border: none;
+    border: 3px solid #EA942C;
     border-radius: 8px;
     box-shadow: 0px 1px 4px rgba(25, 33, 61, 0.08);
     transition: background-color 0.2s ease;
@@ -27,7 +28,8 @@
   }
 
 .petition-header-btn:hover {
-background-color: #3e3191;
+  background-color: #fff;
+  color: #EA942C;
 }
 .petition-divider {
   width: 100%;

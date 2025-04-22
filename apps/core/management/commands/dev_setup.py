@@ -19,6 +19,7 @@ class Command(BaseCommand):
             'neighborly_events/fixtures/initial_eventsignups.json',
             'neighborly_services/fixtures/initial_services.json',
             'neighborly_petitions/fixtures/initial_petitions.json',
+            "neighborly_petitions/fixtures/initial_petition_signatures.json"
         ]
         for f in fixts:
             call_command('loaddata', f, verbosity=0)

@@ -29,8 +29,8 @@
   .protected-layout__content {
     margin-top: 90px;   /* push content below header */
     margin-left: 313px; /* push content right past sidebar */
-    padding: 16px;      /* optional inner padding */
-    height: calc(100vh - 90px);
+    padding: 20px;      /* optional inner padding */
+    height: 100vh;
     overflow-y: auto;
   }
   

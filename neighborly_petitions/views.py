@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
+from django.db.models import Count
 
 from .models import Petition, PetitionSignature
 from .serializers import PetitionSerializer, PetitionSignatureSerializer
@@ -14,23 +15,30 @@ class TestPetitionView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        petitions = Petition.objects.all()
-        signatures = PetitionSignature.objects.all()
-
+        # annotate each petition with its signature_count
+        petitions = Petition.objects.annotate(
+            signature_count=Count('petitionsignature')
+        )
         petition_data = PetitionSerializer(petitions, many=True).data
+
+        # if you still need full signature list:
+        signatures = PetitionSignature.objects.all()
         signature_data = PetitionSignatureSerializer(signatures, many=True).data
 
         return Response({
-            "petition": petition_data,
+            "petitions": petition_data,
             "petition_signatures": signature_data
         })
-
 
 # GET petition by ID + its signatures
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def grab_petition_data(request, petition_id):
-    petition = get_object_or_404(Petition, pk=petition_id)
+    # annotate the single petition
+    petition = get_object_or_404(
+        Petition.objects.annotate(signature_count=Count('petitionsignature')),
+        pk=petition_id
+    )
     petition_data = PetitionSerializer(petition).data
 
     signatures = PetitionSignature.objects.filter(petition=petition)
@@ -40,6 +48,7 @@ def grab_petition_data(request, petition_id):
         "petition": petition_data,
         "petition_signatures": signature_data
     })
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_petition(request):
@@ -48,14 +57,14 @@ def create_petition(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def sign_petition(request, petition_id):
     petition = get_object_or_404(Petition, petition_id=petition_id)
     user_id = request.user.id
 
-    already_signed = PetitionSignature.objects.filter(petition=petition, user_id=user_id).exists()
-    if already_signed:
+    if PetitionSignature.objects.filter(petition=petition, user_id=user_id).exists():
         return Response({"detail": "Already signed."}, status=status.HTTP_200_OK)
 
     PetitionSignature.objects.create(petition=petition, user_id=user_id)

@@ -9,15 +9,17 @@ import { store, persistor } from "./redux/store";
 
 function App() {
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter>
-          <RouteProvider>
-            <AppRoutes />
-          </RouteProvider>
-        </BrowserRouter>
-      </PersistGate>      
-    </Provider>
+    <div className="zoom-90">
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <BrowserRouter>
+            <RouteProvider>
+              <AppRoutes />
+            </RouteProvider>
+          </BrowserRouter>
+        </PersistGate>      
+      </Provider>
+    </div>
   );
 }
 
