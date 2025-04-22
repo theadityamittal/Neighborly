@@ -23,5 +23,4 @@ class Command(BaseCommand):
         for f in fixts:
             call_command('loaddata', f, verbosity=0)
 
-
         self.stdout.write(self.style.SUCCESS("✅ Dev DB ready!"))
