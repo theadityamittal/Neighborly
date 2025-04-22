@@ -7,6 +7,9 @@ from django.contrib.auth import get_user_model
 from .models import UsersDocuments
 from PIL import Image
 import io
+from moto import mock_aws
+import boto3
+from django.test.utils import override_settings
 
 # Create your tests here.
 class DocumentTests(APITestCase):
@@ -58,8 +61,21 @@ class DocumentTests(APITestCase):
         self.assertEqual(login_response.status_code, status.HTTP_200_OK)
         self.assertIn("access_token", login_response.data)
         return login_response.data["access_token"]
+
+    @override_settings(
+        DEFAULT_FILE_STORAGE='storages.backends.s3boto3.S3Boto3Storage',
+        AWS_STORAGE_BUCKET_NAME='test-bucket',
+        AWS_ACCESS_KEY_ID='testing',
+        AWS_SECRET_ACCESS_KEY='testing',
+        AWS_S3_REGION_NAME='us-east-1',
+    )
     
+    @mock_aws
     def test_user_can_make_document_request(self):
+
+        s3 = boto3.client("s3", region_name="us-east-1")
+        s3.create_bucket(Bucket="test-bucket")
+
         token = self.authenticate_user()
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
 
@@ -86,7 +102,19 @@ class DocumentTests(APITestCase):
 
         print("\n√ test_user_can_make_document_request passed!")
 
+    @override_settings(
+        DEFAULT_FILE_STORAGE='storages.backends.s3boto3.S3Boto3Storage',
+        AWS_STORAGE_BUCKET_NAME='test-bucket',
+        AWS_ACCESS_KEY_ID='testing',
+        AWS_SECRET_ACCESS_KEY='testing',
+        AWS_S3_REGION_NAME='us-east-1',
+    )
+    @mock_aws
     def test_staff_can_update_document_request(self):
+
+
+        s3 = boto3.client("s3", region_name="us-east-1")
+        s3.create_bucket(Bucket="test-bucket")
         # authenticate new user
         token = self.authenticate_user()
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
