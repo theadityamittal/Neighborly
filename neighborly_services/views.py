@@ -3,6 +3,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
+#for api filtering
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import ServiceItemFilter
+
 from django.shortcuts import get_object_or_404
 
 from .models import ServiceItem, ServiceSignUp
@@ -18,9 +22,12 @@ class ServiceItemListView(APIView):
     permission_classes = [IsAuthenticated] 
 
     def get(self, request):
-        services = ServiceItem.objects.all()
-        serializer = ServiceItemSerializer(services, many=True)
+        filtered = ServiceItemFilter(request.GET, queryset=ServiceItem.objects.all())
+        serializer = ServiceItemSerializer(filtered.qs, many=True)
         return Response(serializer.data)
+        # services = ServiceItem.objects.all()
+        # serializer = ServiceItemSerializer(services, many=True)
+        # return Response(serializer.data)
     
     def post(self, request):
         data = request.data.copy()
