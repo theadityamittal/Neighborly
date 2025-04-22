@@ -1,31 +1,35 @@
 from rest_framework import serializers
-from .models import ServiceItem, ServiceSignUp#, ServiceStatus
+from .models import ServiceItem, ServiceSignUp
 
 class ServiceItemSerializer(serializers.ModelSerializer):
-    # keep this override for renaming earliest_availability
-    closestAvailability = serializers.DateField(
-        source="earliest_availability",
-        read_only=True
-    )
-
     class Meta:
         model = ServiceItem
-        fields = [
-            "service_id",
-            "title",
-            "description",
-            "service_provider",
-            "location",
-            "date_posted",
-            "available",
-            "waitlist",
-            "closestAvailability",
-            "unavailable_dates",
-            "price",
-            "view_type",
-            "tags",      # now comes straight from your model
-            "images",
-        ]
+        fields = '__all__'
+
+    # # keep this override for renaming earliest_availability
+    # closestAvailability = serializers.DateField(
+    #     source="earliest_availability",
+    #     read_only=True
+    # )
+
+    # class Meta:
+    #     model = ServiceItem
+    #     fields = [
+    #         "service_id",
+    #         "title",
+    #         "description",
+    #         "service_provider",
+    #         "location",
+    #         "date_posted",
+    #         "available",
+    #         "waitlist",
+    #         "closestAvailability",
+    #         "unavailable_dates",
+    #         "price",
+    #         "view_type",
+    #         "tags",     
+    #         "images",
+    #     ]
 
 class ServiceItemDetailSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,8 +41,5 @@ class ServiceSignupSerializer(serializers.ModelSerializer):
         model = ServiceSignUp
         fields = ['signup_id', 'service', 'user_id', 'start_date', 'end_date', 'messages', 'status', 'signed_at']
         read_only_fields = ['user_id', 'signed_at', 'status']
-# class ServiceStatusSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = ServiceStatus
-#         fields = '__all__'
+
 
