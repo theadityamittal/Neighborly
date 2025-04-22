@@ -83,7 +83,7 @@ const SearchBar = ({ searchTerm, setSearchTerm, filterActiveContent, resetFilter
                     }}
                     onKeyDown={(e => {
                         if (e.key === "Enter") {
-                            filterActiveContent(searchTerm);
+                            handleSearch();
                         }
                     })}
                 />
