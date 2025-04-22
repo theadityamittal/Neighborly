@@ -5,13 +5,14 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { getApps } from "../../services/newUserAppsService";
 import { Button } from "@mui/material";
+import { verifyApp } from "../../services/newUserAppsService";
 
 const Modal = ({ app, onClose }) => {
     const { access } = useSelector((state) => state.auth);
     const data = {
         "user_id": app ? app.user_id : null,
     }
-    const verifyApp = async () => {
+    const verifyAppCall = async () => {
         try {
             const response = await verifyApp(data, access);
             console.log("App verified successfully:", response.data);
@@ -33,7 +34,7 @@ const Modal = ({ app, onClose }) => {
             <Button
                 variant="contained"
                 color="primary"
-                onClick={verifyApp}
+                onClick={verifyAppCall}
                 className="modal-button"
             >
                 Verify

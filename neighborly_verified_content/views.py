@@ -32,7 +32,11 @@ class SubmitVerificationRequestView(APIView):
     def patch(self, request):
         user = get_object_or_404(CustomUser, user_id=request.data.get('user_id'))
         serializer = UserSerializer(user, data={"verified": True}, partial=True)
+        document = get_object_or_404(UsersDocuments, user_id=request.data.get('user_id'))
+        document_serializer = UsersDocumentsSerializer(document, data={"verified": True}, partial=True)
         if serializer.is_valid():
+            serializer.save()
+        if document_serializer.is_valid():
             serializer.save()
             return Response({"message": "Successfully verified user"}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -41,19 +45,17 @@ class SubmitVerificationRequestView(APIView):
 class UserDocumentsView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
-        # If the user is not staff, return their own document
         if not request.user.is_staff:
-            document = UsersDocuments.objects.filter(user_id=request.user.user_id).first()  # Get the first document
+            document = UsersDocuments.objects.filter(user_id=request.user.user_id).first()
             if not document:
                 return Response({"message": "No documents found for the user."}, status=status.HTTP_404_NOT_FOUND)
-            serializer = UsersDocumentsSerializer(document)  # Serialize a single object
+            serializer = UsersDocumentsSerializer(document)
             print(serializer.data)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-        # If the user is staff, allow filtering by user_id
         user_id = request.query_params.get('user_id')
         if user_id:
-            documents = UsersDocuments.objects.filter(user_id=user_id)
+            documents = UsersDocuments.objects.filter(user_id=user_id, verified=False)
         else:
             documents = UsersDocuments.objects.all()
 
