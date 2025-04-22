@@ -1,7 +1,7 @@
 {
   "name": "Neighborly Codespace",
   "dockerFile": "Dockerfile",
-  "postCreateCommand": "pip install -r requirements.txt && npm install --prefix react-app && python manage.py dev_setup && python manage.py dev_setup",
+  "postCreateCommand": "pip install -r requirements.txt && npm install --prefix react-app && python manage.py migrate && python manage.py dev_setup",
   "postStartCommand": "nohup python manage.py runserver 0.0.0.0:8000 > django.log 2>&1 & cd react-app && nohup npm start > react.log 2>&1 &",
   "customizations": {
     "vscode": {
