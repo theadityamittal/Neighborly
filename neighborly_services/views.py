@@ -25,9 +25,6 @@ class ServiceItemListView(APIView):
         filtered = ServiceItemFilter(request.GET, queryset=ServiceItem.objects.all())
         serializer = ServiceItemSerializer(filtered.qs, many=True)
         return Response(serializer.data)
-        # services = ServiceItem.objects.all()
-        # serializer = ServiceItemSerializer(services, many=True)
-        # return Response(serializer.data)
     
     def post(self, request):
         data = request.data.copy()

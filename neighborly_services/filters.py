@@ -2,6 +2,7 @@ import django_filters
 from .models import ServiceItem
 
 class ServiceItemFilter(django_filters.FilterSet):
+    title = django_filters.CharFilter(lookup_expr="icontains")
     price_min = django_filters.NumberFilter(field_name="price", lookup_expr="gte")
     price_max = django_filters.NumberFilter(field_name="price", lookup_expr="lte")
     tags = django_filters.CharFilter(lookup_expr="icontains")
@@ -15,6 +16,7 @@ class ServiceItemFilter(django_filters.FilterSet):
     class Meta:
         model = ServiceItem
         fields = [
+            "title",
             "service_provider",
             "neighborhood",
             "street_address",
