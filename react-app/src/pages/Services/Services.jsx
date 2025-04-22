@@ -8,6 +8,19 @@ import { useNavigate } from "react-router-dom";
 import SearchBar from "../../components/SearchBar";
 import AddIcon from '@mui/icons-material/Add';
 
+const serviceTags = [
+ "Adventure",
+ "Yoga",
+ "Fitness",
+ "Pilates",
+ "Marketing",
+ "Business",
+ "Photography",
+ "Art",
+  "Cooking",
+  "Food"
+];
+
 const Services = () => {
   const [services, setServices] = useState([]);
   const [selectedServiceId, setSelectedServiceId] = useState(null);
@@ -46,10 +59,17 @@ const Services = () => {
     setSelectedServiceId(null);
   };
 
-  const filterServices = (searchTerm) => {
+  const filterServices = (searchTerm, {tags, radius}) => {
+    console.log(services);
+    console.log(searchTerm);
+    console.log(tags);
+    console.log(radius);
+    
+
     const filteredServices = services.filter((service) => {
       const titleMatch = service.title.toLowerCase().includes(searchTerm.toLowerCase());
-      return titleMatch;
+      const tagsMatch = tags.length === 0 || service?.tags.some(tag => tags.includes(tag));
+      return titleMatch && tagsMatch;
     })
 
     setServices(filteredServices);
@@ -73,7 +93,7 @@ const Services = () => {
   return (
     <div>
       <div className="service-header">
-        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterServices} resetFilter={resetServices}/>
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterServices} resetFilter={resetServices} tagOptions={serviceTags}/>
         <div className="service-header-btn" onClick={() => navigate("/create-service")}>
           <AddIcon fontSize="large"/>
         </div>
