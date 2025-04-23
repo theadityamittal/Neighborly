@@ -48,3 +48,11 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+
+class GetUserDetailView(APIView):
+    permission_classes = [IsAuthenticated, IsVerifiedPermission]
+
+    def post(self, request):
+        user = get_object_or_404(CustomUser, user_id=request.data.get('user_id'))
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)

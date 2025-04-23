@@ -37,7 +37,7 @@ class SubmitVerificationRequestView(APIView):
         if serializer.is_valid():
             serializer.save()
         if document_serializer.is_valid():
-            serializer.save()
+            document_serializer.save()
             return Response({"message": "Successfully verified user"}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
@@ -57,7 +57,7 @@ class UserDocumentsView(APIView):
         if user_id:
             documents = UsersDocuments.objects.filter(user_id=user_id, verified=False)
         else:
-            documents = UsersDocuments.objects.all()
+            documents = UsersDocuments.objects.filter(verified=False)
 
         serializer = UsersDocumentsSerializer(documents, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
