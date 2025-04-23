@@ -1,13 +1,13 @@
 from django.db import models
-from django.contrib.auth.models import User
-from django.contrib.postgres.fields import ArrayField
-# from utils.availability import get_earliest_availability
+
 
 class ServiceItem(models.Model):
     service_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
     service_provider = models.IntegerField()
+    
+    # Location related
     location = models.CharField(max_length=255)
     street_address = models.CharField(max_length=255, blank=True, null=True)
     city = models.CharField(max_length=100, blank=True, null=True)
@@ -16,6 +16,7 @@ class ServiceItem(models.Model):
     neighborhood = models.CharField(max_length=100, blank=True, null=True)
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
+    
     date_posted = models.DateTimeField(auto_now_add=True)
     available = models.BooleanField(default=True)
     waitlist = models.JSONField(default=list, blank=True)
@@ -24,7 +25,6 @@ class ServiceItem(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     quota = models.IntegerField(default=0, blank=True)
     visibility = models.CharField(max_length=10, default='public')  # public, neighborhood, private (=invite only)
-    #view_type = models.CharField(max_length=50, default="card")
     tags = models.JSONField(default=list, blank=True)
     images = models.JSONField(default=list, blank=True)
 

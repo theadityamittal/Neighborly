@@ -128,6 +128,7 @@ const Services = () => {
           onClose={handleClose}
           item={selectedServiceWithDisable}
           type="service" // must match the API prefix without 's'
+          api_key = "signup"
         />
       )}
     </div>

@@ -46,6 +46,22 @@
         "created_at": "2025-04-21 19:56:23.635498",
         "password": "pbkdf2_sha256$600000$y3RcdrGz9JMhFzLIWyrSo3$BbZnX4kXz+Sfowf1HyCouV6WYzPYdBRdSfj4ZhcWYUE="
         }
+    },
+    {
+        "model": "neighborly_users.customuser",
+        "pk": 4,
+        "fields": {
+        "user_id": "a3dcb4d5-6f39-4b9e-bf38-5f9cb87d2f63",
+        "name": "John Doe",
+        "email": "johndoe@gmail.com",
+        "phone_number": "+15555550125",
+        "address": "789 Pine St, Springfield",
+        "neighborhood": "Midtown",
+        "account_type": "service_provider",
+        "verified": true,
+        "created_at": "2025-04-15T08:45:00Z",
+        "password": "pbkdf2_sha256$600000$y3RcdrGz9JMhFzLIWyrSo3$BbZnX4kXz+Sfowf1HyCouV6WYzPYdBRdSfj4ZhcWYUE="
+        }
     }
 ]
   
