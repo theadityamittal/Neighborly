@@ -12,6 +12,7 @@ const initialState = {
   refresh: '',
   user_id: '',
   verified: false,
+  is_staff: false,
 };
 
 export const authSlice = createSlice({
@@ -33,6 +34,7 @@ export const authSlice = createSlice({
         account_type,
         verified,
         user_id,
+        is_staff,
       } = action.payload;
 
       state.name         = name;
@@ -43,6 +45,7 @@ export const authSlice = createSlice({
       state.accountType  = account_type;   // ← map account_type
       state.verified     = verified;
       state.user_id      = user_id
+      state.is_staff     = is_staff;
     },
     setAccessToken: (state, action) => {
       state.access = action.payload;

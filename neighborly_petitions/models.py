@@ -1,4 +1,11 @@
 from django.db import models
+import uuid
+import os
+
+def petition_image_upload_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = f"{uuid.uuid4().hex}.{ext}"
+    return os.path.join("petitions/uploads/", filename)
 
 class Petition(models.Model):
 
@@ -13,10 +20,7 @@ class Petition(models.Model):
     location = models.CharField(max_length=100, default="Unknown")
     provider = models.CharField(max_length=100, default="Anonymous")
     voting_ends_at = models.DateField(null=True, blank=True)
-    hero_image = models.URLField(
-        max_length=500,
-        default="https://source.unsplash.com/featured/?nature,protest"
-    )
+    hero_image = models.ImageField(upload_to=petition_image_upload_path, null=True, blank=True)
     def __str__(self):
         return self.title
 

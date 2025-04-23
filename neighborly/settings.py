@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'neighborly_services',
     'neighborly_events',
     'neighborly_petitions',
+    'neighborly_verified_content',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

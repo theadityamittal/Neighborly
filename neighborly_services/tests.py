@@ -69,7 +69,7 @@ class ServiceTests(APITestCase):
             description="Help clean the park.",
             service_provider=self.user_id,
             location="Brooklyn",
-            available=True
+            available=True,
         )
         service.save()
 
