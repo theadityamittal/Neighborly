@@ -2,20 +2,39 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import VerticalCard from '../../components/VerticalCard/VerticalCard';
 import { useNavigate } from "react-router";
-import CreatePetition from "./CreatePetition";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../utils/axiosInstance"; 
+import petitionsJson from "./petitionData.json"; // Import the local JSON file
 import "./petitions.css";
+import SearchBar from "../../components/SearchBar";
+import AddIcon from '@mui/icons-material/Add';
 
-const Petitions = ({ setPetitionDetails }) => {
+const Petitions = () => {
   const [petitions, setPetitions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [newpetition, setNewPetition] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const { access } = useSelector((state) => state.auth);
   // Define fetchPetitions as a separate function
   const fetchPetitions = async () => {
+    // ▶️ LOCAL MOCK (uncomment to use):
+    // const data = petitionsJson;
+    // const processed = data.map(pet => ({
+    //   id: pet.petition_id,
+    //   title: pet.title,
+    //   provider: pet.provider,
+    //   location: pet.location,
+    //   tags: pet.tags,
+    //   numberSigned: 0,
+    //   image: pet.hero_image
+    // }));
+    // setPetitions(processed);
+    // setLoading(false);
+    // setError(null);
+    // return;
+
+    // Fetch petitions from the API
     setLoading(true);
     try {
       const response = await axiosInstance.get("/petitions/grabPetitionData/", {
@@ -25,21 +44,17 @@ const Petitions = ({ setPetitionDetails }) => {
       });
 
       const data = response.data;
+      console.log("Fetched petition data:", data);
 
-      const processed = data.petition.map((petition) => {
-        const numberSigned = data.petition_signatures.filter(
-          sig => sig.petition_id === petition.petition_id
-        ).length;
-
-        return {
-          ...petition,
-          id: petition.petition_id,
-          provider: petition.organizer_id,
-          tabs: petition.tags,
-          numberSigned,
-          image: petition.hero_image, // Optional: set based on tag or ID
-        };
-      });
+      const processed = data.petitions.map(pet => ({
+        id: pet.petition_id,
+        title: pet.title,
+        provider: pet.provider,       // use display name
+        location: pet.location,
+        tags: pet.tags,
+        numberSigned: pet.signature_count,  // if you surface that in your view
+        image: pet.hero_image
+      }));
 
       setPetitions(processed);
       setLoading(false);
@@ -50,84 +65,79 @@ const Petitions = ({ setPetitionDetails }) => {
     }
   };
 
-  useEffect(() => {
-    setNewPetition(false); // reset new petition state
-    fetchPetitions(); // initial fetch when component mounts
-  }, []);
-
-  const handleCardClick = (id) => {
+  const viewPetition = (id) => {
     console.log(`Card with ID ${id} clicked`);
-    // First set the petition details
-    const selectedPetition = petitions.find(item => item.id === id);
-    setPetitionDetails(selectedPetition);
-    // Then navigate
+    // Navigate to the detailed petition page
     navigate(`/petition/${id}`);
   };
+
+  // filter petitions
+  const filterPetitions = (searchTerm) => {
+    const filteredPetitions = petitions.filter((petition) => {
+      const titleMatch = petition.title.toLowerCase().includes(searchTerm.toLowerCase());
+      return titleMatch;
+    })
+
+    setPetitions(filteredPetitions);
+  }
+  // Reset petitions to original state
+  const resetPetitions = () => {
+    fetchPetitions(); // Fetch original petitions
+    setSearchTerm(""); // Reset search term
+  }
+
+  useEffect(() => {
+    fetchPetitions(); // Fetch petitions when the component mounts
+    const interval = setInterval(() => {
+      fetchPetitions(); // Fetch petitions every 5 minutes
+    }, 300000); // 300000 ms = 5 minutes
+    return () => clearInterval(interval); // Cleanup interval on unmount
+  }, []);
 
   if (loading) return <div>Loading petitions...</div>;
   if (error) return <div>{error}</div>;
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      gap: '10px',
-    }}>
-      {
-        newpetition ? (
-          <CreatePetition 
-            setNewPetition={setNewPetition} 
-            refreshPetitions={fetchPetitions} // pass down the callback
-          />
-        ) : (
-          <>
-            <div className="petition-header">
-              <div className="header-text">
-                <h2>Petitions</h2>
-                <p>Explore and support petitions that matter to you.</p>
-              </div>
-              <div className="petition-header-btn" onClick={() => setNewPetition(true)}>
-                + Create Petition
-              </div>
+    <div>
+      <div className="petition-header">
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterPetitions} resetFilter={resetPetitions}/>
+        <div className="petition-header-btn" onClick={() => navigate("/create-petition")}>
+          <AddIcon fontSize="large"/>
+        </div>
+      </div>
+      <div className="petition-cards">
+        {petitions.length === 0 ?
+          <div style={{
+            width: '100%',
+            textAlign: 'center',
+            fontSize: '18px',
+            color: '#555',
+          }}>
+            No petitions available.
+          </div>
+        :
+          petitions.map((item) => (
+            <div key={item.id} style={{ 
+              width: 'calc(32%)',
+              minWidth: '350px',
+              marginBottom: '20px',
+            }}>
+              <VerticalCard
+                id={item.id}
+                title={item.title}
+                provider={item.provider}
+                location={item.location}
+                closestAvailability={item.closestAvailability}
+                image={item.image}
+                viewType={item.viewType}
+                tags={item.tags}
+                numberSigned={item.numberSigned}
+                handleClick={() => viewPetition(item.id)}
+              />
             </div>
-            <hr className="petition-divider"/>
-            <div className="petition-cards">
-              {petitions.length === 0 ?
-                <div style={{
-                  width: '100%',
-                  textAlign: 'center',
-                  fontSize: '18px',
-                  color: '#555',
-                }}>
-                  No petitions available.
-                </div>
-              :
-                petitions.map((item) => (
-                  <div key={item.id} style={{ 
-                    width: 'calc(25% - 20px)',
-                    minWidth: '350px',
-                    marginBottom: '20px'
-                  }}>
-                    <VerticalCard
-                      id={item.id}
-                      title={item.title}
-                      provider={item.provider}
-                      location={item.location}
-                      closestAvailability={item.closestAvailability}
-                      image={item.image}
-                      viewType={item.viewType}
-                      tabs={item.tabs}
-                      numberSigned={item.numberSigned}
-                      handleClick={() => handleCardClick(item.id)}
-                    />
-                  </div>
-                ))
-              }
-            </div>
-          </>
-        )
-      }
+          ))
+        }
+      </div>
     </div>
   );
 };

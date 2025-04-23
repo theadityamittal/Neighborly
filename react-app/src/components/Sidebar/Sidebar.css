@@ -25,16 +25,24 @@
   background: #5A41DC;
 }
 
-.menu-item.active {
-  background: white !important;
-  color: #493CAE !important;
-}
-
 .menu-icon {
   color: white !important;
   font-size: 20px !important;
 }
 
+.menu-text {
+  color: white !important;
+}
+
+.menu-item.active {
+  background: white !important;
+  color: #493CAE !important;
+}
+
 .menu-item.active .menu-icon {
+  color: #493CAE !important;
+}
+
+.menu-item.active .menu-text {
   color: #493CAE !important;
 }

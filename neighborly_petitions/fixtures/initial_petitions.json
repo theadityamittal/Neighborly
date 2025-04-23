@@ -1,0 +1,224 @@
+[
+    {
+      "model": "neighborly_petitions.petition",
+      "pk": 1,
+      "fields": {
+        "title": "Save Our Community Garden",
+        "description": "Our neighborhood garden is threatened by new development plans. Sign to protect this green space, preserve biodiversity, and keep our community healthy.",
+        "organizer_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "visibility": true,
+        "tags": ["Environment", "Parks & Recreation"],
+        "created_at": "2025-04-15T10:00:00Z",
+        "target": 1000,
+        "location": "Springfield",
+        "provider": "Alice Resident",
+        "voting_ends_at": "2025-05-15",
+        "hero_image": "https://i.redd.it/i670q85g43v31.jpg"
+      }
+    },
+    {
+      "model": "neighborly_petitions.petition",
+      "pk": 2,
+      "fields": {
+        "title": "Improve Neighborhood Street Lighting",
+        "description": "Many streets lack adequate lighting, making evening walks unsafe. We’re asking the city to install LED lamps along Oak and Maple avenues.",
+        "organizer_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+        "visibility": true,
+        "tags": ["Public Safety", "Infrastructure"],
+        "created_at": "2025-04-16T14:30:00Z",
+        "target": 750,
+        "location": "Uptown",
+        "provider": "Aditya Mittal",
+        "voting_ends_at": "2025-05-20",
+        "hero_image": "https://i0.wp.com/fortworthreport.org/wp-content/uploads/2022/07/Streetlight-2.jpg"
+      }
+    },
+    {
+      "model": "neighborly_petitions.petition",
+      "pk": 3,
+      "fields": {
+        "title": "Start a Weekly Community Cleanup",
+        "description": "Let’s come together to keep our sidewalks and parks litter‑free. Sign here to launch a weekly volunteer cleanup event.",
+        "organizer_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "visibility": true,
+        "tags": ["Community", "Transportation", "Education"],
+        "created_at": "2025-04-17T09:00:00Z",
+        "target": 300,
+        "location": "Downtown",
+        "provider": "Alice Resident",
+        "voting_ends_at": "2025-06-01",
+        "hero_image": "https://i.natgeofe.com/k/3519980b-ba58-456d-b691-2ed516c223e0/clean-it-up-textimage_3x2.jpg"
+      }
+    },
+    {
+      "model": "neighborly_petitions.petition",
+      "pk": 4,
+      "fields": {
+        "title": "Install Bike Racks at Main Street Shops",
+        "description": "Cyclists need safe places to park. Requesting the city install secure bike racks outside the Main Street commercial district.",
+        "organizer_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+        "visibility": true,
+        "tags": ["Transportation", "Infrastructure", "Community"],
+        "created_at": "2025-04-10T08:45:00Z",
+        "target": 500,
+        "location": "Midtown",
+        "provider": " Aditya Mittal",
+        "voting_ends_at": "2025-05-10",
+        "hero_image": "https://source.unsplash.com/featured/?bicycle-rack"
+      }
+    },
+    {
+      "model": "neighborly_petitions.petition",
+      "pk": 5,
+      "fields": {
+        "title": "Repaint Faded Crosswalks",
+        "description": "Many crosswalks in our neighborhood are nearly invisible. Sign to ask the public works department to repaint all faded pedestrian crossings.",
+        "organizer_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "visibility": true,
+        "tags": ["Public Safety", "Infrastructure"],
+        "created_at": "2025-04-11T11:20:00Z",
+        "target": 800,
+        "location": "Downtown",
+        "provider": "Alice Resident",
+        "voting_ends_at": "2025-05-12",
+        "hero_image": "https://source.unsplash.com/featured/?crosswalk"
+      }
+    },
+    {
+      "model": "neighborly_petitions.petition",
+      "pk": 6,
+      "fields": {
+        "title": "Build a Dog Park at Riverside Avenue",
+        "description": "Our community needs a safe, fenced area where dogs can run free. Please support the creation of a dog park on Riverside Avenue.",
+        "organizer_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+        "visibility": true,
+        "tags": ["Parks & Recreation", "Community"],
+        "created_at": "2025-04-12T09:15:00Z",
+        "target": 1200,
+        "location": "Riverside",
+        "provider": " Aditya Mittal",
+        "voting_ends_at": "2025-06-01",
+        "hero_image": "https://source.unsplash.com/featured/?dog-park"
+      }
+    },
+    {
+      "model": "neighborly_petitions.petition",
+      "pk": 7,
+      "fields": {
+        "title": "Launch After-School Tutoring Program",
+        "description": "Many students need help with homework. Sign up to bring an after‑school tutoring program to our local elementary school.",
+        "organizer_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "visibility": true,
+        "tags": ["Education", "Community"],
+        "created_at": "2025-04-13T13:00:00Z",
+        "target": 600,
+        "location": "Greenfield",
+        "provider": "Alice Resident",
+        "voting_ends_at": "2025-06-15",
+        "hero_image": "https://source.unsplash.com/featured/?tutoring"
+      }
+    },
+    {
+      "model": "neighborly_petitions.petition",
+      "pk": 8,
+      "fields": {
+        "title": "Plant 50 New Street Trees",
+        "description": "Trees improve air quality and beautify our streets. Let’s petition the city to plant 50 new trees along Elm and Pine streets.",
+        "organizer_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+        "visibility": true,
+        "tags": ["Environment", "Infrastructure", "Public Safety"],
+        "created_at": "2025-04-14T16:45:00Z",
+        "target": 1000,
+        "location": "Old Town",
+        "provider": " Aditya Mittal",
+        "voting_ends_at": "2025-05-30",
+        "hero_image": "https://source.unsplash.com/featured/?street-trees"
+      }
+    },
+    {
+      "model": "neighborly_petitions.petition",
+      "pk": 9,
+      "fields": {
+        "title": "Extend Library Hours on Weekends",
+        "description": "Students and working families need more weekend study time. Sign to extend the public library’s weekend hours until 8pm.",
+        "organizer_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "visibility": true,
+        "tags": ["Education", "Community"],
+        "created_at": "2025-04-14T19:10:00Z",
+        "target": 400,
+        "location": "Eastside",
+        "provider": "Alice Resident",
+        "voting_ends_at": "2025-05-25",
+        "hero_image": "https://source.unsplash.com/featured/?library"
+      }
+    },
+    {
+      "model": "neighborly_petitions.petition",
+      "pk": 10,
+      "fields": {
+        "title": "Reduce Speed Limit Near Schools",
+        "description": "Cars speed through our school zone. Request lowering the speed limit to 20 mph during school hours for student safety.",
+        "organizer_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+        "visibility": true,
+        "tags": ["Public Safety", "Transportation"],
+        "created_at": "2025-04-15T07:30:00Z",
+        "target": 900,
+        "location": "North Hills",
+        "provider": " Aditya Mittal",
+        "voting_ends_at": "2025-06-05",
+        "hero_image": "https://source.unsplash.com/featured/?speed-limit"
+      }
+    },
+    {
+      "model": "neighborly_petitions.petition",
+      "pk": 11,
+      "fields": {
+        "title": "Host a Monthly Farmers’ Market",
+        "description": "Support local producers by hosting a monthly farmers’ market in the city square. Sign to encourage fresh, local food options.",
+        "organizer_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "visibility": true,
+        "tags": ["Community", "Infrastructure", "Education"],
+        "created_at": "2025-04-16T08:00:00Z",
+        "target": 700,
+        "location": "Lakeside",
+        "provider": "Alice Resident",
+        "voting_ends_at": "2025-06-10",
+        "hero_image": "https://source.unsplash.com/featured/?farmers-market"
+      }
+    },
+    {
+      "model": "neighborly_petitions.petition",
+      "pk": 12,
+      "fields": {
+        "title": "Create a Neighborhood Watch Program",
+        "description": "Let’s keep our streets safe by organizing a volunteer neighborhood watch. Sign up to start patrolling evenings in our block.",
+        "organizer_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+        "visibility": true,
+        "tags": ["Public Safety", "Community"],
+        "created_at": "2025-04-16T18:25:00Z",
+        "target": 350,
+        "location": "West End",
+        "provider": " Aditya Mittal",
+        "voting_ends_at": "2025-06-20",
+        "hero_image": "https://source.unsplash.com/featured/?neighborhood-watch"
+      }
+    },
+    {
+      "model": "neighborly_petitions.petition",
+      "pk": 13,
+      "fields": {
+        "title": "Install Water Bottle Filling Stations",
+        "description": "Encourage reusable bottles by installing water bottle filling stations at city parks and public plazas.",
+        "organizer_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "visibility": true,
+        "tags": ["Environment", "Parks & Recreation"],
+        "created_at": "2025-04-17T07:50:00Z",
+        "target": 450,
+        "location": "Suburb",
+        "provider": "Alice Resident",
+        "voting_ends_at": "2025-06-30",
+        "hero_image": "https://source.unsplash.com/featured/?water-fountain"
+      }
+    }
+  ]
+  

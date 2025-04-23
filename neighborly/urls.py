@@ -28,6 +28,7 @@ urlpatterns = [
     path('services/', include('neighborly_services.urls')),
     path('petitions/', include('neighborly_petitions.urls')),
     path('events/', include('neighborly_events.urls')),
+    path('documents/', include('neighborly_verified_content.urls')),
     path('', include('apps.core.urls')),
 
     #api documentation
@@ -38,6 +39,7 @@ urlpatterns = [
     #api
     path('api/bulletin/', include('neighborly_bulletin.urls')),
     path('api/services/', include('neighborly_services.urls')),
+    path('api/tools/', include('neighborly_tools.urls')),
 
     # JWT Token endpoints
     path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),  # login

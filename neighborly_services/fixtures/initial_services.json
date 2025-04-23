@@ -1,0 +1,178 @@
+[
+  {
+    "model": "neighborly_services.serviceitem",
+    "pk": 1,
+    "fields": {
+      "title": "Premium Yoga Class",
+      "description": "Premium Yoga Class by Zen Studio.",
+      "service_provider": 1,
+      "location": "123 5th Ave, New York, NY 10011",
+      "latitude": 40.735657,
+      "longitude": -73.994003,
+      "street_address": "123 5th Ave",
+      "city": "New York",
+      "neighborhood": "Greenwich Village",
+      "state": "NY",
+      "zip_code": "10011",
+      "quota": 10,
+      "visibility": "public",
+      "date_posted": "2025-04-21T00:00:00Z",
+      "available": true,
+      "waitlist": [],
+      "closestAvailability": "2025-03-20",
+      "unavailable_dates": ["2025-03-20", "2025-03-21"],
+      "price": 7,
+      "tags": ["Yoga", "Fitness"],
+      "images": [
+        "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/yoga1.jpg",
+        "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/yoga2.jpg"
+      ]
+    }
+  },
+  {
+    "model": "neighborly_services.serviceitem",
+    "pk": 2,
+    "fields": {
+      "title": "Gourmet Cooking Workshop",
+      "description": "Gourmet Cooking Workshop by MasterChef Academy.",
+      "service_provider": 1,
+      "location": "456 Grand St, New York, NY 10002",
+      "latitude": 40.715775,
+      "longitude": -73.985708,
+      "street_address": "456 Grand St",
+      "city": "New York",
+      "neighborhood": "Lower East Side",
+      "state": "NY",
+      "zip_code": "10002",
+      "quota": 8,
+      "visibility": "public",
+      "date_posted": "2025-04-21T00:00:00Z",
+      "available": true,
+      "waitlist": [],
+      "closestAvailability": "2025-04-05",
+      "unavailable_dates": ["2025-04-05", "2025-04-06"],
+      "price": 15,
+      "tags": ["Cooking", "Food"],
+      "images": [
+        "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/cooking1.jpg",
+        "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/cooking2.jpg"
+      ]
+    }
+  },
+  {
+    "model": "neighborly_services.serviceitem",
+    "pk": 3,
+    "fields": {
+      "title": "Photography Bootcamp",
+      "description": "Photography Bootcamp by Creative Lens Studio.",
+      "service_provider": 1,
+      "location": "789 Broadway, New York, NY 10003",
+      "latitude": 40.732253,
+      "longitude": -73.989551,
+      "street_address": "789 Broadway",
+      "city": "New York",
+      "neighborhood": "East Village",
+      "state": "NY",
+      "zip_code": "10003",
+      "quota": 12,
+      "visibility": "public",
+      "date_posted": "2025-04-21T00:00:00Z",
+      "available": true,
+      "waitlist": [],
+      "closestAvailability": "2025-04-12",
+      "unavailable_dates": [],
+      "price": 20,
+      "tags": ["Photography", "Art"],
+      "images": [
+        "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/photo1.jpg"
+      ]
+    }
+  },
+  {
+    "model": "neighborly_services.serviceitem",
+    "pk": 4,
+    "fields": {
+      "title": "Digital Marketing Course",
+      "description": "Digital Marketing Course by Online Academy.",
+      "service_provider": 2,
+      "location": "101 Wall St, New York, NY 10005",
+      "latitude": 40.704006,
+      "longitude": -74.006979,
+      "street_address": "101 Wall St",
+      "city": "New York",
+      "neighborhood": "Financial District",
+      "state": "NY",
+      "zip_code": "10005",
+      "quota": 20,
+      "visibility": "public",
+      "date_posted": "2025-04-21T00:00:00Z",
+      "available": true,
+      "waitlist": [],
+      "closestAvailability": "2025-03-25",
+      "unavailable_dates": ["2025-03-25"],
+      "price": 10,
+      "tags": ["Marketing", "Business"],
+      "images": [
+        "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/marketing1.jpg"
+      ]
+    }
+  },
+  {
+    "model": "neighborly_services.serviceitem",
+    "pk": 5,
+    "fields": {
+      "title": "Pilates Training Session",
+      "description": "Pilates Training Session by Wellness Hub.",
+      "service_provider": 2,
+      "location": "234 Smith St, Brooklyn, NY 11231",
+      "latitude": 40.682915,
+      "longitude": -73.992601,
+      "street_address": "234 Smith St",
+      "city": "New York",
+      "neighborhood": "Carroll Gardens",
+      "state": "NY",
+      "zip_code": "11231",
+      "quota": 6,
+      "visibility": "public",
+      "date_posted": "2025-04-21T00:00:00Z",
+      "available": true,
+      "waitlist": [],
+      "closestAvailability": "2025-04-08",
+      "unavailable_dates": [],
+      "price": 12,
+      "tags": ["Pilates", "Fitness"],
+      "images": [
+        "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/pilates1.jpg"
+      ]
+    }
+  },
+  {
+    "model": "neighborly_services.serviceitem",
+    "pk": 6,
+    "fields": {
+      "title": "Tree Climbing Workshop",
+      "description": "Tree Climbing Workshop by Adventure Club.",
+      "service_provider": 2,
+      "location": "Prospect Park, Brooklyn, NY 11225",
+      "latitude": 40.660204,
+      "longitude": -73.968956,
+      "street_address": "Prospect Park",
+      "city": "New York",
+      "neighborhood": "Prospect Park",
+      "state": "NY",
+      "zip_code": "11225",
+      "quota": 15,
+      "visibility": "public",
+      "date_posted": "2025-04-21T00:00:00Z",
+      "available": true,
+      "waitlist": [],
+      "closestAvailability": "2025-04-15",
+      "unavailable_dates": ["2025-04-15"],
+      "price": 18,
+      "tags": ["Adventure", "Fitness"],
+      "images": [
+        "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/tree1.jpg"
+      ]
+    }
+  }
+]

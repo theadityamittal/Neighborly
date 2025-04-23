@@ -1,0 +1,46 @@
+/* Tools.css */
+
+.tools-header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  margin: 0;
+  margin-bottom: 15px;
+}
+.tools-header h1 {
+    font-size: 24px;
+    color: #333;
+}
+.tools-header p {
+    font-size: 16px;
+    color: #666;
+}
+.tools-header-btn {
+    background-color: #EA942C;
+    color: #fff;
+    padding: 11px 19px;
+    font-weight: 600;
+    border: 3px solid #EA942C;
+    border-radius: 8px;
+    box-shadow: 0px 1px 4px rgba(25, 33, 61, 0.08);
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+  }
+
+.tools-header-btn:hover {
+  background-color: #fff;
+  color: #EA942C;
+}
+  
+  .tools-container {
+    padding: 1rem;
+  }
+  
+  .tools-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  

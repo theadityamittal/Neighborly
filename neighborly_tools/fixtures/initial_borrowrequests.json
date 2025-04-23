@@ -1,0 +1,58 @@
+[
+  {
+    "model": "neighborly_tools.borrowrequest",
+    "pk": 1,
+    "fields": {
+      "tool": 1,
+      "user_id": "1",
+      "start_date": "2025-05-01",
+      "end_date": "2025-05-02",
+      "messages": "Need it for a quick shelf install.",
+      "price": "10.00",
+      "status": "pending",
+      "signed_at": "2025-04-20T10:00:00Z"
+    }
+  },
+  {
+    "model": "neighborly_tools.borrowrequest",
+    "pk": 2,
+    "fields": {
+      "tool": 2,
+      "user_id": "2",
+      "start_date": "2025-05-05",
+      "end_date": "2025-05-07",
+      "messages": "Lawn care weekend.",
+      "price": "15.00",
+      "status": "accepted",
+      "signed_at": "2025-04-18T09:30:00Z"
+    }
+  },
+  {
+    "model": "neighborly_tools.borrowrequest",
+    "pk": 3,
+    "fields": {
+      "tool": 3,
+      "user_id": "3",
+      "start_date": "2025-05-10",
+      "end_date": "2025-05-12",
+      "messages": "Painting the fence!",
+      "price": "8.00",
+      "status": "rejected",
+      "signed_at": "2025-04-19T14:45:00Z"
+    }
+  },
+  {
+    "model": "neighborly_tools.borrowrequest",
+    "pk": 4,
+    "fields": {
+      "tool": 4,
+      "user_id": "4",
+      "start_date": "2025-04-25",
+      "end_date": "2025-04-26",
+      "messages": "DIY project with my kid.",
+      "price": "5.00",
+      "status": "accepted",
+      "signed_at": "2025-04-15T16:20:00Z"
+    }
+  }
+]

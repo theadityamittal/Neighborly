@@ -8,7 +8,7 @@ import { storeUserInformation } from "../../redux/authSlice";
 import { useNavigate } from "react-router-dom";
 
 const UserProfileForm = ({ onCancel }) => {
-  const { access, name, email, phoneNumber, address} = useSelector((state) => state.auth);
+  const { access, name, email, phoneNumber, address, neighborhood } = useSelector((state) => state.auth);
   console.log(phoneNumber);
   const firstName = name.split(" ")[0];
   const lastName = name.split(" ")[1];
@@ -22,7 +22,8 @@ const UserProfileForm = ({ onCancel }) => {
     lastName: lastName,
     email: email,
     phoneNumber: phoneNumber,
-    address: address
+    address: address,
+    neighborhood: neighborhood
   });
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -37,6 +38,8 @@ const UserProfileForm = ({ onCancel }) => {
       newFormData["name"] = `${formData.firstName} ${formData.lastName}`;
       newFormData["phone_number"] = formData.phoneNumber;
       newFormData["email"] = formData.email;
+      newFormData["address"] = formData.address;
+      newFormData["neighborhood"] = formData.neighborhood;
       const response = await updateUserInformation(newFormData, access);
       console.log("Profile updated successfully:", response.data);
       const userInfo = await getUserInformation(access);
@@ -63,10 +66,13 @@ const UserProfileForm = ({ onCancel }) => {
             <TextField fullWidth label="Last Name" value={formData.lastName} onChange={handleChange("lastName")} />
           </Grid>
           <Grid item xs={12}>
-            <TextField fullWidth label="Email" value={formData.email} onChange={handleChange("email")} />
+            <TextField disabled fullWidth label="Email" value={formData.email} onChange={handleChange("email")} />
           </Grid>
           <Grid item xs={12}>
-            <TextField fullWidth disabled label="Address" value={formData.address} onChange={()=> {}} />
+            <TextField fullWidth label="Address" value={formData.address} onChange={handleChange("address")} />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField fullWidth label="Neighborhood" value={formData.neighborhood} onChange={handleChange("neighborhood")} />
           </Grid>
           <Grid item xs={12}>
             <TextField fullWidth label="Phone Number" value={formData.phoneNumber} onChange={handleChange("phoneNumber")} />

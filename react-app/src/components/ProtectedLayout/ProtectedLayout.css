@@ -1,0 +1,36 @@
+/* wrapper */
+.protected-layout {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+  }
+  
+  /* header sits at the top across full width */
+  .protected-layout__header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 90px;       /* match your Header height */
+    z-index: 100;
+  }
+  
+  /* sidebar begins just below header, fills left side */
+  .protected-layout__sidebar {
+    position: fixed;
+    top: 90px;          /* same as header height */
+    left: 0;
+    bottom: 0;
+    width: 298px;       /* match your SideNav width */
+    z-index: 90;
+  }
+  
+  /* content area offset by header height & sidebar width */
+  .protected-layout__content {
+    margin-top: 90px;   /* push content below header */
+    margin-left: 313px; /* push content right past sidebar */
+    padding: 20px;      /* optional inner padding */
+    height: 100vh;
+    overflow-y: auto;
+  }
+  

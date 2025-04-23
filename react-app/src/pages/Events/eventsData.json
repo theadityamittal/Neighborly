@@ -1,0 +1,100 @@
+[
+    {
+      "event_id": "ev001",
+      "event_name": "Community Cleanup Drive",
+      "organizer_id": "u001",
+      "organizer_name": "Sarah Liu",
+      "description": "Join us to clean up Central Park and meet your neighbors!",
+      "location": "Central Park",
+      "location_link": "https://maps.google.com/?q=Central+Park",
+      "date": "2024-03-10",
+      "time": "09:00",
+      "visibility": "public",
+      "tags": ["Environment", "Volunteer"]
+    },
+    {
+      "event_id": "ev002",
+      "event_name": "Neighborhood Potluck",
+      "organizer_id": "u002",
+      "organizer_name": "David Martinez",
+      "description": "Bring a dish and come share stories with the community!",
+      "location": "Community Center",
+      "date": "2024-03-12",
+      "time": "17:30",
+      "visibility": "invite-only",
+      "tags": ["Food", "Community"]
+    },
+    {
+      "event_id": "ev003",
+      "event_name": "Youth Coding Workshop",
+      "organizer_id": "u003",
+      "organizer_name": "Emma Thompson",
+      "description": "Empowering teens with hands-on programming skills.",
+      "location": "Library Room B",
+      "date": "2024-03-14",
+      "time": "15:00",
+      "visibility": "public",
+      "tags": ["Education", "Technology"]
+    },
+    {
+      "event_id": "ev004",
+      "event_name": "Mental Health Support Circle",
+      "organizer_id": "u004",
+      "organizer_name": "Marcus King",
+      "description": "Open group sharing to support mental wellness.",
+      "location": "Wellness Center",
+      "date": "2024-03-15",
+      "time": "18:00",
+      "visibility": "private",
+      "tags": ["Health", "Support"]
+    },
+    {
+      "event_id": "ev005",
+      "event_name": "Art in the Park",
+      "organizer_id": "u005",
+      "organizer_name": "Ava Chen",
+      "description": "An outdoor event for all ages to create art together.",
+      "location": "Lincoln Park",
+      "date": "2024-03-16",
+      "time": "10:30",
+      "visibility": "public",
+      "tags": ["Arts", "Community"]
+    },
+    {
+      "event_id": "ev006",
+      "event_name": "Seniors Tech Help",
+      "organizer_id": "u006",
+      "organizer_name": "Ethan Patel",
+      "description": "One-on-one tech assistance for older adults.",
+      "location": "Community Hub",
+      "date": "2024-03-17",
+      "time": "14:00",
+      "visibility": "public",
+      "tags": ["Support", "Seniors"]
+    },
+    {
+      "event_id": "ev007",
+      "event_name": "Pet Adoption Weekend",
+      "organizer_id": "u007",
+      "organizer_name": "Happy Paws Shelter",
+      "description": "Find your new furry friend!",
+      "location": "Main Plaza",
+      "date": "2024-03-18",
+      "time": "11:00",
+      "visibility": "public",
+      "tags": ["Pets", "Adoption"]
+    },
+    {
+      "event_id": "ev008",
+      "event_name": "Local Music Jam",
+      "organizer_id": "u008",
+      "organizer_name": "Liam Nguyen",
+      "description": "Bring your instruments and vibe out with neighbors.",
+      "location": "Garage Studio",
+      "date": "2024-03-19",
+      "time": "19:00",
+      "visibility": "public",
+      "tags": ["Music", "Culture"]
+    }
+  ]
+  

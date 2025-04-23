@@ -1,10 +1,10 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import ToolViewSet
-
-router = DefaultRouter()
-router.register(r'tools', ToolViewSet, basename='tool')
+from django.urls import path
+from .views import ToolListView, ToolDetailView, ToolSignUpView,ToolSignUpDetailView
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', ToolListView.as_view(), name='tool-list'),
+    path('<int:tool_id>/', ToolDetailView.as_view(), name="tool-detail"),
+    path('<int:tool_id>/borrow/', ToolSignUpView.as_view(), name='borrow-for-tool'),
+    path("borrow/<int:signup_id>/", ToolSignUpDetailView.as_view(), name='tool-borrow-detail'),
+
 ]
