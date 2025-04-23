@@ -5,44 +5,74 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { getApps } from "../../services/newUserAppsService";
 import { Button } from "@mui/material";
-import { verifyApp } from "../../services/newUserAppsService";
+import { verifyApp, getUserInformation} from "../../services/newUserAppsService";
 
 const Modal = ({ app, onClose }) => {
     const { access } = useSelector((state) => state.auth);
-    const data = {
-        "user_id": app ? app.user_id : null,
-    }
+    const [userInfo, setUserInfo] = useState(null);
+  
+    useEffect(() => {
+        setUserInfo(null);
+        const fetchUserInformation = async () => {
+          if (!app) return;
+      
+          const data = { user_id: app.user_id };
+      
+          try {
+            const response = await getUserInformation(data, access);
+            setUserInfo(response);
+          } catch (error) {
+            console.error("Error fetching user information:", error);
+          }
+        };
+      
+        fetchUserInformation();
+      }, [app]); 
+  
     const verifyAppCall = async () => {
-        try {
-            const response = await verifyApp(data, access);
-            console.log("App verified successfully:", response.data);
-            alert("App verified successfully!");
-            onClose();
-        } catch (error) {
-            console.error("Error verifying app:", error);
-        }
+      const data = { user_id: app.user_id };
+  
+      try {
+        const response = await verifyApp(data, access);
+        console.log("App verified successfully:", response.data);
+        alert("App verified successfully!");
+        onClose();
+      } catch (error) {
+        console.error("Error verifying app:", error);
+      }
     };
-
+  
     if (!app) return null;
-        return (
-        <div className="modal-overlay" onClick={onClose}>
-            <div className="modal-content app-content" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={onClose}>×</button>
-            <h2 className="modal-title">{app.app_name}</h2>
-            <img src={app.file} alt={app.app_name} className="modal-image app-image" />
-            <p className="modal-description app-description">{app.description}</p>
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={verifyAppCall}
-                className="modal-button"
-            >
-                Verify
-            </Button>
-            </div>
+  
+    return (
+      <div className="modal-overlay" onClick={onClose}>
+        <div className="modal-content app-content" onClick={(e) => e.stopPropagation()}>
+          <button className="modal-close" onClick={onClose}>×</button>
+          <img src={app.file} alt={app.app_name} className="modal-image app-image" />
+  
+          {userInfo ? (
+            <>
+              <p className="modal-description app-description">Address: {userInfo.address}</p>
+              <p className="modal-description app-description">Neighborhood: {userInfo.neighborhood}</p>
+              <p className="modal-description app-description">Name: {userInfo.name}</p>
+            </>
+          ) : (
+            <p className="modal-description app-description">Loading user info...</p>
+          )}
+            <p className="modal-description app-description">Description: {app.description}</p>
+  
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={verifyAppCall}
+            className="modal-button"
+          >
+            Verify
+          </Button>
         </div>
-        );
-};
+      </div>
+    );
+  };
 
 const NewUserApps = () => {
   const [apps, setApps] = useState([]);
@@ -77,7 +107,6 @@ const NewUserApps = () => {
                 id={app.ud_id}
                 provider={app.description}
                 image={app.file}
-                tabs={[...(app.tags || []), app.visibility]}
                 viewType="card"
                 onView={() => setSelectedApp(app)}
               />

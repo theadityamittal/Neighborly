@@ -10,7 +10,7 @@ function HorizontalCard({
   image,
   tabs,
   viewType,
-  onView // this is passed from CardTest to trigger showing VerticalCard
+  onView, // this is passed from CardTest to trigger showing VerticalCard
 }) {
   const handleClick = () => {
     console.log(`You clicked on card ID: ${id}`);
