@@ -110,7 +110,7 @@ const Services = () => {
           gridTemplateColumns: "repeat(2, 1fr)"
         }}
       >
-        {services.map(service => (
+        {Array.isArray(services) ? services.map(service => (
           <HorizontalCard
             key={service.service_id}
             id={service.service_id}
@@ -124,7 +124,8 @@ const Services = () => {
             image={service.images?.[0]}
             onView={() => handleView(service.service_id)}
           />
-        ))}
+        )) :
+        <></>}
       </div>
 
       {selectedServiceWithDisable && (
