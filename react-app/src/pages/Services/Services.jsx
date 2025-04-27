@@ -39,11 +39,11 @@ const Services = () => {
         }
       });
       console.log(res.data);
-      setServices(res.data);
+      // setServices(res.data);
     } catch (err) {
       console.error("Failed to fetch services:", err);
       setError("Could not load services.");
-      setServices([]);
+      // setServices([]);
     } finally {
       setLoading(false);
     }
