@@ -82,9 +82,12 @@ const Services = () => {
     fetchServices();
   }
 
-  const selectedService = services 
+  console.log('services at selectedService:', services);
+
+  const selectedService = Array.isArray(services)
     ? services.find(service => service.service_id === selectedServiceId)
     : null;
+  
   const selectedServiceWithDisable = selectedService
     ? { ...selectedService, disableBeforeToday: true }
     : null;
