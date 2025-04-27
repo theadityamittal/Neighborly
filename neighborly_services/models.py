@@ -36,10 +36,7 @@ class ServiceItem(models.Model):
     visibility = models.CharField(max_length=10, default='public')  # public, neighborhood, private (=invite only)
     tags = models.JSONField(default=list, blank=True)
     images = models.ImageField(upload_to=services_image_upload_path, null=True, blank=True)
-
-
-    def __str__(self):
-        return self.title
+    earliest_availability = models.DateField(null=True, blank=True)
 
 class ServiceSignUp(models.Model):
     signup_id = models.AutoField(primary_key=True)
