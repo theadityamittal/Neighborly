@@ -38,10 +38,12 @@ const Services = () => {
           Authorization: `Bearer ${access}`
         }
       });
+      console.log(res.data);
       setServices(res.data);
     } catch (err) {
       console.error("Failed to fetch services:", err);
       setError("Could not load services.");
+      setServices([]);
     } finally {
       setLoading(false);
     }
@@ -80,9 +82,9 @@ const Services = () => {
     fetchServices();
   }
 
-  const selectedService = services.find(
-    service => service.service_id === selectedServiceId
-  );
+  const selectedService = services 
+    ? services.find(service => service.service_id === selectedServiceId)
+    : null;
   const selectedServiceWithDisable = selectedService
     ? { ...selectedService, disableBeforeToday: true }
     : null;
