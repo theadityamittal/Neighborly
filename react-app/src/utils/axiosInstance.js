@@ -4,7 +4,7 @@ import { store } from "../redux/store";
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
 const axiosInstance = axios.create({
-    baseURL: API_URL,
+    baseURL: '/',
     timeout: 5000, 
     headers: {
         "Content-Type": "application/json",
