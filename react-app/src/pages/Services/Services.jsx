@@ -51,7 +51,7 @@ const Services = () => {
 
   useEffect(() => {
     fetchServices();
-  }, [access]);
+  }, []);
 
   const handleView = (id) => {
     setSelectedServiceId(id);
