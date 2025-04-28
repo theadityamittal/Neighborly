@@ -38,7 +38,8 @@ const Services = () => {
           Authorization: `Bearer ${access}`
         }
       });
-      console.log(res.data);
+      console.log(res);
+      console.log("hellO?????");
       setServices(res.data);
     } catch (err) {
       console.error("Failed to fetch services:", err);
