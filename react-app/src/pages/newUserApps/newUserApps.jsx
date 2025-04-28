@@ -101,7 +101,7 @@ const NewUserApps = () => {
 
         </div>
         <div className="apps-list">
-          {apps.map((app) => (
+          {Array.isArray(apps) ? apps.map((app) => (
             <div key={app.ud_id} className="apps-item">
               <HorizontalCard
                 id={app.ud_id}
@@ -111,7 +111,7 @@ const NewUserApps = () => {
                 onView={() => setSelectedApp(app)}
               />
             </div>
-          ))}
+          )) : <></>}
         </div>
       </>
       <Modal app={selectedApp} onClose={() => setSelectedApp(null)} />

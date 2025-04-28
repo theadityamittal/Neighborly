@@ -29,7 +29,9 @@ urlpatterns = [
     path('petitions/', include('neighborly_petitions.urls')),
     path('events/', include('neighborly_events.urls')),
     path('documents/', include('neighborly_verified_content.urls')),
+    path('tools/', include('neighborly_tools.urls')),
     path('', include('apps.core.urls')),
+    path('bulletin/', include('neighborly_bulletin.urls')),
 
     #api documentation
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),

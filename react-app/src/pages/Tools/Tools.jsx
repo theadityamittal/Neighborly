@@ -28,7 +28,7 @@ const Tools = () => {
     // return;
 
     try {
-      const res = await axiosInstance.get("/api/tools/", {
+      const res = await axiosInstance.get("/tools/", {
         headers: { Authorization: `Bearer ${access}` },
       });
       setTools(res.data);
@@ -42,13 +42,13 @@ const Tools = () => {
 
   useEffect(() => {
     fetchTools();
-  }, [access]);
+  }, []);
 
   const filterTools = (searchTerm) => {
-    const filteredTools = tools.filter((tool) => {
+    const filteredTools = Array.isArray(tools) ? tools.filter((tool) => {
       const titleMatch = tool.name.toLowerCase().includes(searchTerm.toLowerCase());
       return titleMatch;
-    })
+    }) : [];
 
     setTools(filteredTools);
   }
@@ -61,13 +61,13 @@ const Tools = () => {
   const handleView = (id) => setSelectedToolId(id);
   const handleClose = () => setSelectedToolId(null);
 
-  const selectedTool = tools.find((t) => t.id === selectedToolId);
+  const selectedTool = Array.isArray(tools) ? tools.find((t) => t.id === selectedToolId) : null;
   const selectedToolWithDisable = selectedTool
     ? { ...selectedTool, disableBeforeToday: true }
     : null;
 
   if (loading) return <p>Loading tools...</p>;
-  if (error && tools.length === 0) return <p style={{ color: "red" }}>{error}</p>;
+  if (error && Array.isArray(tools) && tools.length === 0) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
     <div>
@@ -84,7 +84,7 @@ const Tools = () => {
           gridTemplateColumns: "repeat(2, 1fr)",
         }}
       >
-        {tools.map((tool) => (
+        {Array.isArray(tools) ? tools.map((tool) => (
           <HorizontalCard
             key={tool.tool_id}
             id={tool.tool_id}
@@ -97,7 +97,7 @@ const Tools = () => {
             image={tool.images?.[0]}                   
             onView={() => handleView(tool.id)}
           />
-        ))}
+        )) : <></>}
       </div>
 
       {selectedToolWithDisable && (
