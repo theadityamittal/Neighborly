@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import BulletinPost
+from .models import BulletinItem
 
-class BulletinPostSerializer(serializers.ModelSerializer):
+class BulletinItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = BulletinPost
+        model = BulletinItem
         fields = '__all__'
