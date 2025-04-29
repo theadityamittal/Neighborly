@@ -31,7 +31,7 @@ export const getHostedEvents = (userId, token) => {
 
 export const getSignedPetitions = (userId, token) => {
   return axios.get(`${API_BASE_URL}/petitions/`, {
-    params: { signed_by: userId },
+    params: { organizer_id: userId },
     headers: { Authorization: `Bearer ${token}` },
   });
 };

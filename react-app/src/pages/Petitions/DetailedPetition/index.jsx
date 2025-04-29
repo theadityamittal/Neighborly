@@ -126,7 +126,7 @@ const DetailedPetition = () => {
   return (
     <div className="detailed-petition-container">
       <div className="petition-header">
-        <button className="back-button" onClick={() => navigate("/petitions")}>
+        <button className="back-button" onClick={() => window.history.back()}>
           <ArrowBackIcon /> Back
         </button>
         <div className="petition-tags">

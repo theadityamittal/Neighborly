@@ -23,7 +23,7 @@
       "pk": 2,
       "fields": {
         "event_name": "Neighborhood Book Club",
-        "organizer_name": "Bob Volunteer",
+        "organizer_name": "Aditya Mittal",
         "organizer_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
         "description": "Monthly book discussion group—this month’s pick is 'To Kill a Mockingbird.'",
         "location": "Community Library",
@@ -61,7 +61,7 @@
       "pk": 4,
       "fields": {
         "event_name": "Park Clean‑Up",
-        "organizer_name": "Bob Volunteer",
+        "organizer_name": "Aditya Mittal",
         "organizer_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
         "description": "Join neighbors to keep our park clean. Gloves and bags provided.",
         "location": "Riverside Park",

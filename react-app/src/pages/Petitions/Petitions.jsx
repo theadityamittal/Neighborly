@@ -8,6 +8,7 @@ import petitionsJson from "./petitionData.json"; // Import the local JSON file
 import "./petitions.css";
 import SearchBar from "../../components/SearchBar";
 import AddIcon from '@mui/icons-material/Add';
+import PetitionCards from "./PetitionCards";
 
 const Petitions = () => {
   const [petitions, setPetitions] = useState([]);
@@ -105,39 +106,7 @@ const Petitions = () => {
           <AddIcon fontSize="large"/>
         </div>
       </div>
-      <div className="petition-cards">
-        {petitions.length === 0 ?
-          <div style={{
-            width: '100%',
-            textAlign: 'center',
-            fontSize: '18px',
-            color: '#555',
-          }}>
-            No petitions available.
-          </div>
-        :
-          petitions.map((item) => (
-            <div key={item.id} style={{ 
-              width: 'calc(32%)',
-              minWidth: '350px',
-              marginBottom: '20px',
-            }}>
-              <VerticalCard
-                id={item.id}
-                title={item.title}
-                provider={item.provider}
-                location={item.location}
-                closestAvailability={item.closestAvailability}
-                image={item.image}
-                viewType={item.viewType}
-                tags={item.tags}
-                numberSigned={item.numberSigned}
-                handleClick={() => viewPetition(item.id)}
-              />
-            </div>
-          ))
-        }
-      </div>
+      <PetitionCards petitions={petitions} viewPetition={viewPetition} />
     </div>
   );
 };
