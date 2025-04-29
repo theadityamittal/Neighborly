@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../utils/axiosInstance";
 import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
