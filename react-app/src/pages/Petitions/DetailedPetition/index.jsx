@@ -1,7 +1,6 @@
 import React from "react";
 import './styles.css'; // You'll need to create this CSS file
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // Assuming you're using Material UI
 import axiosInstance from "../../../utils/axiosInstance";

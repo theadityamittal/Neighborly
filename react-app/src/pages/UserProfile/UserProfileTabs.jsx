@@ -12,6 +12,7 @@ import "./UserProfile.css"; // Import your CSS file
 const UserProfileTabs = () => {
     const [selectedTab, setSelectedTab] = useState("myPosts");
     const { access } = useSelector((state) => state.auth);
+    const { user_id: userId } = useSelector((state) => state.auth);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -22,6 +23,11 @@ const UserProfileTabs = () => {
     const [userPetitions, setUserPetitions] = useState([]);
 
     const handleTabChange = (tab) => {
+        // Clear any previous error message
+        setError(null);
+        // Reset loading state
+        setLoading(true);
+        // Update the selected tab
         setSelectedTab(tab);
     };
 
@@ -29,7 +35,7 @@ const UserProfileTabs = () => {
         // Fetch petitions from the API
         try {
             setLoading(true);
-          const response = await axiosInstance.get("/petitions/grabPetitionData/", {
+          const response = await axiosInstance.get(`/petitions/grabPetitionData/organizer/${userId}`, {
             headers: {
               Authorization: `Bearer ${access}`
             }
