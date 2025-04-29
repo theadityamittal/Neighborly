@@ -63,7 +63,7 @@ const Bulletin = () => {
           const imagesArray = Array.isArray(item.images) ? item.images : [];
 
           return {
-            userName: `User ${item.user_id}`,
+            userName:  `${item.user_name}`,
             dateTime: item.date_posted
               ? new Date(item.date_posted).toLocaleString()
               : "Unknown Date",
@@ -134,7 +134,7 @@ const Bulletin = () => {
 
       setPosts((prevPosts) => [
         {
-          userName: `User ${response.data.user_id}`,
+          userName:  `User ${response.data.user_name}`,
           dateTime: new Date(response.data.date_posted).toLocaleString(),
           postContent: (
             <div>

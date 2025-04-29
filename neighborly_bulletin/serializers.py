@@ -3,6 +3,7 @@ from .models import BulletinItem
 from django.core.files.storage import default_storage
 
 class BulletinItemSerializer(serializers.ModelSerializer):
+    user_name = serializers.CharField(source="user.name", read_only=True)
     # For uploading (write-only field)
     upload_images = serializers.ListField(
         child=serializers.ImageField(max_length=None, allow_empty_file=False, use_url=True),
