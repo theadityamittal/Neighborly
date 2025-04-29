@@ -62,7 +62,7 @@ const CreateTool = () => {
 // Debug logging loop removed to prevent exposure of sensitive data.
   
     try {
-      const response = await axiosInstance.post("/api/tools/", formData, {
+      const response = await axiosInstance.post("/tools/", formData, {
         headers: {
           Authorization: `Bearer ${access}`,
           "Content-Type": "multipart/form-data",

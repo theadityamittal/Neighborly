@@ -42,8 +42,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
         return {
-            'access_token': data['access'],
-            'refresh_token': data['refresh']
+            'access': data['access'],
+            'refresh': data['refresh']
         }
 
 class CustomTokenObtainPairView(TokenObtainPairView):

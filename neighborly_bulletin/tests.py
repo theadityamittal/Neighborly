@@ -30,22 +30,22 @@ class BulletinPostTests(APITestCase):
     def test_create_bulletin_post_authenticated(self):
         self.client.force_authenticate(user=self.user)
         self.client.login(email='testuser@example.com', password='testpass')
-        response = self.client.post('/api/bulletin/', self.post_data, format='json')
+        response = self.client.post('/bulletin/', self.post_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(BulletinPost.objects.count(), 1)
 
     def test_create_bulletin_post_unauthenticated(self):
-        response = self.client.post('/api/bulletin/', self.post_data, format='json')
+        response = self.client.post('/bulletin/', self.post_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)  
 
     def test_list_bulletin_posts(self):
         BulletinPost.objects.create(**self.post_data)
-        response = self.client.get('/api/bulletin/')
+        response = self.client.get('/bulletin/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
 
     def test_get_bulletin_post_detail(self):
         post = BulletinPost.objects.create(**self.post_data)
-        response = self.client.get(f'/api/bulletin/{post.post_id}/')
+        response = self.client.get(f'/bulletin/{post.post_id}/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['title'], "Test Post")

@@ -32,7 +32,7 @@ class ToolTests(APITestCase):
             "email": self.user_data["email"],
             "password": self.user_data["password"]
         }, format='json')
-        return response.data["access_token"]
+        return response.data["access"]
 
     '''==============Create Tool=============='''
     def test_user_can_create_tool(self):
@@ -48,7 +48,7 @@ class ToolTests(APITestCase):
             "tags": ["Cutting", "Electric"],
             "condition": "Used"
         }
-        response = self.client.post("/api/tools/", payload, format="json")
+        response = self.client.post("/tools/", payload, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Tool.objects.count(), 1)
         print("\n√ test_user_can_create_tool passed!")
@@ -62,7 +62,7 @@ class ToolTests(APITestCase):
             available=True,
             condition="New"
         )
-        borrow_url = f"/api/tools/{tool.tool_id}/borrow/"
+        borrow_url = f"/tools/{tool.tool_id}/borrow/"
         payload = {
             "start_date": "2025-05-01",
             "end_date": "2025-05-02",
@@ -86,7 +86,7 @@ class ToolTests(APITestCase):
             messages="Roof work",
             status="pending"
         )
-        patch_url = f"/api/tools/borrow/{request.signup_id}/"
+        patch_url = f"/tools/borrow/{request.signup_id}/"
         response = self.client.patch(patch_url, data={"status": "accepted"}, format="json")
         self.assertEqual(response.status_code, 200)
         print("\n√ test_patch_borrow_status passed!")
@@ -97,7 +97,7 @@ class ToolTests(APITestCase):
         Tool.objects.create(title="Wrench", owner_id=self.user_id, city="NY", location="New York", available=False, condition="New")
         Tool.objects.create(title="Chainsaw", owner_id=self.user_id, city="SF", location="San Francisco", available=True, condition="Used")
 
-        response = self.client.get("/api/tools/?city=NY&condition=Used")
+        response = self.client.get("/tools/?city=NY&condition=Used")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]["title"], "Drill")

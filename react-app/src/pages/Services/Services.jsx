@@ -33,7 +33,7 @@ const Services = () => {
   const fetchServices = async () => {
     setLoading(true);
     try {
-      const res = await axiosInstance.get("/api/services/", {
+      const res = await axiosInstance.get("/services/", {
         headers: {
           Authorization: `Bearer ${access}`
         }

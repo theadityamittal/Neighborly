@@ -28,7 +28,7 @@ const Tools = () => {
     // return;
 
     try {
-      const res = await axiosInstance.get("/api/tools/", {
+      const res = await axiosInstance.get("/tools/", {
         headers: { Authorization: `Bearer ${access}` },
       });
       setTools(res.data);

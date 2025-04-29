@@ -60,7 +60,7 @@ const CreateService = () => {
 // Debug logging loop removed to prevent exposure of sensitive data.
   
     try {
-      const response = await axiosInstance.post("/api/services/", formData, {
+      const response = await axiosInstance.post("/services/", formData, {
         headers: {
           Authorization: `Bearer ${access}`,
           "Content-Type": "multipart/form-data",

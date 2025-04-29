@@ -30,15 +30,15 @@ class PetitionTests(APITestCase):
         }, format='json')
 
         self.assertEqual(login_response.status_code, status.HTTP_200_OK)
-        self.assertIn("access_token", login_response.data)
-        return login_response.data["access_token"]
+        self.assertIn("access", login_response.data)
+        return login_response.data["access"]
 
     def test_grab_petition_data_test(self):
-        access_token = self.authenticate_user()
+        access = self.authenticate_user()
 
         response = self.client.get(
             self.grab_petition_data,
-            HTTP_AUTHORIZATION=f'Bearer {access_token}'
+            HTTP_AUTHORIZATION=f'Bearer {access}'
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)

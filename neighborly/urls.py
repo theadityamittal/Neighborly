@@ -26,6 +26,8 @@ urlpatterns = [
     path('', include('neighborly_tools.urls')),
     path('auth/', include('neighborly_users.urls')),
     path('services/', include('neighborly_services.urls')),
+    path('tools/', include('neighborly_tools.urls')),
+    path('bulletin/', include('neighborly_bulletin.urls')),
     path('petitions/', include('neighborly_petitions.urls')),
     path('events/', include('neighborly_events.urls')),
     path('documents/', include('neighborly_verified_content.urls')),
@@ -36,12 +38,5 @@ urlpatterns = [
     path('api_doc', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     
-    #api
-    path('api/bulletin/', include('neighborly_bulletin.urls')),
-    path('api/services/', include('neighborly_services.urls')),
-    path('api/tools/', include('neighborly_tools.urls')),
 
-    # JWT Token endpoints
-    path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),  # login
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # get new access token
 ]
