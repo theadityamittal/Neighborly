@@ -1,143 +1,138 @@
+// UserProfile.jsx (Final Fixed Version)
+
 import React, { useState, useEffect } from "react";
 import { Avatar, Button, Typography } from "@mui/material";
-import avatar from "../../assets/avatar.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/authSlice";
-import { useNavigate } from "react-router";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import UserProfileForm from "./UserProfileForm";
 import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
-import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
 import VerticalCard from "../../components/VerticalCard/VerticalCard";
-import petitionData from "../Petitions/petitionData.json";
-import "./UserProfile.css";
-import { getEventsByUser } from "../../services/eventService";
+import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
 
-// Images
-import yoga1 from "../../assets/img/yoga1.jpg";
-import cooking1 from "../../assets/img/cooking1.jpg";
-import tree1 from "../../assets/img/tree1.jpg";
-import pilates1 from "../../assets/img/pilates1.jpg";
-import marketing1 from "../../assets/img/marketing1.jpg";
+import { getMyPosts } from "../../services/userProfileService";
+import { getToolsByUser } from "../../services/toolsService";
+import { getRequestedServicesByUser } from "../../services/servicesService";
+import { getEventsByUser } from "../../services/eventService";
+import { getSignedPetitionsByUser } from "../../services/petitionsService";
+
+import avatar from "../../assets/avatar.png";
+
+import "./UserProfile.css";
 
 const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const [showFilters, setShowFilters] = useState(false);
+  const [activeTab, setActiveTab] = useState("myPosts");
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
-  const {access, user_id } = useSelector((state) => state.auth);
 
-  const [filters, setFilters] = useState({
-    myPosts: true,
-    listedTools: true,
-    requestedServices: true,
-    hostedEvents: true,
-    signedPetitions: true,
-  });
-
-  useEffect(() => {
-    const getEventsUser = async () => {
-      try {
-        const response = await getEventsByUser({"organizer_id": user_id}, access);
-        return response.data;
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getEventsUser();
-  }, []);
-
+  const { access, user_id, name, neighborhood } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { name, neighborhood } = useSelector((state) => state.auth);
+
+  const [posts, setPosts] = useState([]);
+  const [tools, setTools] = useState([]);
+  const [services, setServices] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [petitions, setPetitions] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [postsRes, toolsRes, servicesRes, eventsRes, petitionsRes] = await Promise.all([
+          getMyPosts(user_id, access),
+          getToolsByUser(user_id, access),
+          getRequestedServicesByUser(user_id, access),
+          getEventsByUser({ organizer_id: user_id }, access),
+          getSignedPetitionsByUser(user_id, access)
+        ]);
+
+        setPosts(postsRes.data);
+        setTools(toolsRes.data);
+        setServices(servicesRes.data);
+        setEvents(eventsRes.data);
+        setPetitions(petitionsRes.data);
+      } catch (error) {
+        console.error("❌ Failed to load user profile data:", error);
+      }
+    };
+
+    fetchData();
+  }, [access, user_id]);
 
   const handleLogOut = () => {
     dispatch(logout());
-    navigate("/login", {
-      state: { message: "Logout Successful! Returning to Login page..." },
-    });
+    navigate("/login", { state: { message: "Logout successful" } });
   };
 
-  const handleCardClick = (cardData) => {
-    setSelectedCard(cardData);
+  const handleCardClick = (card) => {
+    setSelectedCard(card);
     setModalOpen(true);
   };
 
-  const handlePetitionClick = (petition) => {
-    console.log("Clicked Petition:", petition.title);
-    // You can set up a modal or redirect logic here
-  };
-
-  const handleFilterChange = (key) => {
-    setFilters((prev) => ({
-      ...prev,
-      [key]: !prev[key],
-    }));
-  };
-
-  const formatLabel = (key) =>
-    key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase());
+  const formatLabel = (key) => key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase());
 
   const cardData = {
-    myPosts: [
-      {
-        id: "1",
-        title: "Neighborhood Cleanup",
-        provider: "Community Org",
-        location: "Bay Ridge, NY",
-        closestAvailability: "March 20, 2025",
-        image: yoga1,
-        tabs: ["Community", "Cleaning"],
-      },
-    ],
-    listedTools: [
-      {
-        id: "2",
-        title: "Hammer for Rent",
-        provider: "Tool Shed",
-        location: "Brooklyn, NY",
-        closestAvailability: "Available Now",
-        image: cooking1,
-        tabs: ["Tools", "DIY"],
-      },
-    ],
-    requestedServices: [
-      {
-        id: "3",
-        title: "Need Help Gardening",
-        provider: "Peter Smith",
-        location: "Bay Ridge, NY",
-        closestAvailability: "April 2, 2025",
-        image: tree1,
-        tabs: ["Gardening", "Request"],
-      },
-    ],
-    hostedEvents: [
-      {
-        id: "4",
-        title: "Game Night",
-        provider: "Peter Smith",
-        location: "Bay Ridge, NY",
-        closestAvailability: "April 10, 2025",
-        image: pilates1,
-        tabs: ["Events", "Games"],
-      },
-    ],
+    myPosts: posts.map((post) => ({
+      id: post.id,
+      title: post.title,
+      provider: post.created_by_name || "Community",
+      location: post.location || "Unknown",
+      closestAvailability: post.available_date || "N/A",
+      image: post.image || avatar,
+      tags: post.tags || [],
+    })),
+    listedTools: tools.map((tool) => ({
+      id: tool.id,
+      title: tool.name,
+      provider: tool.lender_name || "Lender",
+      location: tool.neighborhood || "Unknown",
+      closestAvailability: tool.available_date || "N/A",
+      image: tool.image || avatar,
+      tags: [tool.condition],
+    })),
+    requestedServices: services.map((service) => ({
+      id: service.id,
+      title: service.title,
+      provider: service.requester_name || "Resident",
+      location: service.location || "Unknown",
+      closestAvailability: service.date_requested || "N/A",
+      image: service.image || avatar,
+      tags: service.tags || [],
+    })),
+    hostedEvents: events.map((event) => ({
+      id: event.id,
+      title: event.title,
+      provider: event.organizer_name || "Organizer",
+      location: event.location || "Unknown",
+      closestAvailability: event.event_date || "N/A",
+      image: event.image || avatar,
+      tags: event.tags || [],
+    })),
+    signedPetitions: petitions.map((petition) => ({
+      id: petition.id,
+      title: petition.title,
+      provider: petition.author_name || "Citizen",
+      location: petition.location || "Unknown",
+      closestAvailability: petition.created_date || "N/A",
+      image: petition.image || avatar,
+      tags: petition.tags || [],
+    })),
   };
 
   return (
-    <>
+    <div>
       {isEditing ? (
         <UserProfileForm onCancel={() => setIsEditing(false)} />
       ) : (
         <>
-          {/* Header */}
           <div className="bulletin-header">
             <div className="profile">
               <Avatar src={avatar} alt="User Avatar" sx={{ width: 80, height: 80 }} />
               <div>
-                <Typography variant="h4" className="username">{name}</Typography>
-                <Typography variant="body2" className="location">📍 {neighborhood}</Typography>
+                <Typography variant="h4">{name}</Typography>
+                <Typography variant="body2">📍 {neighborhood}</Typography>
               </div>
             </div>
 
@@ -149,14 +144,6 @@ const UserProfile = () => {
                   onClick={() => setIsEditing(true)}
                 >
                   Edit Profile
-                </Button>
-
-                <Button
-                  variant="outlined"
-                  className="filter-btn"
-                  onClick={() => setShowFilters((prev) => !prev)}
-                >
-                  {showFilters ? "🙈 My Interests" : "🔍 My Interests"}
                 </Button>
               </div>
 
@@ -172,28 +159,36 @@ const UserProfile = () => {
             </div>
           </div>
 
-          {/* Filter Panel */}
-          {showFilters && (
-            <div className="filters-panel">
-              {Object.entries(filters).map(([key, value]) => (
-                <label key={key}>
-                  <input
-                    type="checkbox"
-                    checked={value}
-                    onChange={() => handleFilterChange(key)}
-                  />
-                  {formatLabel(key)}
-                </label>
-              ))}
-            </div>
-          )}
+          {/* Tabs */}
+          <div className="interest-tabs">
+            {Object.keys(cardData).map((key) => (
+              <button
+                key={key}
+                className={`interest-tab ${activeTab === key ? "active" : ""}`}
+                onClick={() => setActiveTab(key)}
+              >
+                {formatLabel(key)}
+              </button>
+            ))}
+          </div>
 
-          {/* Card Grid */}
+          {/* Cards */}
           <div className="bulletin-cards">
-            {Object.keys(filters).map(
-              (key) =>
-                filters[key] &&
-                cardData[key]?.map((card) => (
+            {cardData[activeTab]?.length > 0 ? (
+              cardData[activeTab].map((card) => (
+                activeTab === "signedPetitions" ? (
+                  <VerticalCard
+                    key={card.id}
+                    id={card.id}
+                    title={card.title}
+                    provider={card.provider}
+                    location={card.location}
+                    closestAvailability={card.closestAvailability}
+                    image={card.image}
+                    tabs={card.tags}
+                    handleClick={() => handleCardClick(card)}
+                  />
+                ) : (
                   <HorizontalCard
                     key={card.id}
                     title={card.title}
@@ -201,31 +196,16 @@ const UserProfile = () => {
                     location={card.location}
                     closestAvailability={card.closestAvailability}
                     image={card.image}
-                    tabs={card.tabs}
+                    tags={card.tags}
                     onView={() => handleCardClick(card)}
                   />
-                ))
+                )
+              ))
+            ) : (
+              <p style={{ marginTop: "2rem" }}>No data available for {formatLabel(activeTab)}</p>
             )}
-
-            {/* Petition Cards (2 max) */}
-            {filters.signedPetitions &&
-              petitionData.slice(0, 2).map((petition) => (
-                <VerticalCard
-                  key={petition.id}
-                  id={petition.id}
-                  title={petition.title}
-                  provider={petition.provider}
-                  location={petition.location}
-                  closestAvailability={petition.closestAvailability}
-                  image={petition.image}
-                  tabs={petition.tabs}
-                  numberSigned={petition.numberSigned}
-                  handleClick={() => handlePetitionClick(petition)}
-                />
-              ))}
           </div>
 
-          {/* Modal */}
           {modalOpen && selectedCard && (
             <HorizontalCardModal
               open={modalOpen}
@@ -235,7 +215,7 @@ const UserProfile = () => {
           )}
         </>
       )}
-    </>
+    </div>
   );
 };
 
