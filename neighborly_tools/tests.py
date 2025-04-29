@@ -32,7 +32,7 @@ class ToolTests(APITestCase):
             "email": self.user_data["email"],
             "password": self.user_data["password"]
         }, format='json')
-        return response.data["access_token"]
+        return response.data["access"]
 
     '''==============Create Tool=============='''
     def test_user_can_create_tool(self):

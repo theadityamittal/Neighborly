@@ -34,10 +34,10 @@ class AuthenticationTests(APITestCase):
             "password": self.user_data["password"]
         }, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn("access_token", response.data)
-        self.assertIn("refresh_token", response.data)
-        self.access_token = response.data["access_token"]
-        self.refresh_token = response.data["refresh_token"]
+        self.assertIn("access", response.data)
+        self.assertIn("refresh", response.data)
+        self.access = response.data["access"]
+        self.refresh = response.data["refresh"]
 
     def test_user_information(self):
         self.client.post(self.register_url, self.user_data, format='json')
@@ -46,8 +46,8 @@ class AuthenticationTests(APITestCase):
             "password": self.user_data["password"]
         }, format='json')
 
-        access_token = login_response.data.get("access_token")
-        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + access_token)
+        access = login_response.data.get("access")
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + access)
         response = self.client.get(reverse('user_detail'), format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["email"], self.user_data["email"])
@@ -59,29 +59,29 @@ class AuthenticationTests(APITestCase):
             "password": self.user_data["password"]
         }, format='json')
 
-        access_token = login_response.data.get("access_token")
-        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + access_token)
+        access = login_response.data.get("access")
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + access)
         updated_data = {
             "name": "James Bond",
             "phone_number": "0955554321"
         }
         response = self.client.patch(reverse('update_user'), updated_data, format='json')
-        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + access)
         response_information = self.client.get(reverse('user_detail'), format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["message"], "User updated successfully")
         self.assertEqual(response_information.data["name"], updated_data["name"])
 
-    def test_refresh_token(self):
+    def test_refresh(self):
         self.client.post(self.register_url, self.user_data, format='json')
         login_response = self.client.post(self.login_url, {
             "email": self.user_data["email"],
             "password": self.user_data["password"]
         }, format='json')
 
-        refresh_token = login_response.data.get("refresh_token")
+        refresh = login_response.data.get("refresh")
         response = self.client.post(self.token_refresh_url, {
-            "refresh": refresh_token
+            "refresh": refresh
         }, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("access", response.data)

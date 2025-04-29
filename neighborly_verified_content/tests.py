@@ -59,8 +59,8 @@ class DocumentTests(APITestCase):
         }, format='json')
 
         self.assertEqual(login_response.status_code, status.HTTP_200_OK)
-        self.assertIn("access_token", login_response.data)
-        return login_response.data["access_token"]
+        self.assertIn("access", login_response.data)
+        return login_response.data["access"]
 
     @override_settings(
         DEFAULT_FILE_STORAGE='storages.backends.s3boto3.S3Boto3Storage',
@@ -147,8 +147,8 @@ class DocumentTests(APITestCase):
             "password": "adminpassword"
         }, format='json')
         self.assertEqual(login_response.status_code, status.HTTP_200_OK)
-        self.assertIn("access_token", login_response.data)
-        token = login_response.data["access_token"]
+        self.assertIn("access", login_response.data)
+        token = login_response.data["access"]
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
 
         # staff user can update users account to approve (verified=True)
@@ -164,8 +164,8 @@ class DocumentTests(APITestCase):
         }, format='json')
 
         self.assertEqual(login_response.status_code, status.HTTP_200_OK)
-        self.assertIn("access_token", login_response.data)
-        token = login_response.data["access_token"]
+        self.assertIn("access", login_response.data)
+        token = login_response.data["access"]
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
 
         url = reverse('user_detail')
