@@ -48,7 +48,7 @@ class ServiceTests(APITestCase):
             "available": True
         }
 
-        url = "/api/services/"
+        url = "/services/"
         response = self.client.post(url, data=payload, format="json")
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -74,7 +74,7 @@ class ServiceTests(APITestCase):
         service.save()
 
         # Use the GET API to fetch the service and verify it's accessible
-        get_url = f"/api/services/{service.service_id}/"
+        get_url = f"/services/{service.service_id}/"
         get_response = self.client.get(get_url)
 
         # Assert the service is returned correctly from the API
@@ -84,7 +84,7 @@ class ServiceTests(APITestCase):
         print("\n√ create service passed!")
 
         # Build signup URL
-        signup_url = f"/api/services/{service.service_id}/signup/"
+        signup_url = f"/services/{service.service_id}/signup/"
 
         # Prepare signup data
         signup_data = {
@@ -131,7 +131,7 @@ class ServiceTests(APITestCase):
         )
 
         # Build PATCH URL
-        patch_url = f"/api/services/signup/{signup.signup_id}/"
+        patch_url = f"/services/signup/{signup.signup_id}/"
 
         # Send PATCH
         response = self.client.patch(
@@ -171,7 +171,7 @@ class ServiceTests(APITestCase):
         )
 
         # Send PATCH request to accept the signup
-        patch_url = f"/api/services/signup/{signup.signup_id}/"
+        patch_url = f"/services/signup/{signup.signup_id}/"
         response = self.client.patch(patch_url, data={"status": "accepted"}, format="json")
 
         # Assertions
@@ -203,7 +203,7 @@ class ServiceTests(APITestCase):
             available=True
         )
 
-        url = f"/api/services/{service.service_id}/"
+        url = f"/services/{service.service_id}/"
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -213,7 +213,7 @@ class ServiceTests(APITestCase):
 
     '''==============Get Service Details - invalid case=============='''
     def test_get_invalid_service_returns_404(self):
-        url = "/api/services/invalid-id/"
+        url = "/services/invalid-id/"
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -222,7 +222,7 @@ class ServiceTests(APITestCase):
     '''==============Get Service Details - invalid case=============='''
     def test_get_service_requires_authentication(self):
         self.client.credentials()  # clear credentials
-        response = self.client.get("/api/services/")
+        response = self.client.get("/services/")
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         print("\n√ test_get_service_requires_authentication passed!")
     
@@ -256,7 +256,7 @@ class ServiceTests(APITestCase):
         )
 
         # Filter by city=New York & available=true
-        response = self.client.get("/api/services/?city=NY&title=Yoga")
+        response = self.client.get("/services/?city=NY&title=Yoga")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # Should return only the Yoga Class

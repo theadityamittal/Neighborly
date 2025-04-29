@@ -28,8 +28,8 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key }) => {
       alert("Invalid item or type.");
       return;
     }
-    const url = `${process.env.REACT_APP_BACKEND_URL}/api/${type}s/${itemId}/${api_key}/`;
-    // const url = `${process.env.REACT_APP_BACKEND_URL}/api/${type}s/${itemId}/signup/`;
+    const url = `${process.env.REACT_APP_BACKEND_URL}/${type}s/${itemId}/${api_key}/`;
+    // const url = `${process.env.REACT_APP_BACKEND_URL}/${type}s/${itemId}/signup/`;
     console.log("RSVP URL:", url);
   
     try {
