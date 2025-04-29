@@ -21,87 +21,6 @@
   margin-left: 10px;
 }
 
-.filter-section {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.filter-options {
-  display: flex;
-  gap: 10px;
-}
-
-.bulletin-cards {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  margin-top: 20px;
-}
-
-.card {
-  width: 300px;
-  background-color: white;
-  border-radius: 10px;
-  padding: 15px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.tags {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.tag {
-  background-color: #6C5ED8;
-  color: white;
-  padding: 4px 8px;
-  border-radius: 5px;
-  font-size: 12px;
-}
-
-.profile-form-wrapper {
-  max-width: 700px;
-  margin: 40px auto;
-  padding: 20px;
-}
-
-.profile-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.profile-form .MuiTextField-root {
-  width: 100%;
-}
-
-.profile-form-buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.cancel-btn,
-.save-btn {
-  min-width: 90px;
-  padding: 8px 16px;
-  font-size: 14px;
-  text-transform: capitalize;
-}
-
-.filters-panel {
-  background-color: white;
-  padding: 16px;
-  margin: 20px 0;
-  border-radius: 8px;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
-  max-width: 300px;
-}
-
 .profile-actions {
   display: flex;
   justify-content: space-between;
@@ -111,18 +30,53 @@
   gap: 10px;
 }
 
-.filter-btn {
-  text-transform: none;
+.left-buttons {
+  display: flex;
+  gap: 10px;
 }
 
-.logout-btn-blue {
-  background-color: #1976d2;
+.right-button {
+  margin-left: auto;
+}
+
+.bulletin-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 20px;
+}
+
+/* =========================== */
+/* INTEREST TABS STYLING */
+/* =========================== */
+
+.interest-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.interest-tab {
+  background-color: white;
+  color: #6C5ED8;
+  border: 2px solid #6C5ED8;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.interest-tab.active {
+  background-color: #6C5ED8;
   color: white;
-  text-transform: none;
 }
 
-.logout-btn-blue:hover {
-  background-color: #115293;
+.interest-tab:hover {
+  background-color: #5a4dcf;
+  color: white;
 }
 
 /* =========================== */
@@ -191,25 +145,9 @@
   display: flex;
 }
 
-/* Filter Toggle Button */
-.filter-toggle-btn {
-  background-color: white;
-  border: 1px solid #6C5ED8;
-  color: #6C5ED8;
-  padding: 8px 16px;
-  font-size: 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.filter-toggle-btn:hover {
-  background-color: #f1efff;
-  border-color: #5a4dcf;
-}
+/* =========================== */
+/* FILTERS PANEL */
+/* =========================== */
 
 .filters-panel {
   background: #ffffff;
@@ -244,15 +182,92 @@
   transform: scale(1.1);
 }
 
-.left-buttons {
+.filter-toggle-btn {
+  background-color: white;
+  border: 1px solid #6C5ED8;
+  color: #6C5ED8;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-toggle-btn:hover {
+  background-color: #f1efff;
+  border-color: #5a4dcf;
+}
+
+/* =========================== */
+/* VERTICAL CARD (Petitions) */
+/* =========================== */
+
+.card {
+  width: 300px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.tags {
   display: flex;
   gap: 10px;
+  margin-bottom: 10px;
 }
 
-.right-button {
-  margin-left: auto;
+.tag {
+  background-color: #6C5ED8;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 12px;
 }
 
 /* =========================== */
-/* VERTICAL CARD FOR PETITIONS */
+/* PROFILE FORM STYLING */
 /* =========================== */
+
+.profile-form-wrapper {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-form .MuiTextField-root {
+  width: 100%;
+}
+
+.profile-form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.cancel-btn,
+.save-btn {
+  min-width: 90px;
+  padding: 8px 16px;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+.logout-btn-blue {
+  background-color: #1976d2;
+  color: white;
+  text-transform: none;
+}
+
+.logout-btn-blue:hover {
+  background-color: #115293;
+}
