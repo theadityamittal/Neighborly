@@ -1,129 +1,78 @@
 import React, { useState, useEffect } from "react";
 import { Avatar, Button, Typography } from "@mui/material";
-import avatar from "../../assets/avatar.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/authSlice";
 import { useNavigate } from "react-router";
-import { useSelector } from "react-redux";
+
 import UserProfileForm from "./UserProfileForm";
 import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
-import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
 import VerticalCard from "../../components/VerticalCard/VerticalCard";
-import petitionData from "../Petitions/petitionData.json";
-import "./UserProfile.css";
-import { getEventsByUser } from "../../services/eventService";
+import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
 
-// Images
-import yoga1 from "../../assets/img/yoga1.jpg";
-import cooking1 from "../../assets/img/cooking1.jpg";
-import tree1 from "../../assets/img/tree1.jpg";
-import pilates1 from "../../assets/img/pilates1.jpg";
-import marketing1 from "../../assets/img/marketing1.jpg";
+import { getToolsByUser } from "../../services/toolsService";
+import { getRequestedServicesByUser } from "../../services/servicesService";
+import { getEventsByUser } from "../../services/eventService";
+import { getPetitionsByUser } from "../../services/petitionsService";  // ✅ Correct import here!
+
+import avatar from "../../assets/avatar.png";
+import "./UserProfile.css";
 
 const UserProfile = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { name, neighborhood, user_id, access } = useSelector((state) => state.auth);
+
   const [isEditing, setIsEditing] = useState(false);
-  const [showFilters, setShowFilters] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
-  const {access, user_id } = useSelector((state) => state.auth);
+  const [selectedTab, setSelectedTab] = useState("myPosts");
 
-  const [filters, setFilters] = useState({
-    myPosts: true,
-    listedTools: true,
-    requestedServices: true,
-    hostedEvents: true,
-    signedPetitions: true,
+  const [userCards, setUserCards] = useState({
+    myPosts: [],
+    listedTools: [],
+    requestedServices: [],
+    hostedEvents: [],
+    signedPetitions: [],
   });
 
   useEffect(() => {
-    const getEventsUser = async () => {
+    const fetchUserData = async () => {
       try {
-        const response = await getEventsByUser({"organizer_id": user_id}, access);
-        return response.data;
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getEventsUser();
-  }, []);
+        const [toolsRes, servicesRes, eventsRes, petitionsRes] = await Promise.all([
+          getToolsByUser(user_id, access),
+          getRequestedServicesByUser(user_id, access),
+          getEventsByUser({ organizer_id: user_id }, access),
+          getPetitionsByUser(user_id, access)
+        ]);
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { name, neighborhood } = useSelector((state) => state.auth);
+        setUserCards({
+          listedTools: toolsRes.data || [],
+          requestedServices: servicesRes.data || [],
+          hostedEvents: eventsRes.data || [],
+          signedPetitions: petitionsRes.data || [],
+          myPosts: [],
+        });
+      } catch (error) {
+        console.error("Failed fetching user content:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [user_id, access]);
 
   const handleLogOut = () => {
     dispatch(logout());
-    navigate("/login", {
-      state: { message: "Logout Successful! Returning to Login page..." },
-    });
+    navigate("/login", { state: { message: "Logout Successful! Returning to Login page..." } });
   };
 
-  const handleCardClick = (cardData) => {
-    setSelectedCard(cardData);
+  const handleCardClick = (card) => {
+    setSelectedCard(card);
     setModalOpen(true);
   };
 
-  const handlePetitionClick = (petition) => {
-    console.log("Clicked Petition:", petition.title);
-    // You can set up a modal or redirect logic here
-  };
+  const formatTabLabel = (key) => key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase());
 
-  const handleFilterChange = (key) => {
-    setFilters((prev) => ({
-      ...prev,
-      [key]: !prev[key],
-    }));
-  };
-
-  const formatLabel = (key) =>
-    key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase());
-
-  const cardData = {
-    myPosts: [
-      {
-        id: "1",
-        title: "Neighborhood Cleanup",
-        provider: "Community Org",
-        location: "Bay Ridge, NY",
-        closestAvailability: "March 20, 2025",
-        image: yoga1,
-        tabs: ["Community", "Cleaning"],
-      },
-    ],
-    listedTools: [
-      {
-        id: "2",
-        title: "Hammer for Rent",
-        provider: "Tool Shed",
-        location: "Brooklyn, NY",
-        closestAvailability: "Available Now",
-        image: cooking1,
-        tabs: ["Tools", "DIY"],
-      },
-    ],
-    requestedServices: [
-      {
-        id: "3",
-        title: "Need Help Gardening",
-        provider: "Peter Smith",
-        location: "Bay Ridge, NY",
-        closestAvailability: "April 2, 2025",
-        image: tree1,
-        tabs: ["Gardening", "Request"],
-      },
-    ],
-    hostedEvents: [
-      {
-        id: "4",
-        title: "Game Night",
-        provider: "Peter Smith",
-        location: "Bay Ridge, NY",
-        closestAvailability: "April 10, 2025",
-        image: pilates1,
-        tabs: ["Events", "Games"],
-      },
-    ],
-  };
+  const TABS = ["myPosts", "listedTools", "requestedServices", "hostedEvents", "signedPetitions"];
 
   return (
     <>
@@ -143,86 +92,49 @@ const UserProfile = () => {
 
             <div className="profile-actions">
               <div className="left-buttons">
-                <Button
-                  variant="contained"
-                  className="edit-profile-btn"
-                  onClick={() => setIsEditing(true)}
-                >
+                <Button variant="contained" className="edit-profile-btn" onClick={() => setIsEditing(true)}>
                   Edit Profile
                 </Button>
-
-                <Button
-                  variant="outlined"
-                  className="filter-btn"
-                  onClick={() => setShowFilters((prev) => !prev)}
-                >
-                  {showFilters ? "🙈 My Interests" : "🔍 My Interests"}
-                </Button>
               </div>
-
               <div className="right-button">
-                <Button
-                  variant="contained"
-                  className="logout-btn-blue"
-                  onClick={handleLogOut}
-                >
+                <Button variant="contained" className="logout-btn-blue" onClick={handleLogOut}>
                   Logout
                 </Button>
               </div>
             </div>
           </div>
 
-          {/* Filter Panel */}
-          {showFilters && (
-            <div className="filters-panel">
-              {Object.entries(filters).map(([key, value]) => (
-                <label key={key}>
-                  <input
-                    type="checkbox"
-                    checked={value}
-                    onChange={() => handleFilterChange(key)}
-                  />
-                  {formatLabel(key)}
-                </label>
-              ))}
-            </div>
-          )}
+          {/* Tab Selector */}
+          <div className="tabs-selector">
+            {TABS.map((tab) => (
+              <button
+                key={tab}
+                className={`tab-btn ${selectedTab === tab ? "active" : ""}`}
+                onClick={() => setSelectedTab(tab)}
+              >
+                {formatTabLabel(tab)}
+              </button>
+            ))}
+          </div>
 
-          {/* Card Grid */}
+          {/* Cards Section */}
           <div className="bulletin-cards">
-            {Object.keys(filters).map(
-              (key) =>
-                filters[key] &&
-                cardData[key]?.map((card) => (
-                  <HorizontalCard
-                    key={card.id}
-                    title={card.title}
-                    provider={card.provider}
-                    location={card.location}
-                    closestAvailability={card.closestAvailability}
-                    image={card.image}
-                    tabs={card.tabs}
-                    onView={() => handleCardClick(card)}
-                  />
-                ))
-            )}
-
-            {/* Petition Cards (2 max) */}
-            {filters.signedPetitions &&
-              petitionData.slice(0, 2).map((petition) => (
-                <VerticalCard
-                  key={petition.id}
-                  id={petition.id}
-                  title={petition.title}
-                  provider={petition.provider}
-                  location={petition.location}
-                  closestAvailability={petition.closestAvailability}
-                  image={petition.image}
-                  tabs={petition.tabs}
-                  numberSigned={petition.numberSigned}
-                  handleClick={() => handlePetitionClick(petition)}
+            {userCards[selectedTab]?.length > 0 ? (
+              userCards[selectedTab].map((card) => (
+                <HorizontalCard
+                  key={card.id || card.tool_id}
+                  title={card.title || card.name}
+                  provider={card.provider || card.owner_name}
+                  location={card.location || card.city || card.neighborhood}
+                  closestAvailability={card.closestAvailability || "N/A"}
+                  image={card.image || card.images?.[0] || avatar}
+                  tabs={card.tabs || (card.condition ? [card.condition] : [])}
+                  onView={() => handleCardClick(card)}
                 />
-              ))}
+              ))
+            ) : (
+              <Typography variant="body2">No data available for {formatTabLabel(selectedTab)}</Typography>
+            )}
           </div>
 
           {/* Modal */}
