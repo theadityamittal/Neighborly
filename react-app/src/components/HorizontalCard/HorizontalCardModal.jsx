@@ -8,9 +8,14 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key }) => {
   const [endDate, setEndDate] = useState(null);
   const [message, setMessage] = useState(null);
   const [price, setPrice] = useState(null);
+  const [gallery, setGallery] = useState([]);
 
   useEffect(() => {
     setPrice(item?.price || "");
+    setStartDate(item?.start_date || null);
+    setEndDate(item?.end_date || null);
+    setMessage(item?.message || "");
+    setGallery([].concat(item.images || item.image || []));
   }, [item]);
 
   if (!isOpen || !item) return null;
@@ -62,10 +67,6 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key }) => {
     }
     };
 
-  // Use item.images if available; otherwise, fallback to a single image.
-  const galleryImages =
-    item.images && item.images.length ? item.images : [item.image];
-
   return (
     <div className="horizontal-modal-overlay" onClick={onClose}>
       <div className="horizontal-modal-content" onClick={(e) => e.stopPropagation()}>
@@ -83,13 +84,23 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key }) => {
                 ))}
             </div>
             )}
-
+          
         {/* Gallery Section */}
         <div className="modal-gallery">
+          {gallery.length >= 1 ? (
+            <img
+              src={gallery[0]}
+              alt={item.title}
+            />
+          ) : null}
+        </div>
+
+        {/* Gallery Section */}
+        {/* <div className="modal-gallery">
           {galleryImages.map((img, index) => (
             <img key={index} src={img} alt={`${item.title} ${index + 1}`} />
           ))}
-        </div>
+        </div> */}
         
         {/* Details Section */}
         <div className="modal-details">

@@ -39,6 +39,7 @@ const Services = () => {
         }
       });
       setServices(res.data);
+      console.log("Fetched services:", res.data);
     } catch (err) {
       console.error("Failed to fetch services:", err);
       setError("Could not load services.");
@@ -64,8 +65,6 @@ const Services = () => {
     console.log(searchTerm);
     console.log(tags);
     console.log(radius);
-    
-
     const filteredServices = services.filter((service) => {
       const titleMatch = service.title.toLowerCase().includes(searchTerm.toLowerCase());
       const tagsMatch = tags.length === 0 || service?.tags.some(tag => tags.includes(tag));

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../utils/axiosInstance";
 import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
@@ -14,7 +14,7 @@ const Tools = () => {
   const [tools, setTools] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [selectedToolId, setSelectedToolId] = useState(null);
+  const [selectedTool, setSelectedTool] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const { access } = useSelector((state) => state.auth);
   const navigate = useNavigate(); // Initialize navigate for redirection
@@ -31,6 +31,7 @@ const Tools = () => {
       const res = await axiosInstance.get("/tools/", {
         headers: { Authorization: `Bearer ${access}` },
       });
+      console.log("Fetched tools:", res.data);
       setTools(res.data);
     } catch (err) {
       console.error("❌ Failed to fetch tools:", err);
@@ -43,6 +44,7 @@ const Tools = () => {
   useEffect(() => {
     fetchTools();
   }, [access]);
+
 
   const filterTools = (searchTerm) => {
     const filteredTools = tools.filter((tool) => {
@@ -58,13 +60,14 @@ const Tools = () => {
     fetchTools();
   }
   
-  const handleView = (id) => setSelectedToolId(id);
-  const handleClose = () => setSelectedToolId(null);
+  const handleView = (id) => {
+    const selectedTool = tools.find((tool) => tool.tool_id === id);
+    setSelectedTool(selectedTool);
+  };
 
-  const selectedTool = tools.find((t) => t.id === selectedToolId);
-  const selectedToolWithDisable = selectedTool
-    ? { ...selectedTool, disableBeforeToday: true }
-    : null;
+  const handleClose = () => {
+    setSelectedTool(null);
+  }
 
   if (loading) return <p>Loading tools...</p>;
   if (error && tools.length === 0) return <p style={{ color: "red" }}>{error}</p>;
@@ -95,16 +98,16 @@ const Tools = () => {
             tags={[tool.condition]}      
             available={tool.available}
             image={tool.images?.[0]}                   
-            onView={() => handleView(tool.id)}
+            onView={() => handleView(tool.tool_id)}
           />
         ))}
       </div>
 
-      {selectedToolWithDisable && (
+      {selectedTool && (
         <HorizontalCardModal
           isOpen={!!selectedTool}
           onClose={handleClose}
-          item={selectedToolWithDisable}
+          item={selectedTool}
           type="tool"  // must match your API prefix if used
           api_key="borrow"
         />
