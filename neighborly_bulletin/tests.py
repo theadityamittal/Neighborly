@@ -42,7 +42,7 @@ class BulletinTests(APITestCase):
     '''==============Creation of bulletin=============='''
     def test_user_can_create_bulletin_item(self):
         payload = {
-            "user_id": str(self.user_id),  # ✅ ADD this
+            "user_id": str(self.user_id),  # ADD this
             "title": "Community BBQ",
             "content": "Join us for a fun BBQ party this weekend!",
             "post_type": "event",
