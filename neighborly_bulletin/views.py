@@ -16,12 +16,6 @@ from .serializers import BulletinItemSerializer#, BulletinItemSerializer
 # Geolocation
 from utils.geolocation import geocode_location
 
-# class BulletinPostViewSet(viewsets.ModelViewSet):
-#     queryset = BulletinPost.objects.all().order_by('-created_at')
-#     serializer_class = BulletinPostSerializer
-#     permission_classes = [IsAuthenticatedOrReadOnly]
-
-
 '''For all bulletin items & creation of new bulletin items'''    
 class BulletinItemListView(APIView):
     permission_classes = [IsAuthenticated] 
