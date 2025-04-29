@@ -36,8 +36,8 @@ class BulletinTests(APITestCase):
         }, format='json')
 
         self.assertEqual(login_response.status_code, status.HTTP_200_OK)
-        self.assertIn("access_token", login_response.data)
-        return login_response.data["access_token"]
+        self.assertIn("access", login_response.data)
+        return login_response.data["access"]
 
     '''==============Creation of bulletin=============='''
     def test_user_can_create_bulletin_item(self):
