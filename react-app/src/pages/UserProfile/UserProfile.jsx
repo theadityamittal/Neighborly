@@ -12,7 +12,8 @@ import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardM
 import { getToolsByUser } from "../../services/toolsService";
 import { getRequestedServicesByUser } from "../../services/servicesService";
 import { getEventsByUser } from "../../services/eventService";
-import { getPetitionsByUser } from "../../services/petitionsService";  // ✅ Correct import here!
+import { getPetitionsByUser } from "../../services/petitionsService";
+
 
 import avatar from "../../assets/avatar.png";
 import "./UserProfile.css";
@@ -43,6 +44,7 @@ const UserProfile = () => {
           getRequestedServicesByUser(user_id, access),
           getEventsByUser({ organizer_id: user_id }, access),
           getPetitionsByUser(user_id, access)
+
         ]);
 
         setUserCards({
@@ -122,15 +124,16 @@ const UserProfile = () => {
             {userCards[selectedTab]?.length > 0 ? (
               userCards[selectedTab].map((card) => (
                 <HorizontalCard
-                  key={card.id || card.tool_id}
-                  title={card.title || card.name}
-                  provider={card.provider || card.owner_name}
-                  location={card.location || card.city || card.neighborhood}
-                  closestAvailability={card.closestAvailability || "N/A"}
-                  image={card.image || card.images?.[0] || avatar}
-                  tabs={card.tabs || (card.condition ? [card.condition] : [])}
-                  onView={() => handleCardClick(card)}
-                />
+  key={card.id || card.tool_id}
+  title={card.title || card.name}
+  provider={card.provider || card.owner_name}
+  location={card.location || card.city || card.neighborhood}
+  closestAvailability={card.closestAvailability || "N/A"}
+  image={card.image || card.images?.[0] || avatar}
+  tabs={card.tabs || [card.condition]}
+  onView={() => handleCardClick(card)}
+/>
+
               ))
             ) : (
               <Typography variant="body2">No data available for {formatTabLabel(selectedTab)}</Typography>
