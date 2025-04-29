@@ -7,9 +7,17 @@
     margin-bottom: 24px;
   }
   
-  .post-card-content-wrapper img {
+  /* .post-card-content-wrapper img {
     width: 100%;
     height: auto;
+    border-radius: 10px;
+    margin-top: 10px;
+  } */
+
+  .post-card-content-wrapper img {
+    width: 50%;
+    height: auto;
+    object-fit: cover;
     border-radius: 10px;
     margin-top: 10px;
   }

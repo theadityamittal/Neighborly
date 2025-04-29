@@ -56,7 +56,7 @@ const Bulletin = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get("/api/bulletin/");
+        const response = await axios.get("/bulletin/");
         console.log(response.data);
 
         const formattedPosts = response.data.map((item) => {
@@ -68,20 +68,23 @@ const Bulletin = () => {
               ? new Date(item.date_posted).toLocaleString()
               : "Unknown Date",
             postContent: (
-              <div>
-                <p>{item.content}</p>
-                {imagesArray.map((imgUrl, idx) => (
-                  <img
-                    key={idx}
-                    src={imgUrl}
-                    alt={`Bulletin post image ${idx + 1}`}
-                    className="mt-2 rounded"
-                    style={{ maxHeight: "300px", objectFit: "cover" }}
-                  />
-                ))}
-              </div>
+              <div className="space-y-2">
+              <p className="text-gray-700">{item.content}</p>
+            
+              {imagesArray.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {imagesArray.map((imgUrl, idx) => (
+                    <img
+                      key={idx}
+                      src={imgUrl}
+                      alt={`Bulletin post image ${idx}`}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
             ),
-            firstImage: imagesArray.length > 0 ? imagesArray[0] : null, // ✅ first image for card thumbnail
+            firstImage: imagesArray.length > 0 ? imagesArray[0] : null, 
             tags: item.tags || [],
           };
         });
@@ -119,7 +122,7 @@ const Bulletin = () => {
         });
       }
 
-      const response = await axios.post("/api/bulletin/", formData, {
+      const response = await axios.post("/bulletin/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -141,8 +144,6 @@ const Bulletin = () => {
                   key={idx}
                   src={imgUrl}
                   alt={`Bulletin post image ${idx + 1}`}
-                  className="mt-2 rounded"
-                  style={{ maxHeight: "300px", objectFit: "cover" }}
                 />
               ))}
             </div>

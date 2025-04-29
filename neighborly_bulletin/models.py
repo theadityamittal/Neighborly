@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 import os
 import uuid
+from django.contrib.auth.models import User
+from django.conf import settings
 
 def bulletin_image_upload_path(instance, filename):
     ext = filename.split('.')[-1]
@@ -10,13 +12,14 @@ def bulletin_image_upload_path(instance, filename):
 
 class BulletinItem(models.Model):
     post_id = models.AutoField(primary_key=True)
-    user_id = models.CharField(max_length=255)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="bulletin_posts") 
+    #user_id = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
     content = models.TextField()
     post_type = models.CharField(max_length=100)
     visibility = models.CharField(max_length=10, default='public')  # public, neighborhood, private (=invite only)
     tags = models.JSONField(default=list, blank=True)
-    images = models.ImageField(upload_to=bulletin_image_upload_path, null=True, blank=True)
+    images = models.JSONField(default=list, blank=True) 
     date_posted = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(null=True, blank=True, default=timezone.now)
     # Location related

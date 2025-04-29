@@ -29,12 +29,12 @@ class BulletinItemListView(APIView):
     def get(self, request):
         filtered = BulletinItemFilter(request.GET, queryset=BulletinItem.objects.all())
         serializer = BulletinItemSerializer(filtered.qs, many=True)
-        #serializer = BulletinItemSerializer(BulletinItem.objects.all(), many=True)
+        
         return Response(serializer.data)
     
     def post(self, request):
         data = request.data.copy()
-        data["post_provider"] = request.user.id  # auto-assign creator
+        data["user"] = request.user.id  # auto-assign creator
 
         serializer = BulletinItemSerializer(data=data)
         if serializer.is_valid():
@@ -42,28 +42,28 @@ class BulletinItemListView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-'''For a service item'''
+'''For a bulletin item'''
 class BulletinItemDetailView(APIView):
     permission_classes = [IsAuthenticated] 
     def get(self, request, post_id):
         try:
-            service = get_object_or_404(BulletinItem, post_id=post_id) #BulletinItem.objects.get(post_id=post_id)
+            bulletin = get_object_or_404(BulletinItem, post_id=post_id) #BulletinItem.objects.get(post_id=post_id)
         except BulletinItem.DoesNotExist:
             return Response({"error": "Bulletin not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = BulletinItemSerializer(service) 
+        serializer = BulletinItemSerializer(bulletin) 
         return Response(serializer.data)
     
     
     def patch(self, request, post_id):
-        service = get_object_or_404(BulletinItem, post_id=post_id)
-        serializer = BulletinItemSerializer(service, data=request.data, partial=True)
+        bulletin = get_object_or_404(BulletinItem, post_id=post_id)
+        serializer = BulletinItemSerializer(bulletin, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self, request, post_id):
-        service = get_object_or_404(BulletinItem, post_id=post_id)
-        service.delete()
+        bulletin = get_object_or_404(BulletinItem, post_id=post_id)
+        bulletin.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

@@ -75,7 +75,7 @@ class BulletinTests(APITestCase):
 
         # Create bulletin using POST (not manual create)
         payload = {
-            "user_id": str(self.user_id),
+            "user": self.user_id,
             "title": "Lost Cat",
             "content": "Please help find my missing cat, last seen near the park.",
             "post_type": "announcement",
