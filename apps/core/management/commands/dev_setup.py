@@ -7,10 +7,10 @@ class Command(BaseCommand):
     help = "Migrate, load JSON fixtures, then seed faker data"
 
     def handle(self, *args, **opts):
-        self.stdout.write("🛠  Migrating database…")
+        self.stdout.write("\n==========Migrating database…==========\n")
         call_command('migrate', verbosity=1)
 
-        self.stdout.write("📑 Loading fixtures…")
+        self.stdout.write("\n==========Loading fixtures…==========\n")
         fixts = [
             'neighborly_users/fixtures/initial_users.json',
             'neighborly_tools/fixtures/initial_tools.json',
@@ -19,9 +19,10 @@ class Command(BaseCommand):
             'neighborly_events/fixtures/initial_eventsignups.json',
             'neighborly_services/fixtures/initial_services.json',
             'neighborly_petitions/fixtures/initial_petitions.json',
-            "neighborly_petitions/fixtures/initial_petition_signatures.json"
+            "neighborly_petitions/fixtures/initial_petition_signatures.json",
+            "neighborly_bulletin/fixtures/initial_bulletins.json"
         ]
         for f in fixts:
             call_command('loaddata', f, verbosity=0)
 
-        self.stdout.write(self.style.SUCCESS("✅ Dev DB ready!"))
+        self.stdout.write(self.style.SUCCESS("\n==========Dev DB ready!=========="))
