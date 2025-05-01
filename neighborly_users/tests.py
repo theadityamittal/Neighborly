@@ -61,21 +61,30 @@ class AuthenticationTests(APITestCase):
         self.assertEqual(response.data["zip_code"], self.user_data["zip_code"])
 
     def test_user_update(self):
-        # Register and login
+        # Register
         self.client.post(self.register_url, self.user_data, format='json')
+        
+        user = CustomUser.objects.get(email=self.user_data["email"])
+        user.verified = True
+        user.save()
+
+        # Login
         login_response = self.client.post(self.login_url, {
             "email": self.user_data["email"],
             "password": self.user_data["password"]
         }, format='json')
 
-        access = login_response.data.get("access")
+        # Set token
+        access = login_response.data["access"]
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + access)
         updated_data = {
             "name": "James Bond",
             "phone_number": "0955554321",
             "city": "Gotham",
         }
-        response = self.client.patch(reverse('update_user'), updated_data, format='json')
+
+        response = self.client.patch('/auth/update/', updated_data, format='json')
+        
         # Verify update response
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["message"], "User updated successfully")
