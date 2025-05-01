@@ -60,31 +60,31 @@ const Bulletin = () => {
         console.log(response.data);
 
         const formattedPosts = response.data.map((item) => {
-          const imagesArray = Array.isArray(item.images) ? item.images : [];
-
+          const imageUrl = typeof item.images === "string" && item.images.trim() !== ""
+            ? item.images
+            : null;
+        
           return {
-            userName:  `${item.user_name}`,
+            userName: `${item.user_name}`,
             dateTime: item.date_posted
               ? new Date(item.date_posted).toLocaleString()
               : "Unknown Date",
             postContent: (
               <div className="space-y-2">
-              <p className="text-gray-700">{item.content}</p>
-            
-              {imagesArray.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {imagesArray.map((imgUrl, idx) => (
+                <p className="text-gray-700">{item.content}</p>
+        
+                {imageUrl && (
+                  <div className="mt-2">
                     <img
-                      key={idx}
-                      src={imgUrl}
-                      alt={`Bulletin post image ${idx}`}
+                      src={imageUrl}
+                      alt="Bulletin image"
+                      className="max-w-xs rounded"
                     />
-                  ))}
-                </div>
-              )}
-            </div>
+                  </div>
+                )}
+              </div>
             ),
-            firstImage: imagesArray.length > 0 ? imagesArray[0] : null, 
+            firstImage: imageUrl,
             tags: item.tags || [],
           };
         });
@@ -118,7 +118,8 @@ const Bulletin = () => {
 
       if (selectedImageFiles && selectedImageFiles.length > 0) {
         selectedImageFiles.forEach((file) => {
-          formData.append("images", file);
+          // formData.append("images", file);
+          formData.append("upload_images", file); 
         });
       }
 
@@ -130,8 +131,6 @@ const Bulletin = () => {
 
       console.log("Post created:", response.data);
 
-      const imagesArray = Array.isArray(response.data.images) ? response.data.images : [];
-
       setPosts((prevPosts) => [
         {
           userName:  `User ${response.data.user_name}`,
@@ -139,16 +138,20 @@ const Bulletin = () => {
           postContent: (
             <div>
               <p>{response.data.content}</p>
-              {imagesArray.map((imgUrl, idx) => (
-                <img
-                  key={idx}
-                  src={imgUrl}
-                  alt={`Bulletin post image ${idx + 1}`}
-                />
-              ))}
+              
+              {response.data.images && (
+                <div className="mt-2">
+                  <img
+                    src={response.data.images}
+                    alt="Post image"
+                    className="max-w-xs rounded"
+                  />
+                </div>
+              )}
+              
             </div>
           ),
-          firstImage: imagesArray.length > 0 ? imagesArray[0] : null, // ✅
+          firstImage: response.data.images || null,
           tags: response.data.tags || [],
         },
         ...prevPosts,
