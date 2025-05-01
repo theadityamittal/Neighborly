@@ -1,0 +1,16 @@
+[
+    {
+      "user_name": "John Doe",
+      "date_posted": "2025-05-01T10:00:00Z",
+      "content": "This is a mock bulletin post.",
+      "image": null,
+      "tags": ["mock", "test"]
+    },
+    {
+      "user_name": "Jane Smith",
+      "date_posted": "2025-05-02T12:00:00Z",
+      "content": "Another mock bulletin post.",
+      "image": "photo1",
+      "tags": ["example", "bulletin"]
+    }
+  ]
