@@ -24,6 +24,7 @@ class BulletinTests(APITestCase):
 
         self.token = self.authenticate_user()
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.token}")
+        self.user = User.objects.get(email=self.user_data["email"]) 
         self.user_id = User.objects.get(email=self.user_data["email"]).id
 
     def authenticate_user(self):
@@ -121,7 +122,7 @@ class BulletinTests(APITestCase):
     '''==============Filter Bulletins by Fields=============='''
     def test_filter_bulletins_by_city_and_tag(self):
         BulletinItem.objects.create(
-            user_id=self.user_id,
+            user=self.user,
             title="Art Workshop",
             content="Join our free art workshop this Saturday.",
             post_type="event",
@@ -134,7 +135,7 @@ class BulletinTests(APITestCase):
         )
 
         BulletinItem.objects.create(
-            user_id=self.user_id,
+            user=self.user,
             title="Garage Sale",
             content="Selling household items.",
             post_type="announcement",
@@ -147,7 +148,7 @@ class BulletinTests(APITestCase):
         )
 
         # Filter by city=New York and title containing "Art"
-        response = self.client.get("/bulletin/?city=New York&title=Art")
+        response = self.client.get("/bulletin/?city=New York&title=Art&user_id=1")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         results = response.data
