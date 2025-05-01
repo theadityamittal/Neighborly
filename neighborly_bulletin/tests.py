@@ -58,7 +58,7 @@ class BulletinTests(APITestCase):
 
         url = "/bulletin/"
         response = self.client.post(url, data=payload, format="json")
-        print(response.content)  # Optional for debugging
+        # Debugging print statement removed for cleaner test output
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(BulletinItem.objects.count(), 1)
