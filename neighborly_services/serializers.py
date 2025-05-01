@@ -6,7 +6,7 @@ class ServiceItemSerializer(serializers.ModelSerializer):
         model = ServiceItem
         fields = '__all__'
 
-# can delete?
+# TODO: revisit and confirm if can delete?
 class ServiceItemDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceItem

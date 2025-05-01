@@ -7,24 +7,7 @@ const CreatePost = ({ onPost }) => {
 
   const handlePost = () => {
     if (!text.trim() && !image) return;
-
-    onPost({
-      userName: "You",
-      dateTime: new Date().toLocaleString(),
-      postContent: (
-        <>
-          {text && <p>{text}</p>}
-          {image && (
-            <img
-              src={URL.createObjectURL(image)}
-              alt="Upload"
-              className="mt-2 rounded-md w-full max-h-[300px] object-cover"
-            />
-          )}
-        </>
-      ),
-      tags: [],
-    });
+    onPost(text, image); // <-- Only send raw text + image File
 
     setText("");
     setImage(null);
@@ -39,7 +22,7 @@ const CreatePost = ({ onPost }) => {
         onChange={(e) => setText(e.target.value)}
       />
 
-      <div className="create-post-actions flex justify-between items-center">
+      <div className="create-post-actions">
         <input
           type="file"
           accept="image/*"
@@ -56,5 +39,4 @@ const CreatePost = ({ onPost }) => {
     </div>
   );
 };
-
 export default CreatePost;
