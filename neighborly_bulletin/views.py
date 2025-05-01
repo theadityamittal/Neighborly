@@ -44,11 +44,7 @@ class BulletinItemListView(APIView):
 class BulletinItemDetailView(APIView):
     permission_classes = [IsAuthenticated] 
     def get(self, request, post_id):
-        try:
-            bulletin = get_object_or_404(BulletinItem, post_id=post_id) #BulletinItem.objects.get(post_id=post_id)
-        except BulletinItem.DoesNotExist:
-            return Response({"error": "Bulletin not found"}, status=status.HTTP_404_NOT_FOUND)
-
+        bulletin = get_object_or_404(BulletinItem, post_id=post_id) #BulletinItem.objects.get(post_id=post_id)
         serializer = BulletinItemSerializer(bulletin) 
         return Response(serializer.data)
     
