@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
 
 #for api filtering
 from django_filters.rest_framework import DjangoFilterBackend
@@ -120,4 +121,10 @@ class ServiceSignUpDetailView(APIView):
         signup = get_object_or_404(ServiceSignUp, signup_id=signup_id)
         signup.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_services_by_user(request, user_id):
+    services = ServiceItem.objects.filter(service_provider=user_id)
+    serialized = ServiceItemSerializer(services, many=True)
+    return Response({"services": serialized.data})
 

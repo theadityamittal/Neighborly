@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
 
 #for api filtering
 from django_filters.rest_framework import DjangoFilterBackend
@@ -116,3 +117,9 @@ class ToolSignUpDetailView(APIView):
         signup = get_object_or_404(BorrowRequest, signup_id=signup_id)
         signup.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def grab_tools_by_owner(request, user_id):
+    tools = Tool.objects.filter(owner_id=user_id)
+    data = ToolSerializer(tools, many=True).data
+    return Response({"tools": data})

@@ -6,9 +6,24 @@ import Services from "../Services/Services";
 import Tools from "../Tools/Tools";
 import axiosInstance from "../../utils/axiosInstance";
 import { useSelector } from "react-redux";
-
+import HorizontalCardList from "./HorizontalCardList";
 import "./UserProfile.css"; // Import your CSS file
-
+const formatDate = (iso) =>
+    new Date(iso).toLocaleDateString(undefined, {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+  
+  const formatTime = (time) => {
+    const [h, m] = time.split(":");
+    const date = new Date();
+    date.setHours(h, m);
+    return date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
 const UserProfileTabs = () => {
     const [selectedTab, setSelectedTab] = useState("myPosts");
     const { access } = useSelector((state) => state.auth);
@@ -30,6 +45,77 @@ const UserProfileTabs = () => {
         // Update the selected tab
         setSelectedTab(tab);
     };
+    const fetchUserServices = async () => {
+        try {
+          setLoading(true);
+          const response = await axiosInstance.get(`/services/user/${userId}/`, {
+            headers: { Authorization: `Bearer ${access}` },
+          });
+      
+          const processed = response.data.services.map(service => ({
+            ...service,
+            closestAvailability: service.closestAvailability, // optional formatting if needed
+            image: service.images?.[0],
+            tags: service.tags,
+          }));
+      
+          setUserServices(processed);
+          setLoading(false);
+        } catch (err) {
+          console.error("Error fetching services:", err);
+          setError("Failed to load services.");
+          setLoading(false);
+        }
+      };
+    const fetchUserTools = async () => {
+        try {
+          setLoading(true);
+          const response = await axiosInstance.get(`/tools/grabToolsData/owner/${userId}`, {
+            headers: { Authorization: `Bearer ${access}` },
+          });
+      
+          const processed = response.data.tools.map(tool => ({
+            id: tool.tool_id,
+            title: tool.title,
+            provider: "You", // or blank
+            location: tool.neighborhood,
+            closestAvailability: tool.closestAvailability || "",
+            image: tool.images?.[0],
+            tags: [tool.condition, tool.visibility],
+          }));
+      
+          setUserTools(processed);
+          setLoading(false);
+        } catch (err) {
+          console.error("Error fetching user tools:", err);
+          setError("Failed to load your tools.");
+          setLoading(false);
+        }
+      };
+
+    const fetchUserEvents = async () => {
+        try {
+          setLoading(true);
+          const response = await axiosInstance.get(`/events/grabEventsData/organizer/${userId}`, {
+            headers: {
+              Authorization: `Bearer ${access}`,
+            },
+          });
+      
+          const data = response.data.events;
+          const processed = data.map(event => ({
+            ...event,
+            closestAvailability: `${formatDate(event.date)} at ${formatTime(event.time)}`
+          }));
+      
+          setUserEvents(processed);
+          setLoading(false);
+        } catch (err) {
+          console.error("Error fetching events:", err);
+          setError("Failed to load hosted events. Please try again later.");
+          setLoading(false);
+        }
+      };
 
     const fetchUserPetitions = async () => {
         // Fetch petitions from the API
@@ -68,11 +154,11 @@ const UserProfileTabs = () => {
             // fetchUserPosts();
         }
         else if (selectedTab === "listedTools") {
-            // fetchUserTools();
-        } else if (selectedTab === "requestedServices") {
-            // fetchUserServices();
+            fetchUserTools();
+        } else if (selectedTab === "createdServices") {
+            fetchUserServices();
         } else if (selectedTab === "hostedEvents") {
-            // fetchUserEvents();
+            fetchUserEvents();
         } else if (selectedTab === "openedPetitions") {
             fetchUserPetitions();
         }
@@ -85,9 +171,32 @@ const UserProfileTabs = () => {
 
     const tabs = [
         { label: "My Posts", value: "myPosts", content: <Bulletin /> },
-        { label: "Listed Tools", value: "listedTools", content: <Tools /> },
-        { label: "Requested Services", value: "requestedServices" , content: <Services />},
-        { label: "Hosted Events", value: "hostedEvents", content: <Events /> },
+        { label: "Listed Tools", value: "listedTools", content: (
+            <HorizontalCardList 
+              items={userTools}
+              viewRouteBase="tools"
+            />
+        )},
+        {
+            label: "Created Services",
+            value: "createdServices",
+            content: (
+              <HorizontalCardList
+                items={userServices}
+                viewRouteBase="services"
+              />
+            )
+          },
+        { 
+            label: "Hosted Events", 
+            value: "hostedEvents", 
+            content: (
+              <HorizontalCardList 
+                items={userEvents}
+                onView={(event) => console.log("Event View:", event)}
+              />
+            ) 
+          },
         { label: "Opened Petitions", value: "openedPetitions", content: <PetitionCards petitions={userPetitions}/> },
     ];
 

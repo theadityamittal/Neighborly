@@ -5,7 +5,7 @@
     "fields": {
       "title": "Premium Yoga Class",
       "description": "Premium Yoga Class by Zen Studio.",
-      "service_provider": 1,
+      "service_provider": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
       "location": "123 5th Ave, New York, NY 10011",
       "latitude": 40.735657,
       "longitude": -73.994003,
@@ -35,7 +35,7 @@
     "fields": {
       "title": "Gourmet Cooking Workshop",
       "description": "Gourmet Cooking Workshop by MasterChef Academy.",
-      "service_provider": 1,
+      "service_provider": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
       "location": "456 Grand St, New York, NY 10002",
       "latitude": 40.715775,
       "longitude": -73.985708,
@@ -65,7 +65,7 @@
     "fields": {
       "title": "Photography Bootcamp",
       "description": "Photography Bootcamp by Creative Lens Studio.",
-      "service_provider": 1,
+      "service_provider": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
       "location": "789 Broadway, New York, NY 10003",
       "latitude": 40.732253,
       "longitude": -73.989551,
@@ -94,7 +94,7 @@
     "fields": {
       "title": "Digital Marketing Course",
       "description": "Digital Marketing Course by Online Academy.",
-      "service_provider": 2,
+      "service_provider": "6cffc2dffe9247aba9c36f5ac89c59a5",
       "location": "101 Wall St, New York, NY 10005",
       "latitude": 40.704006,
       "longitude": -74.006979,
@@ -123,7 +123,7 @@
     "fields": {
       "title": "Pilates Training Session",
       "description": "Pilates Training Session by Wellness Hub.",
-      "service_provider": 2,
+      "service_provider": "a3dcb4d5-6f39-4b9e-bf38-5f9cb87d2f63",
       "location": "234 Smith St, Brooklyn, NY 11231",
       "latitude": 40.682915,
       "longitude": -73.992601,
@@ -152,7 +152,7 @@
     "fields": {
       "title": "Tree Climbing Workshop",
       "description": "Tree Climbing Workshop by Adventure Club.",
-      "service_provider": 2,
+      "service_provider": "6b1c6bfc-3e2a-11ee-be56-0242ac120002",
       "location": "Prospect Park, Brooklyn, NY 11225",
       "latitude": 40.660204,
       "longitude": -73.968956,

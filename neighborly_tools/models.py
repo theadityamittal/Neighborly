@@ -5,7 +5,7 @@ class Tool(models.Model):
     tool_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255) #name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    owner_id = models.IntegerField()
+    owner_id = models.CharField(max_length=255)
 
     # Location related
     location = models.CharField(max_length=255)
