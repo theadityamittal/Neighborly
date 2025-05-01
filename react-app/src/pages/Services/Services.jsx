@@ -11,16 +11,15 @@ import AddIcon from '@mui/icons-material/Add';
 const haversine = require('haversine-distance')
 
 const serviceTags = [
- "Adventure",
- "Yoga",
- "Fitness",
- "Pilates",
- "Marketing",
- "Business",
- "Photography",
- "Art",
-  "Cooking",
-  "Food"
+  "Health",
+  "Education",
+  "Transportation",
+  "Food",
+  "Entertainment",
+  "Fitness",
+  "Beauty",
+  "Household",
+  "Pet Care"
 ];
 
 const Services = () => {

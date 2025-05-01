@@ -10,12 +10,27 @@ import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom"; // Import navigate
 import SearchBar from "../../components/SearchBar";
 
+const haversine = require('haversine-distance')
+
+const toolTags = [
+  "Gardening",
+  "Construction",
+  "Household",
+  "Electronics",
+  "Sports",
+  "Camping",
+  "Photography",
+  "Art",
+  "Cooking"
+];
+
 const Tools = () => {
   const [tools, setTools] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedTool, setSelectedTool] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const { latitude, longitude } = useSelector((state) => state.auth);
   const { access } = useSelector((state) => state.auth);
   const navigate = useNavigate(); // Initialize navigate for redirection
 
@@ -46,10 +61,32 @@ const Tools = () => {
   }, [access]);
 
 
-  const filterTools = (searchTerm) => {
+  const filterTools = (searchTerm, {tags, radius}) => {
+    console.log(tools);
+    console.log(searchTerm);
+    console.log(tags);
+    console.log(radius);
     const filteredTools = tools.filter((tool) => {
-      const titleMatch = tool.name.toLowerCase().includes(searchTerm.toLowerCase());
-      return titleMatch;
+      const titleMatch = tool.title.toLowerCase().includes(searchTerm.toLowerCase());
+      const tagsMatch = tags.length === 0 || tool?.tags.some(t => tags.includes(t));
+
+      const toolLocation = {
+        latitude: tool.latitude,
+        longitude: tool.longitude
+      };
+
+      const userLocation = {
+        latitude: latitude,
+        longitude: longitude
+      };
+      
+      const distance = haversine(toolLocation, userLocation) / 1000;
+
+      console.log("Distance:", distance, "Radius:", radius);
+
+      const withinRadius = radius === 0 || distance <= radius;
+
+      return titleMatch && tagsMatch && withinRadius;
     })
 
     setTools(filteredTools);
@@ -75,7 +112,7 @@ const Tools = () => {
   return (
     <div>
       <div className="tools-header">
-        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterTools} resetFilter={resetTools}/>
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterTools} resetFilter={resetTools} tagOptions={toolTags}/>
         <div className="tools-header-btn" onClick={() => navigate("/create-tool")}>
           <AddIcon fontSize="large"/>
         </div>
