@@ -1,21 +1,109 @@
 [
-    {
-      "model": "neighborly_bulletin.bulletin",
-      "pk": 1,
-      "fields": {
-        "title": "Welcome to Neighborly!",
-        "body": "This is your first bulletin.",
-        "published_at": "2025-04-17T12:00:00Z"
-      }
-    },
-    {
-      "model": "neighborly_bulletin.bulletin",
-      "pk": 2,
-      "fields": {
-        "title": "Second test post",
-        "body": "…and so on.",
-        "published_at": "2025-04-16T09:30:00Z"
-      }
+  {
+    "model": "neighborly_bulletin.bulletinitem",
+    "pk": 1,
+    "fields": {
+      "user_id": "1",
+      "title": "Road Construction on 5th Avenue",
+      "content": "Roadwork between 12th and 15th Street will continue until May 15. Expect delays.",
+      "post_type": "announcement",
+      "visibility": "public",
+      "tags": ["Construction", "Traffic", "Delay"],
+      "location": "5th Avenue",
+      "street_address": "5th Avenue & 13th Street",
+      "city": "New York",
+      "state": "NY",
+      "zip_code": "10011",
+      "neighborhood": "Chelsea",
+      "latitude": 40.7411,
+      "longitude": -73.9958,
+      "date_posted": "2025-04-21T00:00:00Z",
+      "images": "/bulletin/uploads/2151317314.jpg"
     }
-  ]
-  
+  },
+  {
+    "model": "neighborly_bulletin.bulletinitem",
+    "pk": 2,
+    "fields": {
+      "user_id": "2",
+      "title": "MTA Subway Service Interruption - F Line",
+      "content": "F train service is suspended between Jay St-MetroTech and Church Ave for weekend repairs.",
+      "post_type": "announcement",
+      "visibility": "public",
+      "tags": ["MTA", "Subway", "Service Disruption"],
+      "location": "Jay Street MetroTech",
+      "street_address": "Jay St & Myrtle Ave",
+      "city": "Brooklyn",
+      "state": "NY",
+      "zip_code": "11201",
+      "neighborhood": "Downtown Brooklyn",
+      "latitude": 40.6922,
+      "longitude": -73.9875,
+      "date_posted": "2025-04-21T00:00:00Z"
+    }
+  },
+  {
+    "model": "neighborly_bulletin.bulletinitem",
+    "pk": 3,
+    "fields": {
+      "user_id": "3",
+      "title": "Fire Hydrant Testing in Williamsburg",
+      "content": "Fire department will conduct hydrant pressure tests next week. Possible water discoloration.",
+      "post_type": "announcement",
+      "visibility": "public",
+      "tags": ["Fire Department", "Water Testing"],
+      "location": "Williamsburg",
+      "street_address": "Bedford Ave & North 7th St",
+      "city": "Brooklyn",
+      "state": "NY",
+      "zip_code": "11211",
+      "neighborhood": "Williamsburg",
+      "latitude": 40.7170,
+      "longitude": -73.9580,
+      "date_posted": "2025-04-21T00:00:00Z",
+      "images": "/bulletin/uploads/b36ddea9-0a88-455c-8f4c-499f4e885dec.jpg"
+    }
+  },
+  {
+    "model": "neighborly_bulletin.bulletinitem",
+    "pk": 4,
+    "fields": {
+      "user_id": "4",
+      "title": "Community Board Meeting Reminder",
+      "content": "Monthly community board meeting will be held virtually on Zoom this Thursday at 6PM.",
+      "post_type": "announcement",
+      "visibility": "public",
+      "tags": ["Community Meeting", "Local News"],
+      "location": "Online",
+      "street_address": "Virtual Event",
+      "city": "New York",
+      "state": "NY",
+      "zip_code": "10003",
+      "neighborhood": "East Village",
+      "latitude": 40.7265,
+      "longitude": -73.9815,
+      "date_posted": "2025-04-21T00:00:00Z"
+    }
+  },
+  {
+    "model": "neighborly_bulletin.bulletinitem",
+    "pk": 5,
+    "fields": {
+      "user_id": "2",
+      "title": "Water Service Maintenance - Upper East Side",
+      "content": "Water service may be temporarily interrupted on Tuesday from 1AM to 5AM due to repairs.",
+      "post_type": "announcement",
+      "visibility": "neighborhood",
+      "tags": ["Water Maintenance", "Service Alert"],
+      "location": "Upper East Side",
+      "street_address": "2nd Ave & 84th St",
+      "city": "New York",
+      "state": "NY",
+      "zip_code": "10028",
+      "neighborhood": "Upper East Side",
+      "latitude": 40.7762,
+      "longitude": -73.9535,
+      "date_posted": "2025-04-21T00:00:00Z"
+    }
+  }
+]
