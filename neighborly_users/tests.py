@@ -22,7 +22,6 @@ class AuthenticationTests(APITestCase):
             "longitude": -74.0060,
             "account_type": "customer",
             "password": "password123",
-            "verified": True,
         }
 
     def test_user_registration(self):
