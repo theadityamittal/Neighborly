@@ -17,6 +17,10 @@ class ServiceTests(APITestCase):
             "email": "steveharvey@example.com",
             "phone_number": "1234567890",
             "address": "123 Street, City",
+            "city": 'Test City',
+            "zip_code": "12345",
+            "latitude": 40.7128,
+            "longitude": -74.0060,
             "neighborhood": "Brooklyn",
             "account_type": "customer",
             "password": "password123"

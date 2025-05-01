@@ -14,6 +14,10 @@ class BulletinPostTests(APITestCase):
             phone_number='1234567890',
             address='123 Test St',
             neighborhood='Test Neighborhood',
+            city='Test City',
+            zip_code='12345',
+            latitude=40.7128,
+            longitude=-74.0060,
             account_type='regular',
             password='testpass'
         )
