@@ -20,7 +20,7 @@ const CreateTool = () => {
   const [description, setDescription] = useState('');
   const [visibility, setVisibility] = useState('public');
   const [image, setImage] = useState(null);
-  const [earliestAvailability, setEarliestAvailability] = useState('');
+  const [closestAvailability, setClosestAvailability] = useState('');
   const [price, setPrice] = useState('');
   const [quota, setQuota] = useState('');
   const [condition, setCondition] = useState('');
@@ -54,7 +54,7 @@ const CreateTool = () => {
     formData.append('zip_code', zipCode);
     formData.append('visibility', visibility);
     formData.append('date_posted', new Date().toISOString());  // Current date
-    formData.append('earliest_availability', earliestAvailability);
+    formData.append('closestAvailability', closestAvailability);
     formData.append('price', price);
     formData.append('quota', quota);
     formData.append('condition', condition);
@@ -88,7 +88,7 @@ const CreateTool = () => {
             <input className="input" value={title} onChange={(e) => setTitle(e.target.value)} />
 
             <label className="input-label">Earliest Availability</label>
-            <input className="input" type="date" value={earliestAvailability} onChange={(e) => setEarliestAvailability(e.target.value)} />
+            <input className="input" type="date" value={closestAvailability} onChange={(e) => setClosestAvailability(e.target.value)} />
 
             <label className="input-label">Description</label>
             <textarea className="textarea" value={description} onChange={(e) => setDescription(e.target.value)} />
