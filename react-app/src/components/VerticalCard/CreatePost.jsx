@@ -7,7 +7,6 @@ const CreatePost = ({ onPost }) => {
 
   const handlePost = () => {
     if (!text.trim() && !image) return;
-
     onPost(text, image); // <-- Only send raw text + image File
 
     setText("");

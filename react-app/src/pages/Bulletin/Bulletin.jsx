@@ -1,48 +1,3 @@
-// import React, { useState } from "react";
-// import PostCard from "../../components/VerticalCard/PostCard";
-// import CreatePost from "../../components/VerticalCard/CreatePost";
-// import photo1 from "../../assets/img/photo1.jpg";
-
-// const Bulletin = () => {
-//   const [posts, setPosts] = useState([
-//     {
-//       userName: "Jane Smith",
-//       dateTime: "April 11, 2025, 9:45AM",
-//       postContent: "Had a wonderful time at the weekend market!",
-//       tags: ["Community", "Market"],
-//     },
-//     {
-//       userName: "Maya Ali",
-//       dateTime: "April 11, 2025 • 3:00 PM",
-//       postContent: (
-//         <div>
-//           <p>Check out this beautiful community garden we worked on today!</p>
-//           <img src={photo1} alt="Community garden" />
-//         </div>
-//       ),
-//       tags: ["Gardening", "Community", "Sustainability"],
-//     },
-//   ]);
-
-//   const handleNewPost = (newPost) => {
-//     setPosts([newPost, ...posts]);
-//   };
-
-//   return (
-//     <div className="p-6 max-w-3xl mx-auto space-y-6">
-//       <h2 className="text-xl font-bold">Community Posts</h2>
-//       <CreatePost onPost={handleNewPost} />
-
-//       {posts.map((post, index) => (
-//         <PostCard key={index} {...post} />
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default Bulletin;
-
-
 import React, { useEffect, useState } from "react";
 import axios from "../../utils/axiosInstance";
 import PostCard from "../../components/VerticalCard/PostCard";
@@ -57,11 +12,10 @@ const Bulletin = () => {
     const fetchPosts = async () => {
       try {
         const response = await axios.get("/bulletin/");
-        console.log(response.data);
 
         const formattedPosts = response.data.map((item) => {
-          const imageUrl = typeof item.images === "string" && item.images.trim() !== ""
-            ? item.images
+          const imageUrl = typeof item.image === "string" && item.image.trim() !== ""
+            ? item.image
             : null;
         
           return {
@@ -69,6 +23,7 @@ const Bulletin = () => {
             dateTime: item.date_posted
               ? new Date(item.date_posted).toLocaleString()
               : "Unknown Date",
+            rawDate: new Date(item.date_posted), 
             postContent: (
               <div className="space-y-2">
                 <p className="text-gray-700">{item.content}</p>
@@ -89,6 +44,8 @@ const Bulletin = () => {
           };
         });
 
+        formattedPosts.sort((a, b) => b.rawDate - a.rawDate);
+
         setPosts(formattedPosts);
         setLoading(false);
       } catch (err) {
@@ -101,7 +58,7 @@ const Bulletin = () => {
     fetchPosts();
   }, []);
 
-  const handleNewPost = async (newContent, selectedImageFiles) => {
+  const handleNewPost = async (newContent, selectedImageFile) => {
     try {
       const formData = new FormData();
       formData.append("title", "New Post");
@@ -115,12 +72,8 @@ const Bulletin = () => {
       formData.append("zip_code", "");
       formData.append("neighborhood", "");
       formData.append("user_id", "1"); // Replace later with auth
-
-      if (selectedImageFiles && selectedImageFiles.length > 0) {
-        selectedImageFiles.forEach((file) => {
-          // formData.append("images", file);
-          formData.append("upload_images", file); 
-        });
+      if (selectedImageFile) {
+        formData.append("image", selectedImageFile);  // ✅ match key to backend
       }
 
       const response = await axios.post("/bulletin/", formData, {
@@ -129,20 +82,18 @@ const Bulletin = () => {
         },
       });
 
-      console.log("Post created:", response.data);
-
       setPosts((prevPosts) => [
         {
-          userName:  `User ${response.data.user_name}`,
+          userName:  `${response.data.user_name}`,
           dateTime: new Date(response.data.date_posted).toLocaleString(),
           postContent: (
             <div>
               <p>{response.data.content}</p>
               
-              {response.data.images && (
+              {response.data.image && (
                 <div className="mt-2">
                   <img
-                    src={response.data.images}
+                    src={response.data.image}
                     alt="Post image"
                     className="max-w-xs rounded"
                   />
@@ -151,7 +102,7 @@ const Bulletin = () => {
               
             </div>
           ),
-          firstImage: response.data.images || null,
+          firstImage: response.data.image || null,
           tags: response.data.tags || [],
         },
         ...prevPosts,

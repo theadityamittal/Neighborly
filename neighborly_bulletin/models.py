@@ -19,7 +19,7 @@ class BulletinItem(models.Model):
     post_type = models.CharField(max_length=100)
     visibility = models.CharField(max_length=10, default='public')  # public, neighborhood, private (=invite only)
     tags = models.JSONField(default=list, blank=True)
-    images = models.ImageField(upload_to=bulletin_image_upload_path, null=True, blank=True)
+    image = models.ImageField(upload_to=bulletin_image_upload_path, null=True, blank=True)
     date_posted = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(null=True, blank=True, default=timezone.now)
     # Location related
