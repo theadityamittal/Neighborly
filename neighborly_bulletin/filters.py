@@ -23,7 +23,7 @@ class BulletinItemFilter(django_filters.FilterSet):
         fields = [
             "title",
             "content",
-            "user_id",
+            "user",
             "date_posted",
             "neighborhood",
             "street_address",

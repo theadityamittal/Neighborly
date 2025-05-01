@@ -148,7 +148,7 @@ class BulletinTests(APITestCase):
         )
 
         # Filter by city=New York and title containing "Art"
-        response = self.client.get("/bulletin/?city=New York&title=Art&user_id=1")
+        response = self.client.get("/bulletin/?city=New York&title=Art&user=1")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         results = response.data
