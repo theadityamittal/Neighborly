@@ -11,35 +11,52 @@ from neighborly_users.permissions import IsStaffPermission
 
 class SubmitVerificationRequestView(APIView):
     def get_permissions(self):
-        if self.request.method == 'PUT':
+        # require staff for both PUT (bulk user update) and PATCH (verify)
+        if self.request.method in ('PUT', 'PATCH'):
             return [IsAuthenticated(), IsStaffPermission()]
         return [IsAuthenticated()]
+
     def post(self, request):
         serializer = UsersDocumentsSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({"message": "Successfully created Verification Request"}, status=status.HTTP_201_CREATED)
+            return Response(
+                {"message": "Successfully created Verification Request"},
+                status=status.HTTP_201_CREATED
+            )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request):
+        # existing bulk update path
         user = get_object_or_404(CustomUser, user_id=request.data.get('user_id'))
         serializer = UserSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response({"message": "Successfully Updated Verification Form"}, status=status.HTTP_200_OK)
+            return Response(
+                {"message": "Successfully Updated Verification Form"},
+                status=status.HTTP_200_OK
+            )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
     def patch(self, request):
+        # 1) update the user
         user = get_object_or_404(CustomUser, user_id=request.data.get('user_id'))
-        serializer = UserSerializer(user, data={"verified": True}, partial=True)
+        user_serializer = UserSerializer(user, data={"verified": True}, partial=True)
+        if not user_serializer.is_valid():
+            return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        user_serializer.save()
+
+        # 2) update the document
         document = get_object_or_404(UsersDocuments, user_id=request.data.get('user_id'))
-        document_serializer = UsersDocumentsSerializer(document, data={"verified": True}, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-        if document_serializer.is_valid():
-            document_serializer.save()
-            return Response({"message": "Successfully verified user"}, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        doc_serializer = UsersDocumentsSerializer(document, data={"verified": True}, partial=True)
+        if not doc_serializer.is_valid():
+            return Response(doc_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        doc_serializer.save()
+
+        return Response(
+            {"message": "Successfully verified user"},
+            status=status.HTTP_200_OK
+        )
     
 
 class UserDocumentsView(APIView):
