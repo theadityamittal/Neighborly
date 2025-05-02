@@ -13,18 +13,22 @@ class BulletinTests(APITestCase):
         self.login_url = reverse('token_obtain_pair')
 
         self.user_data = {
-            "name": "Tony Stark",
-            "email": "ironman@example.com",
-            "phone_number": "9876543210",
-            "address": "10880 Malibu Point",
-            "neighborhood": "Malibu",
+            "name": "Steve Harvey",
+            "email": "steveharvey@example.com",
+            "phone_number": "1234567890",
+            "address": "123 Street, City",
+            "city": 'Test City',
+            "zip_code": "12345",
+            "latitude": 40.7128,
+            "longitude": -74.0060,
+            "neighborhood": "Brooklyn",
             "account_type": "customer",
-            "password": "arc_reactor"
+            "password": "password123"
         }
 
         self.token = self.authenticate_user()
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.token}")
-        self.user = User.objects.get(email=self.user_data["email"]) 
+        self.user = User.objects.get(email=self.user_data["email"])
         self.user_id = User.objects.get(email=self.user_data["email"]).id
 
     def authenticate_user(self):

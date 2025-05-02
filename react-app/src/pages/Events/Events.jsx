@@ -10,6 +10,8 @@ import { useNavigate } from "react-router";
 import SearchBar from "../../components/SearchBar";
 import AddIcon from '@mui/icons-material/Add';
 
+const haversine = require('haversine-distance');
+
 const Modal = ({ event, onClose }) => {
   if (!event) return null;
   return (
@@ -32,6 +34,18 @@ const Modal = ({ event, onClose }) => {
   );
 };
 
+const eventsTags = [
+  "Gardening",
+  "Construction",
+  "Household",
+  "Electronics",
+  "Sports",
+  "Camping",
+  "Photography",
+  "Art",
+  "Cooking"
+];
+
 const formatDate = (iso) =>
   new Date(iso).toLocaleDateString(undefined, {
     month: "long", day: "numeric", year: "numeric"
@@ -50,6 +64,7 @@ const Events = () => {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const { access, user_id } = useSelector((state) => state.auth);
+  const { latitude, longitude } = useSelector((state) => state.auth);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
@@ -61,6 +76,7 @@ const Events = () => {
     try {
       const response = await getEventsByUser({ organizer_id: user_id }, access);
       setEvents(response.data);
+      console.log("Fetched events:", response.data);
     } catch (err) {
       console.error(err);
       // fallback to local data
@@ -72,12 +88,34 @@ const Events = () => {
     fetchEvents();
   }, [access, user_id]);
 
-  const filterEvents = (searchTerm) => {
+  // Filter events based on search term and tags and radius
+  const filterEvents = (searchTerm, {tags, radius}) => {
+    console.log(events);
+    console.log(searchTerm);
+    console.log(tags);
+    console.log(radius);
     const filteredEvents = events.filter((event) => {
       const titleMatch = event.event_name.toLowerCase().includes(searchTerm.toLowerCase());
-      return titleMatch;
-    })
+      const tagsMatch = tags.length === 0 || event?.tags.some(t => tags.includes(t));
 
+      const toolLocation = {
+        latitude: event.latitude,
+        longitude: event.longitude
+      };
+
+      const userLocation = {
+        latitude: latitude,
+        longitude: longitude
+      };
+      
+      const distance = haversine(toolLocation, userLocation) / 1000;
+
+      console.log("Distance:", distance, "Radius:", radius);
+
+      const withinRadius = radius === 0 || distance <= radius;
+
+      return titleMatch && tagsMatch && withinRadius;
+    })
     setEvents(filteredEvents);
   }
 
@@ -90,7 +128,7 @@ const Events = () => {
     <div className="events-page">
       <div>
         <div className="events-header">
-          <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterEvents} resetFilter={resetEvents}/>
+          <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterEvents} resetFilter={resetEvents} tagOptions={eventsTags}/>
           <div className="events-header-btn" onClick={() => navigate("/create-event")}>
             <AddIcon fontSize="large"/>
           </div>

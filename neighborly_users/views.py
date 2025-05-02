@@ -23,12 +23,21 @@ class UpdateUserView(APIView):
     permission_classes = [IsAuthenticated, IsVerifiedPermission]
 
     def patch(self, request):
+        print(f"Update request received for user: {request.user.email}")
+        print(f"Request data: {request.data}")
+        
         user = get_object_or_404(CustomUser, email=request.user.email)
+        print(f"User found: {user.email}, ID: {user.id}")
+        
         serializer = UserSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():
+            print(f"Serializer valid. Updated fields: {serializer.validated_data}")
             serializer.save()
+            print(f"User updated successfully: {user.email}")
             return Response({"message": "User updated successfully"}, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  
+        else:
+            print(f"Serializer validation failed. Errors: {serializer.errors}")
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserDetailView(APIView):
     permission_classes = [IsAuthenticated]
