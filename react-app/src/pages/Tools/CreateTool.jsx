@@ -77,7 +77,7 @@ const CreateTool = () => {
   };
 
   return (
-    <div className="create-tool-page">
+    <div className="create-service-page">
       <button className="back-btn" onClick={() => navigate("/tools")}>← Back to Tools</button>
       <form className="form-container" encType="multipart/form-data" onSubmit={handleToolSubmit}>
         <h1 className="form-title">Create New Tool</h1>
