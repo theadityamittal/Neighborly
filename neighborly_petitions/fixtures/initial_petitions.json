@@ -219,6 +219,41 @@
         "voting_ends_at": "2025-06-30",
         "hero_image": "https://source.unsplash.com/featured/?water-fountain"
       }
+    },
+    {
+      "model": "neighborly_petitions.petition",
+      "pk": 13,
+      "fields": {
+        "title": "Install Water Bottle Filling Stations",
+        "description": "Encourage reusable bottles by installing water bottle filling stations at city parks and public plazas.",
+        "organizer_id": "2ce7a1ae-26ec-11f0-b0c2-ca1deaa14517",
+        "visibility": true,
+        "tags": ["Environment", "Parks & Recreation"],
+        "created_at": "2025-04-17T07:50:00Z",
+        "target": 450,
+        "location": "Suburb",
+        "provider": "Sheetal",
+        "voting_ends_at": "2025-06-30",
+        "hero_image": "https://source.unsplash.com/featured/?water-fountain"
+      }
+    },
+    {
+      "model": "neighborly_petitions.petition",
+      "pk": 12,
+      "fields": {
+        "title": "Create a Neighborhood Watch Program",
+        "description": "Let’s keep our streets safe by organizing a volunteer neighborhood watch. Sign up to start patrolling evenings in our block.",
+        "organizer_id": "2ce7a1ae-26ec-11f0-b0c2-ca1deaa14517",
+        "visibility": true,
+        "tags": ["Public Safety", "Community"],
+        "created_at": "2025-04-16T18:25:00Z",
+        "target": 350,
+        "location": "West End",
+        "provider": "Sheetal",
+        "voting_ends_at": "2025-06-20",
+        "hero_image": "https://source.unsplash.com/featured/?neighborhood-watch"
+      }
     }
+
   ]
   

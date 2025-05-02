@@ -78,6 +78,22 @@
         "created_at": "2025-04-15T08:45:00Z",
         "password": "pbkdf2_sha256$600000$i2Db1Hk7iDWcUIieeXZ6mY$wu9Irivf/PH6OdcCy6bqkuKYnCaPpdxFkXoxTUGYQAA="
         }
+    },
+    {
+        "model": "neighborly_users.customuser",
+        "pk": 5,
+        "fields": {
+        "user_id": "2ce7a1ae-26ec-11f0-b0c2-ca1deaa14517",
+        "name": "Sheetal",
+        "email": "sp7990@nyu.edu",
+        "phone_number": "+1234567890",
+        "address": "789 Pine St, Springfield",
+        "neighborhood": "Midtown",
+        "account_type": "resident",
+        "verified": true,
+        "created_at": "2025-04-15T08:45:00Z",
+        "password": "pbkdf2_sha256$600000$i2Db1Hk7iDWcUIieeXZ6mY$wu9Irivf/PH6OdcCy6bqkuKYnCaPpdxFkXoxTUGYQAA="
+        }
     }
 ]
   

@@ -174,5 +174,63 @@
         "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/tree1.jpg"
       ]
     }
+  },
+  {
+    "model": "neighborly_services.serviceitem",
+    "pk": 6,
+    "fields": {
+      "title": "Tree Climbing Workshop",
+      "description": "Tree Climbing Workshop by Adventure Club.",
+      "service_provider": "2ce7a1ae-26ec-11f0-b0c2-ca1deaa14517",
+      "location": "Prospect Park, Brooklyn, NY 11225",
+      "latitude": 40.660204,
+      "longitude": -73.968956,
+      "street_address": "Prospect Park",
+      "city": "New York",
+      "neighborhood": "Prospect Park",
+      "state": "NY",
+      "zip_code": "11225",
+      "quota": 15,
+      "visibility": "public",
+      "date_posted": "2025-04-21T00:00:00Z",
+      "available": true,
+      "waitlist": [],
+      "closestAvailability": "2025-04-15",
+      "unavailable_dates": ["2025-04-15"],
+      "price": 18,
+      "tags": ["Adventure", "Fitness"],
+      "images": [
+        "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/tree1.jpg"
+      ]
+    }
+  },
+  {
+    "model": "neighborly_services.serviceitem",
+    "pk": 5,
+    "fields": {
+      "title": "Pilates Training Session",
+      "description": "Pilates Training Session by Wellness Hub.",
+      "service_provider": "2ce7a1ae-26ec-11f0-b0c2-ca1deaa14517",
+      "location": "234 Smith St, Brooklyn, NY 11231",
+      "latitude": 40.682915,
+      "longitude": -73.992601,
+      "street_address": "234 Smith St",
+      "city": "New York",
+      "neighborhood": "Carroll Gardens",
+      "state": "NY",
+      "zip_code": "11231",
+      "quota": 6,
+      "visibility": "public",
+      "date_posted": "2025-04-21T00:00:00Z",
+      "available": true,
+      "waitlist": [],
+      "closestAvailability": "2025-04-08",
+      "unavailable_dates": [],
+      "price": 12,
+      "tags": ["Pilates", "Fitness"],
+      "images": [
+        "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/pilates1.jpg"
+      ]
+    }
   }
 ]
