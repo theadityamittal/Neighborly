@@ -1,6 +1,7 @@
 import React from "react";
 import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
 import { useNavigate } from "react-router";
+import "./HorizontalCardList.css";
 
 const HorizontalCardList = ({ items, viewRouteBase }) => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const HorizontalCardList = ({ items, viewRouteBase }) => {
   return (
     <div className="horizontal-card-list">
       {items.map((item) => (
-        <div key={item.id || item.event_id} style={{ marginBottom: '20px' }}>
+        <div key={item.id || item.event_id} className="card-wrapper">
           <HorizontalCard
             id={item.id || item.event_id}
             title={item.title || item.event_name}
