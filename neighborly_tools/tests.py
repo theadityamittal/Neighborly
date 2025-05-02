@@ -17,6 +17,10 @@ class ToolTests(APITestCase):
             "email": "tooluser@example.com",
             "phone_number": "9876543210",
             "address": "456 Avenue, City",
+            "city": 'Test City',
+            "zip_code": "54321",
+            "latitude": 40.7128,
+            "longitude": -74.0060,
             "neighborhood": "Queens",
             "account_type": "resident",
             "password": "password321"

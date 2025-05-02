@@ -13,7 +13,6 @@ from django.shortcuts import get_object_or_404
 from .models import ServiceItem, ServiceSignUp
 
 from .serializers import ServiceItemSerializer, ServiceSignupSerializer, ServiceItemDetailSerializer
-# from utils.availability import get_earliest_availability
 
 # Geolocation
 from utils.geolocation import geocode_location

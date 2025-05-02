@@ -10,12 +10,27 @@ import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom"; // Import navigate
 import SearchBar from "../../components/SearchBar";
 
+const haversine = require('haversine-distance')
+
+const toolTags = [
+  "Gardening",
+  "Construction",
+  "Household",
+  "Electronics",
+  "Sports",
+  "Camping",
+  "Photography",
+  "Art",
+  "Cooking"
+];
+
 const Tools = () => {
   const [tools, setTools] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [selectedToolId, setSelectedToolId] = useState(null);
+  const [selectedTool, setSelectedTool] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const { latitude, longitude } = useSelector((state) => state.auth);
   const { access } = useSelector((state) => state.auth);
   const navigate = useNavigate(); // Initialize navigate for redirection
 
@@ -31,6 +46,7 @@ const Tools = () => {
       const res = await axiosInstance.get("/tools/", {
         headers: { Authorization: `Bearer ${access}` },
       });
+      console.log("Fetched tools:", res.data);
       setTools(res.data);
     } catch (err) {
       console.error("❌ Failed to fetch tools:", err);
@@ -44,10 +60,33 @@ const Tools = () => {
     fetchTools();
   }, [access]);
 
-  const filterTools = (searchTerm) => {
+
+  const filterTools = (searchTerm, {tags, radius}) => {
+    console.log(tools);
+    console.log(searchTerm);
+    console.log(tags);
+    console.log(radius);
     const filteredTools = tools.filter((tool) => {
-      const titleMatch = tool.name.toLowerCase().includes(searchTerm.toLowerCase());
-      return titleMatch;
+      const titleMatch = tool.title.toLowerCase().includes(searchTerm.toLowerCase());
+      const tagsMatch = tags.length === 0 || tool?.tags.some(t => tags.includes(t));
+
+      const toolLocation = {
+        latitude: tool.latitude,
+        longitude: tool.longitude
+      };
+
+      const userLocation = {
+        latitude: latitude,
+        longitude: longitude
+      };
+      
+      const distance = haversine(toolLocation, userLocation) / 1000;
+
+      console.log("Distance:", distance, "Radius:", radius);
+
+      const withinRadius = radius === 0 || distance <= radius;
+
+      return titleMatch && tagsMatch && withinRadius;
     })
 
     setTools(filteredTools);
@@ -58,13 +97,14 @@ const Tools = () => {
     fetchTools();
   }
   
-  const handleView = (id) => setSelectedToolId(id);
-  const handleClose = () => setSelectedToolId(null);
+  const handleView = (id) => {
+    const selectedTool = tools.find((tool) => tool.tool_id === id);
+    setSelectedTool(selectedTool);
+  };
 
-  const selectedTool = tools.find((t) => t.id === selectedToolId);
-  const selectedToolWithDisable = selectedTool
-    ? { ...selectedTool, disableBeforeToday: true }
-    : null;
+  const handleClose = () => {
+    setSelectedTool(null);
+  }
 
   if (loading) return <p>Loading tools...</p>;
   if (error && tools.length === 0) return <p style={{ color: "red" }}>{error}</p>;
@@ -72,7 +112,7 @@ const Tools = () => {
   return (
     <div>
       <div className="tools-header">
-        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterTools} resetFilter={resetTools}/>
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterTools} resetFilter={resetTools} tagOptions={toolTags}/>
         <div className="tools-header-btn" onClick={() => navigate("/create-tool")}>
           <AddIcon fontSize="large"/>
         </div>
@@ -95,16 +135,16 @@ const Tools = () => {
             tags={[tool.condition]}      
             available={tool.available}
             image={tool.images?.[0]}                   
-            onView={() => handleView(tool.id)}
+            onView={() => handleView(tool.tool_id)}
           />
         ))}
       </div>
 
-      {selectedToolWithDisable && (
+      {selectedTool && (
         <HorizontalCardModal
           isOpen={!!selectedTool}
           onClose={handleClose}
-          item={selectedToolWithDisable}
+          item={selectedTool}
           type="tool"  // must match your API prefix if used
           api_key="borrow"
         />

@@ -1,11 +1,9 @@
-# neighborly_bulletin/urls.py
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import BulletinPostViewSet
+from django.urls import path
+from .views import BulletinItemListView, BulletinItemDetailView
 
-router = DefaultRouter()
-router.register(r'', BulletinPostViewSet, basename='bulletin')  # root route
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', BulletinItemListView.as_view(), name='bulletin-list'),
+    path('<int:post_id>/', BulletinItemDetailView.as_view(), name="bulletin-detail"),
+
 ]

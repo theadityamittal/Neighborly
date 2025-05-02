@@ -10,6 +10,19 @@ import SearchBar from "../../components/SearchBar";
 import AddIcon from '@mui/icons-material/Add';
 import PetitionCards from "./PetitionCards";
 
+const haversine = require('haversine-distance')
+
+const petitionTags = [
+  "Animals",
+  "Environment",
+  "Human Rights",
+  "Health",
+  "Education",
+  "Politics",
+  "Social Justice",
+  "Technology"
+];
+
 const Petitions = () => {
   const [petitions, setPetitions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -17,6 +30,7 @@ const Petitions = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const { access } = useSelector((state) => state.auth);
+  const { latitude, longitude } = useSelector((state) => state.auth);
   // Define fetchPetitions as a separate function
   const fetchPetitions = async () => {
     // ▶️ LOCAL MOCK (uncomment to use):
@@ -72,19 +86,42 @@ const Petitions = () => {
     navigate(`/petition/${id}`);
   };
 
-  // filter petitions
-  const filterPetitions = (searchTerm) => {
-    const filteredPetitions = petitions.filter((petition) => {
-      const titleMatch = petition.title.toLowerCase().includes(searchTerm.toLowerCase());
-      return titleMatch;
-    })
-
-    setPetitions(filteredPetitions);
-  }
+  
   // Reset petitions to original state
   const resetPetitions = () => {
     fetchPetitions(); // Fetch original petitions
     setSearchTerm(""); // Reset search term
+  }
+
+  // Filter petitions based on search term and tags and radius
+  const filterPetitions = (searchTerm, {tags, radius}) => {
+    console.log(petitions);
+    console.log(searchTerm);
+    console.log(tags);
+    console.log(radius);
+    const filteredPetitions = petitions.filter((petition) => {
+      const titleMatch = petition.title.toLowerCase().includes(searchTerm.toLowerCase());
+      const tagsMatch = tags.length === 0 || petition?.tags.some(t => tags.includes(t));
+
+      const toolLocation = {
+        latitude: petition.latitude,
+        longitude: petition.longitude
+      };
+
+      const userLocation = {
+        latitude: latitude,
+        longitude: longitude
+      };
+      
+      const distance = haversine(toolLocation, userLocation) / 1000;
+
+      console.log("Distance:", distance, "Radius:", radius);
+
+      const withinRadius = radius === 0 || distance <= radius;
+
+      return titleMatch && tagsMatch && withinRadius;
+    })
+    setPetitions(filteredPetitions);
   }
 
   useEffect(() => {
@@ -101,7 +138,7 @@ const Petitions = () => {
   return (
     <div>
       <div className="petition-header">
-        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterPetitions} resetFilter={resetPetitions}/>
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterPetitions} resetFilter={resetPetitions} tagOptions={petitionTags}/>
         <div className="petition-header-btn" onClick={() => navigate("/create-petition")}>
           <AddIcon fontSize="large"/>
         </div>

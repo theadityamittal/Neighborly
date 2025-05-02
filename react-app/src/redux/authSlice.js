@@ -7,6 +7,10 @@ const initialState = {
   address: '',
   phoneNumber: '',
   neighborhood: '',
+  city: '',
+  zipCode: '',
+  latitude: null,
+  longitude: null,
   accountType: '',     // ← new
   access: '',
   refresh: '',
@@ -31,6 +35,10 @@ export const authSlice = createSlice({
         address,
         phone_number,
         neighborhood,
+        city,
+        zip_code,
+        latitude,
+        longitude,
         account_type,
         verified,
         user_id,
@@ -42,6 +50,10 @@ export const authSlice = createSlice({
       state.address      = address;
       state.phoneNumber  = phone_number;
       state.neighborhood = neighborhood;
+      state.city         = city;
+      state.zipCode      = zip_code;
+      state.latitude     = latitude;
+      state.longitude    = longitude;
       state.accountType  = account_type;   // ← map account_type
       state.verified     = verified;
       state.user_id      = user_id

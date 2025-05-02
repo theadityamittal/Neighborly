@@ -84,20 +84,46 @@
     margin-bottom: 0.5rem;
   }
   
-  .modal-gallery {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    overflow-x: auto;
-    margin-bottom: 1rem;
-  }
-  
-  .modal-gallery img {
-    width: 100px;
-    height: 100px;
-    border-radius: 8px;
-    object-fit: cover;
-  }
+/* Container around the gallery area */
+.modal-gallery {
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: 0 auto;
+}
+
+/* Carousel wrapper for multiple images */
+.modal-carousel {
+  display: flex;
+  align-items: center;
+}
+
+/* Style for each image in the carousel */
+.modal-carousel img {
+  max-width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Style for the arrow buttons */
+.modal-carousel .MuiIconButton-root {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  margin: 0 8px;
+  z-index: 1;
+}
+
+/* Fallback styling for a single image */
+.modal-gallery img {
+  max-width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
   
   .modal-details {
     display: flex;

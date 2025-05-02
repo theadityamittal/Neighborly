@@ -23,14 +23,8 @@ const PostCard = ({ userName, dateTime, postContent, tags }) => {
       {/* Tags */}
       {tags && tags.length > 0 && (
         <div className="post-card-tags mt-4 flex flex-wrap gap-2">
-          {tags.map((tag, index) => (
-            <span
-              key={index}
-              className="post-tag"
-            >
-              {tag}
-            </span>
-          ))}
+          {Array.isArray(tags) &&
+            tags.map((tag) => <span key={tag} className="post-tag">{tag}</span>)}
         </div>
       )}
     </div>
