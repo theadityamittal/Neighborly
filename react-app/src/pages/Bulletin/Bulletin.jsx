@@ -13,87 +13,63 @@ const Bulletin = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const { access, user_id } = useSelector((state) => state.auth);
+  const { access } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
-  // Helper to normalize API item → PostCard props
-  const formatItem = (item) => {
-    const imageUrl =
-      typeof item.image === "string" && item.image.trim() !== ""
-        ? item.image
-        : null;
-
-    return {
-      userName: item.user_name,
-      dateTime: item.date_posted
-        ? new Date(item.date_posted).toLocaleString()
-        : "Unknown Date",
-      rawDate: new Date(item.date_posted),
-      postContent: (
-        <div className="space-y-2">
-          <p className="text-gray-700">{item.content}</p>
-          {imageUrl && (
-            <div className="mt-2">
-              <img
-                src={imageUrl}
-                alt="Bulletin image"
-                className="max-w-xs rounded"
-              />
-            </div>
-          )}
-        </div>
-      ),
-      firstImage: imageUrl,
-      tags: item.tags || [],
-    };
-  };
-
-  // Initial full fetch
+  // Fetch posts from the backend
   const fetchPosts = async () => {
+    setLoading(true);
+
     try {
       const response = await axios.get("/bulletin/", {
         headers: { Authorization: `Bearer ${access}` },
       });
-      const formatted = response.data
-        .map(formatItem)
-        .sort((a, b) => b.rawDate - a.rawDate);
+      const sorted = [...response.data].sort(
+        (a, b) => new Date(b.date_posted) - new Date(a.date_posted)
+      );
+      console.log("Fetched posts:", response.data);
 
-      setPosts(formatted);
-      setFilteredPosts(formatted);
-      setLoading(false);
+      setPosts(sorted);
+      setFilteredPosts(sorted); // Initialize filtered posts
     } catch (err) {
       console.error("Error fetching posts:", err);
-      setError("Failed to load posts.");
+      setError("Could not load posts from server.");
+    } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchPosts();
-  }, [access, user_id]);
+  }, [access]);
 
-  // === NEW: only prepend the single new post ===
-  const handleNewPost = (newItem) => {
-    const formatted = formatItem(newItem);
-
-    setPosts((prev) => [formatted, ...prev]);
-    setFilteredPosts((prev) => [formatted, ...prev]);
+  const handleNewPost = (newPost) => {
+    setPosts((prev) => [newPost, ...prev]);
+    setFilteredPosts((prev) => [newPost, ...prev]);
   };
 
+  // Handle search functionality
   const handleSearch = (term) => {
-    const filtered = posts.filter((post) =>
-      post.postContent.props.children[0]
-        .toLowerCase()
-        .includes(term.toLowerCase())
-    );
+    const filtered = posts.filter((post) => {
+      const titleMatch = post.title.toLowerCase().includes(term.toLowerCase());
+      const contentMatch = post.content.toLowerCase().includes(term.toLowerCase());
+      return titleMatch || contentMatch;
+    });
+
     setFilteredPosts(filtered);
+  };
+
+  // Reset search and reload posts
+  const resetPosts = () => {
+    setSearchTerm("");
+    setFilteredPosts(posts);
   };
 
   if (loading) {
     return <div className="p-6 max-w-3xl mx-auto">Loading posts...</div>;
   }
 
-  if (error) {
+  if (error && posts.length === 0) {
     return <div className="p-6 max-w-3xl mx-auto text-red-500">{error}</div>;
   }
 
@@ -106,7 +82,7 @@ const Bulletin = () => {
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           filterActiveContent={handleSearch}
-          resetFilter={() => setFilteredPosts(posts)}
+          resetFilter={resetPosts}
         />
         <div
           className="events-header-btn"
@@ -116,14 +92,25 @@ const Bulletin = () => {
         </div>
       </div>
 
-      {/* pass handleNewPost so CreatePost injects just the new item */}
+      {/* Quick Post Element */}
       <CreatePost onPost={handleNewPost} />
 
-      {filteredPosts.length === 0 ? (
-        <div>No posts available.</div>
-      ) : (
-        filteredPosts.map((post, index) => <PostCard key={index} {...post} />)
-      )}
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+        {filteredPosts.length === 0 ? (
+          <div>No posts available.</div>
+        ) : (
+          filteredPosts.map((post) => (
+            <PostCard
+              key={post.post_id}
+              userName={post.user_name}
+              dateTime={new Date(post.date_posted).toLocaleString()}
+              postContent={post.content}
+              tags={post.tags}
+              image={post.image}
+            />
+          ))
+        )}
+      </div>
     </div>
   );
 };
