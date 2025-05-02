@@ -30,7 +30,6 @@ class DocumentTests(APITestCase):
             "neighborhood": "Brooklyn",
             "account_type": "customer",
             "password": "password123",
-            "verified": True
         }
         self.staff_user = get_user_model().objects.create_superuser(
             email="admin@example.com",

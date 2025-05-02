@@ -23,7 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
             'password',
             'is_staff',
         ]
-        read_only_fields = ('user_id', 'verified', 'created_at', 'is_staff')
+        read_only_fields = ('user_id', 'created_at', 'is_staff')
 
     def create(self, validated_data):
         # Extract password and create user via manager to ensure all fields are handled properly
