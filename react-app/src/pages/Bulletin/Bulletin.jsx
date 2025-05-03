@@ -1,135 +1,127 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../utils/axiosInstance";
 import PostCard from "../../components/VerticalCard/PostCard";
-import CreatePost from "../../components/VerticalCard/CreatePost";
+import QuickPost from "../../components/VerticalCard/QuickPost";
+import SearchBar from "../../components/SearchBar";
+import AddIcon from "@mui/icons-material/Add";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { BULLETIN_TAGS } from "../../assets/tags";
+
+const haversine = require('haversine-distance');
 
 const Bulletin = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const { access } = useSelector((state) => state.auth);
+  const { latitude, longitude } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  // Fetch posts from the backend
+  const fetchPosts = async () => {
+    setLoading(true);
+
+    try {
+      const response = await axios.get("/bulletin/", {
+        headers: { Authorization: `Bearer ${access}` },
+      });
+      const sorted = [...response.data].sort(
+        (a, b) => new Date(b.date_posted) - new Date(a.date_posted)
+      );
+      console.log("Fetched posts:", response.data);
+
+      setPosts(sorted);
+    } catch (err) {
+      console.error("Error fetching posts:", err);
+      setError("Could not load posts from server.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await axios.get("/bulletin/");
-
-        const formattedPosts = response.data.map((item) => {
-          const imageUrl = typeof item.image === "string" && item.image.trim() !== ""
-            ? item.image
-            : null;
-        
-          return {
-            userName: `${item.user_name}`,
-            dateTime: item.date_posted
-              ? new Date(item.date_posted).toLocaleString()
-              : "Unknown Date",
-            rawDate: new Date(item.date_posted), 
-            postContent: (
-              <div className="space-y-2">
-                <p className="text-gray-700">{item.content}</p>
-        
-                {imageUrl && (
-                  <div className="mt-2">
-                    <img
-                      src={imageUrl}
-                      alt="Bulletin image"
-                      className="max-w-xs rounded"
-                    />
-                  </div>
-                )}
-              </div>
-            ),
-            firstImage: imageUrl,
-            tags: item.tags || [],
-          };
-        });
-
-        formattedPosts.sort((a, b) => b.rawDate - a.rawDate);
-
-        setPosts(formattedPosts);
-        setLoading(false);
-      } catch (err) {
-        console.error("Failed to fetch bulletin posts:", err);
-        setError("Failed to load posts.");
-        setLoading(false);
-      }
-    };
-
     fetchPosts();
-  }, []);
+  }, [access]);
 
-  const handleNewPost = async (newContent, selectedImageFile) => {
-    try {
-      const formData = new FormData();
-      formData.append("title", "New Post");
-      formData.append("content", newContent);
-      formData.append("post_type", "announcement");
-      formData.append("visibility", "public");
-      formData.append("tags", JSON.stringify([]));
-      formData.append("location", "Unknown");
-      formData.append("city", "Unknown");
-      formData.append("state", "Unknown");
-      formData.append("zip_code", "");
-      formData.append("neighborhood", "");
-      formData.append("user_id", "1"); // Replace later with auth
-      if (selectedImageFile) {
-        formData.append("image", selectedImageFile);  // ✅ match key to backend
-      }
 
-      const response = await axios.post("/bulletin/", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+  // Filter posts based on search term and tags and radius
+  const filterPosts = (searchTerm, {tags, radius}) => {
+    const filteredPosts = posts.filter((post) => {
+      const titleMatch = post.content.toLowerCase().includes(searchTerm.toLowerCase());
+      const tagsMatch = tags.length === 0 || post?.tags.some(t => tags.includes(t));
 
-      setPosts((prevPosts) => [
-        {
-          userName:  `${response.data.user_name}`,
-          dateTime: new Date(response.data.date_posted).toLocaleString(),
-          postContent: (
-            <div>
-              <p>{response.data.content}</p>
-              
-              {response.data.image && (
-                <div className="mt-2">
-                  <img
-                    src={response.data.image}
-                    alt="Post image"
-                    className="max-w-xs rounded"
-                  />
-                </div>
-              )}
-              
-            </div>
-          ),
-          firstImage: response.data.image || null,
-          tags: response.data.tags || [],
-        },
-        ...prevPosts,
-      ]);
-    } catch (err) {
-      console.error("Failed to create new post:", err);
-      setError("Failed to create a new post.");
-    }
+      const postLocation = {
+        latitude: post.latitude,
+        longitude: post.longitude
+      };
+
+      const userLocation = {
+        latitude: latitude,
+        longitude: longitude
+      };
+      
+      const distance = haversine(postLocation, userLocation) / 1000;
+
+      const withinRadius = radius === 0 || distance <= radius;
+
+      return titleMatch && tagsMatch && withinRadius;
+    })
+    setPosts(filteredPosts);
+  }
+
+  // Reset search and reload posts
+  const resetPosts = () => {
+    setSearchTerm("");
+    fetchPosts();
   };
 
   if (loading) {
     return <div className="p-6 max-w-3xl mx-auto">Loading posts...</div>;
   }
 
-  if (error) {
+  if (error && posts.length === 0) {
     return <div className="p-6 max-w-3xl mx-auto text-red-500">{error}</div>;
   }
 
   return (
-    <div className="p-6 max-w-3xl mx-auto space-y-6">
-      <h2 className="text-xl font-bold">Community Posts</h2>
-      <CreatePost onPost={handleNewPost} />
-      {posts.length === 0 ? (
-        <div>No posts available.</div>
-      ) : (
-        posts.map((post, index) => <PostCard key={index} {...post} />)
-      )}
+    <div className="p-6 max-w-5xl mx-auto space-y-6">
+      <div className="events-header">
+        <SearchBar
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          filterActiveContent={filterPosts}
+          resetFilter={resetPosts}
+          tagOptions={BULLETIN_TAGS}
+        />
+        <div
+          className="events-header-btn"
+          onClick={() => navigate("/create-post")}
+        >
+          <AddIcon fontSize="large" />
+        </div>
+      </div>
+
+      {/* Quick Post Element */}
+      <QuickPost postCreate={() => fetchPosts()} />
+
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+        {posts.length === 0 ? (
+          <div>No posts available.</div>
+        ) : (
+          posts.map((post) => (
+            <PostCard
+              key={post.post_id}
+              userName={post.user_name}
+              dateTime={new Date(post.date_posted).toLocaleString()}
+              postContent={post.content}
+              tags={post.tags}
+              image={post.image}
+            />
+          ))
+        )}
+      </div>
     </div>
   );
 };

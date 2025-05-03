@@ -9,6 +9,7 @@ import eventsData from "./eventsData.json";
 import { useNavigate } from "react-router";
 import SearchBar from "../../components/SearchBar";
 import AddIcon from '@mui/icons-material/Add';
+import { EVENT_TAGS } from "../../assets/tags";
 
 const haversine = require('haversine-distance');
 
@@ -33,18 +34,6 @@ const Modal = ({ event, onClose }) => {
     </div>
   );
 };
-
-const eventsTags = [
-  "Gardening",
-  "Construction",
-  "Household",
-  "Electronics",
-  "Sports",
-  "Camping",
-  "Photography",
-  "Art",
-  "Cooking"
-];
 
 const formatDate = (iso) =>
   new Date(iso).toLocaleDateString(undefined, {
@@ -90,15 +79,11 @@ const Events = () => {
 
   // Filter events based on search term and tags and radius
   const filterEvents = (searchTerm, {tags, radius}) => {
-    console.log(events);
-    console.log(searchTerm);
-    console.log(tags);
-    console.log(radius);
     const filteredEvents = events.filter((event) => {
       const titleMatch = event.event_name.toLowerCase().includes(searchTerm.toLowerCase());
       const tagsMatch = tags.length === 0 || event?.tags.some(t => tags.includes(t));
 
-      const toolLocation = {
+      const eventLocation = {
         latitude: event.latitude,
         longitude: event.longitude
       };
@@ -108,9 +93,7 @@ const Events = () => {
         longitude: longitude
       };
       
-      const distance = haversine(toolLocation, userLocation) / 1000;
-
-      console.log("Distance:", distance, "Radius:", radius);
+      const distance = haversine(eventLocation, userLocation) / 1000;
 
       const withinRadius = radius === 0 || distance <= radius;
 
@@ -128,7 +111,7 @@ const Events = () => {
     <div className="events-page">
       <div>
         <div className="events-header">
-          <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterEvents} resetFilter={resetEvents} tagOptions={eventsTags}/>
+          <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterEvents} resetFilter={resetEvents} tagOptions={EVENT_TAGS}/>
           <div className="events-header-btn" onClick={() => navigate("/create-event")}>
             <AddIcon fontSize="large"/>
           </div>
