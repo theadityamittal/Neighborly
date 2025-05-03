@@ -1,17 +1,47 @@
 import React, { useState } from "react";
 import "./QuickPost.css";
+import axiosInstance from "../../utils/axiosInstance";
+import { useSelector } from "react-redux";
 
-const QuickPost = ({ onPost }) => {
+const QuickPost = ({ postCreate }) => {
   const [text, setText] = useState("");
   const [image, setImage] = useState(null);
+  const { name, neighborhood } = useSelector((state) => state.auth);
 
-  const handlePost = () => {
-    if (!text.trim() && !image) return;
-    onPost(text, image); // <-- Only send raw text + image File
+  const handleQuickPost = async (e) => {
+    e.preventDefault();
+    // Check if the text is empty
+    if (!text) {
+      alert("Please enter some text.");
+      return;
+    }
 
-    setText("");
-    setImage(null);
-  };
+    const formData = new FormData();
+    formData.append("content", text);
+    if (image) {
+      formData.append("image", image);
+    }
+    formData.append("title", `Quick Post by ${name}`);
+    formData.append("location", neighborhood);
+    formData.append("post_type", "quick_post");
+
+    try {
+      await axiosInstance.post("/bulletin/", formData);
+      alert("Post created successfully!");
+    } catch (err) {
+      console.error("Error creating post:", err.response || err);
+      const msg = err.response?.data
+        ? JSON.stringify(err.response.data)
+        : "Failed to create post. See console.";
+      alert(msg);
+    } finally {
+      setText("");
+      setImage(null);
+      if (postCreate) {
+        postCreate();
+      }
+    }
+  }
 
   return (
     <div className="post-card create-post">
@@ -30,7 +60,7 @@ const QuickPost = ({ onPost }) => {
           className="text-sm"
         />
         <button
-          onClick={handlePost}
+          onClick={handleQuickPost}
           className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 text-sm font-semibold"
         >
           Post

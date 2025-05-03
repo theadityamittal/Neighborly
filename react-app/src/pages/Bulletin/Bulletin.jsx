@@ -45,9 +45,6 @@ const Bulletin = () => {
     fetchPosts();
   }, [access]);
 
-  const handleNewPost = (newPost) => {
-    setPosts((prev) => [newPost, ...prev]);
-  };
 
   // Filter posts based on search term and tags and radius
   const filterPosts = (searchTerm, {tags, radius}) => {
@@ -107,7 +104,7 @@ const Bulletin = () => {
       </div>
 
       {/* Quick Post Element */}
-      <QuickPost onPost={handleNewPost} />
+      <QuickPost postCreate={() => fetchPosts()} />
 
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
         {posts.length === 0 ? (
