@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import axiosInstance from "../../utils/axiosInstance";
 import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
 import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
+import { TOOL_TAGS } from "../../assets/tags";
 
 import "./Tools.css";
 import AddIcon from '@mui/icons-material/Add';
@@ -11,18 +12,6 @@ import { useNavigate } from "react-router-dom"; // Import navigate
 import SearchBar from "../../components/SearchBar";
 
 const haversine = require('haversine-distance')
-
-const toolTags = [
-  "Gardening",
-  "Construction",
-  "Household",
-  "Electronics",
-  "Sports",
-  "Camping",
-  "Photography",
-  "Art",
-  "Cooking"
-];
 
 const Tools = () => {
   const [tools, setTools] = useState([]);
@@ -112,7 +101,7 @@ const Tools = () => {
   return (
     <div>
       <div className="tools-header">
-        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterTools} resetFilter={resetTools} tagOptions={toolTags}/>
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterTools} resetFilter={resetTools} tagOptions={TOOL_TAGS}/>
         <div className="tools-header-btn" onClick={() => navigate("/create-tool")}>
           <AddIcon fontSize="large"/>
         </div>

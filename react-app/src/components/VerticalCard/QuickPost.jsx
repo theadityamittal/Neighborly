@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "./CreatePost.css";
+import "./QuickPost.css";
 
-const CreatePost = ({ onPost }) => {
+const QuickPost = ({ onPost }) => {
   const [text, setText] = useState("");
   const [image, setImage] = useState(null);
 
@@ -39,4 +39,4 @@ const CreatePost = ({ onPost }) => {
     </div>
   );
 };
-export default CreatePost;
+export default QuickPost;

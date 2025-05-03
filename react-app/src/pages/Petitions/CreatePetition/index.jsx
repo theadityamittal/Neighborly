@@ -13,16 +13,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import "../petitions.css";
-
-const tagOptions = [
-  "Environment",
-  "Community",
-  "Public Safety",
-  "Infrastructure",
-  "Parks & Recreation",
-  "Transportation",
-  "Education",
-];
+import { PETITION_TAGS } from "../../../assets/tags";
 
 const CreatePetition = ({ setNewPetition, refreshPetitions }) => {
   const [submitError, setSubmitError] = useState(null);
@@ -143,7 +134,7 @@ const CreatePetition = ({ setNewPetition, refreshPetitions }) => {
             onChange={handleTagChange}
             renderValue={(selected) => selected.join(", ")}
           >
-            {tagOptions.map((tag) => (
+            {PETITION_TAGS.map((tag) => (
               <MenuItem key={tag} value={tag}>
                 <Checkbox checked={formData.tags.includes(tag)} />
                 <ListItemText primary={tag} />

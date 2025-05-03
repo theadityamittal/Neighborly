@@ -7,16 +7,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import "./CreatePost.css";
-
-const availableTags = [
-  "Community",
-  "Market",
-  "Gardening",
-  "Sustainability",
-  "Volunteer",
-  "Health",
-  "Education",
-];
+import { BULLETIN_TAGS } from "../../assets/tags";
 
 const postTypes = ["Event", "Announcement", "Discussion"];
 
@@ -147,7 +138,7 @@ const CreatePost = ({ onPost = () => {} }) => {
               <option value="" disabled>
                 Select a tag
               </option>
-              {availableTags.map((tag) => (
+              {BULLETIN_TAGS.map((tag) => (
                 <option key={tag} value={tag}>
                   {tag}
                 </option>
