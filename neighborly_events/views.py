@@ -32,7 +32,6 @@ class EventViewSet(ModelViewSet):
     @action(detail=False, methods=["get"], url_path="get_events")
     def get_events(self, request):
         events = Event.objects.filter(eventsignup__user_id=request.user.id)
-        print
         serializer = self.get_serializer(events, many=True)
         return Response(serializer.data)
 

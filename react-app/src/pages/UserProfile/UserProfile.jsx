@@ -54,7 +54,7 @@ const UserProfile = () => {
 
   const servicesWithdraw = async (signup_id) => {
     try {
-      const response = await axiosInstance.delete(`/tools/borrow/${signup_id}/`, {
+      const response = await axiosInstance.delete(`/services/signup/${signup_id}/`, {
         headers: {
           Authorization: `Bearer ${access}`,
         },
@@ -318,7 +318,7 @@ const UserProfile = () => {
                 tags={service.tags}
                 image={service.images}
                 changeButtonName="Withdraw RSVP"
-                onView={() =>{}}
+                onView={() => servicesWithdraw(service.servicesignup[0].signup_id)}
               />
             ))
           }
