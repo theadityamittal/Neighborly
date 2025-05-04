@@ -1,8 +1,14 @@
 from rest_framework import serializers
 from django.conf import settings
-from .models import Event
+from .models import Event, EventSignUp
+    
+class EventSignUpSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EventSignUp
+        fields = '__all__'
 
 class EventSerializer(serializers.ModelSerializer):
+    eventsignup = EventSignUpSerializer(many=True, read_only=True)
     class Meta:
         model = Event
         fields = [
@@ -19,7 +25,8 @@ class EventSerializer(serializers.ModelSerializer):
             'recurring', 
             'max_attendees', 
             'created_at', 
-            'image'
+            'image',
+            'eventsignup'
         ]
     def get_image_url(self, obj):
         if obj.image:

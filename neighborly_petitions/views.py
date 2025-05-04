@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, action
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
@@ -69,3 +69,11 @@ def sign_petition(request, petition_id):
 
     PetitionSignature.objects.create(petition=petition, user_id=user_id)
     return Response({"detail": "Petition signed successfully."})
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_petitions(request):
+    petitions = Petition.objects.filter(petitionsignature__user_id=request.user.id)
+
+    serializer = PetitionSerializer(petitions, many=True)
+    return Response(serializer.data)

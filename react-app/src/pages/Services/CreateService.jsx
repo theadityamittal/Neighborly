@@ -56,7 +56,7 @@ const CreateService = () => {
     formData.append('closestAvailability', closestAvailability);
     formData.append('price', price);
     formData.append('quota', quota);
-    if (image) formData.append('image', image);  // Image upload
+    if (image) formData.append('images', image);  // Image upload
 // Debug logging loop removed to prevent exposure of sensitive data.
   
     try {

@@ -3,7 +3,7 @@ import "./HorizontalCardModal.css";
 import axiosInstance from "../../utils/axiosInstance"; 
 import CalendarPicker from "../CalendarPicker/CalendarPicker";
 
-const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key }) => {
+const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key, description="", toggleOffPrices=false, toggleOffDates=false, toggleOffRequest=false,  handleCustomAPICall= null }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [message, setMessage] = useState(null);
@@ -110,16 +110,20 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key }) => {
             <span className="modal-location">
                 <span className="location-icon">📍</span> {item.location}
             </span>
+            {toggleOffPrices ? <></>:
             <span className="modal-price">
                 <span className="price-icon">💲</span> {item.price}
             </span>
+            }
             </div>
-          
+          {toggleOffDates ? <></>:
           <p className="modal-availability">
             <strong>Closest Availability:</strong> {item.closestAvailability}
           </p>
+          }          
           
           {/* Offer Price Field */}
+          {toggleOffPrices ? <></>:
           <label className="modal-field">
             <strong>Offer Price</strong><br />
             <input
@@ -130,8 +134,10 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key }) => {
               onChange={(e) => setPrice(e.target.value)}
             />
           </label>
+          }
           
           {/* Date Picker Row */}
+          {toggleOffDates ? <></>:
           <div className="date-picker-row">
             <div className="date-picker-column">
                 <strong>From</strong>
@@ -153,8 +159,10 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key }) => {
                 />
             </div>
             </div>
+          }
           
           {/* Request Message Field */}
+          {toggleOffRequest ? <></>:
           <label className="modal-field">
             <strong>Request Message</strong><br />
             <textarea
@@ -164,9 +172,19 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key }) => {
               onChange={(e) => setMessage(e.target.value)}
             />
           </label>
-          
-          <button onClick={handleRSVP} className="horizontal-modal-button">
-            RSVP
+          }
+          {description !== "" ? 
+          <label className="modal-field">
+            <strong>Description</strong>
+            <div style={{fontSize: 16}}>
+              {description}
+            </div>
+          </label>
+          :
+          <></>
+          }
+          <button onClick={handleCustomAPICall ? handleCustomAPICall : handleRSVP} className="horizontal-modal-button">
+            {handleCustomAPICall ? "Sign Up" : "RSVP" }
           </button>
           
         </div>

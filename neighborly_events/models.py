@@ -27,7 +27,7 @@ class Event(models.Model):
 
 class EventSignUp(models.Model):
     signup_id = models.AutoField(primary_key=True)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="eventsignup")
     user_id = models.CharField(max_length=255)
     signed_at = models.DateTimeField(auto_now_add=True)
 

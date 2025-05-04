@@ -1,5 +1,11 @@
 from django.db import models
 import uuid
+import os
+
+def tools_image_upload_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = f"{uuid.uuid4().hex}.{ext}"
+    return os.path.join("tools/uploads/", filename)
 
 class Tool(models.Model):
     tool_id = models.AutoField(primary_key=True)
@@ -26,8 +32,16 @@ class Tool(models.Model):
     quota = models.IntegerField(default=0, blank=True)
     visibility = models.CharField(max_length=10, default='public')  # public, neighborhood, private (=invite only)
     tags = models.JSONField(default=list, blank=True)
-    images = models.JSONField(default=list, blank=True)
-    condition = models.CharField(max_length=50, choices=[('New', 'New'), ('Used', 'Used')])
+    images = models.ImageField(upload_to=tools_image_upload_path, null=True, blank=True)
+    condition = models.CharField(
+        max_length=50,
+        choices=[
+            ('New', 'New'),
+            ('Used', 'Used'),
+            ('Like New', 'Like New'),
+            ('Fair', 'Fair'),
+        ]
+    )
     
 
     def __str__(self):

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import axiosInstance from "../../utils/axiosInstance";
 import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
 import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
+import { Avatar, Button, Typography } from "@mui/material";
 
 import "./Tools.css";
 import AddIcon from '@mui/icons-material/Add';
@@ -134,7 +135,7 @@ const Tools = () => {
             price={tool.price}
             tags={[tool.condition]}      
             available={tool.available}
-            image={tool.images?.[0]}                   
+            image={tool.images}                   
             onView={() => handleView(tool.tool_id)}
           />
         ))}

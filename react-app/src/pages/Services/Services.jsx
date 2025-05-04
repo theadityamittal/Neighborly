@@ -135,7 +135,7 @@ const Services = () => {
             available={service.available}
             closestAvailability={service.closestAvailability}
             tags={service.tags}
-            image={service.images?.[0]}
+            image={service.images}
             onView={() => handleView(service.service_id)}
           />
         ))}
