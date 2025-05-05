@@ -25,6 +25,12 @@ jobs:
       - name: Install Django dependencies
         run: pip install -r requirements.txt
 
+      - name: Run Django migrations
+        run: python manage.py migrate
+
+      - name: Load django fixtures
+        run: python manage.py dev_setup
+
       - name: Run Django tests
         run: python manage.py test
 
