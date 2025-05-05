@@ -96,7 +96,7 @@
     },
     {
       "model": "neighborly_events.event",
-      "pk": 5,
+      "pk": 6,
       "fields": {
         "event_name": "Neighborhood Meet & Greet",
         "organizer_name": "Sheetal",
@@ -115,7 +115,7 @@
     },
     {
       "model": "neighborly_events.event",
-      "pk": 4,
+      "pk": 7,
       "fields": {
         "event_name": "Park Clean‑Up",
         "organizer_name": "Sheetal",

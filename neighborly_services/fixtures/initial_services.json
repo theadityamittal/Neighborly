@@ -177,7 +177,7 @@
   },
   {
     "model": "neighborly_services.serviceitem",
-    "pk": 6,
+    "pk": 7,
     "fields": {
       "title": "Tree Climbing Workshop",
       "description": "Tree Climbing Workshop by Adventure Club.",
@@ -206,7 +206,7 @@
   },
   {
     "model": "neighborly_services.serviceitem",
-    "pk": 5,
+    "pk": 8,
     "fields": {
       "title": "Pilates Training Session",
       "description": "Pilates Training Session by Wellness Hub.",

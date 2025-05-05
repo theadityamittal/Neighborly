@@ -3,7 +3,8 @@
     "model": "neighborly_bulletin.bulletinitem",
     "pk": 1,
     "fields": {
-      "user_id": "1",
+      "user": 1,
+      "user_uuid": "2ce7a1ae-26ec-11f0-b0c2-ca1deaa14517",
       "title": "Road Construction on 5th Avenue",
       "content": "Roadwork between 12th and 15th Street will continue until May 15. Expect delays.",
       "post_type": "announcement",
@@ -25,7 +26,8 @@
     "model": "neighborly_bulletin.bulletinitem",
     "pk": 2,
     "fields": {
-      "user_id": "2",
+      "user": 2,
+      "user_uuid": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
       "title": "MTA Subway Service Interruption - F Line",
       "content": "F train service is suspended between Jay St-MetroTech and Church Ave for weekend repairs.",
       "post_type": "announcement",
@@ -46,7 +48,8 @@
     "model": "neighborly_bulletin.bulletinitem",
     "pk": 3,
     "fields": {
-      "user_id": "3",
+      "user": 3,
+      "user_uuid": "6cffc2dffe9247aba9c36f5ac89c59a5",
       "title": "Fire Hydrant Testing in Williamsburg",
       "content": "Fire department will conduct hydrant pressure tests next week. Possible water discoloration.",
       "post_type": "announcement",
@@ -68,7 +71,8 @@
     "model": "neighborly_bulletin.bulletinitem",
     "pk": 4,
     "fields": {
-      "user_id": "4",
+      "user": 4,
+      "user_uuid": "a3dcb4d5-6f39-4b9e-bf38-5f9cb87d2f63",
       "title": "Community Board Meeting Reminder",
       "content": "Monthly community board meeting will be held virtually on Zoom this Thursday at 6PM.",
       "post_type": "announcement",
@@ -89,7 +93,8 @@
     "model": "neighborly_bulletin.bulletinitem",
     "pk": 5,
     "fields": {
-      "user_id": "2",
+      "user": 5,
+      "user_uuid": "6b1c6bfc-3e2a-11ee-be56-0242ac120002",
       "title": "Water Service Maintenance - Upper East Side",
       "content": "Water service may be temporarily interrupted on Tuesday from 1AM to 5AM due to repairs.",
       "post_type": "announcement",

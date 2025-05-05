@@ -222,7 +222,7 @@
     },
     {
       "model": "neighborly_petitions.petition",
-      "pk": 13,
+      "pk": 14,
       "fields": {
         "title": "Install Water Bottle Filling Stations",
         "description": "Encourage reusable bottles by installing water bottle filling stations at city parks and public plazas.",
@@ -239,7 +239,7 @@
     },
     {
       "model": "neighborly_petitions.petition",
-      "pk": 12,
+      "pk": 15,
       "fields": {
         "title": "Create a Neighborhood Watch Program",
         "description": "Let’s keep our streets safe by organizing a volunteer neighborhood watch. Sign up to start patrolling evenings in our block.",
