@@ -18,30 +18,6 @@ const DetailedEvent = () => {
   const { access } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
-  const handleEditEvent = async () => {
-    const token = localStorage.getItem("access_token");
-    try {
-      await axiosInstance.patch(`/events/events/${event_id}/`, eventDetails, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        }
-      });
-
-      // Re-fetch petition details to update count
-      const response = await axiosInstance.get(`/events/events/${event_id}/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        }
-      });
-      setEventDetails(response.data);
-    } catch (err) {
-      console.error("Error Updating Event:", err);
-      alert("Failed to update event.");
-    }
-  };
-
   const handleClose = () => {
     setSelectedEdit(false);
   };

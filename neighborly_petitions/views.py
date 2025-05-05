@@ -49,6 +49,22 @@ def grab_petition_data(request, petition_id):
         "petition_signatures": signature_data
     })
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_petitions_not_users(request):
+    petitions = Petition.objects.filter(organizer_id=request.user.user_id)
+    serializer = PetitionSerializer(data=petitions, many=True)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_petition_data(request, petition_id):
+    petition = get_object_or_404(Petition, petition_id=petition_id)
+    serializer = PetitionSerializer(petition)
+    return Response(serializer.data)
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_petition(request):

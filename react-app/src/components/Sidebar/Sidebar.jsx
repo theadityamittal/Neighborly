@@ -15,7 +15,7 @@ const menuItems = [
   { name: "Services",  path: "/services",  icon: <MiscellaneousServices />, subCategory: false },
   { name: "My Services", path: "/MyServices", icon: <MiscellaneousServices />, subCategory: true},
   { name: "Petitions", path: "/petitions", icon: <HowToVote />, subCategory: false },
-  { name: "My Petitions", path: "/MyPetitions", icon: <MiscellaneousServices />, subCategory: true},
+  { name: "My Petitions", path: "/myPetitions", icon: <MiscellaneousServices />, subCategory: true},
 ];
 
 const Sidebar = () => {

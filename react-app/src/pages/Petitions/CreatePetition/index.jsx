@@ -81,7 +81,7 @@ const CreatePetition = ({ setNewPetition, refreshPetitions }) => {
       });
 
       setTimeout(() => {
-        setNewPetition(false);
+        // setNewPetition(false);
       }, 2000);
     } catch (err) {
       console.error("Error creating petition:", err.response?.data || err.message);

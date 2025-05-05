@@ -12,6 +12,7 @@ import Tools from "../pages/Tools/Tools";
 import Petitions from "../pages/Petitions/Petitions";
 import CreatePetition from "../pages/Petitions/CreatePetition";
 import DetailedPetition from "../pages/Petitions/DetailedPetition";
+import MyDetailedPetition from "../pages/Petitions/MyDetailedPetition";
 import UserProfile from "../pages/UserProfile/UserProfile";
 import Bulletin from "../pages/Bulletin/Bulletin";
 import CreatePost from "../pages/Bulletin/CreatePost";
@@ -21,6 +22,7 @@ import CreateService from "../pages/Services/CreateService";
 import Verification from "../pages/Auth/Verification/Verification";
 import NewUserApps from "../pages/newUserApps/newUserApps";
 import MyEvents from "../pages/Events/myEvents";
+import MyPetitions from "../pages/Petitions/myPetitions";
 
 // Testing purpose
 import CardTest from "../pages/CardTest/CardTest";
@@ -86,6 +88,8 @@ const AppRoutes = () => {
             <Route path="/petitions" element={<Petitions />} />
             <Route path="/petition/:id" element={<DetailedPetition />} />
             <Route path="/create-petition" element={<CreatePetition />} />
+            <Route path="/myPetitions" element={<MyPetitions />} />
+            <Route path="/petitions/:petition_id" element={<MyDetailedPetition />} />
 
             <Route path="/profile" element={<UserProfile />} />
 
