@@ -6,11 +6,13 @@ import { useState, useEffect } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // Assuming you're using Material UI
 import axiosInstance from "../../../utils/axiosInstance";
 import { useSelector } from "react-redux";
+import HorizontalCardModalEdit from "../../../components/HorizontalCard/HorizontalCardModalEdit";
 
 const DetailedEvent = () => {
   const { event_id } = useParams();
   const [eventDetails, setEventDetails] = useState(null);
   const [participants, setParticipants] = useState([]);
+  const [selectedEdit, setSelectedEdit] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { access } = useSelector((state) => state.auth);
@@ -38,6 +40,10 @@ const DetailedEvent = () => {
       console.error("Error Updating Event:", err);
       alert("Failed to update event.");
     }
+  };
+
+  const handleClose = () => {
+    setSelectedEdit(false);
   };
 
   useEffect(() => {
@@ -127,9 +133,26 @@ const DetailedEvent = () => {
             ))}</p>
           </div>
           <div className="event-cta">
-            {/* <button className="sign-event-button" onClick={handleSignPetition}>Sign this petition</button> */}
-            {/* <button className="share-event-button" onClick={handleShare}>Share</button> */}
+            <button className="sign-event-button" onClick={() => setSelectedEdit(!selectedEdit)}>Edit this Event</button>
           </div>
+              {selectedEdit && (
+            <HorizontalCardModalEdit
+              isOpen={!!selectedEdit}
+              onClose={handleClose}
+              item={{
+                image: eventDetails.image,
+                description: eventDetails.description,
+                title: eventDetails.event_name,
+                id: eventDetails.event_id,
+                date: eventDetails.date,
+                time: eventDetails.time,
+                visibility: eventDetails.visibility,
+                location: eventDetails.location,
+              }}
+              type="Event"
+              api="events/events"
+            />
+          )}
         </div>
       </div>
     </div>

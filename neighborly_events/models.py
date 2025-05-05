@@ -9,7 +9,6 @@ def event_image_upload_path(instance, filename):
     return os.path.join("events/uploads/", filename)
 
 class Event(models.Model):
-    
     event_id = models.AutoField(primary_key=True)
     event_name = models.CharField(max_length=255)
     organizer_name = models.CharField(max_length=255)

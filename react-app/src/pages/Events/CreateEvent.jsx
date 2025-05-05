@@ -52,11 +52,7 @@ const CreateEvent = () => {
     formData.append("image", image);
 
     try {
-<<<<<<< Updated upstream
-      const response = await axiosInstance.post("/events/", formData, {
-=======
       const response = await axiosInstance.post("/events/events/", formData, {
->>>>>>> Stashed changes
         headers: {
           Authorization: `Bearer ${access}`,
           "Content-Type": "multipart/form-data",
