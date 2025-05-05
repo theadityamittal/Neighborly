@@ -8,19 +8,11 @@ import petitionsJson from "./petitionData.json"; // Import the local JSON file
 import "./petitions.css";
 import SearchBar from "../../components/SearchBar";
 import AddIcon from '@mui/icons-material/Add';
+import { PETITION_TAGS } from "../../assets/tags";
 
 const haversine = require('haversine-distance')
 
-const petitionTags = [
-  "Animals",
-  "Environment",
-  "Human Rights",
-  "Health",
-  "Education",
-  "Politics",
-  "Social Justice",
-  "Technology"
-];
+
 
 const Petitions = () => {
   const [petitions, setPetitions] = useState([]);
@@ -94,15 +86,11 @@ const Petitions = () => {
 
   // Filter petitions based on search term and tags and radius
   const filterPetitions = (searchTerm, {tags, radius}) => {
-    console.log(petitions);
-    console.log(searchTerm);
-    console.log(tags);
-    console.log(radius);
     const filteredPetitions = petitions.filter((petition) => {
       const titleMatch = petition.title.toLowerCase().includes(searchTerm.toLowerCase());
       const tagsMatch = tags.length === 0 || petition?.tags.some(t => tags.includes(t));
 
-      const toolLocation = {
+      const petitionLocation = {
         latitude: petition.latitude,
         longitude: petition.longitude
       };
@@ -112,9 +100,7 @@ const Petitions = () => {
         longitude: longitude
       };
       
-      const distance = haversine(toolLocation, userLocation) / 1000;
-
-      console.log("Distance:", distance, "Radius:", radius);
+      const distance = haversine(petitionLocation, userLocation) / 1000;
 
       const withinRadius = radius === 0 || distance <= radius;
 
@@ -137,7 +123,7 @@ const Petitions = () => {
   return (
     <div>
       <div className="petition-header">
-        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterPetitions} resetFilter={resetPetitions} tagOptions={petitionTags}/>
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterPetitions} resetFilter={resetPetitions} tagOptions={PETITION_TAGS}/>
         <div className="petition-header-btn" onClick={() => navigate("/create-petition")}>
           <AddIcon fontSize="large"/>
         </div>

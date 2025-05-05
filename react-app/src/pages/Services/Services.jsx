@@ -7,20 +7,9 @@ import "./Services.css";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../../components/SearchBar";
 import AddIcon from '@mui/icons-material/Add';
+import { SERVICE_TAGS } from "../../assets/tags";
 
 const haversine = require('haversine-distance')
-
-const serviceTags = [
-  "Health",
-  "Education",
-  "Transportation",
-  "Food",
-  "Entertainment",
-  "Fitness",
-  "Beauty",
-  "Household",
-  "Pet Care"
-];
 
 const Services = () => {
   const [services, setServices] = useState([]);
@@ -64,10 +53,6 @@ const Services = () => {
   };
 
   const filterServices = (searchTerm, {tags, radius}) => {
-    console.log(services);
-    console.log(searchTerm);
-    console.log(tags);
-    console.log(radius);
     const filteredServices = services.filter((service) => {
       const titleMatch = service.title.toLowerCase().includes(searchTerm.toLowerCase());
       const tagsMatch = tags.length === 0 || service?.tags.some(tag => tags.includes(tag));
@@ -83,8 +68,6 @@ const Services = () => {
       };
       
       const distance = haversine(serviceLocation, userLocation) / 1000;
-
-      console.log("Distance:", distance, "Radius:", radius);
 
       const withinRadius = radius === 0 || distance <= radius;
 
@@ -112,7 +95,7 @@ const Services = () => {
   return (
     <div>
       <div className="service-header">
-        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterServices} resetFilter={resetServices} tagOptions={serviceTags}/>
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterServices} resetFilter={resetServices} tagOptions={SERVICE_TAGS}/>
         <div className="service-header-btn" onClick={() => navigate("/create-service")}>
           <AddIcon fontSize="large"/>
         </div>

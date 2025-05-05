@@ -13,6 +13,7 @@ import CreatePetition from "../pages/Petitions/CreatePetition";
 import DetailedPetition from "../pages/Petitions/DetailedPetition";
 import UserProfile from "../pages/UserProfile/UserProfile";
 import Bulletin from "../pages/Bulletin/Bulletin";
+import CreatePost from "../pages/Bulletin/CreatePost";
 import CreateEvent from "../pages/Events/CreateEvent";
 import CreateTool from "../pages/Tools/CreateTool"; 
 import CreateService from "../pages/Services/CreateService";
@@ -65,6 +66,7 @@ const AppRoutes = () => {
         }>
             <Route path="/" element={<Bulletin />} />               {/* logo points here */}
             <Route path="/bulletin" element={<Bulletin />} />
+            <Route path="/create-post" element={<CreatePost />} />
 
             <Route path="/events" element={<Events />} />
             <Route path="/create-event" element={<CreateEvent />} />
