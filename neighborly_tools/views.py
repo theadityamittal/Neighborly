@@ -17,11 +17,10 @@ from .serializers import ToolSerializer, BorrowRequestSerializer
 '''For all tools & creation of new tools'''    
 class ToolListView(APIView):
     permission_classes = [IsAuthenticated] 
-
+    
     def get(self, request):
-        excluded_user_id = request.user.id
-        tools = Tool.objects.exclude(owner_id=excluded_user_id)
-        serializer = ToolSerializer(tools, many=True)
+        filtered = ToolFilter(request.GET, queryset=Tool.objects.all())
+        serializer = ToolSerializer(filtered.qs, many=True)
         return Response(serializer.data)
     
     def post(self, request):
@@ -33,6 +32,14 @@ class ToolListView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_tools_exclude_user(request):
+    excluded_user_id = request.user.id
+    tools = Tool.objects.exclude(owner_id=excluded_user_id)
+    serializer = ToolSerializer(tools, many=True)
+    return Response(serializer.data)
 
 '''For a tool'''
 class ToolDetailView(APIView):
