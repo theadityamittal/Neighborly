@@ -6,6 +6,7 @@ import Register from "../pages/Auth/Register/Register";
 import { selectAuth } from "../redux/authSlice";
 import ProtectedLayout from "../components/ProtectedLayout";
 import Events from "../pages/Events/Events";
+import DetailedEvent from "../pages/Events/DetailedEvent";
 import Services from "../pages/Services/Services";
 import Tools from "../pages/Tools/Tools";
 import Petitions from "../pages/Petitions/Petitions";
@@ -19,6 +20,7 @@ import CreateTool from "../pages/Tools/CreateTool";
 import CreateService from "../pages/Services/CreateService";
 import Verification from "../pages/Auth/Verification/Verification";
 import NewUserApps from "../pages/newUserApps/newUserApps";
+import MyEvents from "../pages/Events/myEvents";
 
 // Testing purpose
 import CardTest from "../pages/CardTest/CardTest";
@@ -70,6 +72,8 @@ const AppRoutes = () => {
 
             <Route path="/events" element={<Events />} />
             <Route path="/create-event" element={<CreateEvent />} />
+            <Route path="/myEvents" element={<MyEvents />} />
+            <Route path="/event/:event_id" element={<DetailedEvent />} />
 
             <Route path="/tools" element={<Tools />} />
             {/* <Route path="/create-tool" element={<CreateTool />} /> */}

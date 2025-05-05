@@ -30,8 +30,18 @@
   font-size: 20px !important;
 }
 
+.inline-space {
+  display: inline-block;
+  width: 60px; /* matches icon size */
+}
+
 .menu-text {
   color: white !important;
+}
+
+.sub-text {
+  color: white !important;
+  font-size: 12px !important;
 }
 
 .menu-item.active {

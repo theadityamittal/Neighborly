@@ -1,8 +1,10 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.parsers import MultiPartParser, FormParser
 from .models import Event, EventSignUp
-from .serializers import EventSerializer
-from rest_framework.decorators import action, permission_classes
+from .serializers import EventSerializer, EventSignUpSerializer
+from neighborly_users.models import CustomUser
+from neighborly_users.serializers import UserSerializer
+from rest_framework.decorators import action, permission_classes, api_view
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -34,6 +36,13 @@ class EventViewSet(ModelViewSet):
         events = Event.objects.filter(eventsignup__user_id=request.user.id)
         serializer = self.get_serializer(events, many=True)
         return Response(serializer.data)
+    
+    @action(detail=False, methods=["get"], url_path="get_events_not_users")
+    def get_events_not_users(self, request):
+        events = Event.objects.exclude(organizer_id=request.user.user_id)
+        serializer = self.get_serializer(events, many=True)
+        return Response(serializer.data)
+
 
 
 
@@ -70,3 +79,21 @@ class SignUpEventSet(ModelViewSet):
         
         se.delete()  # This deletes all matching rows
         return Response({"message": "Successfully unsigned from event."}, status=200)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_events_for_user(request):
+    user_id = request.user.user_id
+    events = Event.objects.filter(organizer_id=user_id)
+
+    serializer = EventSerializer(events, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_information_for_event(request, event_id):
+    event_information = EventSignUp.objects.filter(event_id=event_id)
+    serializer = EventSignUpSerializer(event_information, many=True)
+    return Response(serializer.data)
+
+    

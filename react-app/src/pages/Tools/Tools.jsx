@@ -4,6 +4,7 @@ import axiosInstance from "../../utils/axiosInstance";
 import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
 import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
 import { Avatar, Button, Typography } from "@mui/material";
+import { TOOL_TAGS } from "../../assets/tags";
 
 import "./Tools.css";
 import AddIcon from '@mui/icons-material/Add';
@@ -101,7 +102,11 @@ const Tools = () => {
   return (
     <div>
       <div className="tools-header">
+<<<<<<< Updated upstream
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterTools} resetFilter={resetTools} tagOptions={TOOL_TAGS}/>
+=======
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterTools} resetFilter={resetTools} tagOptions={TOOL_TAGS}/>      
+>>>>>>> Stashed changes
         <div className="tools-header-btn" onClick={() => navigate("/create-tool")}>
           <AddIcon fontSize="large"/>
         </div>
