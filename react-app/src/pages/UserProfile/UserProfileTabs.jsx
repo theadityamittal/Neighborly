@@ -77,26 +77,31 @@ const UserProfileTabs = () => {
       };
     const fetchUserServices = async () => {
         try {
-          setLoading(true);
-          const response = await axiosInstance.get(`/services/user/${userId}/`, {
-            headers: { Authorization: `Bearer ${access}` },
-          });
-      
-          const processed = response.data.services.map(service => ({
-            ...service,
-            closestAvailability: service.closestAvailability, // optional formatting if needed
-            image: service.images?.[0],
-            tags: service.tags,
-          }));
-      
-          setUserServices(processed);
-          setLoading(false);
+            setLoading(true);
+            const response = await axiosInstance.get(`/services/user/${userId}/`, {
+                headers: { Authorization: `Bearer ${access}` },
+            });
+    
+            const processed = response.data.services.map(service => ({
+                id: service.service_id,
+                title: service.title,
+                description: service.description,
+                provider: service.provider,
+                location: service.location,
+                closestAvailability: service.closestAvailability,
+                image: service.images?.[0],
+                tags: service.tags,
+                visibility: service.visibility,
+            }));
+    
+            setUserServices(processed);
+            setLoading(false);
         } catch (err) {
-          console.error("Error fetching services:", err);
-          setError("Failed to load services.");
-          setLoading(false);
+            console.error("Error fetching services:", err);
+            setError("Failed to load services.");
+            setLoading(false);
         }
-      };
+    };
     const fetchUserTools = async () => {
         try {
           setLoading(true);
@@ -125,27 +130,33 @@ const UserProfileTabs = () => {
 
     const fetchUserEvents = async () => {
         try {
-          setLoading(true);
-          const response = await axiosInstance.get(`/events/grabEventsData/organizer/${userId}`, {
-            headers: {
-              Authorization: `Bearer ${access}`,
-            },
-          });
-      
-          const data = response.data.events;
-          const processed = data.map(event => ({
-            ...event,
-            closestAvailability: `${formatDate(event.date)} at ${formatTime(event.time)}`
-          }));
-      
-          setUserEvents(processed);
-          setLoading(false);
+            setLoading(true);
+            const response = await axiosInstance.get(`/events/grabEventsData/organizer/${userId}`, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+    
+            const data = response.data.events;
+            const processed = data.map(event => ({
+                id: event.event_id,
+                title: event.event_name,
+                provider: event.organizer_name,
+                location: event.location,
+                closestAvailability: `${formatDate(event.date)} at ${formatTime(event.time)}`,
+                image: event.image,
+                tags: event.tags,
+                visibility: event.visibility,
+            }));
+    
+            setUserEvents(processed);
+            setLoading(false);
         } catch (err) {
-          console.error("Error fetching events:", err);
-          setError("Failed to load hosted events. Please try again later.");
-          setLoading(false);
+            console.error("Error fetching events:", err);
+            setError("Failed to load hosted events. Please try again later.");
+            setLoading(false);
         }
-      };
+    };
 
     const fetchUserPetitions = async () => {
         // Fetch petitions from the API
