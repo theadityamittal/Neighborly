@@ -9,6 +9,7 @@ import "./petitions.css";
 import SearchBar from "../../components/SearchBar";
 import AddIcon from '@mui/icons-material/Add';
 import { PETITION_TAGS } from "../../assets/tags";
+import PetitionCards from "../Petitions/PetitionCards";
 
 const haversine = require('haversine-distance')
 

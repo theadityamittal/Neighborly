@@ -1,14 +1,16 @@
 import React from "react";
 import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
 import { useNavigate } from "react-router";
-import "./HorizontalCardList.css";
 
-const HorizontalCardList = ({ items, viewRouteBase }) => {
+const HorizontalCardList = ({ items, viewRouteBase, onView = null }) => {
   const navigate = useNavigate();
 
-  const handleView = (id) => {
-    console.log(`Card with ID ${id} clicked`);
-    navigate(`/${viewRouteBase}/${id}`);
+  const handleView = (item) => {
+    if (onView) {
+      onView(item);  // Call the passed onView (for modal or details)
+    } else {
+      navigate(`/${viewRouteBase}/${item.id || item.event_id}`);  // Default navigation
+    }
   };
 
   if (!items || items.length === 0) {
@@ -28,7 +30,7 @@ const HorizontalCardList = ({ items, viewRouteBase }) => {
   return (
     <div className="horizontal-card-list">
       {items.map((item) => (
-        <div key={item.id || item.event_id} className="card-wrapper">
+        <div key={item.id || item.event_id} style={{ marginBottom: '20px' }}>
           <HorizontalCard
             id={item.id || item.event_id}
             title={item.title || item.event_name}
@@ -37,7 +39,7 @@ const HorizontalCardList = ({ items, viewRouteBase }) => {
             closestAvailability={item.closestAvailability}
             image={item.image}
             tabs={item.tags ? [...item.tags, item.visibility] : [item.visibility]}
-            onView={() => handleView(item.id || item.event_id)}
+            onView={() => handleView(item)}
           />
         </div>
       ))}
