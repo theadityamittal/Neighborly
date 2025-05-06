@@ -83,6 +83,8 @@ const Events = () => {
           Authorization: `Bearer ${access}`,
         },
       });
+      alert("Successfully registered for the event!");
+
     } catch (error) {
       console.error("Error signing up for event:", error);
     }

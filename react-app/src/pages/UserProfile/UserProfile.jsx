@@ -28,37 +28,60 @@ const UserProfile = () => {
     myTools: true,
   });
 
-  const toolsWithdraw = async (signup_id) => {
+  const toolsWithdraw = async (signup_id, tool_id) => {
     try {
       const response = await axiosInstance.delete(`/tools/borrow/${signup_id}/`, {
         headers: {
           Authorization: `Bearer ${access}`,
         },
       });
+      alert("Successfully withdrawn from the tools");
+
+      // Reload the page to reflect changes
+      setCardData(prev => ({
+        ...prev,
+        myTools: prev.myTools.filter(tool => tool.tool_id !== tool_id)
+      }));
+      
     } catch (error) {
       console.error("Error deleting borrow request:", error);
     }
   };
 
-  const eventsWithdraw = async (signup_id) => {
+  const eventsWithdraw = async (signup_id, event_id) => {
     try {
       const response = await axiosInstance.delete(`/events/signups/${signup_id}/`, {
         headers: {
           Authorization: `Bearer ${access}`,
         },
       });
+      alert("Successfully withdrawn from the event");
+
+      // Reload the page to reflect changes
+      setCardData(prev => ({
+        ...prev,
+        myEvents: prev.myEvents.filter(event => event.event_id !== event_id)
+      }));
     } catch (error) {
       console.error("Error deleting borrow request:", error);
     }
   };
 
-  const servicesWithdraw = async (signup_id) => {
+  const servicesWithdraw = async (signup_id, service_id) => {
     try {
       const response = await axiosInstance.delete(`/services/signup/${signup_id}/`, {
         headers: {
           Authorization: `Bearer ${access}`,
         },
       });
+      alert("Successfully withdrawn from the service");
+
+      // Reload the page to reflect changes
+      setCardData(prev => ({
+        ...prev,
+        myServices: prev.myServices.filter(service => service.service_id !== service_id)
+      }));
+      
     } catch (error) {
       console.error("Error deleting borrow request:", error);
     }
@@ -281,7 +304,7 @@ const UserProfile = () => {
                 tabs={[...(event.tags || []), event.visibility]}
                 viewType="card"
                 changeButtonName="Unregister"
-                onView={() => eventsWithdraw(event.eventsignup[0].signup_id)}
+                onView={() => eventsWithdraw(event.eventsignup[0].signup_id, event.event_id)}
               />
             ))
           }
@@ -299,7 +322,7 @@ const UserProfile = () => {
                 available={tool.available}
                 image={tool.images}
                 changeButtonName="Withdraw RSVP"                 
-                onView={() => toolsWithdraw(tool.borrow_requests[0].signup_id)}
+                onView={() => toolsWithdraw(tool.borrow_requests[0].signup_id, tool.tool_id)}
               />
             ))
           }
@@ -318,7 +341,7 @@ const UserProfile = () => {
                 tags={service.tags}
                 image={service.images}
                 changeButtonName="Withdraw RSVP"
-                onView={() => servicesWithdraw(service.servicesignup[0].signup_id)}
+                onView={() => servicesWithdraw(service.servicesignup[0].signup_id, service.service_id)}
               />
             ))
           }
