@@ -33,12 +33,13 @@ class EventViewSet(ModelViewSet):
     
     @action(detail=False, methods=["get"], url_path="get_events")
     def get_events(self, request):
-        events = Event.objects.filter(eventsignup__user_id=request.user.id)
+        events = Event.objects.filter(eventsignup__user_id=request.user.user_id)
         serializer = self.get_serializer(events, many=True)
         return Response(serializer.data)
     
     @action(detail=False, methods=["get"], url_path="get_events_not_users")
     def get_events_not_users(self, request):
+        print(request.user.user_id)
         events = Event.objects.exclude(organizer_id=request.user.user_id)
         serializer = self.get_serializer(events, many=True)
         return Response(serializer.data)
@@ -53,7 +54,7 @@ class SignUpEventSet(ModelViewSet):
 
     @action(detail=False, methods=["post"], url_path="signup_event")
     def signup_for_event(self, request):
-        user_id = request.user.id
+        user_id = request.user.user_id
         event = request.data.get("event_id")
 
         se = EventSignUp.objects.filter(event_id=event, user_id=user_id)
@@ -71,7 +72,7 @@ class SignUpEventSet(ModelViewSet):
     
     @action(detail=False, methods=["get"], url_path="unsignup_event")
     def unsignup_for_event(self, request):
-        user_id = request.user.id
+        user_id = request.user.user_id
 
         se = EventSignUp.objects.filter(event_id=event, user_id=user_id)
         if not se.exists():
@@ -84,7 +85,8 @@ class SignUpEventSet(ModelViewSet):
 @permission_classes([IsAuthenticated])
 def get_events_for_user(request):
     user_id = request.user.user_id
-    events = Event.objects.filter(organizer_id=user_id)
+    print(request.user.user_id)
+    events = Event.objects.filter(organizer_id=request.user.user_id)
 
     serializer = EventSerializer(events, many=True)
     return Response(serializer.data)

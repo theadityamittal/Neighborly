@@ -12,7 +12,7 @@ class EventSignUpSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_user(self, obj):
-        user = CustomUser.objects.filter(id=obj.user_id).first()
+        user = CustomUser.objects.filter(user_id=obj.user_id).first()
         if user:
             return UserSerializer(user).data
         return None
