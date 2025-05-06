@@ -8,6 +8,7 @@ import axiosInstance from "../../utils/axiosInstance";
 import { useSelector } from "react-redux";
 import HorizontalCardList from "./HorizontalCardList";
 import "./UserProfile.css"; // Import your CSS file
+import PostCard from "../../components/VerticalCard/PostCard";
 const formatDate = (iso) =>
     new Date(iso).toLocaleDateString(undefined, {
       month: "long",
@@ -45,6 +46,35 @@ const UserProfileTabs = () => {
         // Update the selected tab
         setSelectedTab(tab);
     };
+    const fetchUserPosts = async () => {
+        console.log("userId in fetchUserPosts:", userId);
+        try {
+          setLoading(true);
+          const response = await axiosInstance.get(`/bulletin/user/${userId}/`, {
+            headers: { Authorization: `Bearer ${access}` },
+          });
+      
+          const sorted = [...response.data].sort(
+            (a, b) => new Date(b.date_posted) - new Date(a.date_posted)
+          );
+      
+          const processed = sorted.map(post => ({
+            id: post.post_id,
+            userName: post.user_name,
+            dateTime: new Date(post.date_posted).toLocaleString(),
+            postContent: post.content,
+            tags: post.tags,
+            image: post.image,
+          }));
+      
+          setUserPosts(processed);
+          setLoading(false);
+        } catch (err) {
+          console.error("Error fetching user posts:", err);
+          setError("Failed to load your posts.");
+          setLoading(false);
+        }
+      };
     const fetchUserServices = async () => {
         try {
           setLoading(true);
@@ -151,7 +181,7 @@ const UserProfileTabs = () => {
     useEffect(() => {
         // Fetch data for the default tab when the component mounts
         if (selectedTab === "myPosts") {
-            // fetchUserPosts();
+            fetchUserPosts();
         }
         else if (selectedTab === "listedTools") {
             fetchUserTools();
@@ -170,7 +200,28 @@ const UserProfileTabs = () => {
     }, [selectedTab]);
 
     const tabs = [
-        { label: "My Posts", value: "myPosts", content: <Bulletin /> },
+        {
+            label: "My Posts",
+            value: "myPosts",
+            content: (
+              <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+                {userPosts.length === 0 ? (
+                  <div>No posts available.</div>
+                ) : (
+                  userPosts.map(post => (
+                    <PostCard
+                      key={post.id}
+                      userName={post.userName}
+                      dateTime={post.dateTime}
+                      postContent={post.postContent}
+                      tags={post.tags}
+                      image={post.image}
+                    />
+                  ))
+                )}
+              </div>
+            ),
+          },
         { label: "Listed Tools", value: "listedTools", content: (
             <HorizontalCardList 
               items={userTools}
@@ -187,16 +238,16 @@ const UserProfileTabs = () => {
               />
             )
           },
-        { 
+          { 
             label: "Hosted Events", 
             value: "hostedEvents", 
             content: (
               <HorizontalCardList 
                 items={userEvents}
-                onView={(event) => console.log("Event View:", event)}
+                viewRouteBase="events"
               />
             ) 
-          },
+        },
         { label: "Opened Petitions", value: "openedPetitions", content: <PetitionCards petitions={userPetitions}/> },
     ];
 

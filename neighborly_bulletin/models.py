@@ -12,7 +12,13 @@ def bulletin_image_upload_path(instance, filename):
 
 class BulletinItem(models.Model):
     post_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="bulletin_posts") 
+    #user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="bulletin_posts") 
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        to_field='user_id',
+        on_delete=models.CASCADE,
+        related_name="bulletin_posts"
+    )
     user_uuid = models.CharField(max_length=36, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255)
     content = models.TextField()
