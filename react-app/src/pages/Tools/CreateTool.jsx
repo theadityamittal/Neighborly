@@ -58,7 +58,7 @@ const CreateTool = () => {
     formData.append('price', price);
     formData.append('quota', quota);
     formData.append('condition', condition);
-    if (image) formData.append('image', image);  // Image upload
+    if (image) formData.append('images', image);  // Image upload
 // Debug logging loop removed to prevent exposure of sensitive data.
   
     try {

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import axiosInstance from "../../utils/axiosInstance";
 import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
 import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
+import { Avatar, Button, Typography } from "@mui/material";
 import { TOOL_TAGS } from "../../assets/tags";
 
 import "./Tools.css";
@@ -101,7 +102,7 @@ const Tools = () => {
   return (
     <div>
       <div className="tools-header">
-        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterTools} resetFilter={resetTools} tagOptions={TOOL_TAGS}/>
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterTools} resetFilter={resetTools} tagOptions={TOOL_TAGS}/>      
         <div className="tools-header-btn" onClick={() => navigate("/create-tool")}>
           <AddIcon fontSize="large"/>
         </div>
@@ -123,7 +124,7 @@ const Tools = () => {
             price={tool.price}
             tags={[tool.condition]}      
             available={tool.available}
-            image={tool.images?.[0]}                   
+            image={tool.images}                   
             onView={() => handleView(tool.tool_id)}
           />
         ))}

@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes, action
 
 #for api filtering
 from django_filters.rest_framework import DjangoFilterBackend
@@ -16,7 +17,7 @@ from .serializers import ToolSerializer, BorrowRequestSerializer
 '''For all tools & creation of new tools'''    
 class ToolListView(APIView):
     permission_classes = [IsAuthenticated] 
-
+    
     def get(self, request):
         filtered = ToolFilter(request.GET, queryset=Tool.objects.all())
         serializer = ToolSerializer(filtered.qs, many=True)
@@ -31,6 +32,14 @@ class ToolListView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_tools_exclude_user(request):
+    excluded_user_id = request.user.id
+    tools = Tool.objects.exclude(owner_id=excluded_user_id)
+    serializer = ToolSerializer(tools, many=True)
+    return Response(serializer.data)
 
 '''For a tool'''
 class ToolDetailView(APIView):
@@ -68,13 +77,18 @@ class ToolSignUpView(APIView):
             tool = Tool.objects.get(pk=tool_id)
         except Tool.DoesNotExist:
             return Response({"error": "Tool not found."}, status=404)
+        
+        rsvp_found = BorrowRequest.objects.filter(user_id=request.user.id, tool=tool)
+        
+        if rsvp_found.exists():
+            return Response({"message": "User has already signed up"}, status=status.HTTP_200_OK)
 
         signup = BorrowRequest.objects.create(
             user_id=str(request.user.id),
             tool=tool,
             start_date=request.data.get('start_date'),
             end_date=request.data.get('end_date'),
-            messages=request.data.get('messages', ''),
+            messages=request.data.get('messages'),
         )
 
         serializer = BorrowRequestSerializer(signup)
@@ -116,3 +130,11 @@ class ToolSignUpDetailView(APIView):
         signup = get_object_or_404(BorrowRequest, signup_id=signup_id)
         signup.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_tools(request):
+    tools = Tool.objects.filter(borrow_requests__user_id=request.user.id)
+
+    serializer = ToolSerializer(tools, many=True)
+    return Response(serializer.data)

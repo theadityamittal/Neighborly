@@ -9,7 +9,6 @@ def event_image_upload_path(instance, filename):
     return os.path.join("events/uploads/", filename)
 
 class Event(models.Model):
-    
     event_id = models.AutoField(primary_key=True)
     event_name = models.CharField(max_length=255)
     organizer_name = models.CharField(max_length=255)
@@ -27,7 +26,7 @@ class Event(models.Model):
 
 class EventSignUp(models.Model):
     signup_id = models.AutoField(primary_key=True)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="eventsignup")
     user_id = models.CharField(max_length=255)
     signed_at = models.DateTimeField(auto_now_add=True)
 

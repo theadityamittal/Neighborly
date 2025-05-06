@@ -13,6 +13,7 @@ from .permissions import IsStaffPermission, IsVerifiedPermission
 class RegisterUserView(APIView):
     permission_classes = [AllowAny]
     def post(self, request):
+        print(request.data)
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -23,11 +24,7 @@ class UpdateUserView(APIView):
     permission_classes = [IsAuthenticated, IsVerifiedPermission]
 
     def patch(self, request):
-        print(f"Update request received for user: {request.user.email}")
-        print(f"Request data: {request.data}")
-        
         user = get_object_or_404(CustomUser, email=request.user.email)
-        print(f"User found: {user.email}, ID: {user.id}")
         
         serializer = UserSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():

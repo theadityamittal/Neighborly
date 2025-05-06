@@ -9,9 +9,23 @@ import eventsData from "./eventsData.json";
 import { useNavigate } from "react-router";
 import SearchBar from "../../components/SearchBar";
 import AddIcon from '@mui/icons-material/Add';
+import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
+import axiosInstance from "../../utils/axiosInstance";
 import { EVENT_TAGS } from "../../assets/tags";
 
 const haversine = require('haversine-distance');
+
+const eventsTags = [
+  "Gardening",
+  "Construction",
+  "Household",
+  "Electronics",
+  "Sports",
+  "Camping",
+  "Photography",
+  "Art",
+  "Cooking"
+];
 
 const Modal = ({ event, onClose }) => {
   if (!event) return null;
@@ -40,6 +54,7 @@ const formatDate = (iso) =>
     month: "long", day: "numeric", year: "numeric"
   });
 
+
 const formatTime = (time) => {
   const [h, m] = time.split(":");
   const date = new Date();
@@ -56,6 +71,24 @@ const Events = () => {
   const { latitude, longitude } = useSelector((state) => state.auth);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
+
+  const handleClose = () => {
+    setSelectedEvent(null);
+  };
+
+  const handleSubmit = async (event_id) => {
+    try {
+      const response = await axiosInstance.post(`/events/signups/signup_event/`,{ event_id: event_id  }, {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      });
+      alert("Successfully registered for the event!");
+
+    } catch (error) {
+      console.error("Error signing up for event:", error);
+    }
+  }
 
   const fetchEvents = async () => {
     // ▶️ LOCAL MOCK: uncomment to use
@@ -148,7 +181,20 @@ const Events = () => {
           ))}
         </div>
       </div>
-      <Modal event={selectedEvent} onClose={() => setSelectedEvent(null)} />
+      {selectedEvent && (
+        <HorizontalCardModal
+          isOpen={!!selectedEvent}
+          toggleOffPrices={true}
+          toggleOffDates={true}
+          toggleOffRequest={true}
+          description={selectedEvent.description}
+          onClose={handleClose}
+          item={selectedEvent}
+          type="events"  // must match your API prefix if used
+          api_key=""
+          handleCustomAPICall={() => handleSubmit(selectedEvent.event_id)}
+        />
+      )}
     </div>
   );
 };

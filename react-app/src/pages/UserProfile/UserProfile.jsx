@@ -9,16 +9,9 @@ import UserProfileForm from "./UserProfileForm";
 import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
 import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
 import VerticalCard from "../../components/VerticalCard/VerticalCard";
-import petitionData from "../Petitions/petitionData.json";
 import "./UserProfile.css";
 import { getEventsByUser } from "../../services/eventService";
-
-// Images
-import yoga1 from "../../assets/img/yoga1.jpg";
-import cooking1 from "../../assets/img/cooking1.jpg";
-import tree1 from "../../assets/img/tree1.jpg";
-import pilates1 from "../../assets/img/pilates1.jpg";
-import marketing1 from "../../assets/img/marketing1.jpg";
+import axiosInstance from "../../utils/axiosInstance";
 
 const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -28,12 +21,169 @@ const UserProfile = () => {
   const {access, user_id } = useSelector((state) => state.auth);
 
   const [filters, setFilters] = useState({
+    myEvents: true,
     myPosts: true,
-    listedTools: true,
-    requestedServices: true,
-    hostedEvents: true,
-    signedPetitions: true,
+    myPetitions: true,
+    myServices: true,
+    myTools: true,
   });
+
+  const toolsWithdraw = async (signup_id, tool_id) => {
+    try {
+      const response = await axiosInstance.delete(`/tools/borrow/${signup_id}/`, {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      });
+      alert("Successfully withdrawn from the tools");
+
+      // Reload the page to reflect changes
+      setCardData(prev => ({
+        ...prev,
+        myTools: prev.myTools.filter(tool => tool.tool_id !== tool_id)
+      }));
+      
+    } catch (error) {
+      console.error("Error deleting borrow request:", error);
+    }
+  };
+
+  const eventsWithdraw = async (signup_id, event_id) => {
+    try {
+      const response = await axiosInstance.delete(`/events/signups/${signup_id}/`, {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      });
+      alert("Successfully withdrawn from the event");
+
+      // Reload the page to reflect changes
+      setCardData(prev => ({
+        ...prev,
+        myEvents: prev.myEvents.filter(event => event.event_id !== event_id)
+      }));
+    } catch (error) {
+      console.error("Error deleting borrow request:", error);
+    }
+  };
+
+  const servicesWithdraw = async (signup_id, service_id) => {
+    try {
+      const response = await axiosInstance.delete(`/services/signup/${signup_id}/`, {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      });
+      alert("Successfully withdrawn from the service");
+
+      // Reload the page to reflect changes
+      setCardData(prev => ({
+        ...prev,
+        myServices: prev.myServices.filter(service => service.service_id !== service_id)
+      }));
+      
+    } catch (error) {
+      console.error("Error deleting borrow request:", error);
+    }
+  };
+
+  const formatDate = (iso) =>
+    new Date(iso).toLocaleDateString(undefined, {
+      month: "long", day: "numeric", year: "numeric"
+    });
+  
+  const formatTime = (time) => {
+    const [h, m] = time.split(":");
+    const date = new Date();
+    date.setHours(h, m);
+    return date.toLocaleTimeString([], {
+      hour: "2-digit", minute: "2-digit"
+    });
+  };
+  
+
+  const [cardData, setCardData] = useState({
+    myEvents: [],
+    myPetitions: [],
+    myServices: [],
+    myTools: [],
+  });
+
+  useEffect(() => {
+
+    const getEvents = async () => {
+      try {
+        const response = await axiosInstance.get("/events/events/get_events/", {
+          headers: {
+            Authorization: `Bearer ${access}`,
+          },
+        });
+        setCardData(prev => ({
+          ...prev,
+          myEvents: response.data
+        }));
+        console.log(response.data)
+      } catch (error) {
+        console.error("Error getting events:", error);
+      }
+    }
+
+    const getTools = async () => {
+      try {
+        const response = await axiosInstance.get("/tools/get_tools/", {
+          headers: {
+            Authorization: `Bearer ${access}`,
+          },
+        });
+        setCardData(prev => ({
+          ...prev,
+          myTools: response.data
+        }));
+        console.log(response.data)
+      } catch (error) {
+        console.error("Error getting tools:", error);
+      }
+    }
+
+    const getServices = async () => {
+      try {
+        const response = await axiosInstance.get("/services/?user_services=true", {
+          headers: {
+            Authorization: `Bearer ${access}`,
+          },
+        });
+        setCardData(prev => ({
+          ...prev,
+          myServices: response.data
+        }));
+        console.log(response.data)
+      } catch (error) {
+        console.error("Error getting services:", error);
+      }
+    }
+    
+    const getPetitions = async () => {
+      try {
+        const response = await axiosInstance.get("/petitions/get_my_petitions/", {
+          headers: {
+            Authorization: `Bearer ${access}`,
+          },
+        });
+        setCardData(prev => ({
+          ...prev,
+          myPetitions: response.data
+        }));
+        console.log(response.data)
+      } catch (error) {
+        console.error("Error getting petitions:", error);
+      }
+    }
+
+    getEvents();
+    getTools();
+    getServices();
+    getPetitions();
+  }, []);
 
   useEffect(() => {
     const getEventsUser = async () => {
@@ -77,53 +227,6 @@ const UserProfile = () => {
 
   const formatLabel = (key) =>
     key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase());
-
-  const cardData = {
-    myPosts: [
-      {
-        id: "1",
-        title: "Neighborhood Cleanup",
-        provider: "Community Org",
-        location: "Bay Ridge, NY",
-        closestAvailability: "March 20, 2025",
-        image: yoga1,
-        tabs: ["Community", "Cleaning"],
-      },
-    ],
-    listedTools: [
-      {
-        id: "2",
-        title: "Hammer for Rent",
-        provider: "Tool Shed",
-        location: "Brooklyn, NY",
-        closestAvailability: "Available Now",
-        image: cooking1,
-        tabs: ["Tools", "DIY"],
-      },
-    ],
-    requestedServices: [
-      {
-        id: "3",
-        title: "Need Help Gardening",
-        provider: "Peter Smith",
-        location: "Bay Ridge, NY",
-        closestAvailability: "April 2, 2025",
-        image: tree1,
-        tabs: ["Gardening", "Request"],
-      },
-    ],
-    hostedEvents: [
-      {
-        id: "4",
-        title: "Game Night",
-        provider: "Peter Smith",
-        location: "Bay Ridge, NY",
-        closestAvailability: "April 10, 2025",
-        image: pilates1,
-        tabs: ["Events", "Games"],
-      },
-    ],
-  };
 
   return (
     <>
@@ -189,41 +292,83 @@ const UserProfile = () => {
           )}
 
           {/* Card Grid */}
-          <div className="bulletin-cards">
-            {Object.keys(filters).map(
-              (key) =>
-                filters[key] &&
-                cardData[key]?.map((card) => (
-                  <HorizontalCard
-                    key={card.id}
-                    title={card.title}
-                    provider={card.provider}
-                    location={card.location}
-                    closestAvailability={card.closestAvailability}
-                    image={card.image}
-                    tabs={card.tabs}
-                    onView={() => handleCardClick(card)}
-                  />
-                ))
-            )}
-
-            {/* Petition Cards (2 max) */}
-            {filters.signedPetitions &&
-              petitionData.slice(0, 2).map((petition) => (
+          {filters["myEvents"] && cardData["myEvents"].length > 0 ? <h2>Events</h2> :<></>}
+          {filters["myEvents"] && 
+            cardData["myEvents"]?.map((event) => (
+              <HorizontalCard
+                id={event.event_id}
+                title={event.event_name}
+                provider={event.organizer_name}
+                closestAvailability={`${formatDate(event.date)} at ${formatTime(event.time)}`}
+                image={event.image}
+                tabs={[...(event.tags || []), event.visibility]}
+                viewType="card"
+                changeButtonName="Unregister"
+                onView={() => eventsWithdraw(event.eventsignup[0].signup_id, event.event_id)}
+              />
+            ))
+          }
+          {filters["myTools"] && cardData["myTools"].length > 0 ? <h2>Tools</h2> :<></>}
+          {filters["myTools"] && 
+            cardData["myTools"]?.map((tool) => (
+              <HorizontalCard
+                key={tool.tool_id}
+                id={tool.tool_id}
+                title={tool.title}
+                description={tool.description}
+                location={tool.neighborhood}
+                price={tool.price}
+                tags={[tool.condition]}      
+                available={tool.available}
+                image={tool.images}
+                changeButtonName="Withdraw RSVP"                 
+                onView={() => toolsWithdraw(tool.borrow_requests[0].signup_id, tool.tool_id)}
+              />
+            ))
+          }
+          {filters["myServices"] && cardData["myServices"].length > 0 ? <h2>Services</h2> :<></>}
+          {filters["myServices"] && 
+            cardData["myServices"]?.map((service) => (
+              <HorizontalCard
+                key={service.service_id}
+                id={service.service_id}
+                title={service.title}
+                description={service.description}
+                location={service.location}
+                price={service.price}
+                available={service.available}
+                closestAvailability={service.closestAvailability}
+                tags={service.tags}
+                image={service.images}
+                changeButtonName="Withdraw RSVP"
+                onView={() => servicesWithdraw(service.servicesignup[0].signup_id, service.service_id)}
+              />
+            ))
+          }
+          {filters["myPetitions"] && cardData["myPetitions"].length > 0 ? <h2>Petitions</h2> :<></>}
+          {filters["myPetitions"] && 
+            cardData["myPetitions"]?.map((item) => (
+              <div key={item.id} style={{ 
+                width: 'calc(32%)',
+                minWidth: '350px',
+                marginBottom: '20px',
+              }}>
                 <VerticalCard
-                  key={petition.id}
-                  id={petition.id}
-                  title={petition.title}
-                  provider={petition.provider}
-                  location={petition.location}
-                  closestAvailability={petition.closestAvailability}
-                  image={petition.image}
-                  tabs={petition.tabs}
-                  numberSigned={petition.numberSigned}
-                  handleClick={() => handlePetitionClick(petition)}
+                  id={item.id}
+                  title={item.title}
+                  provider={item.provider}
+                  location={item.location}
+                  closestAvailability={item.closestAvailability}
+                  image={item.hero_image}
+                  viewType={item.viewType}
+                  tags={item.tags}
+                  numberSigned=""
+                  NoButton={true}
+                  handleClick={() => {}}
                 />
-              ))}
-          </div>
+              </div>
+            ))
+          }
 
           {/* Modal */}
           {modalOpen && selectedCard && (

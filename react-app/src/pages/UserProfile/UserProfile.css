@@ -9,7 +9,7 @@
 }
 
 .edit-profile-btn {
-  background-color: #6C5ED8;
+  background-color: #6C5ED8 !important;
   color: white;
   padding: 8px 16px;
   font-size: 14px;
@@ -113,10 +113,12 @@
 
 .filter-btn {
   text-transform: none;
+  border-color: #6C5ED8 !important;
+  color: #6C5ED8 !important;
 }
 
 .logout-btn-blue {
-  background-color: #1976d2;
+  background-color: #6C5ED8 !important;
   color: white;
   text-transform: none;
 }
