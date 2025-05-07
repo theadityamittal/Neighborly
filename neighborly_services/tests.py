@@ -271,3 +271,44 @@ class ServiceTests(APITestCase):
         self.assertEqual(results[0]["city"], "NY")
 
         print("\n√ test_filter_services_by_city_and_availability passed!")
+'''==============Get Services By User=============='''
+
+def test_get_services_by_user(self):
+        # Create two services for the user
+        service1 = ServiceItem.objects.create(
+            title="Neighborhood Cleanup",
+            description="Cleaning up the local park.",
+            service_provider=self.user_id,
+            location="Brooklyn",
+            available=True
+        )
+        service2 = ServiceItem.objects.create(
+            title="Pet Sitting",
+            description="Taking care of pets while the owner is away.",
+            service_provider=self.user_id,
+            location="Queens",
+            available=True
+        )
+
+        # Ensure that the services were created
+        self.assertEqual(ServiceItem.objects.count(), 2)
+
+        # Build URL to get services by the user
+        url = f"/services/user/{self.user_id}/"
+
+        # Send GET request to get services by the user
+        response = self.client.get(url)
+
+        # Assertions
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        # Check if the returned services match the ones created
+        services = response.data.get('services', [])
+        self.assertEqual(len(services), 2)
+        
+        # Check that the titles of the returned services are correct
+        titles = [service['title'] for service in services]
+        self.assertIn("Neighborhood Cleanup", titles)
+        self.assertIn("Pet Sitting", titles)
+
+        print("\n√ test_get_services_by_user passed!")
