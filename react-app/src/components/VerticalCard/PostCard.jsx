@@ -1,7 +1,7 @@
 import React from "react";
 import "./PostCard.css";
 
-const PostCard = ({ userName, dateTime, postContent, tags }) => {
+const PostCard = ({ userName, dateTime, postContent, tags, image }) => {
   const renderContent = () => {
     if (typeof postContent === "string") {
       return <p>{postContent}</p>; // Render string content
@@ -23,6 +23,16 @@ const PostCard = ({ userName, dateTime, postContent, tags }) => {
       {/* Post content */}
       <div className="post-card-body text-base text-gray-800">
         {renderContent()}
+        {image && (
+          <div className="max-w-xs mx-auto mt-2">
+            <img
+              src={image}
+              alt="Post visual"
+              className="h-20 w-20 object-cover rounded"
+              style={{ maxWidth: '300px', maxHeight: '300px', borderRadius: '8%' }}
+            />
+          </div>
+        )}
       </div>
 
       {/* Tags */}
