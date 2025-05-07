@@ -33,7 +33,7 @@ class BulletinItemListView(APIView):
         #files = request.FILES
         #data["user"] = request.user.id  # auto-assign creator
         data = request.data.copy()
-        data["user"] = request.user.id
+        data["user"] = request.user.user_id
 
         #serializer = BulletinItemSerializer(data=data)
         serializer = BulletinItemSerializer(data=data)
