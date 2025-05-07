@@ -8,6 +8,7 @@ import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardM
 import "./UserProfile.css";
 import { useNavigate } from "react-router";
 import EventCards from "../Events/EventCards";
+import BulletinCards from "../Bulletin/BulletinCards";
 
 const formatDate = (iso) =>
   new Date(iso).toLocaleDateString(undefined, {
@@ -54,30 +55,30 @@ const UserProfileTabs = () => {
   };
 
   const fetchUserPosts = async () => {
+    setLoading(true);
+
     try {
-      setLoading(true);
       const response = await axiosInstance.get(`/bulletin/user/${userId}/`, {
         headers: { Authorization: `Bearer ${access}` },
       });
       const sorted = [...response.data].sort(
         (a, b) => new Date(b.date_posted) - new Date(a.date_posted)
       );
+      console.log("Fetched posts:", response.data);
       const processed = sorted.map((post) => ({
-        id: post.post_id,
-        userName: post.user_name,
-        dateTime: new Date(post.date_posted).toLocaleString(),
-        postContent: post.content,
-        tags: post.tags,
-        image: post.image,
+        ...post,
+        date_posted: new Date(post.date_posted).toLocaleString(),
       }));
       setUserPosts(processed);
       setLoading(false);
     } catch (err) {
-      console.error("Error fetching user posts:", err);
-      setError("Failed to load your posts.");
+      console.error("Error fetching posts:", err);
+      setError("Could not load posts from server.");
+    } finally {
       setLoading(false);
     }
   };
+
 
   const fetchUserServices = async () => {
     try {
@@ -194,23 +195,13 @@ const UserProfileTabs = () => {
     {
       label: "My Posts",
       value: "myPosts",
+      content: <BulletinCards posts={userPosts} />
+    },
+    {
+      label: "Hosted Events",
+      value: "hostedEvents",
       content: (
-        <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
-          {userPosts.length === 0 ? (
-            <div>No posts available.</div>
-          ) : (
-            userPosts.map((post) => (
-              <PostCard
-                key={post.id}
-                userName={post.userName}
-                dateTime={post.dateTime}
-                postContent={post.postContent}
-                tags={post.tags}
-                image={post.image}
-              />
-            ))
-          )}
-        </div>
+        <EventCards eventCards={userEvents} handleCardClick={handleEditEvent}/>
       ),
     },
     {
@@ -233,13 +224,6 @@ const UserProfileTabs = () => {
           viewRouteBase="services"
           onView={(item) => setSelectedItem(item)}
         />
-      ),
-    },
-    {
-      label: "Hosted Events",
-      value: "hostedEvents",
-      content: (
-        <EventCards eventCards={userEvents} handleCardClick={handleEditEvent}/>
       ),
     },
     {
