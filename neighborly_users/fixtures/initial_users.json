@@ -1,67 +1,115 @@
 [
     {
-        "model": "neighborly_users.customuser",
-        "pk": 1,
-        "fields": {
+      "model": "neighborly_users.customuser",
+      "pk": 1,
+      "fields": {
         "user_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
         "name": "Alice Resident",
         "email": "alice.resident@example.com",
         "phone_number": "+15555550123",
         "address": "123 Maple St, Springfield",
+        "city": "Springfield",
         "neighborhood": "Downtown",
+        "zip_code": "12345",
+        "latitude": 39.781700,
+        "longitude": -89.650100,
         "account_type": "resident",
         "verified": false,
         "created_at": "2025-04-17T12:00:00Z",
         "password": "pbkdf2_sha256$600000$soDNyxoNsN70JFVU6kB6ya$clhgnxzWrddkjyJn25aIdyrnIbSHsKHjvrlLHI5wrHA="
-        }
+      }
     },
     {
-        "model": "neighborly_users.customuser",
-        "pk": 2,
-        "fields": {
+      "model": "neighborly_users.customuser",
+      "pk": 2,
+      "fields": {
         "user_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
         "name": "Aditya Mittal",
         "email": "aditya@gmail.com",
         "phone_number": "+15555550124",
-        "address": "456 Oak Ave, Springfield",
-        "neighborhood": "Uptown",
-        "account_type": "volunteer",
+        "address": "321 86th Street, Brooklyn, New York 11209, United States",
+        "city": "Brooklyn",
+        "neighborhood": "Bay Ridge",
+        "zip_code": "11209",
+        "latitude": 40.623574,
+        "longitude": -74.030338,
+        "account_type": "resident",
         "verified": true,
         "created_at": "2025-04-16T09:30:00Z",
         "password": "pbkdf2_sha256$600000$soDNyxoNsN70JFVU6kB6ya$clhgnxzWrddkjyJn25aIdyrnIbSHsKHjvrlLHI5wrHA="
-        }
+      }
     },
     {
-        "model": "neighborly_users.customuser",
-        "pk": 3,
-        "fields": {
+      "model": "neighborly_users.customuser",
+      "pk": 3,
+      "fields": {
         "user_id": "6cffc2dffe9247aba9c36f5ac89c59a5",
         "name": "Cathy Tsui",
         "email": "cathytest@gmail.com",
         "phone_number": "+1234567891",
         "address": "370 Jay St, Brooklyn",
+        "city": "Brooklyn",
         "neighborhood": "Downtown Brooklyn",
+        "zip_code": "11201",
+        "latitude": 40.695500,
+        "longitude": -73.986900,
         "account_type": "resident",
         "verified": true,
-        "created_at": "2025-04-21 19:56:23.635498",
+        "created_at": "2025-04-21T19:56:23.635498Z",
         "password": "pbkdf2_sha256$600000$y3RcdrGz9JMhFzLIWyrSo3$BbZnX4kXz+Sfowf1HyCouV6WYzPYdBRdSfj4ZhcWYUE="
-        }
+      }
     },
     {
-        "model": "neighborly_users.customuser",
-        "pk": 4,
-        "fields": {
+      "model": "neighborly_users.customuser",
+      "pk": 4,
+      "fields": {
         "user_id": "a3dcb4d5-6f39-4b9e-bf38-5f9cb87d2f63",
         "name": "John Doe",
         "email": "johndoe@gmail.com",
         "phone_number": "+15555550125",
         "address": "789 Pine St, Springfield",
+        "city": "Springfield",
         "neighborhood": "Midtown",
+        "zip_code": "12345",
+        "latitude": 39.781900,
+        "longitude": -89.650300,
         "account_type": "service_provider",
         "verified": true,
         "created_at": "2025-04-15T08:45:00Z",
         "password": "pbkdf2_sha256$600000$y3RcdrGz9JMhFzLIWyrSo3$BbZnX4kXz+Sfowf1HyCouV6WYzPYdBRdSfj4ZhcWYUE="
+      }
+    },
+    {
+        "model": "neighborly_users.customuser",
+        "pk": 5,
+        "fields": {
+        "user_id": "6b1c6bfc-3e2a-11ee-be56-0242ac120002",
+        "name": "Lakshmi",
+        "email": "ls6588@nyu.edu",
+        "phone_number": "+1234567890",
+        "address": "789 Pine St, Springfield",
+        "neighborhood": "Midtown",
+        "account_type": "resident",
+        "verified": true,
+        "created_at": "2025-04-15T08:45:00Z",
+        "password": "pbkdf2_sha256$600000$i2Db1Hk7iDWcUIieeXZ6mY$wu9Irivf/PH6OdcCy6bqkuKYnCaPpdxFkXoxTUGYQAA="
+        }
+    },
+    {
+        "model": "neighborly_users.customuser",
+        "pk": 6,
+        "fields": {
+        "user_id": "2ce7a1ae-26ec-11f0-b0c2-ca1deaa14517",
+        "name": "Sheetal",
+        "email": "sp7990@nyu.edu",
+        "phone_number": "+2345678901",
+        "address": "789 Pine St, Springfield",
+        "neighborhood": "Midtown",
+        "account_type": "resident",
+        "verified": true,
+        "created_at": "2025-04-15T08:45:00Z",
+        "password": "pbkdf2_sha256$600000$i2Db1Hk7iDWcUIieeXZ6mY$wu9Irivf/PH6OdcCy6bqkuKYnCaPpdxFkXoxTUGYQAA="
         }
     }
-]
+  ]
   

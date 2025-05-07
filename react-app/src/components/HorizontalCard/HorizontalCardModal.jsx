@@ -3,14 +3,19 @@ import "./HorizontalCardModal.css";
 import axiosInstance from "../../utils/axiosInstance"; 
 import CalendarPicker from "../CalendarPicker/CalendarPicker";
 
-const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key }) => {
+const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key, description="", toggleOffPrices=false, toggleOffDates=false, toggleOffRequest=false,  handleCustomAPICall= null }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [message, setMessage] = useState(null);
   const [price, setPrice] = useState(null);
+  const [gallery, setGallery] = useState([]);
 
   useEffect(() => {
     setPrice(item?.price || "");
+    setStartDate(item?.start_date || null);
+    setEndDate(item?.end_date || null);
+    setMessage(item?.message || "");
+    setGallery([].concat(item.images || item.image || []));
   }, [item]);
 
   if (!isOpen || !item) return null;
@@ -28,8 +33,8 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key }) => {
       alert("Invalid item or type.");
       return;
     }
-    const url = `${process.env.REACT_APP_BACKEND_URL}/api/${type}s/${itemId}/${api_key}/`;
-    // const url = `${process.env.REACT_APP_BACKEND_URL}/api/${type}s/${itemId}/signup/`;
+    const url = `${process.env.REACT_APP_BACKEND_URL}/${type}s/${itemId}/${api_key}/`;
+    // const url = `${process.env.REACT_APP_BACKEND_URL}/${type}s/${itemId}/signup/`;
     console.log("RSVP URL:", url);
   
     try {
@@ -62,10 +67,6 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key }) => {
     }
     };
 
-  // Use item.images if available; otherwise, fallback to a single image.
-  const galleryImages =
-    item.images && item.images.length ? item.images : [item.image];
-
   return (
     <div className="horizontal-modal-overlay" onClick={onClose}>
       <div className="horizontal-modal-content" onClick={(e) => e.stopPropagation()}>
@@ -83,13 +84,23 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key }) => {
                 ))}
             </div>
             )}
-
+          
         {/* Gallery Section */}
         <div className="modal-gallery">
+          {gallery.length >= 1 ? (
+            <img
+              src={gallery[0]}
+              alt={item.title}
+            />
+          ) : null}
+        </div>
+
+        {/* Gallery Section */}
+        {/* <div className="modal-gallery">
           {galleryImages.map((img, index) => (
             <img key={index} src={img} alt={`${item.title} ${index + 1}`} />
           ))}
-        </div>
+        </div> */}
         
         {/* Details Section */}
         <div className="modal-details">
@@ -99,16 +110,20 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key }) => {
             <span className="modal-location">
                 <span className="location-icon">📍</span> {item.location}
             </span>
+            {toggleOffPrices ? <></>:
             <span className="modal-price">
                 <span className="price-icon">💲</span> {item.price}
             </span>
+            }
             </div>
-          
+          {toggleOffDates ? <></>:
           <p className="modal-availability">
             <strong>Closest Availability:</strong> {item.closestAvailability}
           </p>
+          }          
           
           {/* Offer Price Field */}
+          {toggleOffPrices ? <></>:
           <label className="modal-field">
             <strong>Offer Price</strong><br />
             <input
@@ -119,8 +134,10 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key }) => {
               onChange={(e) => setPrice(e.target.value)}
             />
           </label>
+          }
           
           {/* Date Picker Row */}
+          {toggleOffDates ? <></>:
           <div className="date-picker-row">
             <div className="date-picker-column">
                 <strong>From</strong>
@@ -142,8 +159,10 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key }) => {
                 />
             </div>
             </div>
+          }
           
           {/* Request Message Field */}
+          {toggleOffRequest ? <></>:
           <label className="modal-field">
             <strong>Request Message</strong><br />
             <textarea
@@ -153,9 +172,19 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key }) => {
               onChange={(e) => setMessage(e.target.value)}
             />
           </label>
-          
-          <button onClick={handleRSVP} className="horizontal-modal-button">
-            RSVP
+          }
+          {description !== "" ? 
+          <label className="modal-field">
+            <strong>Description</strong>
+            <div style={{fontSize: 16}}>
+              {description}
+            </div>
+          </label>
+          :
+          <></>
+          }
+          <button onClick={handleCustomAPICall ? handleCustomAPICall : handleRSVP} className="horizontal-modal-button">
+            {handleCustomAPICall ? "Sign Up" : "RSVP" }
           </button>
           
         </div>

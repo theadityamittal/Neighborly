@@ -14,7 +14,7 @@ class ServiceItem(models.Model):
     service_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    service_provider = models.IntegerField()
+    service_provider = models.CharField(max_length=255)
     
     # Location related
     location = models.CharField(max_length=255)
@@ -40,7 +40,7 @@ class ServiceItem(models.Model):
 
 class ServiceSignUp(models.Model):
     signup_id = models.AutoField(primary_key=True)
-    service = models.ForeignKey(ServiceItem, on_delete=models.CASCADE)
+    service = models.ForeignKey(ServiceItem, on_delete=models.CASCADE, related_name="servicesignup")
     user_id = models.CharField(max_length=255,null=True, blank=True) #models.ForeignKey(User, on_delete=models.CASCADE) 
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)

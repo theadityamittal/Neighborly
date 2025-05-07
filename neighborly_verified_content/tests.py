@@ -23,6 +23,10 @@ class DocumentTests(APITestCase):
             "email": "steveharvey@example.com",
             "phone_number": "1234567890",
             "address": "123 Street, City",
+            "city": 'Test City',
+            "zip_code": "12345",
+            "latitude": 40.7128,
+            "longitude": -74.0060,
             "neighborhood": "Brooklyn",
             "account_type": "customer",
             "password": "password123",
@@ -32,6 +36,10 @@ class DocumentTests(APITestCase):
             name="Admin User",
             phone_number="9876543210",
             address="456 Admin Street, City",
+            city="Admin City",
+            zip_code="54321",
+            latitude=40.7128,
+            longitude=-74.0060,
             neighborhood="Manhattan",
             account_type="admin",
             password="adminpassword"
@@ -59,8 +67,8 @@ class DocumentTests(APITestCase):
         }, format='json')
 
         self.assertEqual(login_response.status_code, status.HTTP_200_OK)
-        self.assertIn("access_token", login_response.data)
-        return login_response.data["access_token"]
+        self.assertIn("access", login_response.data)
+        return login_response.data["access"]
 
     @override_settings(
         DEFAULT_FILE_STORAGE='storages.backends.s3boto3.S3Boto3Storage',
@@ -147,8 +155,8 @@ class DocumentTests(APITestCase):
             "password": "adminpassword"
         }, format='json')
         self.assertEqual(login_response.status_code, status.HTTP_200_OK)
-        self.assertIn("access_token", login_response.data)
-        token = login_response.data["access_token"]
+        self.assertIn("access", login_response.data)
+        token = login_response.data["access"]
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
 
         # staff user can update users account to approve (verified=True)
@@ -164,8 +172,8 @@ class DocumentTests(APITestCase):
         }, format='json')
 
         self.assertEqual(login_response.status_code, status.HTTP_200_OK)
-        self.assertIn("access_token", login_response.data)
-        token = login_response.data["access_token"]
+        self.assertIn("access", login_response.data)
+        token = login_response.data["access"]
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
 
         url = reverse('user_detail')

@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, action
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
@@ -48,6 +48,35 @@ def grab_petition_data(request, petition_id):
         "petition": petition_data,
         "petition_signatures": signature_data
     })
+# GET petitions by organizer ID
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def grab_petition_data_by_organizer(request, user_id):
+    # annotate each petition with its signature_count
+    petitions = Petition.objects.filter(organizer_id=user_id).annotate(
+        signature_count=Count('petitionsignature')
+    )
+    petition_data = PetitionSerializer(petitions, many=True).data
+
+    return Response({
+        "petitions": petition_data
+    })
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_petitions_not_users(request):
+    petitions = Petition.objects.filter(organizer_id=request.user.user_id)
+    serializer = PetitionSerializer(data=petitions, many=True)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_petition_data(request, petition_id):
+    petition = get_object_or_404(Petition, petition_id=petition_id)
+    serializer = PetitionSerializer(petition)
+    return Response(serializer.data)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -69,3 +98,11 @@ def sign_petition(request, petition_id):
 
     PetitionSignature.objects.create(petition=petition, user_id=user_id)
     return Response({"detail": "Petition signed successfully."})
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_petitions(request):
+    petitions = Petition.objects.filter(petitionsignature__user_id=request.user.id)
+
+    serializer = PetitionSerializer(petitions, many=True)
+    return Response(serializer.data)

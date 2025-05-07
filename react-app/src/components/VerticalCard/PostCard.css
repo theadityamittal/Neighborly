@@ -7,9 +7,17 @@
     margin-bottom: 24px;
   }
   
-  .post-card-content-wrapper img {
+  /* .post-card-content-wrapper img {
     width: 100%;
     height: auto;
+    border-radius: 10px;
+    margin-top: 10px;
+  } */
+
+  .post-card-content-wrapper img {
+    width: 50%;
+    height: auto;
+    object-fit: cover;
     border-radius: 10px;
     margin-top: 10px;
   }
@@ -24,6 +32,7 @@
     padding: 4px 12px;
     border-radius: 9999px;
     margin-top: 10px;
+    margin: 2px;
   }
   .post-card-header {
     display: flex;

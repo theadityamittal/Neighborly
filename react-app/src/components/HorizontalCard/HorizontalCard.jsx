@@ -11,6 +11,7 @@ function HorizontalCard({
   tabs,
   viewType,
   onView, // this is passed from CardTest to trigger showing VerticalCard
+  changeButtonName = "View",
 }) {
   const handleClick = () => {
     console.log(`You clicked on card ID: ${id}`);
@@ -46,7 +47,7 @@ function HorizontalCard({
 
         {/* View Button */}
         <div className="button-container">
-          <Button onClick={handleClick} text="View" />
+          <Button onClick={handleClick} text={changeButtonName} />
         </div>
       </div>
     </div>

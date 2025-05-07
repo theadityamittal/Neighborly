@@ -7,19 +7,9 @@ import "./Services.css";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../../components/SearchBar";
 import AddIcon from '@mui/icons-material/Add';
+import { SERVICE_TAGS } from "../../assets/tags";
 
-const serviceTags = [
- "Adventure",
- "Yoga",
- "Fitness",
- "Pilates",
- "Marketing",
- "Business",
- "Photography",
- "Art",
-  "Cooking",
-  "Food"
-];
+const haversine = require('haversine-distance')
 
 const Services = () => {
   const [services, setServices] = useState([]);
@@ -28,6 +18,7 @@ const Services = () => {
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const { access } = useSelector((state) => state.auth);
+  const { latitude, longitude } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   const fetchServices = async () => {
@@ -41,6 +32,8 @@ const Services = () => {
       console.log(res);
       console.log("hellO?????");
       setServices(res.data);
+      console.log("Fetched services:", res.data);
+
     } catch (err) {
       console.error("Failed to fetch services:", err);
       setError("Could not load services.");
@@ -63,16 +56,25 @@ const Services = () => {
   };
 
   const filterServices = (searchTerm, {tags, radius}) => {
-    console.log(services);
-    console.log(searchTerm);
-    console.log(tags);
-    console.log(radius);
-    
-
     const filteredServices = services.filter((service) => {
       const titleMatch = service.title.toLowerCase().includes(searchTerm.toLowerCase());
       const tagsMatch = tags.length === 0 || service?.tags.some(tag => tags.includes(tag));
-      return titleMatch && tagsMatch;
+
+      const serviceLocation = {
+        latitude: service.latitude,
+        longitude: service.longitude
+      };
+
+      const userLocation = {
+        latitude: latitude,
+        longitude: longitude
+      };
+      
+      const distance = haversine(serviceLocation, userLocation) / 1000;
+
+      const withinRadius = radius === 0 || distance <= radius;
+
+      return titleMatch && tagsMatch && withinRadius;
     })
 
     setServices(filteredServices);
@@ -99,7 +101,7 @@ const Services = () => {
   return (
     <div>
       <div className="service-header">
-        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterServices} resetFilter={resetServices} tagOptions={serviceTags}/>
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterServices} resetFilter={resetServices} tagOptions={SERVICE_TAGS}/>
         <div className="service-header-btn" onClick={() => navigate("/create-service")}>
           <AddIcon fontSize="large"/>
         </div>
@@ -122,7 +124,7 @@ const Services = () => {
             available={service.available}
             closestAvailability={service.closestAvailability}
             tags={service.tags}
-            image={service.images?.[0]}
+            image={service.images}
             onView={() => handleView(service.service_id)}
           />
         )) :

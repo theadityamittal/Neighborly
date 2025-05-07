@@ -1,7 +1,6 @@
 import React from "react";
 import './styles.css'; // You'll need to create this CSS file
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // Assuming you're using Material UI
 import axiosInstance from "../../../utils/axiosInstance";
@@ -38,6 +37,7 @@ const DetailedPetition = () => {
         ...prev,
         numberSigned: petition_signatures.length
       }));
+      alert("Successfully registered for the petition!");
     } catch (err) {
       console.error("Error signing petition:", err);
       alert("Failed to sign petition.");
@@ -126,7 +126,7 @@ const DetailedPetition = () => {
   return (
     <div className="detailed-petition-container">
       <div className="petition-header">
-        <button className="back-button" onClick={() => navigate("/petitions")}>
+        <button className="back-button" onClick={() => window.history.back()}>
           <ArrowBackIcon /> Back
         </button>
         <div className="petition-tags">

@@ -17,6 +17,10 @@ class ServiceTests(APITestCase):
             "email": "steveharvey@example.com",
             "phone_number": "1234567890",
             "address": "123 Street, City",
+            "city": 'Test City',
+            "zip_code": "12345",
+            "latitude": 40.7128,
+            "longitude": -74.0060,
             "neighborhood": "Brooklyn",
             "account_type": "customer",
             "password": "password123"
@@ -24,7 +28,8 @@ class ServiceTests(APITestCase):
 
         self.token = self.authenticate_user()
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.token}")
-        self.user_id = User.objects.get(email=self.user_data["email"]).id
+        self.user_id = User.objects.get(email=self.user_data["email"]).user_id
+        self.id = User.objects.get(email=self.user_data["email"]).id
 
     def authenticate_user(self):
         register_response = self.client.post(self.register_url, self.user_data, format='json')
@@ -36,8 +41,8 @@ class ServiceTests(APITestCase):
         }, format='json')
 
         self.assertEqual(login_response.status_code, status.HTTP_200_OK)
-        self.assertIn("access_token", login_response.data)
-        return login_response.data["access_token"]
+        self.assertIn("access", login_response.data)
+        return login_response.data["access"]
 
     '''==============Creation of service=============='''
     def test_user_can_create_service_item(self):
@@ -48,7 +53,7 @@ class ServiceTests(APITestCase):
             "available": True
         }
 
-        url = "/api/services/"
+        url = "/services/"
         response = self.client.post(url, data=payload, format="json")
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -57,7 +62,7 @@ class ServiceTests(APITestCase):
         service = ServiceItem.objects.first()
         self.assertEqual(service.title, "Pet Sitting")
         self.assertEqual(service.location, "Queens")
-        self.assertEqual(service.service_provider, self.user_id)
+        self.assertEqual(service.service_provider, str(self.id))
 
         print("\n√ test_user_can_create_service_item passed!")
 
@@ -74,7 +79,7 @@ class ServiceTests(APITestCase):
         service.save()
 
         # Use the GET API to fetch the service and verify it's accessible
-        get_url = f"/api/services/{service.service_id}/"
+        get_url = f"/services/{service.service_id}/"
         get_response = self.client.get(get_url)
 
         # Assert the service is returned correctly from the API
@@ -84,7 +89,7 @@ class ServiceTests(APITestCase):
         print("\n√ create service passed!")
 
         # Build signup URL
-        signup_url = f"/api/services/{service.service_id}/signup/"
+        signup_url = f"/services/{service.service_id}/signup/"
 
         # Prepare signup data
         signup_data = {
@@ -131,7 +136,7 @@ class ServiceTests(APITestCase):
         )
 
         # Build PATCH URL
-        patch_url = f"/api/services/signup/{signup.signup_id}/"
+        patch_url = f"/services/signup/{signup.signup_id}/"
 
         # Send PATCH
         response = self.client.patch(
@@ -171,7 +176,7 @@ class ServiceTests(APITestCase):
         )
 
         # Send PATCH request to accept the signup
-        patch_url = f"/api/services/signup/{signup.signup_id}/"
+        patch_url = f"/services/signup/{signup.signup_id}/"
         response = self.client.patch(patch_url, data={"status": "accepted"}, format="json")
 
         # Assertions
@@ -203,7 +208,7 @@ class ServiceTests(APITestCase):
             available=True
         )
 
-        url = f"/api/services/{service.service_id}/"
+        url = f"/services/{service.service_id}/"
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -213,7 +218,7 @@ class ServiceTests(APITestCase):
 
     '''==============Get Service Details - invalid case=============='''
     def test_get_invalid_service_returns_404(self):
-        url = "/api/services/invalid-id/"
+        url = "/services/invalid-id/"
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -222,7 +227,7 @@ class ServiceTests(APITestCase):
     '''==============Get Service Details - invalid case=============='''
     def test_get_service_requires_authentication(self):
         self.client.credentials()  # clear credentials
-        response = self.client.get("/api/services/")
+        response = self.client.get("/services/")
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         print("\n√ test_get_service_requires_authentication passed!")
     
@@ -256,7 +261,7 @@ class ServiceTests(APITestCase):
         )
 
         # Filter by city=New York & available=true
-        response = self.client.get("/api/services/?city=NY&title=Yoga")
+        response = self.client.get("/services/?city=NY&title=Yoga")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # Should return only the Yoga Class
@@ -266,3 +271,44 @@ class ServiceTests(APITestCase):
         self.assertEqual(results[0]["city"], "NY")
 
         print("\n√ test_filter_services_by_city_and_availability passed!")
+'''==============Get Services By User=============='''
+
+def test_get_services_by_user(self):
+        # Create two services for the user
+        service1 = ServiceItem.objects.create(
+            title="Neighborhood Cleanup",
+            description="Cleaning up the local park.",
+            service_provider=self.user_id,
+            location="Brooklyn",
+            available=True
+        )
+        service2 = ServiceItem.objects.create(
+            title="Pet Sitting",
+            description="Taking care of pets while the owner is away.",
+            service_provider=self.user_id,
+            location="Queens",
+            available=True
+        )
+
+        # Ensure that the services were created
+        self.assertEqual(ServiceItem.objects.count(), 2)
+
+        # Build URL to get services by the user
+        url = f"/services/user/{self.user_id}/"
+
+        # Send GET request to get services by the user
+        response = self.client.get(url)
+
+        # Assertions
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        # Check if the returned services match the ones created
+        services = response.data.get('services', [])
+        self.assertEqual(len(services), 2)
+        
+        # Check that the titles of the returned services are correct
+        titles = [service['title'] for service in services]
+        self.assertIn("Neighborhood Cleanup", titles)
+        self.assertIn("Pet Sitting", titles)
+
+        print("\n√ test_get_services_by_user passed!")

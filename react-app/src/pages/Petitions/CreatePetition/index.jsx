@@ -13,20 +13,12 @@ import {
   ListItemText,
 } from "@mui/material";
 import "../petitions.css";
-
-const tagOptions = [
-  "Environment",
-  "Community",
-  "Public Safety",
-  "Infrastructure",
-  "Parks & Recreation",
-  "Transportation",
-  "Education",
-];
+import { PETITION_TAGS } from "../../../assets/tags";
 
 const CreatePetition = ({ setNewPetition, refreshPetitions }) => {
   const [submitError, setSubmitError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
+  const [image, setImage] = useState(null);
   const navigate = useNavigate();
   const { access, user_id, name } = useSelector((state) => state.auth);
 
@@ -37,7 +29,6 @@ const CreatePetition = ({ setNewPetition, refreshPetitions }) => {
     voting_ends_at: "",
     target_signatures: "",
     description: "",
-    hero_image: "",
   });
 
   const handleChange = (e) => {
@@ -66,15 +57,13 @@ const CreatePetition = ({ setNewPetition, refreshPetitions }) => {
         voting_ends_at: formData.voting_ends_at,
         target: parseInt(formData.target_signatures, 10),
         tags: formData.tags,
-        hero_image:
-          formData.hero_image ||
-          "https://source.unsplash.com/featured/?nature,protest",
+        hero_image: image,
       };
 
       await axiosInstance.post("/petitions/createPetition/", payload, {
         headers: {
           Authorization: `Bearer ${access}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'multipart/form-data'
         },
       });
 
@@ -92,7 +81,7 @@ const CreatePetition = ({ setNewPetition, refreshPetitions }) => {
       });
 
       setTimeout(() => {
-        setNewPetition(false);
+        // setNewPetition(false);
       }, 2000);
     } catch (err) {
       console.error("Error creating petition:", err.response?.data || err.message);
@@ -143,7 +132,7 @@ const CreatePetition = ({ setNewPetition, refreshPetitions }) => {
             onChange={handleTagChange}
             renderValue={(selected) => selected.join(", ")}
           >
-            {tagOptions.map((tag) => (
+            {PETITION_TAGS.map((tag) => (
               <MenuItem key={tag} value={tag}>
                 <Checkbox checked={formData.tags.includes(tag)} />
                 <ListItemText primary={tag} />
@@ -180,13 +169,12 @@ const CreatePetition = ({ setNewPetition, refreshPetitions }) => {
           placeholder="Enter the detailed description of your petition..."
         />
 
-        <label className="input-label">Hero Image URL</label>
+        <label className="input-label">Image Upload</label>
         <input
           className="input"
-          name="hero_image"
-          value={formData.hero_image}
-          onChange={handleChange}
-          placeholder="Hero Image URL"
+          type="file"
+          accept="image/*"
+          onChange={(e) => setImage(e.target.files[0])}
         />
 
         <button className="submit-btn" onClick={handleSubmit}>

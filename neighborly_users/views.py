@@ -13,6 +13,7 @@ from .permissions import IsStaffPermission, IsVerifiedPermission
 class RegisterUserView(APIView):
     permission_classes = [AllowAny]
     def post(self, request):
+        print(request.data)
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -24,11 +25,16 @@ class UpdateUserView(APIView):
 
     def patch(self, request):
         user = get_object_or_404(CustomUser, email=request.user.email)
+        
         serializer = UserSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():
+            print(f"Serializer valid. Updated fields: {serializer.validated_data}")
             serializer.save()
+            print(f"User updated successfully: {user.email}")
             return Response({"message": "User updated successfully"}, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  
+        else:
+            print(f"Serializer validation failed. Errors: {serializer.errors}")
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserDetailView(APIView):
     permission_classes = [IsAuthenticated]
@@ -42,8 +48,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
         return {
-            'access_token': data['access'],
-            'refresh_token': data['refresh']
+            'access': data['access'],
+            'refresh': data['refresh']
         }
 
 class CustomTokenObtainPairView(TokenObtainPairView):

@@ -2,6 +2,8 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import action
+from rest_framework.decorators import api_view, permission_classes
 
 #for api filtering
 from django_filters.rest_framework import DjangoFilterBackend
@@ -12,7 +14,6 @@ from django.shortcuts import get_object_or_404
 from .models import ServiceItem, ServiceSignUp
 
 from .serializers import ServiceItemSerializer, ServiceSignupSerializer, ServiceItemDetailSerializer
-# from utils.availability import get_earliest_availability
 
 # Geolocation
 from utils.geolocation import geocode_location
@@ -22,6 +23,13 @@ class ServiceItemListView(APIView):
     permission_classes = [IsAuthenticated] 
 
     def get(self, request):
+        if request.query_params.get("user_services"):
+            # Handle `/api/services/?user_services=true`
+            services = ServiceItem.objects.filter(servicesignup__user_id=request.user.id)
+            serializer = ServiceItemSerializer(services, many=True)
+            return Response(serializer.data)
+
+        # Default filtered list
         filtered = ServiceItemFilter(request.GET, queryset=ServiceItem.objects.all())
         serializer = ServiceItemSerializer(filtered.qs, many=True)
         return Response(serializer.data)
@@ -105,7 +113,8 @@ class ServiceSignUpDetailView(APIView):
         service = signup.service
 
         # Enforce only the service provider can approve/reject
-        if service.service_provider != request.user.id:
+        if service.service_provider != str(request.user.user_id):
+            print('broke here?')
             return Response({"error": "Unauthorized."}, status=status.HTTP_403_FORBIDDEN)
 
         # Just update status — do not modify unavailable dates
@@ -120,4 +129,10 @@ class ServiceSignUpDetailView(APIView):
         signup = get_object_or_404(ServiceSignUp, signup_id=signup_id)
         signup.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_services_by_user(request, user_id):
+    services = ServiceItem.objects.filter(service_provider=user_id)
+    serialized = ServiceItemSerializer(services, many=True)
+    return Response({"services": serialized.data})
 

@@ -63,7 +63,7 @@ export const checkAuthState = () => async (dispatch) => {
   
   try {
     // Validate the token with your backend
-    const response = await fetch('/api/auth/validate-token', {
+    const response = await fetch('/auth/validate-token', {
       headers: {
         'Authorization': `Bearer ${token}`
       }

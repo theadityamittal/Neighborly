@@ -9,6 +9,23 @@ import eventsData from "./eventsData.json";
 import { useNavigate } from "react-router";
 import SearchBar from "../../components/SearchBar";
 import AddIcon from '@mui/icons-material/Add';
+import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
+import axiosInstance from "../../utils/axiosInstance";
+import { EVENT_TAGS } from "../../assets/tags";
+
+const haversine = require('haversine-distance');
+
+const eventsTags = [
+  "Gardening",
+  "Construction",
+  "Household",
+  "Electronics",
+  "Sports",
+  "Camping",
+  "Photography",
+  "Art",
+  "Cooking"
+];
 
 const Modal = ({ event, onClose }) => {
   if (!event) return null;
@@ -37,6 +54,7 @@ const formatDate = (iso) =>
     month: "long", day: "numeric", year: "numeric"
   });
 
+
 const formatTime = (time) => {
   const [h, m] = time.split(":");
   const date = new Date();
@@ -50,8 +68,27 @@ const Events = () => {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const { access, user_id } = useSelector((state) => state.auth);
+  const { latitude, longitude } = useSelector((state) => state.auth);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
+
+  const handleClose = () => {
+    setSelectedEvent(null);
+  };
+
+  const handleSubmit = async (event_id) => {
+    try {
+      const response = await axiosInstance.post(`/events/signups/signup_event/`,{ event_id: event_id  }, {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      });
+      alert("Successfully registered for the event!");
+
+    } catch (error) {
+      console.error("Error signing up for event:", error);
+    }
+  }
 
   const fetchEvents = async () => {
     // ▶️ LOCAL MOCK: uncomment to use
@@ -61,6 +98,7 @@ const Events = () => {
     try {
       const response = await getEventsByUser({ organizer_id: user_id }, access);
       setEvents(response.data);
+      console.log("Fetched events:", response.data);
     } catch (err) {
       console.error(err);
       // fallback to local data
@@ -72,12 +110,28 @@ const Events = () => {
     fetchEvents();
   }, [access, user_id]);
 
-  const filterEvents = (searchTerm) => {
+  // Filter events based on search term and tags and radius
+  const filterEvents = (searchTerm, {tags, radius}) => {
     const filteredEvents = events.filter((event) => {
       const titleMatch = event.event_name.toLowerCase().includes(searchTerm.toLowerCase());
-      return titleMatch;
-    })
+      const tagsMatch = tags.length === 0 || event?.tags.some(t => tags.includes(t));
 
+      const eventLocation = {
+        latitude: event.latitude,
+        longitude: event.longitude
+      };
+
+      const userLocation = {
+        latitude: latitude,
+        longitude: longitude
+      };
+      
+      const distance = haversine(eventLocation, userLocation) / 1000;
+
+      const withinRadius = radius === 0 || distance <= radius;
+
+      return titleMatch && tagsMatch && withinRadius;
+    })
     setEvents(filteredEvents);
   }
 
@@ -90,7 +144,7 @@ const Events = () => {
     <div className="events-page">
       <div>
         <div className="events-header">
-          <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterEvents} resetFilter={resetEvents}/>
+          <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterEvents} resetFilter={resetEvents} tagOptions={EVENT_TAGS}/>
           <div className="events-header-btn" onClick={() => navigate("/create-event")}>
             <AddIcon fontSize="large"/>
           </div>
@@ -127,7 +181,20 @@ const Events = () => {
           ))}
         </div>
       </div>
-      <Modal event={selectedEvent} onClose={() => setSelectedEvent(null)} />
+      {selectedEvent && (
+        <HorizontalCardModal
+          isOpen={!!selectedEvent}
+          toggleOffPrices={true}
+          toggleOffDates={true}
+          toggleOffRequest={true}
+          description={selectedEvent.description}
+          onClose={handleClose}
+          item={selectedEvent}
+          type="events"  // must match your API prefix if used
+          api_key=""
+          handleCustomAPICall={() => handleSubmit(selectedEvent.event_id)}
+        />
+      )}
     </div>
   );
 };

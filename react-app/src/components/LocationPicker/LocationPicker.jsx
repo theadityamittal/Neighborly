@@ -24,10 +24,20 @@ const LocationPicker = ({ onLocationChange }) => {
       console.log("📍 Reverse result:", data); // Add this line
   
       if (data.features && data.features.length > 0) {
-        const place = data.features[0].place_name;
-        console.log("📌 Place found:", place); // Add this line
-        setLocationName(place);
-        onLocationChange({ latitude: lat, longitude: lng, locationName: place });
+        const address = data.features[0].place_name || '';
+        const neighborhood = data.features[1].place_name || '';
+        const zipCode = data.features[2].text || '';
+        const city = data.features[3].text || '';
+        console.log("📌 Address found:", address); // Add this line
+        setLocationName(address);
+        onLocationChange({ 
+          latitude: lat, 
+          longitude: lng, 
+          locationName: address,
+          neighborhood: neighborhood,
+          zipCode: zipCode,
+          city: city,
+        });
       } else {
         setLocationName('');
         onLocationChange({ latitude: lat, longitude: lng, locationName: '' });
@@ -37,6 +47,7 @@ const LocationPicker = ({ onLocationChange }) => {
       setLocationName('');
     }
   };
+
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
@@ -93,7 +104,6 @@ const LocationPicker = ({ onLocationChange }) => {
       <p style={{ marginTop: '10px' }}>
         <strong>Selected location:</strong><br />
         {locationName && <span>{locationName}<br /></span>}
-        {lat.toFixed(5)}, {lng.toFixed(5)}
       </p>
     </div>
   );

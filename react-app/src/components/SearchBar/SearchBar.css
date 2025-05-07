@@ -1,5 +1,5 @@
 .search-bar-container {
-    width: calc(100% - 20px);
+    width: 90%;
     height: max-content;
     display: flex;
     justify-content: space-between;
@@ -9,6 +9,7 @@
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1;
 }
 
 .search-bar {
@@ -40,7 +41,7 @@
     color: #fff;
     border: none;
     padding: 14px 20px;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     border-radius: 8px;
     cursor: pointer;
@@ -48,9 +49,7 @@
 }
 
 .search-bar-buttons{
-    width: calc(15%);
     display: flex;
-    align-items: center;
     justify-content: space-between;
     gap: 10px;
 }
@@ -62,7 +61,7 @@
     color: #fff;
     border: none;
     padding: 14px 20px;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     border-radius: 8px;
     cursor: pointer;
