@@ -8,19 +8,28 @@ def petition_image_upload_path(instance, filename):
     return os.path.join("petitions/uploads/", filename)
 
 class Petition(models.Model):
-
     petition_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
     organizer_id = models.CharField(max_length=255)
-    visibility = models.BooleanField(default=True)
+    provider = models.CharField(max_length=100, default="Anonymous")
+
+    # Location related
+    location = models.CharField(max_length=255)
+    street_address = models.CharField(max_length=255, blank=True, null=True)
+    city = models.CharField(max_length=100, blank=True, null=True)
+    zip_code = models.CharField(max_length=20, blank=True, null=True)
+    neighborhood = models.CharField(max_length=100, blank=True, null=True)
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
+
+    visibility = models.CharField(max_length=10, default='public')
     tags = models.JSONField(default=list, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     target = models.IntegerField()
-    location = models.CharField(max_length=100, default="Unknown")
-    provider = models.CharField(max_length=100, default="Anonymous")
     voting_ends_at = models.DateField(null=True, blank=True)
     hero_image = models.ImageField(upload_to=petition_image_upload_path, null=True, blank=True)
+
     def __str__(self):
         return self.title
 

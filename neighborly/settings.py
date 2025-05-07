@@ -67,6 +67,11 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',  # Make sure this is not global if you want to allow public routes like registration
     ),
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',       # for standard forms
+        'rest_framework.parsers.MultiPartParser',  # for file uploads
+    ],
 }
 
 MIDDLEWARE = [

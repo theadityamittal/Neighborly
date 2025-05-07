@@ -1,10 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes, action
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.decorators import api_view, permission_classes, parser_classes
 
 from .models import Petition, PetitionSignature
 from .serializers import PetitionSerializer, PetitionSignatureSerializer
@@ -79,6 +80,8 @@ def get_petition_data(request, petition_id):
     return Response(serializer.data)
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
+@parser_classes([MultiPartParser, FormParser])
 @permission_classes([IsAuthenticated])
 def create_petition(request):
     serializer = PetitionSerializer(data=request.data)
