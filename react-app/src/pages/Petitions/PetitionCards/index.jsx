@@ -2,13 +2,13 @@ import React from "react";
 import VerticalCard from "../../../components/VerticalCard/VerticalCard";
 import { useNavigate } from "react-router";
 
-const PetitionCards = ({ petitions }) => {
+const PetitionCards = ({ petitions, handleCardClick }) => {
     const navigate = useNavigate();
 
-    const viewPetition = (id) => {
-      console.log(`Card with ID ${id} clicked`);
+    const viewPetition = (petition_id) => {
+      console.log(`Card with ID ${petition_id} clicked`);
       // Navigate to the detailed petition page
-      navigate(`/petition/${id}`);
+      navigate(`/petition/${petition_id}`);
     };
 
     return (
@@ -24,22 +24,27 @@ const PetitionCards = ({ petitions }) => {
           </div>
         :
           petitions.map((item) => (
-            <div key={item.id} style={{ 
+            <div key={item.petition_id} style={{ 
               width: 'calc(32%)',
               minWidth: '350px',
               marginBottom: '20px',
             }}>
               <VerticalCard
-                id={item.id}
+                id={item.petition_id}
                 title={item.title}
+                description={item.description}
                 provider={item.provider}
                 location={item.location}
-                closestAvailability={item.closestAvailability}
-                image={item.image}
-                viewType={item.viewType}
+                image={item.hero_image}
                 tags={item.tags}
-                numberSigned={item.numberSigned}
-                handleClick={() => viewPetition(item.id)}
+                numberSigned={item.signature_count}
+                handleClick={() => {
+                  if (handleCardClick) {
+                    handleCardClick(item);
+                  } else {
+                    viewPetition(item.petition_id);
+                  }
+                }}
               />
             </div>
           ))

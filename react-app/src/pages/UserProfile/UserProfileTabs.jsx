@@ -10,6 +10,7 @@ import { useNavigate } from "react-router";
 import EventCards from "../Events/EventCards";
 import BulletinCards from "../Bulletin/BulletinCards";
 import ToolCards from "../Tools/ToolCards";
+import ServiceCards from "../Services/ServiceCards";
 
 const formatDate = (iso) =>
   new Date(iso).toLocaleDateString(undefined, {
@@ -30,7 +31,7 @@ const formatTime = (time) => {
 
 const UserProfileTabs = () => {
   const navigate = useNavigate()
-  const [selectedTab, setSelectedTab] = useState("myPosts");
+  const [selectedTab, setSelectedTab] = useState("posts");
   const { access } = useSelector((state) => state.auth);
   const { user_id: userId } = useSelector((state) => state.auth);
   const [error, setError] = useState(null);
@@ -53,6 +54,12 @@ const UserProfileTabs = () => {
     console.log(`Card with ID ${event.event_id} clicked`);
     // Navigate to the detailed petition page
     navigate(`/event/${event.event_id}`);
+  };
+
+  const handleEditPetition = (petition) => {
+    console.log(`Card with ID ${petition.petition_id} clicked`);
+    // Navigate to the detailed petition page
+    navigate(`/petition/user/${petition.petition_id}`);
   };
 
   const fetchUserPosts = async () => {
@@ -160,15 +167,9 @@ const UserProfileTabs = () => {
         }
       );
       const data = response.data;
-      const processed = data.petitions.map((pet) => ({
-        id: pet.petition_id,
-        title: pet.title,
-        provider: pet.provider,
-        location: pet.location,
-        tags: pet.tags,
-        numberSigned: pet.signature_count,
-        image: pet.hero_image,
-      }));
+      console.log("Fetched petitions:", data);
+      const processed = data.petitions
+      console.log("Processed petitions:", processed);
       setUserPetitions(processed);
       setLoading(false);
     } catch (err) {
@@ -179,58 +180,52 @@ const UserProfileTabs = () => {
   };
 
   useEffect(() => {
-    if (selectedTab === "myPosts") fetchUserPosts();
-    else if (selectedTab === "listedTools") fetchUserTools();
-    else if (selectedTab === "createdServices") fetchUserServices();
-    else if (selectedTab === "hostedEvents") fetchUserEvents();
-    else if (selectedTab === "openedPetitions") fetchUserPetitions();
+    if (selectedTab === "posts") fetchUserPosts();
+    else if (selectedTab === "tools") fetchUserTools();
+    else if (selectedTab === "services") fetchUserServices();
+    else if (selectedTab === "events") fetchUserEvents();
+    else if (selectedTab === "petitions") fetchUserPetitions();
   }, [selectedTab]);
 
   const tabs = [
     {
       label: "My Posts",
-      value: "myPosts",
+      value: "posts",
       content: <BulletinCards posts={userPosts} />
     },
     {
       label: "Hosted Events",
-      value: "hostedEvents",
+      value: "events",
       content: <EventCards eventCards={userEvents} handleCardClick={handleEditEvent}/>
     },
     {
       label: "Listed Tools",
-      value: "listedTools",
+      value: "tools",
       content: <ToolCards tools={userTools} />,
     },
     {
       label: "Created Services",
-      value: "createdServices",
-      content: (
-        <HorizontalCardList
-          items={userServices}
-          viewRouteBase="services"
-          onView={(item) => setSelectedItem(item)}
-        />
-      ),
+      value: "services",
+      content: <ServiceCards services={userServices} />,
     },
     {
       label: "Opened Petitions",
-      value: "openedPetitions",
-      content: <PetitionCards petitions={userPetitions} />,
+      value: "petitions",
+      content: <PetitionCards petitions={userPetitions} handleCardClick={handleEditPetition}/>,
     },
   ];
 
   const modalType =
-    selectedTab === "listedTools"
+    selectedTab === "tools"
       ? "tool"
-      : selectedTab === "createdServices"
+      : selectedTab === "services"
       ? "service"
       : "event";
 
   const apiKey =
-    selectedTab === "listedTools"
+    selectedTab === "tools"
       ? "borrow"
-      : selectedTab === "createdServices"
+      : selectedTab === "services"
       ? "signup"
       : "signup";
 

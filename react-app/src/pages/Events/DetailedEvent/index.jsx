@@ -65,7 +65,7 @@ const DetailedEvent = () => {
   return (
     <div className="detailed-event-container">
       <div className="event-header">
-        <button className="back-button" onClick={() => navigate(-1)}>
+        <button className="back-button" onClick={() => navigate("/profile")}>
           <ArrowBackIcon /> Back
         </button>
         <div className="event-tags">

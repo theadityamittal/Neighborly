@@ -89,7 +89,7 @@ const AppRoutes = () => {
             <Route path="/petition/:id" element={<DetailedPetition />} />
             <Route path="/create-petition" element={<CreatePetition />} />
             <Route path="/myPetitions" element={<MyPetitions />} />
-            <Route path="/petitions/:petition_id" element={<MyDetailedPetition />} />
+            <Route path="/petition/user/:petition_id" element={<MyDetailedPetition />} />
 
             <Route path="/profile" element={<UserProfile />} />
 

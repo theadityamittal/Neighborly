@@ -14,6 +14,7 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const { name, neighborhood } = useSelector((state) => state.auth);
   const [isEditing, setIsEditing] = useState(false);
+  // get tab from url
 
   const handleLogOut = () => {
     dispatch(logout());

@@ -26,23 +26,15 @@ const MyDetailedPetition = () => {
     const fetchpetition = async () => {
 
       try {
-        const response = await axiosInstance.get(`/petitions/get_petition_data/${petition_id}/`, {
+        const response = await axiosInstance.get(`/petitions/grabPetitionData/${petition_id}/`, {
           headers: {
             Authorization: `Bearer ${access}`,
             "Content-Type": "multipart/form-data",
           }
         });
         console.log(response.data)
-        setpetitionDetails(response.data);
-
-        // const response2 = await axiosInstance.get(`/petitions/userlist/${petition_id}/`, {
-        //   headers: {
-        //     Authorization: `Bearer ${access}`,
-        //     "Content-Type": "multipart/form-data",
-        //   }
-        // });
-        // console.log(response2.data);
-        // setParticipants(response2.data);
+        setpetitionDetails(response.data.petition);
+        setParticipants(response.data.petition_signatures);
       } catch (err) {
         console.error("Error fetching petition details:", err);
         setError("Failed to load petition details. Please try again later.");
@@ -65,7 +57,7 @@ const MyDetailedPetition = () => {
   return (
     <div className="detailed-petition-container">
       <div className="petition-header">
-        <button className="back-button" onClick={() => navigate("/Mypetitions")}>
+        <button className="back-button" onClick={() => navigate(-1)}>
           <ArrowBackIcon /> Back
         </button>
         <div className="petition-tags">
@@ -78,7 +70,7 @@ const MyDetailedPetition = () => {
       <div className="petition-content">
         <div className="petition-main-info">
           <div className="petition-author">
-            <span className="meta-label">Created by:</span> {petitionDetails.organizer_name}
+            <span className="meta-label">Created by:</span> {petitionDetails.provider}
           </div>
           <div className="petition-hero">
             <img 
@@ -89,7 +81,7 @@ const MyDetailedPetition = () => {
           </div>
           <div className="petition-meta">
             <div className="petition-date">
-              <span className="meta-label">Date:</span> {petitionDetails.date}
+              <span className="meta-label">Ends At:</span> {petitionDetails.voting_ends_at}
             </div>
             <div className="petition-location">
               <span className="meta-label">Location:</span> {petitionDetails.location}
@@ -101,12 +93,11 @@ const MyDetailedPetition = () => {
         </div>
         <div className="petition-description-container">
           <div>
-            <h2 className="description-title">List of Participants</h2>
+            <h2 className="description-title">List of Signatures</h2>
             <p className="petition-description">{
               participants.map((participant) => (
-                <div>{participant.user.name}</div>
-
-            ))}</p>
+                <div>{participant.user_id}</div>
+              ))}</p>
           </div>
           <div className="petition-cta">
             <button className="sign-petition-button" onClick={() => setSelectedEdit(!selectedEdit)}>Edit this petition</button>
@@ -116,12 +107,11 @@ const MyDetailedPetition = () => {
               isOpen={!!selectedEdit}
               onClose={handleClose}
               item={{
-                image: petitionDetails.image,
+                image: petitionDetails.hero_image,
                 description: petitionDetails.description,
-                title: petitionDetails.petition_name,
+                title: petitionDetails.title,
                 id: petitionDetails.petition_id,
-                date: petitionDetails.date,
-                time: petitionDetails.time,
+                date: petitionDetails.voting_ends_at,
                 visibility: petitionDetails.visibility,
                 location: petitionDetails.location,
               }}
