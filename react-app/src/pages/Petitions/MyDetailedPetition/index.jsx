@@ -21,28 +21,27 @@ const MyDetailedPetition = () => {
     setSelectedEdit(false);
   };
 
+  const fetchPetition = async () => {
+    try {
+      const response = await axiosInstance.get(`/petitions/grabPetitionData/${petition_id}/`, {
+        headers: {
+          Authorization: `Bearer ${access}`,
+          "Content-Type": undefined,
+        }
+      });
+      console.log(response.data)
+      setpetitionDetails(response.data.petition);
+      setParticipants(response.data.petition_signatures);
+    } catch (err) {
+      console.error("Error fetching petition details:", err);
+      setError("Failed to load petition details. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchpetition = async () => {
-
-      try {
-        const response = await axiosInstance.get(`/petitions/grabPetitionData/${petition_id}/`, {
-          headers: {
-            Authorization: `Bearer ${access}`,
-            "Content-Type": "multipart/form-data",
-          }
-        });
-        console.log(response.data)
-        setpetitionDetails(response.data.petition);
-        setParticipants(response.data.petition_signatures);
-      } catch (err) {
-        console.error("Error fetching petition details:", err);
-        setError("Failed to load petition details. Please try again later.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchpetition();
+    fetchPetition();
   }, [access, petition_id]);
 
   if (error) {
