@@ -209,13 +209,13 @@
       "fields": {
         "title": "Install Water Bottle Filling Stations",
         "description": "Encourage reusable bottles by installing water bottle filling stations at city parks and public plazas.",
-        "organizer_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "organizer_id": "6b1c6bfc-3e2a-11ee-be56-0242ac120002",
         "visibility": true,
         "tags": ["Environment", "Parks & Recreation"],
         "created_at": "2025-04-17T07:50:00Z",
         "target": 450,
         "location": "Suburb",
-        "provider": "Alice Resident",
+        "provider": "Lakshmi",
         "voting_ends_at": "2025-06-30",
         "hero_image": "petitions/uploads/water.jpg"
       }

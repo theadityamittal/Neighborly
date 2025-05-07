@@ -213,39 +213,6 @@
   border-color: #5a4dcf;
 }
 
-.filters-panel {
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-  padding: 20px 24px;
-  max-width: 340px;
-  margin-top: 20px;
-  transition: all 0.3s ease-in-out;
-}
-
-.filters-panel label {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 16px;
-  font-weight: 500;
-  color: #333;
-  margin-bottom: 14px;
-  cursor: pointer;
-}
-
-.filters-panel input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  accent-color: #2b6cb0;
-  cursor: pointer;
-  transition: transform 0.1s ease-in-out;
-}
-
-.filters-panel input[type="checkbox"]:hover {
-  transform: scale(1.1);
-}
-
 .left-buttons {
   display: flex;
   gap: 10px;
@@ -258,3 +225,63 @@
 /* =========================== */
 /* VERTICAL CARD FOR PETITIONS */
 /* =========================== */
+
+/* =========================== */
+/* INTEREST SELECTOR TABS */
+/* =========================== */
+
+.interest-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.interest-tab {
+  padding: 8px 16px;
+  border: 2px solid #735ef2;
+  border-radius: 20px;
+  background-color: white;
+  color: #735ef2;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.interest-tab:hover {
+  background-color: #f1efff;
+}
+
+.interest-tab.active {
+  background-color: #735ef2;
+  color: white;
+}
+.tabs-selector {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  border: 1.5px solid #6c5ed8;
+  background-color: white;
+  color: #6c5ed8;
+  padding: 8px 20px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+  background-color: #f4f1ff;
+}
+
+.tab-btn.active {
+  background-color: #6c5ed8;
+  color: white;
+  border: 1.5px solid #6c5ed8;
+}

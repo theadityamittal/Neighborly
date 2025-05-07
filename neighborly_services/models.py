@@ -14,7 +14,7 @@ class ServiceItem(models.Model):
     service_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    service_provider = models.IntegerField()
+    service_provider = models.CharField(max_length=255)
     
     # Location related
     location = models.CharField(max_length=255)

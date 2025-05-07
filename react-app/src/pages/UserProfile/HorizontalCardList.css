@@ -1,0 +1,30 @@
+.horizontal-card-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: flex-start;
+    margin: 24px 24px 0 24px; /* 🟢 Adds vertical spacing above the card list */
+  }
+  
+  
+  .card-wrapper {
+    flex: 0 0 calc(50% - 12px); /* 2 cards per row with 24px gap */
+    box-sizing: border-box;
+  }
+  
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .tag-pill {
+    background-color: #f1f1f1;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    color: #444;
+    white-space: nowrap;
+  }
+  

@@ -10,6 +10,8 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 class EventViewSet(ModelViewSet):
     queryset = Event.objects.all().order_by('-created_at')
@@ -99,3 +101,9 @@ def get_information_for_event(request, event_id):
     return Response(serializer.data)
 
     
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def grab_events_by_organizer(request, user_id):
+    events = Event.objects.filter(organizer_id=user_id)  # Make sure this is a STRING match
+    data = EventSerializer(events, many=True).data
+    return Response({"events": data})

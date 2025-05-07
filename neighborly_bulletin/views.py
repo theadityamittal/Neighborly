@@ -33,7 +33,7 @@ class BulletinItemListView(APIView):
         #files = request.FILES
         #data["user"] = request.user.id  # auto-assign creator
         data = request.data.copy()
-        data["user"] = request.user.id
+        data["user"] = request.user.user_id
 
         #serializer = BulletinItemSerializer(data=data)
         serializer = BulletinItemSerializer(data=data)
@@ -63,3 +63,8 @@ class BulletinItemDetailView(APIView):
         bulletin = get_object_or_404(BulletinItem, post_id=post_id)
         bulletin.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+class UserBulletinPostsView(APIView):
+    def get(self, request, user_uuid):
+        posts = BulletinItem.objects.filter(user_id=user_uuid)
+        serializer = BulletinItemSerializer(posts, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

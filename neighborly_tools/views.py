@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes, action
+from rest_framework.decorators import api_view, permission_classes
 
 #for api filtering
 from django_filters.rest_framework import DjangoFilterBackend
@@ -115,7 +116,7 @@ class ToolSignUpDetailView(APIView):
         tool = signup.tool
 
         # Enforce only the tool provider can approve/reject
-        if tool.owner_id != request.user.id:
+        if str(tool.owner_id) != str(request.user.id):
             return Response({"error": "Unauthorized."}, status=status.HTTP_403_FORBIDDEN)
 
         # Just update status — do not modify unavailable dates
@@ -130,7 +131,12 @@ class ToolSignUpDetailView(APIView):
         signup = get_object_or_404(BorrowRequest, signup_id=signup_id)
         signup.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def grab_tools_by_owner(request, user_id):
+    tools = Tool.objects.filter(owner_id=user_id)
+    data = ToolSerializer(tools, many=True).data
+    return Response({"tools": data})
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_tools(request):

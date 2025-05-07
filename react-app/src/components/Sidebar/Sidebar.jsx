@@ -9,13 +9,13 @@ import { selectAuth } from "../../redux/authSlice";
 const menuItems = [
   { name: "Bulletin",  path: "/bulletin",  icon: <DashboardIcon />, subCategory: false},
   { name: "Events",    path: "/events",    icon: <EventIcon />, subCategory: false },
-  { name: "My Events", path: "/myEvents",  icon: <EventIcon />, subCategory: true },
+  // { name: "My Events", path: "/myEvents",  icon: <EventIcon />, subCategory: true },
   { name: "Tools",     path: "/tools",     icon: <Build />, subCategory: false },
-  { name: "My Tools",  path: "/MyTools",   icon: <Build />, subCategory: true},
+  // { name: "My Tools",  path: "/MyTools",   icon: <Build />, subCategory: true},
   { name: "Services",  path: "/services",  icon: <MiscellaneousServices />, subCategory: false },
-  { name: "My Services", path: "/MyServices", icon: <MiscellaneousServices />, subCategory: true},
+  // { name: "My Services", path: "/MyServices", icon: <MiscellaneousServices />, subCategory: true},
   { name: "Petitions", path: "/petitions", icon: <HowToVote />, subCategory: false },
-  { name: "My Petitions", path: "/myPetitions", icon: <MiscellaneousServices />, subCategory: true},
+  // { name: "My Petitions", path: "/myPetitions", icon: <MiscellaneousServices />, subCategory: true},
 ];
 
 const Sidebar = () => {

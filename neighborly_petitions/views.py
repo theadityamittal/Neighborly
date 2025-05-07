@@ -48,6 +48,19 @@ def grab_petition_data(request, petition_id):
         "petition": petition_data,
         "petition_signatures": signature_data
     })
+# GET petitions by organizer ID
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def grab_petition_data_by_organizer(request, user_id):
+    # annotate each petition with its signature_count
+    petitions = Petition.objects.filter(organizer_id=user_id).annotate(
+        signature_count=Count('petitionsignature')
+    )
+    petition_data = PetitionSerializer(petitions, many=True).data
+
+    return Response({
+        "petitions": petition_data
+    })
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

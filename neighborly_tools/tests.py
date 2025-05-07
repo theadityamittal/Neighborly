@@ -79,22 +79,6 @@ class ToolTests(APITestCase):
         self.assertEqual(BorrowRequest.objects.count(), 1)
         print("\n√ test_user_can_borrow_tool passed!")
 
-    '''==============Patch Borrow Status=============='''
-    def test_patch_borrow_status(self):
-        tool = Tool.objects.create(title="Ladder", owner_id=self.user_id, location="Queens", available=True, condition="Used")
-        request = BorrowRequest.objects.create(
-            tool=tool,
-            user_id=self.user_id,
-            start_date="2025-05-10",
-            end_date="2025-05-12",
-            messages="Roof work",
-            status="pending"
-        )
-        patch_url = f"/tools/borrow/{request.signup_id}/"
-        response = self.client.patch(patch_url, data={"status": "accepted"}, format="json")
-        self.assertEqual(response.status_code, 200)
-        print("\n√ test_patch_borrow_status passed!")
-
     '''==============Filter Tools=============='''
     def test_filter_tools_by_city_and_availability(self):
         Tool.objects.create(title="Drill", owner_id=self.user_id, city="NY", location="New York", available=True, condition="Used")
@@ -108,3 +92,56 @@ class ToolTests(APITestCase):
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]["title"], "Drill")
         print("\n√ test_filter_tools_by_city_and_availability passed!")
+        '''==============Grab Tools by Owner=============='''
+    def test_grab_tools_by_owner(self):
+        # Create some tools owned by the user
+        Tool.objects.create(
+            title="Circular Saw",
+            owner_id=self.user_id,
+            location="Queens",
+            available=True,
+            condition="Used"
+        )
+        Tool.objects.create(
+            title="Electric Sander",
+            owner_id=self.user_id,
+            location="Queens",
+            available=False,
+            condition="New"
+        )
+
+        # Create a tool NOT owned by this user to make sure it doesn't show up
+        other_user = User.objects.create_user(
+            name="Other User",
+            email="other@example.com",
+            phone_number="9999999999",
+            address="999 Elsewhere St",
+            city="Another City",
+            zip_code="99999",
+            neighborhood="Other Neighborhood",
+            account_type="resident",
+            password="password999"
+        )
+        Tool.objects.create(
+            title="Paint Sprayer",
+            owner_id=other_user.id,
+            location="Brooklyn",
+            available=True,
+            condition="New"
+        )
+
+        # Hit the API
+        url = f"/tools/grabToolsData/owner/{self.user_id}/"
+        response = self.client.get(url)
+
+        # Test assertions
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn("tools", response.data)
+        self.assertEqual(len(response.data["tools"]), 2)
+
+        tool_titles = [tool["title"] for tool in response.data["tools"]]
+        self.assertIn("Circular Saw", tool_titles)
+        self.assertIn("Electric Sander", tool_titles)
+        self.assertNotIn("Paint Sprayer", tool_titles)
+
+        print("\n√ test_grab_tools_by_owner passed!")

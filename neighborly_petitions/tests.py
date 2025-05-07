@@ -2,6 +2,8 @@ from django.test import TestCase
 from rest_framework.test import APITestCase
 from django.urls import reverse
 from rest_framework import status
+from .models import Petition, PetitionSignature
+from django.contrib.auth import get_user_model
 
 class PetitionTests(APITestCase):
     
@@ -46,3 +48,35 @@ class PetitionTests(APITestCase):
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+    
+    def test_get_petitions(self):
+        access = self.authenticate_user()
+
+        # Get the authenticated user from DB
+        User = get_user_model()
+        user = User.objects.get(email=self.user_data["email"])
+
+        # Create a petition
+        petition = Petition.objects.create(
+            title="Save the Rainforest",
+            description="Protecting rainforests around the world.",
+            organizer_id="organizer_1",
+            target=1000
+        )
+
+        # Sign the petition with user_id matching request.user.id
+        PetitionSignature.objects.create(
+            petition=petition,
+            user_id=str(user.id)  # THIS matches what your view saves
+        )
+
+        # Now test get_my_petitions
+        response = self.client.get(
+            reverse('getPetitions'),
+            HTTP_AUTHORIZATION=f'Bearer {access}'
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIsInstance(response.data, list)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['title'], "Save the Rainforest")

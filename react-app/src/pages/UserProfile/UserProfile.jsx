@@ -1,24 +1,36 @@
-import React, { useState, useEffect } from "react";
 import { Avatar, Button, Typography } from "@mui/material";
-import avatar from "../../assets/avatar.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/authSlice";
 import { useNavigate } from "react-router";
-import { useSelector } from "react-redux";
+
 import UserProfileForm from "./UserProfileForm";
-import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
 import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
+
+import { getToolsByUser } from "../../services/toolsService";
+import { getRequestedServicesByUser } from "../../services/servicesService";
 import VerticalCard from "../../components/VerticalCard/VerticalCard";
 import "./UserProfile.css";
 import { getEventsByUser } from "../../services/eventService";
+import { getPetitionsByUser } from "../../services/petitionsService";
+import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
+
+import UserProfileTabs from "./UserProfileTabs";
+
+import avatar from "../../assets/avatar.png";
+import "./UserProfile.css";
 import axiosInstance from "../../utils/axiosInstance";
+import React, { useState, useEffect } from "react";
 
 const UserProfile = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { name, neighborhood, user_id, access } = useSelector((state) => state.auth);
   const [isEditing, setIsEditing] = useState(false);
-  const [showFilters, setShowFilters] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
-  const {access, user_id } = useSelector((state) => state.auth);
+  const [selectedTab, setSelectedTab] = useState("myPosts");
+  const [tabContent, setTabContent] = useState(null);
+  const [showFilters, setShowFilters] = useState(false);
 
   const [filters, setFilters] = useState({
     myEvents: true,
@@ -185,31 +197,38 @@ const UserProfile = () => {
     getPetitions();
   }, []);
 
-  useEffect(() => {
-    const getEventsUser = async () => {
-      try {
-        const response = await getEventsByUser({"organizer_id": user_id}, access);
-        return response.data;
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getEventsUser();
-  }, []);
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     try {
+  //       const [toolsRes, servicesRes, eventsRes, petitionsRes] = await Promise.all([
+  //         getToolsByUser(user_id, access),
+  //         getRequestedServicesByUser(user_id, access),
+  //         getEventsByUser(user_id, access),
+  //         getPetitionsByUser(user_id, access)
+  //       ]);
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { name, neighborhood } = useSelector((state) => state.auth);
+  //       setUserCards({
+  //         listedTools: toolsRes.data || [],
+  //         requestedServices: servicesRes.data || [],
+  //         hostedEvents: eventsRes.data || [],
+  //         signedPetitions: petitionsRes.data || [],
+  //         myPosts: [],
+  //       });
+  //     } catch (error) {
+  //       console.error("Failed fetching user content:", error);
+  //     }
+  //   };
+
+  //   fetchUserData();
+  // }, []);
 
   const handleLogOut = () => {
     dispatch(logout());
-    navigate("/login", {
-      state: { message: "Logout Successful! Returning to Login page..." },
-    });
+    navigate("/login", { state: { message: "Logout Successful! Returning to Login page..." } });
   };
 
-  const handleCardClick = (cardData) => {
-    setSelectedCard(cardData);
+  const handleCardClick = (card) => {
+    setSelectedCard(card);
     setModalOpen(true);
   };
 
@@ -246,37 +265,22 @@ const UserProfile = () => {
 
             <div className="profile-actions">
               <div className="left-buttons">
-                <Button
-                  variant="contained"
-                  className="edit-profile-btn"
-                  onClick={() => setIsEditing(true)}
-                >
+                <Button variant="contained" className="edit-profile-btn" onClick={() => setIsEditing(true)}>
                   Edit Profile
                 </Button>
-
-                <Button
-                  variant="outlined"
-                  className="filter-btn"
-                  onClick={() => setShowFilters((prev) => !prev)}
-                >
-                  {showFilters ? "🙈 My Interests" : "🔍 My Interests"}
-                </Button>
               </div>
-
               <div className="right-button">
-                <Button
-                  variant="contained"
-                  className="logout-btn-blue"
-                  onClick={handleLogOut}
-                >
+                <Button variant="contained" className="logout-btn-blue" onClick={handleLogOut}>
                   Logout
                 </Button>
               </div>
             </div>
           </div>
 
+          {/* Tabs */}
+          <UserProfileTabs />
           {/* Filter Panel */}
-          {showFilters && (
+          {/* {showFilters && (
             <div className="filters-panel">
               {Object.entries(filters).map(([key, value]) => (
                 <label key={key}>
@@ -289,9 +293,9 @@ const UserProfile = () => {
                 </label>
               ))}
             </div>
-          )}
+          )} */}
 
-          {/* Card Grid */}
+          {/* Card Grid
           {filters["myEvents"] && cardData["myEvents"].length > 0 ? <h2>Events</h2> :<></>}
           {filters["myEvents"] && 
             cardData["myEvents"]?.map((event) => (
@@ -368,7 +372,7 @@ const UserProfile = () => {
                 />
               </div>
             ))
-          }
+          } */}
 
           {/* Modal */}
           {modalOpen && selectedCard && (

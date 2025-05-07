@@ -23,7 +23,7 @@
       "pk": 2,
       "fields": {
         "event_name": "Neighborhood Book Club",
-        "organizer_name": "Bob Volunteer",
+        "organizer_name": "Aditya Mittal",
         "organizer_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
         "description": "Monthly book discussion group—this month’s pick is 'To Kill a Mockingbird.'",
         "location": "Community Library",
@@ -61,7 +61,7 @@
       "pk": 4,
       "fields": {
         "event_name": "Park Clean‑Up",
-        "organizer_name": "Bob Volunteer",
+        "organizer_name": "Aditya Mittal",
         "organizer_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
         "description": "Join neighbors to keep our park clean. Gloves and bags provided.",
         "location": "Riverside Park",
@@ -80,8 +80,27 @@
       "pk": 5,
       "fields": {
         "event_name": "Neighborhood Meet & Greet",
-        "organizer_name": "Alice Resident",
-        "organizer_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "organizer_name": "Lakshmi",
+        "organizer_id": "6b1c6bfc-3e2a-11ee-be56-0242ac120002",
+        "description": "An informal evening to meet your neighbors over snacks and drinks.",
+        "location": "Community Center",
+        "date": "2025-05-20",
+        "time": "17:30:00",
+        "visibility": "neighborhood",
+        "tags": ["Meetup","Social"],
+        "recurring": false,
+        "max_attendees": 50,
+        "created_at": "2025-04-14T17:30:00Z",
+        "image": "events/uploads/meetgreet.jpg"
+      }
+    },
+    {
+      "model": "neighborly_events.event",
+      "pk": 6,
+      "fields": {
+        "event_name": "Neighborhood Meet & Greet",
+        "organizer_name": "Sheetal",
+        "organizer_id": "2ce7a1ae-26ec-11f0-b0c2-ca1deaa14517",
         "description": "An informal evening to meet your neighbors over snacks and drinks.",
         "location": "Community Center",
         "date": "2025-05-20",
