@@ -23,10 +23,7 @@
       "unavailable_dates": ["2025-03-20", "2025-03-21"],
       "price": 7,
       "tags": ["Yoga", "Fitness"],
-      "images": [
-        "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/yoga1.jpg",
-        "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/yoga2.jpg"
-      ]
+      "images": "services/uploads/yoga1.jpg"
     }
   },
   {
@@ -53,10 +50,8 @@
       "unavailable_dates": ["2025-04-05", "2025-04-06"],
       "price": 15,
       "tags": ["Cooking", "Food"],
-      "images": [
-        "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/cooking1.jpg",
-        "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/cooking2.jpg"
-      ]
+      "images": "services/uploads/cooking1.jpg"
+      
     }
   },
   {
@@ -83,9 +78,8 @@
       "unavailable_dates": [],
       "price": 20,
       "tags": ["Photography", "Art"],
-      "images": [
-        "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/photo1.jpg"
-      ]
+      "images": "services/uploads/photo1.jpg"
+  
     }
   },
   {
@@ -112,9 +106,7 @@
       "unavailable_dates": ["2025-03-25"],
       "price": 10,
       "tags": ["Marketing", "Business"],
-      "images": [
-        "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/marketing1.jpg"
-      ]
+      "images": "services/uploads/marketing1.jpg"
     }
   },
   {
@@ -141,9 +133,7 @@
       "unavailable_dates": [],
       "price": 12,
       "tags": ["Pilates", "Fitness"],
-      "images": [
-        "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/pilates1.jpg"
-      ]
+      "images": "services/uploads/pilates1.jpg"
     }
   },
   {
@@ -170,9 +160,7 @@
       "unavailable_dates": ["2025-04-15"],
       "price": 18,
       "tags": ["Adventure", "Fitness"],
-      "images": [
-        "https://neighborlyphotos.s3.us-east-2.amazonaws.com/services/uploads/tree1.jpg"
-      ]
+      "images": "services/uploads/tree1.jpg"
     }
   },
   {

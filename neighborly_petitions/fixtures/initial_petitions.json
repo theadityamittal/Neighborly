@@ -13,7 +13,7 @@
         "location": "Springfield",
         "provider": "Alice Resident",
         "voting_ends_at": "2025-05-15",
-        "hero_image": "https://i.redd.it/i670q85g43v31.jpg"
+        "hero_image": "petitions/uploads/garden.jpg"
       }
     },
     {
@@ -30,7 +30,7 @@
         "location": "Uptown",
         "provider": "Aditya Mittal",
         "voting_ends_at": "2025-05-20",
-        "hero_image": "https://i0.wp.com/fortworthreport.org/wp-content/uploads/2022/07/Streetlight-2.jpg"
+        "hero_image": "petitions/uploads/light.jpg"
       }
     },
     {
@@ -47,7 +47,7 @@
         "location": "Downtown",
         "provider": "Alice Resident",
         "voting_ends_at": "2025-06-01",
-        "hero_image": "https://i.natgeofe.com/k/3519980b-ba58-456d-b691-2ed516c223e0/clean-it-up-textimage_3x2.jpg"
+        "hero_image": "petitions/uploads/clean.jpg"
       }
     },
     {
@@ -64,7 +64,7 @@
         "location": "Midtown",
         "provider": " Aditya Mittal",
         "voting_ends_at": "2025-05-10",
-        "hero_image": "https://source.unsplash.com/featured/?bicycle-rack"
+        "hero_image": "petitions/uploads/bike.jpg"
       }
     },
     {
@@ -81,7 +81,7 @@
         "location": "Downtown",
         "provider": "Alice Resident",
         "voting_ends_at": "2025-05-12",
-        "hero_image": "https://source.unsplash.com/featured/?crosswalk"
+        "hero_image": "petitions/uploads/crosswalk.jpg"
       }
     },
     {
@@ -98,7 +98,7 @@
         "location": "Riverside",
         "provider": " Aditya Mittal",
         "voting_ends_at": "2025-06-01",
-        "hero_image": "https://source.unsplash.com/featured/?dog-park"
+        "hero_image": "petitions/uploads/dog.jpg"
       }
     },
     {
@@ -115,7 +115,7 @@
         "location": "Greenfield",
         "provider": "Alice Resident",
         "voting_ends_at": "2025-06-15",
-        "hero_image": "https://source.unsplash.com/featured/?tutoring"
+        "hero_image": "petitions/uploads/tutor.jpg"
       }
     },
     {
@@ -132,7 +132,7 @@
         "location": "Old Town",
         "provider": " Aditya Mittal",
         "voting_ends_at": "2025-05-30",
-        "hero_image": "https://source.unsplash.com/featured/?street-trees"
+        "hero_image": "petitions/uploads/tree.jpg"
       }
     },
     {
@@ -149,7 +149,7 @@
         "location": "Eastside",
         "provider": "Alice Resident",
         "voting_ends_at": "2025-05-25",
-        "hero_image": "https://source.unsplash.com/featured/?library"
+        "hero_image": "petitions/uploads/library.jpg"
       }
     },
     {
@@ -166,7 +166,7 @@
         "location": "North Hills",
         "provider": " Aditya Mittal",
         "voting_ends_at": "2025-06-05",
-        "hero_image": "https://source.unsplash.com/featured/?speed-limit"
+        "hero_image": "petitions/uploads/speed.jpg"
       }
     },
     {
@@ -183,7 +183,7 @@
         "location": "Lakeside",
         "provider": "Alice Resident",
         "voting_ends_at": "2025-06-10",
-        "hero_image": "https://source.unsplash.com/featured/?farmers-market"
+        "hero_image": "petitions/uploads/market.jpg"
       }
     },
     {
@@ -200,7 +200,7 @@
         "location": "West End",
         "provider": " Aditya Mittal",
         "voting_ends_at": "2025-06-20",
-        "hero_image": "https://source.unsplash.com/featured/?neighborhood-watch"
+        "hero_image": "petitions/uploads/tutor.jpg"
       }
     },
     {
@@ -217,7 +217,7 @@
         "location": "Suburb",
         "provider": "Lakshmi",
         "voting_ends_at": "2025-06-30",
-        "hero_image": "https://source.unsplash.com/featured/?water-fountain"
+        "hero_image": "petitions/uploads/water.jpg"
       }
     },
     {
