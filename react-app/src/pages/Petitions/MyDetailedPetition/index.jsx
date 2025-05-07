@@ -1,7 +1,6 @@
 import React from "react";
 import './styles.css'; // You'll need to create this CSS file
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // Assuming you're using Material UI
 import axiosInstance from "../../../utils/axiosInstance";
@@ -95,8 +94,8 @@ const MyDetailedPetition = () => {
           <div>
             <h2 className="description-title">List of Signatures</h2>
             <p className="petition-description">{
-              participants.map((participant) => (
-                <div>{participant.user_id}</div>
+              participants.map((participant) => participant.user_name && (
+                <div>{participant.user_name}</div>
               ))}</p>
           </div>
           <div className="petition-cta">

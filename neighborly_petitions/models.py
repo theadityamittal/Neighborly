@@ -28,6 +28,7 @@ class PetitionSignature(models.Model):
     signature_id = models.AutoField(primary_key=True)
     petition = models.ForeignKey(Petition, on_delete=models.CASCADE)
     user_id = models.CharField(max_length=255)
+    user_name = models.CharField(max_length=255, default="Anonymous User")
     signed_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
