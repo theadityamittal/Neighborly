@@ -10,8 +10,6 @@ import SearchBar from "../../components/SearchBar";
 import AddIcon from '@mui/icons-material/Add';
 import { EVENT_TAGS } from "../../assets/tags";
 import EventCards from "./EventCards";
-import axiosInstance from "../../utils/axiosInstance";
-import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
 
 const haversine = require('haversine-distance');
 
@@ -35,25 +33,6 @@ const Events = () => {
   const { latitude, longitude } = useSelector((state) => state.auth);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
-  const [selectedEvent, setSelectedEvent] = useState(null);
-
-  const handleClose = () => {
-      setSelectedEvent(null);
-  };
-
-  const handleEventSignup = async (event_id) => {
-      try {
-          const response = await axiosInstance.post(`/events/signups/signup_event/`,{ event_id: event_id  }, {
-          headers: {
-              Authorization: `Bearer ${access}`,
-          },
-          });
-          alert("Successfully registered for the event!");
-
-      } catch (error) {
-          console.error("Error signing up for event:", error);
-      }
-  }
 
   const fetchEvents = async () => {
     // ▶️ LOCAL MOCK: uncomment to use
@@ -114,22 +93,8 @@ const Events = () => {
             <AddIcon fontSize="large"/>
           </div>
         </div>
-        <EventCards eventCards={events} handleCardClick={(event) => setSelectedEvent(event)}/>
+        <EventCards eventCards={events}/>
       </div>
-      {selectedEvent && (
-            <HorizontalCardModal
-            isOpen={!!selectedEvent}
-            toggleOffPrices={true}
-            toggleOffDates={true}
-            toggleOffRequest={true}
-            description={selectedEvent.description}
-            onClose={handleClose}
-            item={selectedEvent}
-            type="events"  // must match your API prefix if used
-            api_key=""
-            handleCustomAPICall={() => handleEventSignup(selectedEvent.event_id)}
-            />
-        )}
     </div>
   );
 };
