@@ -92,7 +92,9 @@ class BulletinTests(APITestCase):
             "zip_code": "11201",
             "neighborhood": "Brooklyn Heights"
         }
+
         create_response = self.client.post("/bulletin/", data=payload, format="json")
+        print(create_response)
         print("Create response:", create_response.content)
 
         self.assertEqual(create_response.status_code, status.HTTP_201_CREATED)

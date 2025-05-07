@@ -28,7 +28,8 @@ class ServiceTests(APITestCase):
 
         self.token = self.authenticate_user()
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.token}")
-        self.user_id = User.objects.get(email=self.user_data["email"]).id
+        self.user_id = User.objects.get(email=self.user_data["email"]).user_id
+        self.id = User.objects.get(email=self.user_data["email"]).id
 
     def authenticate_user(self):
         register_response = self.client.post(self.register_url, self.user_data, format='json')
@@ -61,7 +62,7 @@ class ServiceTests(APITestCase):
         service = ServiceItem.objects.first()
         self.assertEqual(service.title, "Pet Sitting")
         self.assertEqual(service.location, "Queens")
-        self.assertEqual(service.service_provider, self.user_id)
+        self.assertEqual(service.service_provider, str(self.id))
 
         print("\n√ test_user_can_create_service_item passed!")
 

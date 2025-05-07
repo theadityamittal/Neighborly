@@ -113,7 +113,8 @@ class ServiceSignUpDetailView(APIView):
         service = signup.service
 
         # Enforce only the service provider can approve/reject
-        if service.service_provider != request.user.id:
+        if service.service_provider != str(request.user.user_id):
+            print('broke here?')
             return Response({"error": "Unauthorized."}, status=status.HTTP_403_FORBIDDEN)
 
         # Just update status — do not modify unavailable dates

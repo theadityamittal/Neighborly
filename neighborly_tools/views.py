@@ -116,7 +116,7 @@ class ToolSignUpDetailView(APIView):
         tool = signup.tool
 
         # Enforce only the tool provider can approve/reject
-        if tool.owner_id != request.user.id:
+        if str(tool.owner_id) != str(request.user.id):
             return Response({"error": "Unauthorized."}, status=status.HTTP_403_FORBIDDEN)
 
         # Just update status — do not modify unavailable dates
