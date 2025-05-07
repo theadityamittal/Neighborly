@@ -163,3 +163,56 @@ class BulletinTests(APITestCase):
         self.assertEqual(results[0]["city"], "New York")
 
         print("\n√ test_filter_bulletins_by_city_and_tag passed!")
+    def test_get_user_bulletin_posts(self):
+        # Create a second user
+        other_user = User.objects.create_user(
+            email="otheruser@example.com",
+            password="otherpassword123",
+            name="Other User",
+            phone_number="0987654321",
+            address="456 Other St, City",
+            city="Other City",
+            zip_code="54321",
+            neighborhood="Other Neighborhood",
+            account_type="customer"
+        )
+
+        # Create bulletins for the first (authenticated) user
+        BulletinItem.objects.create(
+            user=self.user,
+            title="Post 1",
+            content="Content 1",
+            post_type="announcement",
+            visibility="public",
+            location="Location 1",
+        )
+        BulletinItem.objects.create(
+            user=self.user,
+            title="Post 2",
+            content="Content 2",
+            post_type="event",
+            visibility="public",
+            location="Location 2",
+        )
+
+        # Create a bulletin for the other user
+        BulletinItem.objects.create(
+            user=other_user,
+            title="Other User Post",
+            content="Other content",
+            post_type="announcement",
+            visibility="public",
+            location="Other Location",
+        )
+
+        # Hit the endpoint for the first user's posts
+        url = f"/bulletin/user/{self.user.user_id}/"
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 2)
+        titles = [post["title"] for post in response.data]
+        self.assertIn("Post 1", titles)
+        self.assertIn("Post 2", titles)
+
+        print("\n√ test_get_user_bulletin_posts passed!")
