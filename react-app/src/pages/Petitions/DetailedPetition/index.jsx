@@ -37,6 +37,7 @@ const DetailedPetition = () => {
         ...prev,
         numberSigned: petition_signatures.length
       }));
+      alert("Successfully registered for the petition!");
     } catch (err) {
       console.error("Error signing petition:", err);
       alert("Failed to sign petition.");

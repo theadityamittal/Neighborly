@@ -32,9 +32,11 @@ class BulletinItemListView(APIView):
         #data = request.POST.copy()
         #files = request.FILES
         #data["user"] = request.user.id  # auto-assign creator
-        request.data["user"] = request.user.id
+        data = request.data.copy()
+        data["user"] = request.user.id
+
         #serializer = BulletinItemSerializer(data=data)
-        serializer = BulletinItemSerializer(data=request.data)
+        serializer = BulletinItemSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

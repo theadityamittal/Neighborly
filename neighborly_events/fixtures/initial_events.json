@@ -53,7 +53,7 @@
         "recurring": false,
         "max_attendees": 100,
         "created_at": "2025-04-12T10:00:00Z",
-        "image": null
+        "image": "events/uploads/charity.jpg"
       }
     },
     {
@@ -72,7 +72,7 @@
         "recurring": true,
         "max_attendees": 50,
         "created_at": "2025-04-08T09:00:00Z",
-        "image": null
+        "image": "events/uploads/cleanup.jpg"
       }
     },
     {

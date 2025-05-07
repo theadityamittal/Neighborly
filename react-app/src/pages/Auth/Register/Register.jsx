@@ -80,8 +80,8 @@ const Register = () => {
       city,
       neighborhood,
       zip_code: zipCode,
-      latitude,
-      longitude,
+      latitude: parseFloat(latitude.toFixed(6)),
+      longitude: parseFloat(longitude.toFixed(6)),
       account_type: accountType,
     };
 
@@ -137,23 +137,21 @@ const Register = () => {
           </div>
 
           {/* Password & Phone */}
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                id="password" name="password" type="password"
-                value={formData.password} onChange={handleChange}
-                className={errors.password ? 'error' : ''}
-              />
-              {errors.password && <span className="error-text">{errors.password}</span>}
-            </div>
-            <div className="form-group">
-              <label htmlFor="phoneNumber">Phone Number</label>
-              <input
-                id="phoneNumber" name="phoneNumber" type="text"
-                value={formData.phoneNumber} onChange={handleChange}
-              />
-            </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password" name="password" type="password"
+              value={formData.password} onChange={handleChange}
+              className={errors.password ? 'error' : ''}
+            />
+            {errors.password && <span className="error-text">{errors.password}</span>}
+          </div>
+          <div className="form-group">
+            <label htmlFor="phoneNumber">Phone Number</label>
+            <input
+              id="phoneNumber" name="phoneNumber" type="text"
+              value={formData.phoneNumber} onChange={handleChange}
+            />
           </div>
 
           {/* Address */}
@@ -163,8 +161,8 @@ const Register = () => {
               onLocationChange={({ latitude, longitude, locationName, neighborhood, zipCode, city }) => {
                 setFormData((prev) => ({
                   ...prev,
-                  latitude,
-                  longitude,
+                  latitude: parseFloat(latitude.toFixed(6)),
+                  longitude: parseFloat(longitude.toFixed(6)),
                   address: locationName,
                   neighborhood: neighborhood,
                   zipCode: zipCode,
@@ -193,7 +191,6 @@ const Register = () => {
               onChange={handleChange}
             >
               <option value="resident">Resident</option>
-              <option value="volunteer">Volunteer</option>
               <option value="ngo">NGO</option>
             </select>
           </div>

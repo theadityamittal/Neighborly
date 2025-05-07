@@ -5,7 +5,7 @@ export const uploadEvent = async (formData, token) => {
       return null;
     }
     try {
-      const response = await axiosInstance.post('/events/api/events/', formData, {
+      const response = await axiosInstance.post('/events/events/', formData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'
@@ -20,12 +20,32 @@ export const uploadEvent = async (formData, token) => {
     }
 };
 
+export const getUsersEvents = async (formData, token) => {
+  if (!token) {
+    return null;
+  }
+  try {
+    const response = await axiosInstance.get('/events/list/', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+    return response;
+
+  } catch (error) {
+    console.error(error);
+    throw(error)
+  }
+};
+
 export const getEventsByUser = async (formData, token) => {
   if (!token) {
     return null;
   }
   try {
-    const response = await axiosInstance.get('/events/api/events/', {
+    const response = await axiosInstance.get('/events/events/get_events_not_users/', {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'multipart/form-data'

@@ -1,13 +1,15 @@
 import './VerticalCard.css'
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 
-function VerticalCard({ id, title, provider, location, closestAvailability, tabs, image, viewType, numberSigned, handleClick }) {
+function VerticalCard({ id, title, provider, location, closestAvailability, tabs, image, viewType, numberSigned, handleClick, NoButton = false }) {
 
   return (
     <div className="vertical-card">
-      <div onClick={handleClick} className="vertical-card-button">
-        <ArrowForwardRoundedIcon style={{ color: 'white', fontSize: '40px' }} />
-      </div>
+      { NoButton ? <></> :
+        <div onClick={handleClick} className="vertical-card-button">
+          <ArrowForwardRoundedIcon style={{ color: 'white', fontSize: '40px' }} />
+        </div>
+      }
       <div className="vertical-card-content">
         <img className="vertical-card-image" src={image} alt={title} />
         <div className="vertical-card-text">
@@ -24,7 +26,11 @@ function VerticalCard({ id, title, provider, location, closestAvailability, tabs
         </div>
       </div>
       <div className='vertical-card-footer'>
+        {numberSigned !== "" ? 
         <div className='vertical-card-signed'>{numberSigned} people signed</div>
+        :
+        <></> 
+        }
       </div>
     </div>
   );

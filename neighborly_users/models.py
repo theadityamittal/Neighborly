@@ -30,7 +30,7 @@ class CustomUserManager(BaseUserManager):
             zip_code=zip_code,
             latitude=latitude,
             longitude=longitude,
-            account_type=account_type,
+            account_type=account_type, # two possible types, [resident, NGO]
             verified=False,
         )
         user.set_password(password)
@@ -46,7 +46,7 @@ class CustomUserManager(BaseUserManager):
         city,
         neighborhood,
         zip_code,
-        account_type,
+        account_type,  # two possible types, [resident, NGO]
         password,
         latitude=None,
         longitude=None
@@ -73,7 +73,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     zip_code     = models.CharField(max_length=20)
     latitude     = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     longitude    = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
-    account_type = models.CharField(max_length=255)
+    account_type = models.CharField(max_length=255)  # two possible types, [resident, NGO]
     verified     = models.BooleanField(default=False)
     created_at   = models.DateTimeField(default=now)
     is_active    = models.BooleanField(default=True)

@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import action
 from rest_framework.decorators import api_view, permission_classes
 
 #for api filtering
@@ -22,6 +23,13 @@ class ServiceItemListView(APIView):
     permission_classes = [IsAuthenticated] 
 
     def get(self, request):
+        if request.query_params.get("user_services"):
+            # Handle `/api/services/?user_services=true`
+            services = ServiceItem.objects.filter(servicesignup__user_id=request.user.id)
+            serializer = ServiceItemSerializer(services, many=True)
+            return Response(serializer.data)
+
+        # Default filtered list
         filtered = ServiceItemFilter(request.GET, queryset=ServiceItem.objects.all())
         serializer = ServiceItemSerializer(filtered.qs, many=True)
         return Response(serializer.data)

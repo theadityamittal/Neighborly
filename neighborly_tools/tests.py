@@ -103,6 +103,8 @@ class ToolTests(APITestCase):
 
         response = self.client.get("/tools/?city=NY&condition=Used")
         self.assertEqual(response.status_code, 200)
+        print('hello')
+        print(response)
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]["title"], "Drill")
         print("\n√ test_filter_tools_by_city_and_availability passed!")

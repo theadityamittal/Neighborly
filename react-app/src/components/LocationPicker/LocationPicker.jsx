@@ -104,7 +104,6 @@ const LocationPicker = ({ onLocationChange }) => {
       <p style={{ marginTop: '10px' }}>
         <strong>Selected location:</strong><br />
         {locationName && <span>{locationName}<br /></span>}
-        {lat.toFixed(5)}, {lng.toFixed(5)}
       </p>
     </div>
   );
