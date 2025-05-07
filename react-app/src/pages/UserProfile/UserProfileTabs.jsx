@@ -7,6 +7,7 @@ import PetitionCards from "../Petitions/PetitionCards";
 import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
 import "./UserProfile.css";
 import { useNavigate } from "react-router";
+import EventCards from "../Events/EventCards";
 
 const formatDate = (iso) =>
   new Date(iso).toLocaleDateString(undefined, {
@@ -46,10 +47,10 @@ const UserProfileTabs = () => {
     setSelectedTab(tab);
   };
 
-  const handleEditEvent = (id) => {
-    console.log(`Card with ID ${id} clicked`);
+  const handleEditEvent = (event) => {
+    console.log(`Card with ID ${event.event_id} clicked`);
     // Navigate to the detailed petition page
-    navigate(`/event/${id}`);
+    navigate(`/event/${event.event_id}`);
   };
 
   const fetchUserPosts = async () => {
@@ -238,11 +239,7 @@ const UserProfileTabs = () => {
       label: "Hosted Events",
       value: "hostedEvents",
       content: (
-        <HorizontalCardList
-          items={userEvents}
-          viewRouteBase="events"
-          onView={(item) => handleEditEvent(item.id)}
-        />
+        <EventCards eventCards={userEvents} handleCardClick={handleEditEvent}/>
       ),
     },
     {
