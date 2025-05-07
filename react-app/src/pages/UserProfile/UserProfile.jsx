@@ -280,7 +280,7 @@ const UserProfile = () => {
           {/* Tabs */}
           <UserProfileTabs />
           {/* Filter Panel */}
-          {showFilters && (
+          {/* {showFilters && (
             <div className="filters-panel">
               {Object.entries(filters).map(([key, value]) => (
                 <label key={key}>
@@ -293,9 +293,9 @@ const UserProfile = () => {
                 </label>
               ))}
             </div>
-          )}
+          )} */}
 
-          {/* Card Grid */}
+          {/* Card Grid
           {filters["myEvents"] && cardData["myEvents"].length > 0 ? <h2>Events</h2> :<></>}
           {filters["myEvents"] && 
             cardData["myEvents"]?.map((event) => (
@@ -372,7 +372,7 @@ const UserProfile = () => {
                 />
               </div>
             ))
-          }
+          } */}
 
           {/* Modal */}
           {modalOpen && selectedCard && (
