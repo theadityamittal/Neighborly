@@ -9,6 +9,7 @@ import "./UserProfile.css";
 import { useNavigate } from "react-router";
 import EventCards from "../Events/EventCards";
 import BulletinCards from "../Bulletin/BulletinCards";
+import ToolCards from "../Tools/ToolCards";
 
 const formatDate = (iso) =>
   new Date(iso).toLocaleDateString(undefined, {
@@ -105,20 +106,14 @@ const UserProfileTabs = () => {
   const fetchUserTools = async () => {
     try {
       setLoading(true);
-      const response = await axiosInstance.get(
-        `/tools/grabToolsData/owner/${userId}`,
-        {
+      const response = await axiosInstance.get(`/tools/grabToolsData/owner/${userId}`, {
           headers: { Authorization: `Bearer ${access}` },
-        }
-      );
-      const processed = response.data.tools.map((tool) => ({
-        id: tool.tool_id,
-        title: tool.title,
+      });
+      const data = response.data.tools;
+      const processed = data.map((tool) => ({
+        ...tool,
         provider: "You",
-        location: tool.neighborhood,
         closestAvailability: tool.closestAvailability || "",
-        image: tool.images?.[0],
-        tags: [tool.condition, tool.visibility],
       }));
       setUserTools(processed);
       setLoading(false);
@@ -200,20 +195,12 @@ const UserProfileTabs = () => {
     {
       label: "Hosted Events",
       value: "hostedEvents",
-      content: (
-        <EventCards eventCards={userEvents} handleCardClick={handleEditEvent}/>
-      ),
+      content: <EventCards eventCards={userEvents} handleCardClick={handleEditEvent}/>
     },
     {
       label: "Listed Tools",
       value: "listedTools",
-      content: (
-        <HorizontalCardList
-          items={userTools}
-          viewRouteBase="tools"
-          onView={(item) => setSelectedItem(item)}
-        />
-      ),
+      content: <ToolCards tools={userTools} />,
     },
     {
       label: "Created Services",
