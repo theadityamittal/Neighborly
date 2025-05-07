@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Avatar, Button, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/authSlice";
@@ -13,12 +12,14 @@ import VerticalCard from "../../components/VerticalCard/VerticalCard";
 import "./UserProfile.css";
 import { getEventsByUser } from "../../services/eventService";
 import { getPetitionsByUser } from "../../services/petitionsService";
+import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
 
 import UserProfileTabs from "./UserProfileTabs";
 
 import avatar from "../../assets/avatar.png";
 import "./UserProfile.css";
 import axiosInstance from "../../utils/axiosInstance";
+import React, { useState, useEffect } from "react";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const UserProfile = () => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [selectedTab, setSelectedTab] = useState("myPosts");
   const [tabContent, setTabContent] = useState(null);
+  const [showFilters, setShowFilters] = useState(false);
 
   const [filters, setFilters] = useState({
     myEvents: true,
