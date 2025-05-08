@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../utils/axiosInstance";
 import { useSelector } from "react-redux";
-import HorizontalCardList from "./HorizontalCardList";
-import PostCard from "../../components/VerticalCard/PostCard";
 import PetitionCards from "../Petitions/PetitionCards";
 import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
 import "./UserProfile.css";
@@ -53,13 +51,25 @@ const UserProfileTabs = () => {
   const handleEditEvent = (event) => {
     console.log(`Card with ID ${event.event_id} clicked`);
     // Navigate to the detailed petition page
-    navigate(`/event/${event.event_id}`);
+    navigate(`/event/edit/${event.event_id}`);
   };
 
   const handleEditPetition = (petition) => {
     console.log(`Card with ID ${petition.petition_id} clicked`);
     // Navigate to the detailed petition page
-    navigate(`/petition/user/${petition.petition_id}`);
+    navigate(`/petition/edit/${petition.petition_id}`);
+  };
+
+  const handleEditTool = (tool) => {
+    console.log(`Card with ID ${tool.tool_id} clicked`);
+    // Navigate to the detailed petition page
+    navigate(`/tool/edit/${tool.tool_id}`);
+  };
+
+  const handleEditService = (service) => {
+    console.log(`Card with ID ${service.service_id} clicked`);
+    // Navigate to the detailed petition page
+    navigate(`/service/edit/${service.service_id}`);
   };
 
   const fetchUserPosts = async () => {
@@ -86,7 +96,6 @@ const UserProfileTabs = () => {
       setLoading(false);
     }
   };
-
 
   const fetchUserServices = async () => {
     try {
@@ -201,12 +210,12 @@ const UserProfileTabs = () => {
     {
       label: "Listed Tools",
       value: "tools",
-      content: <ToolCards tools={userTools} />,
+      content: <ToolCards tools={userTools} handleCardClick={handleEditTool}/>,
     },
     {
       label: "Created Services",
       value: "services",
-      content: <ServiceCards services={userServices} />,
+      content: <ServiceCards services={userServices} handleCardClick={handleEditService}/>,
     },
     {
       label: "Opened Petitions",

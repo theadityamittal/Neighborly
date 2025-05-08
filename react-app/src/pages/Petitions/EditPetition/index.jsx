@@ -7,7 +7,7 @@ import axiosInstance from "../../../utils/axiosInstance";
 import { useSelector } from "react-redux";
 import HorizontalCardModalEdit from "../../../components/HorizontalCard/HorizontalCardModalEdit";
 
-const MyDetailedPetition = () => {
+const EditPetition = () => {
   const { petition_id } = useParams();
   const [petitionDetails, setpetitionDetails] = useState(null);
   const [participants, setParticipants] = useState([]);
@@ -123,4 +123,4 @@ const MyDetailedPetition = () => {
   );
 };
 
-export default MyDetailedPetition;
+export default EditPetition;
