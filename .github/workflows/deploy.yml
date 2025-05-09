@@ -1,4 +1,4 @@
-name: Deployment Tests (No Deployment)
+name: Deployment Tests
 
 on:
   push:
@@ -55,3 +55,4 @@ jobs:
       #     app-name: 'neighborly-django-app-6063'
       #     slot-name: production
       #     publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+
