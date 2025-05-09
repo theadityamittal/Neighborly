@@ -6,9 +6,11 @@ from neighborly_events.models import Event, EventSignUp
 from neighborly_tools.models import Tool, BorrowRequest
 from datetime import date, time, timedelta
 
+
 class Command(BaseCommand):
-    help = 'Populate the database with fake data'
+    help = "Populate the database with fake data"
     CustomUser.objects.filter(email="bobbybill@example.com").delete()
+
     def handle(self, *args, **options):
         # Create a user
         user = CustomUser.objects.create_user(
@@ -18,7 +20,7 @@ class Command(BaseCommand):
             address="123 Main Street",
             neighborhood="Downtown",
             account_type="resident",
-            password="Something"
+            password="Something",
         )
 
         # Create a service
@@ -28,7 +30,7 @@ class Command(BaseCommand):
             service_provider=user.user_id.int >> 64,
             location="Downtown",
             available=True,
-            earliest_availability=date.today()
+            earliest_availability=date.today(),
         )
 
         # Create a petition (now with new fields)
@@ -42,7 +44,7 @@ class Command(BaseCommand):
             location="Downtown",
             provider=user.name,
             voting_ends_at=date.today() + timedelta(days=30),
-            hero_image="https://source.unsplash.com/featured/?streetlights,city"
+            hero_image="https://source.unsplash.com/featured/?streetlights,city",
         )
 
         # Create an event
@@ -57,23 +59,23 @@ class Command(BaseCommand):
             visibility="public",
             tags=["safety", "community"],
             recurring=True,
-            max_attendees=30
+            max_attendees=30,
         )
         # Create a tool
         tool = Tool.objects.create(
-        owner_id=str(user.user_id),
-        name="Cordless Drill",
-        description="A reliable cordless drill, great for household fixes.",
-        condition="Used",
-        availability=True
+            owner_id=str(user.user_id),
+            name="Cordless Drill",
+            description="A reliable cordless drill, great for household fixes.",
+            condition="Used",
+            availability=True,
         )
 
         # Create a borrow request
         borrow_request = BorrowRequest.objects.create(
-        tool=tool,
-        user_id=str(user.user_id),
-        borrow_date=date.today(),
-        return_date=date.today() + timedelta(days=3)
+            tool=tool,
+            user_id=str(user.user_id),
+            borrow_date=date.today(),
+            return_date=date.today() + timedelta(days=3),
         )
 
         self.stdout.write(self.style.SUCCESS("Fake Data Inserted"))

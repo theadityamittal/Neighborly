@@ -18,7 +18,7 @@ class TestPetitionView(APIView):
     def get(self, request):
         # annotate each petition with its signature_count
         petitions = Petition.objects.annotate(
-            signature_count=Count('petitionsignature')
+            signature_count=Count("petitionsignature")
         )
         petition_data = PetitionSerializer(petitions, many=True).data
 
@@ -26,44 +26,42 @@ class TestPetitionView(APIView):
         signatures = PetitionSignature.objects.all()
         signature_data = PetitionSignatureSerializer(signatures, many=True).data
 
-        return Response({
-            "petitions": petition_data,
-            "petition_signatures": signature_data
-        })
+        return Response(
+            {"petitions": petition_data, "petition_signatures": signature_data}
+        )
+
 
 # GET petition by ID + its signatures
-@api_view(['GET'])
+@api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def grab_petition_data(request, petition_id):
     # annotate the single petition
     petition = get_object_or_404(
-        Petition.objects.annotate(signature_count=Count('petitionsignature')),
-        pk=petition_id
+        Petition.objects.annotate(signature_count=Count("petitionsignature")),
+        pk=petition_id,
     )
     petition_data = PetitionSerializer(petition).data
 
     signatures = PetitionSignature.objects.filter(petition=petition)
     signature_data = PetitionSignatureSerializer(signatures, many=True).data
 
-    return Response({
-        "petition": petition_data,
-        "petition_signatures": signature_data
-    })
+    return Response({"petition": petition_data, "petition_signatures": signature_data})
+
+
 # GET petitions by organizer ID
-@api_view(['GET'])
+@api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def grab_petition_data_by_organizer(request, user_id):
     # annotate each petition with its signature_count
     petitions = Petition.objects.filter(organizer_id=user_id).annotate(
-        signature_count=Count('petitionsignature')
+        signature_count=Count("petitionsignature")
     )
     petition_data = PetitionSerializer(petitions, many=True).data
 
-    return Response({
-        "petitions": petition_data
-    })
+    return Response({"petitions": petition_data})
 
-@api_view(['GET'])
+
+@api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_petitions_not_users(request):
     petitions = Petition.objects.filter(organizer_id=request.user.user_id)
@@ -72,14 +70,16 @@ def get_petitions_not_users(request):
         serializer.save()
     return Response(serializer.data)
 
-@api_view(['GET'])
+
+@api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_petition_data(request, petition_id):
     petition = get_object_or_404(Petition, petition_id=petition_id)
     serializer = PetitionSerializer(petition)
     return Response(serializer.data)
 
-@api_view(['POST'])
+
+@api_view(["POST"])
 @permission_classes([IsAuthenticated])
 @parser_classes([MultiPartParser, FormParser])
 @permission_classes([IsAuthenticated])
@@ -90,7 +90,8 @@ def create_petition(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST'])
+
+@api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def sign_petition(request, petition_id):
     petition = get_object_or_404(Petition, petition_id=petition_id)
@@ -102,7 +103,8 @@ def sign_petition(request, petition_id):
     PetitionSignature.objects.create(petition=petition, user_id=user_id)
     return Response({"detail": "Petition signed successfully."})
 
-@api_view(['GET'])
+
+@api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_petitions(request):
     petitions = Petition.objects.filter(petitionsignature__user_id=request.user.id)

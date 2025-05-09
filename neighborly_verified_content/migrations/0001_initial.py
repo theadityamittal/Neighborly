@@ -8,19 +8,28 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='UsersDocuments',
+            name="UsersDocuments",
             fields=[
-                ('ud_id', models.AutoField(primary_key=True, serialize=False)),
-                ('user_id', models.CharField(max_length=255)),
-                ('description', models.CharField(max_length=255)),
-                ('file', models.FileField(blank=True, null=True, upload_to=neighborly_verified_content.models.documents_image_upload_path, validators=[neighborly_verified_content.models.validate_file_extension])),
-                ('uploaded_at', models.DateTimeField(auto_now_add=True)),
-                ('verified', models.BooleanField(default=False)),
+                ("ud_id", models.AutoField(primary_key=True, serialize=False)),
+                ("user_id", models.CharField(max_length=255)),
+                ("description", models.CharField(max_length=255)),
+                (
+                    "file",
+                    models.FileField(
+                        blank=True,
+                        null=True,
+                        upload_to=neighborly_verified_content.models.documents_image_upload_path,
+                        validators=[
+                            neighborly_verified_content.models.validate_file_extension
+                        ],
+                    ),
+                ),
+                ("uploaded_at", models.DateTimeField(auto_now_add=True)),
+                ("verified", models.BooleanField(default=False)),
             ],
         ),
     ]

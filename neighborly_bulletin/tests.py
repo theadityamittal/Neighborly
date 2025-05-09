@@ -6,24 +6,25 @@ from .models import BulletinItem
 
 User = get_user_model()
 
+
 class BulletinTests(APITestCase):
 
     def setUp(self):
-        self.register_url = reverse('register')
-        self.login_url = reverse('token_obtain_pair')
+        self.register_url = reverse("register")
+        self.login_url = reverse("token_obtain_pair")
 
         self.user_data = {
             "name": "Steve Harvey",
             "email": "steveharvey@example.com",
             "phone_number": "1234567890",
             "address": "123 Street, City",
-            "city": 'Test City',
+            "city": "Test City",
             "zip_code": "12345",
             "latitude": 40.7128,
             "longitude": -74.0060,
             "neighborhood": "Brooklyn",
             "account_type": "customer",
-            "password": "password123"
+            "password": "password123",
         }
 
         self.token = self.authenticate_user()
@@ -32,19 +33,23 @@ class BulletinTests(APITestCase):
         self.user_id = User.objects.get(email=self.user_data["email"]).id
 
     def authenticate_user(self):
-        register_response = self.client.post(self.register_url, self.user_data, format='json')
+        register_response = self.client.post(
+            self.register_url, self.user_data, format="json"
+        )
         self.assertEqual(register_response.status_code, status.HTTP_201_CREATED)
 
-        login_response = self.client.post(self.login_url, {
-            "email": self.user_data["email"],
-            "password": self.user_data["password"]
-        }, format='json')
+        login_response = self.client.post(
+            self.login_url,
+            {"email": self.user_data["email"], "password": self.user_data["password"]},
+            format="json",
+        )
 
         self.assertEqual(login_response.status_code, status.HTTP_200_OK)
         self.assertIn("access", login_response.data)
         return login_response.data["access"]
 
-    '''==============Creation of bulletin=============='''
+    """==============Creation of bulletin=============="""
+
     def test_user_can_create_bulletin_item(self):
         payload = {
             "user_id": str(self.user_id),  # ADD this
@@ -57,7 +62,7 @@ class BulletinTests(APITestCase):
             "city": "New York",
             "state": "NY",
             "zip_code": "11201",
-            "neighborhood": "Brooklyn Heights"
+            "neighborhood": "Brooklyn Heights",
         }
 
         url = "/bulletin/"
@@ -74,7 +79,8 @@ class BulletinTests(APITestCase):
 
         print("\n√ test_user_can_create_bulletin_item passed!")
 
-    '''==============Get Bulletin Details=============='''
+    """==============Get Bulletin Details=============="""
+
     def test_get_bulletin_by_id(self):
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.token}")
 
@@ -90,7 +96,7 @@ class BulletinTests(APITestCase):
             "city": "New York",
             "state": "NY",
             "zip_code": "11201",
-            "neighborhood": "Brooklyn Heights"
+            "neighborhood": "Brooklyn Heights",
         }
 
         create_response = self.client.post("/bulletin/", data=payload, format="json")
@@ -103,14 +109,15 @@ class BulletinTests(APITestCase):
 
         # Now use the API to GET the bulletin
         url = f"/bulletin/{post_id}/"
-        get_response = self.client.get(url) 
+        get_response = self.client.get(url)
 
         self.assertEqual(get_response.status_code, status.HTTP_200_OK)
         self.assertEqual(get_response.data["title"], "Lost Cat")
 
         print("\n√ test_get_bulletin_by_id passed!")
 
-    '''==============Get Bulletin Details - invalid case=============='''
+    """==============Get Bulletin Details - invalid case=============="""
+
     def test_get_invalid_bulletin_returns_404(self):
         url = "/bulletin/invalid-id/"
         response = self.client.get(url)
@@ -118,14 +125,16 @@ class BulletinTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         print("\n√ test_get_invalid_bulletin_returns_404 passed!")
 
-    '''==============Get Bulletin List Requires Authentication=============='''
+    """==============Get Bulletin List Requires Authentication=============="""
+
     def test_get_bulletin_requires_authentication(self):
         self.client.credentials()  # clear token
         response = self.client.get("/bulletin/")
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         print("\n√ test_get_bulletin_requires_authentication passed!")
 
-    '''==============Filter Bulletins by Fields=============='''
+    """==============Filter Bulletins by Fields=============="""
+
     def test_filter_bulletins_by_city_and_tag(self):
         BulletinItem.objects.create(
             user=self.user,
@@ -137,7 +146,7 @@ class BulletinTests(APITestCase):
             location="Manhattan",
             city="New York",
             state="NY",
-            neighborhood="Chelsea"
+            neighborhood="Chelsea",
         )
 
         BulletinItem.objects.create(
@@ -150,7 +159,7 @@ class BulletinTests(APITestCase):
             location="Brooklyn",
             city="New York",
             state="NY",
-            neighborhood="Williamsburg"
+            neighborhood="Williamsburg",
         )
 
         # Filter by city=New York and title containing "Art"
@@ -163,6 +172,7 @@ class BulletinTests(APITestCase):
         self.assertEqual(results[0]["city"], "New York")
 
         print("\n√ test_filter_bulletins_by_city_and_tag passed!")
+
     def test_get_user_bulletin_posts(self):
         # Create a second user
         other_user = User.objects.create_user(
@@ -174,7 +184,7 @@ class BulletinTests(APITestCase):
             city="Other City",
             zip_code="54321",
             neighborhood="Other Neighborhood",
-            account_type="customer"
+            account_type="customer",
         )
 
         # Create bulletins for the first (authenticated) user

@@ -9,34 +9,46 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Petition',
+            name="Petition",
             fields=[
-                ('petition_id', models.AutoField(primary_key=True, serialize=False)),
-                ('title', models.CharField(max_length=255)),
-                ('description', models.TextField()),
-                ('organizer_id', models.CharField(max_length=255)),
-                ('visibility', models.BooleanField(default=True)),
-                ('tags', models.JSONField(blank=True, default=list)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('target', models.IntegerField()),
-                ('location', models.CharField(default='Unknown', max_length=100)),
-                ('provider', models.CharField(default='Anonymous', max_length=100)),
-                ('voting_ends_at', models.DateField(blank=True, null=True)),
-                ('hero_image', models.ImageField(blank=True, null=True, upload_to=neighborly_petitions.models.petition_image_upload_path)),
+                ("petition_id", models.AutoField(primary_key=True, serialize=False)),
+                ("title", models.CharField(max_length=255)),
+                ("description", models.TextField()),
+                ("organizer_id", models.CharField(max_length=255)),
+                ("visibility", models.BooleanField(default=True)),
+                ("tags", models.JSONField(blank=True, default=list)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("target", models.IntegerField()),
+                ("location", models.CharField(default="Unknown", max_length=100)),
+                ("provider", models.CharField(default="Anonymous", max_length=100)),
+                ("voting_ends_at", models.DateField(blank=True, null=True)),
+                (
+                    "hero_image",
+                    models.ImageField(
+                        blank=True,
+                        null=True,
+                        upload_to=neighborly_petitions.models.petition_image_upload_path,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='PetitionSignature',
+            name="PetitionSignature",
             fields=[
-                ('signature_id', models.AutoField(primary_key=True, serialize=False)),
-                ('user_id', models.CharField(max_length=255)),
-                ('signed_at', models.DateTimeField(auto_now_add=True)),
-                ('petition', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='neighborly_petitions.petition')),
+                ("signature_id", models.AutoField(primary_key=True, serialize=False)),
+                ("user_id", models.CharField(max_length=255)),
+                ("signed_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "petition",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="neighborly_petitions.petition",
+                    ),
+                ),
             ],
         ),
     ]

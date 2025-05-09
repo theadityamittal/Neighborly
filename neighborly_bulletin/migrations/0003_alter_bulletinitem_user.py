@@ -9,13 +9,18 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('neighborly_bulletin', '0002_initial'),
+        ("neighborly_bulletin", "0002_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='bulletinitem',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='bulletin_posts', to=settings.AUTH_USER_MODEL, to_field='user_id'),
+            model_name="bulletinitem",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="bulletin_posts",
+                to=settings.AUTH_USER_MODEL,
+                to_field="user_id",
+            ),
         ),
     ]
