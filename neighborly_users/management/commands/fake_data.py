@@ -52,8 +52,10 @@ class Command(BaseCommand):
             event_name="Neighborhood Watch Meeting",
             organizer_name=user.name,
             organizer_id=str(user.user_id),
-            description=("Monthly meeting to discuss safety and incidents "
-                         "in the neighborhood."),
+            description=(
+                "Monthly meeting to discuss safety and incidents "
+                "in the neighborhood."
+            ),
             location="Community Center",
             date=date.today(),
             time=time(hour=18, minute=30),

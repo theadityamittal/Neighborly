@@ -26,11 +26,14 @@ class Migration(migrations.Migration):
                 ("location", models.CharField(default="Unknown", max_length=100)),
                 ("provider", models.CharField(default="Anonymous", max_length=100)),
                 ("voting_ends_at", models.DateField(blank=True, null=True)),
-                ("hero_image", models.ImageField(
-                    blank=True,
-                    null=True,
-                    upload_to=neighborly_petitions.models.petition_image_upload_path,
-                )),
+                (
+                    "hero_image",
+                    models.ImageField(
+                        blank=True,
+                        null=True,
+                        upload_to=neighborly_petitions.models.petition_image_upload_path,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
