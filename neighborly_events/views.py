@@ -2,16 +2,11 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.parsers import MultiPartParser, FormParser
 from .models import Event, EventSignUp
 from .serializers import EventSerializer, EventSignUpSerializer
-from neighborly_users.models import CustomUser
-from neighborly_users.serializers import UserSerializer
 from rest_framework.decorators import action, permission_classes, api_view
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
-
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
 
 
 class EventViewSet(ModelViewSet):
@@ -75,6 +70,7 @@ class SignUpEventSet(ModelViewSet):
     @action(detail=False, methods=["get"], url_path="unsignup_event")
     def unsignup_for_event(self, request):
         user_id = request.user.user_id
+        event = request.data.get("event_id")
 
         se = EventSignUp.objects.filter(event_id=event, user_id=user_id)
         if not se.exists():
@@ -90,8 +86,8 @@ class SignUpEventSet(ModelViewSet):
 @permission_classes([IsAuthenticated])
 def get_events_for_user(request):
     user_id = request.user.user_id
-    print(request.user.user_id)
-    events = Event.objects.filter(organizer_id=request.user.user_id)
+    print(user_id)
+    events = Event.objects.filter(organizer_id=user_id)
 
     serializer = EventSerializer(events, many=True)
     return Response(serializer.data)

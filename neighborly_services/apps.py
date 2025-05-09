@@ -6,4 +6,4 @@ class NeighborlyServicesConfig(AppConfig):
     name = "neighborly_services"
 
     def ready(self):
-        import neighborly_services.signals
+        import neighborly_services.signals  # noqa

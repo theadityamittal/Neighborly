@@ -2,7 +2,6 @@ from django.db import models
 from django.utils import timezone
 import os
 import uuid
-from django.contrib.auth.models import User
 from django.conf import settings
 
 
@@ -14,7 +13,6 @@ def bulletin_image_upload_path(instance, filename):
 
 class BulletinItem(models.Model):
     post_id = models.AutoField(primary_key=True)
-    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="bulletin_posts")
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         to_field="user_id",

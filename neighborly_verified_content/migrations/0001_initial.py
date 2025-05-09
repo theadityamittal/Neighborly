@@ -22,7 +22,9 @@ class Migration(migrations.Migration):
                     models.FileField(
                         blank=True,
                         null=True,
-                        upload_to=neighborly_verified_content.models.documents_image_upload_path,
+                        upload_to=(
+                            neighborly_verified_content.models.documents_image_upload_path
+                        ),
                         validators=[
                             neighborly_verified_content.models.validate_file_extension
                         ],

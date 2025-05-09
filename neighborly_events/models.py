@@ -1,7 +1,6 @@
 from django.db import models
 import os
 import uuid
-from django.utils.timezone import now
 
 
 def event_image_upload_path(instance, filename):
@@ -34,9 +33,6 @@ class EventSignUp(models.Model):
     )
     user_id = models.CharField(max_length=255)
     signed_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Signature {self.signature_id} on {self.petition.title}"
 
     def __str__(self):
         return self.event_name

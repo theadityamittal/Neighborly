@@ -27,7 +27,8 @@ class UserSerializer(serializers.ModelSerializer):
         read_only_fields = ("user_id", "created_at", "is_staff")
 
     def create(self, validated_data):
-        # Extract password and create user via manager to ensure all fields are handled properly
+        # Extract password and create user via manager to ensure all fields are
+        # handled properly
         password = validated_data.pop("password")
         user = CustomUser.objects.create_user(password=password, **validated_data)
         return user

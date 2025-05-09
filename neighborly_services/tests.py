@@ -150,7 +150,7 @@ class ServiceTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         print("\n√ test_service_signup_status_patch passed!")
 
-    """==============Update Signup Details (approve request) - check dates=============="""
+    """=== Update Signup Details (approve request) - check dates ==="""
 
     def test_patch_signup_status_without_blocking_dates(self):
         # Create service
@@ -321,7 +321,7 @@ def test_get_services_by_user(self):
 
     # Check that the titles of the returned services are correct
     titles = [service["title"] for service in services]
-    self.assertIn("Neighborhood Cleanup", titles)
-    self.assertIn("Pet Sitting", titles)
+    self.assertIn(service1.title, titles)
+    self.assertIn(service2.title, titles)
 
     print("\n√ test_get_services_by_user passed!")

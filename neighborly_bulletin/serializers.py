@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import BulletinItem
-from django.core.files.storage import default_storage
 from django.conf import settings
 
 
@@ -17,7 +16,8 @@ class BulletinItemSerializer(serializers.ModelSerializer):
         return None
 
     # def create(self, validated_data):
-    #     images_data = validated_data.pop('upload_images', [])  # pull out uploaded images separately
+    # images_data = validated_data.pop('upload_images', [])  # pull out
+    # uploaded images separately
 
     #     uploaded_urls = []
     #     for image_file in images_data:

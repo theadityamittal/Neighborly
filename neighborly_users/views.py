@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from .permissions import IsStaffPermission, IsVerifiedPermission
+from .permissions import IsVerifiedPermission
 
 
 class RegisterUserView(APIView):

@@ -2,11 +2,9 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import action
 from rest_framework.decorators import api_view, permission_classes
 
 # for api filtering
-from django_filters.rest_framework import DjangoFilterBackend
 from .filters import ServiceItemFilter
 
 from django.shortcuts import get_object_or_404
@@ -18,9 +16,6 @@ from .serializers import (
     ServiceSignupSerializer,
     ServiceItemDetailSerializer,
 )
-
-# Geolocation
-from utils.geolocation import geocode_location
 
 """For all service items & creation of new service items"""
 

@@ -4,7 +4,6 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 # for api filtering
-from django_filters.rest_framework import DjangoFilterBackend
 from .filters import BulletinItemFilter
 
 from django.shortcuts import get_object_or_404
@@ -12,9 +11,6 @@ from django.shortcuts import get_object_or_404
 # Models and serializers
 from .models import BulletinItem
 from .serializers import BulletinItemSerializer  # , BulletinItemSerializer
-
-# Geolocation
-from utils.geolocation import geocode_location
 
 """For all bulletin items & creation of new bulletin items"""
 
