@@ -1,14 +1,13 @@
 import React from "react";
 import './styles.css'; // You'll need to create this CSS file
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // Assuming you're using Material UI
 import axiosInstance from "../../../utils/axiosInstance";
 import { useSelector } from "react-redux";
 import HorizontalCardModalEdit from "../../../components/HorizontalCard/HorizontalCardModalEdit";
 
-const DetailedEvent = () => {
+const EditEvent = () => {
   const { event_id } = useParams();
   const [eventDetails, setEventDetails] = useState(null);
   const [participants, setParticipants] = useState([]);
@@ -59,13 +58,13 @@ const DetailedEvent = () => {
   }
 
   if (loading || !eventDetails) {
-    return <div className="loading">Loading petition details...</div>;
+    return <div className="loading">Loading Event details...</div>;
   }
 
   return (
     <div className="detailed-event-container">
       <div className="event-header">
-        <button className="back-button" onClick={() => navigate(-1)}>
+        <button className="back-button" onClick={() => navigate("/profile")}>
           <ArrowBackIcon /> Back
         </button>
         <div className="event-tags">
@@ -135,4 +134,4 @@ const DetailedEvent = () => {
   );
 };
 
-export default DetailedEvent;
+export default EditEvent;

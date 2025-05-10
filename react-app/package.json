@@ -13,7 +13,6 @@
     "@reduxjs/toolkit": "^2.6.1",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.24.7",
     "axios": "^1.8.4",
@@ -65,6 +64,9 @@
     }
   },
   "devDependencies": {
+    "@testing-library/react": "^16.3.0",
+    "eslint": "^8.57.1",
+    "jest": "^27.5.1",
     "util": "^0.12.5"
   }
 }

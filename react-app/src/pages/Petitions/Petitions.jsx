@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import VerticalCard from '../../components/VerticalCard/VerticalCard';
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../utils/axiosInstance"; 
-import petitionsJson from "./petitionData.json"; // Import the local JSON file
 import "./petitions.css";
 import SearchBar from "../../components/SearchBar";
 import AddIcon from '@mui/icons-material/Add';
@@ -12,8 +9,6 @@ import { PETITION_TAGS } from "../../assets/tags";
 import PetitionCards from "../Petitions/PetitionCards";
 
 const haversine = require('haversine-distance')
-
-
 
 const Petitions = () => {
   const [petitions, setPetitions] = useState([]);
@@ -23,24 +18,8 @@ const Petitions = () => {
   const navigate = useNavigate();
   const { access } = useSelector((state) => state.auth);
   const { latitude, longitude } = useSelector((state) => state.auth);
-  // Define fetchPetitions as a separate function
-  const fetchPetitions = async () => {
-    // ▶️ LOCAL MOCK (uncomment to use):
-    // const data = petitionsJson;
-    // const processed = data.map(pet => ({
-    //   id: pet.petition_id,
-    //   title: pet.title,
-    //   provider: pet.provider,
-    //   location: pet.location,
-    //   tags: pet.tags,
-    //   numberSigned: 0,
-    //   image: pet.hero_image
-    // }));
-    // setPetitions(processed);
-    // setLoading(false);
-    // setError(null);
-    // return;
 
+  const fetchPetitions = async () => {
     // Fetch petitions from the API
     setLoading(true);
     try {
@@ -53,17 +32,7 @@ const Petitions = () => {
       const data = response.data;
       console.log("Fetched petition data:", data);
 
-      const processed = data.petitions.map(pet => ({
-        id: pet.petition_id,
-        title: pet.title,
-        provider: pet.provider,       // use display name
-        location: pet.location,
-        tags: pet.tags,
-        numberSigned: pet.signature_count,  // if you surface that in your view
-        image: pet.hero_image
-      }));
-
-      setPetitions(processed);
+      setPetitions(data.petitions);
       setLoading(false);
     } catch (err) {
       console.error("Error fetching petition data:", err);

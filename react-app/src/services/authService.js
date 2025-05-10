@@ -70,7 +70,7 @@ export const checkAuthState = () => async (dispatch) => {
     });
     
     if (response.ok) {
-      const userData = await response.json();
+      await response.json();
     } else {
       // If token is invalid, log the user out
       localStorage.removeItem('token');

@@ -1,7 +1,12 @@
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin,
+)
 from django.db import models
 from django.utils.timezone import now
 import uuid
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(
@@ -16,7 +21,7 @@ class CustomUserManager(BaseUserManager):
         account_type,
         password=None,
         latitude=None,
-        longitude=None
+        longitude=None,
     ):
         if not email:
             raise ValueError("Users must have an email address")
@@ -30,7 +35,7 @@ class CustomUserManager(BaseUserManager):
             zip_code=zip_code,
             latitude=latitude,
             longitude=longitude,
-            account_type=account_type, # two possible types, [resident, NGO]
+            account_type=account_type,  # two possible types, [resident, NGO]
             verified=False,
         )
         user.set_password(password)
@@ -49,12 +54,20 @@ class CustomUserManager(BaseUserManager):
         account_type,  # two possible types, [resident, NGO]
         password,
         latitude=None,
-        longitude=None
+        longitude=None,
     ):
         user = self.create_user(
-            email, name, phone_number, address,
-            city, neighborhood, zip_code,
-            account_type, password, latitude, longitude
+            email,
+            name,
+            phone_number,
+            address,
+            city,
+            neighborhood,
+            zip_code,
+            account_type,
+            password,
+            latitude,
+            longitude,
         )
         user.is_superuser = True
         user.is_staff = True
@@ -62,32 +75,39 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-class CustomUser(AbstractBaseUser, PermissionsMixin):
-    user_id      = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    name         = models.CharField(max_length=255)
-    email        = models.EmailField(unique=True)
-    phone_number = models.CharField(max_length=20, unique=True)
-    address      = models.TextField()
-    city         = models.CharField(max_length=255)
-    neighborhood = models.CharField(max_length=255)
-    zip_code     = models.CharField(max_length=20)
-    latitude     = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
-    longitude    = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
-    account_type = models.CharField(max_length=255)  # two possible types, [resident, NGO]
-    verified     = models.BooleanField(default=False)
-    created_at   = models.DateTimeField(default=now)
-    is_active    = models.BooleanField(default=True)
-    is_staff     = models.BooleanField(default=False)
 
-    USERNAME_FIELD  = 'email'
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    user_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    name = models.CharField(max_length=255)
+    email = models.EmailField(unique=True)
+    phone_number = models.CharField(max_length=20, unique=True)
+    address = models.TextField()
+    city = models.CharField(max_length=255)
+    neighborhood = models.CharField(max_length=255)
+    zip_code = models.CharField(max_length=20)
+    latitude = models.DecimalField(
+        max_digits=9, decimal_places=6, null=True, blank=True
+    )
+    longitude = models.DecimalField(
+        max_digits=9, decimal_places=6, null=True, blank=True
+    )
+    account_type = models.CharField(
+        max_length=255
+    )  # two possible types, [resident, NGO]
+    verified = models.BooleanField(default=False)
+    created_at = models.DateTimeField(default=now)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = [
-        'name',
-        'phone_number',
-        'address',
-        'city',
-        'neighborhood',
-        'zip_code',
-        'account_type',
+        "name",
+        "phone_number",
+        "address",
+        "city",
+        "neighborhood",
+        "zip_code",
+        "account_type",
     ]
 
     objects = CustomUserManager()

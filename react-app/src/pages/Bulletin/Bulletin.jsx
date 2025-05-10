@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import axios from "../../utils/axiosInstance";
-import PostCard from "../../components/VerticalCard/PostCard";
 import QuickPost from "../../components/VerticalCard/QuickPost";
 import SearchBar from "../../components/SearchBar";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { BULLETIN_TAGS } from "../../assets/tags";
+import BulletinCards from "./BulletinCards";
+import axiosInstance from "../../utils/axiosInstance";
 
 const haversine = require('haversine-distance');
 
@@ -24,15 +24,18 @@ const Bulletin = () => {
     setLoading(true);
 
     try {
-      const response = await axios.get("/bulletin/", {
+      const response = await axiosInstance.get("/bulletin/", {
         headers: { Authorization: `Bearer ${access}` },
       });
       const sorted = [...response.data].sort(
         (a, b) => new Date(b.date_posted) - new Date(a.date_posted)
       );
       console.log("Fetched posts:", response.data);
-
-      setPosts(sorted);
+      const processed = sorted.map((post) => ({
+        ...post,
+        date_posted: new Date(post.date_posted).toLocaleString(),
+      }));
+      setPosts(processed);
     } catch (err) {
       console.error("Error fetching posts:", err);
       setError("Could not load posts from server.");
@@ -106,22 +109,8 @@ const Bulletin = () => {
       {/* Quick Post Element */}
       <QuickPost postCreate={() => fetchPosts()} />
 
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
-        {posts.length === 0 ? (
-          <div>No posts available.</div>
-        ) : (
-          posts.map((post) => (
-            <PostCard
-              key={post.post_id}
-              userName={post.user_name}
-              dateTime={new Date(post.date_posted).toLocaleString()}
-              postContent={post.content}
-              tags={post.tags}
-              image={post.image}
-            />
-          ))
-        )}
-      </div>
+      {/* Bulletin Cards */}
+      <BulletinCards posts={posts}/>
     </div>
   );
 };

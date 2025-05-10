@@ -2,30 +2,34 @@ from django.db import models
 from django.utils import timezone
 import os
 import uuid
-from django.contrib.auth.models import User
 from django.conf import settings
 
+
 def bulletin_image_upload_path(instance, filename):
-    ext = filename.split('.')[-1]
+    ext = filename.split(".")[-1]
     filename = f"{uuid.uuid4().hex}.{ext}"
     return os.path.join("bulletin/uploads/", filename)
 
+
 class BulletinItem(models.Model):
     post_id = models.AutoField(primary_key=True)
-    #user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="bulletin_posts") 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        to_field='user_id',
+        to_field="user_id",
         on_delete=models.CASCADE,
-        related_name="bulletin_posts"
+        related_name="bulletin_posts",
     )
     user_uuid = models.CharField(max_length=36, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255)
     content = models.TextField()
     post_type = models.CharField(max_length=100)
-    visibility = models.CharField(max_length=10, default='public')  # public, neighborhood, private (=invite only)
+    visibility = models.CharField(
+        max_length=10, default="public"
+    )  # public, neighborhood, private (=invite only)
     tags = models.JSONField(default=list, blank=True)
-    image = models.ImageField(upload_to=bulletin_image_upload_path, null=True, blank=True)
+    image = models.ImageField(
+        upload_to=bulletin_image_upload_path, null=True, blank=True
+    )
     date_posted = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(null=True, blank=True, default=timezone.now)
     # Location related
@@ -38,7 +42,6 @@ class BulletinItem(models.Model):
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
 
-    
     def get_image_url(self, obj):
         if obj.image:
             return f"{settings.AWS_S3_BASE_URL}{obj.image}"

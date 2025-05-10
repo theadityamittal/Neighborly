@@ -285,3 +285,20 @@
   color: white;
   border: 1.5px solid #6c5ed8;
 }
+
+/* =========================== */
+/* TABS */
+/* =========================== */
+
+.user-profile-tabs{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tabs-selector {
+  margin: 0;
+  display: flex;
+  gap: 12px;
+}

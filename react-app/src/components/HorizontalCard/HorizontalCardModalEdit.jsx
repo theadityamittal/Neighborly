@@ -67,6 +67,13 @@ const HorizontalCardModalEdit = ({ isOpen, onClose, item, item_name, type, api})
                 formData.append("description", description);
                 formData.append("visibility", visibility);
                 formData.append("location", location);
+                formData.append("street_address", locationInfo["address"]);
+                formData.append("city", locationInfo["city"]);
+                formData.append("neighborhood", locationInfo["neighborhood"]);
+                formData.append("zip_code", locationInfo["zipCode"]);
+                formData.append("latitude", locationInfo["latitude"]);
+                formData.append("longitude", locationInfo["longitude"]);
+                formData.append("voting_ends_at", date);
             }
 
           await axiosInstance.patch(`/${api}/${item.id}/`, formData, {
@@ -155,7 +162,7 @@ const HorizontalCardModalEdit = ({ isOpen, onClose, item, item_name, type, api})
                 location={location}
                 setLocation={(val) => setLocation(val)}
                 onCoordinatesChange={(loc) => {
-                    setLocation((prev) => ({
+                    setLocationInfo((prev) => ({
                         ...prev,
                         latitude: parseFloat(loc.latitude.toFixed(6)),
                         longitude: parseFloat(loc.longitude.toFixed(6)),

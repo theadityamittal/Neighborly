@@ -1,7 +1,7 @@
 import './VerticalCard.css'
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 
-function VerticalCard({ id, title, provider, location, closestAvailability, tabs, image, viewType, numberSigned, handleClick, NoButton = false }) {
+function VerticalCard({ title, description, provider, tabs, image, numberSigned, handleClick, NoButton = false }) {
 
   return (
     <div className="vertical-card">
@@ -22,7 +22,7 @@ function VerticalCard({ id, title, provider, location, closestAvailability, tabs
           </div>
           <div className="vertical-card-title">{title}</div>
           <div className="vertical-card-provider">{provider}</div>
-          <div className='vertical-card-description'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec feugiat egestas posuere</div>
+          <div className='vertical-card-description'>{description}</div>
         </div>
       </div>
       <div className='vertical-card-footer'>

@@ -10,31 +10,51 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='BulletinItem',
+            name="BulletinItem",
             fields=[
-                ('post_id', models.AutoField(primary_key=True, serialize=False)),
-                ('user_uuid', models.CharField(default=uuid.uuid4, editable=False, max_length=36)),
-                ('title', models.CharField(max_length=255)),
-                ('content', models.TextField()),
-                ('post_type', models.CharField(max_length=100)),
-                ('visibility', models.CharField(default='public', max_length=10)),
-                ('tags', models.JSONField(blank=True, default=list)),
-                ('image', models.ImageField(blank=True, null=True, upload_to=neighborly_bulletin.models.bulletin_image_upload_path)),
-                ('date_posted', models.DateTimeField(auto_now_add=True)),
-                ('date_updated', models.DateTimeField(blank=True, default=django.utils.timezone.now, null=True)),
-                ('location', models.CharField(max_length=255)),
-                ('street_address', models.CharField(blank=True, max_length=255, null=True)),
-                ('city', models.CharField(blank=True, max_length=100, null=True)),
-                ('state', models.CharField(blank=True, max_length=100, null=True)),
-                ('zip_code', models.CharField(blank=True, max_length=20, null=True)),
-                ('neighborhood', models.CharField(blank=True, max_length=100, null=True)),
-                ('latitude', models.FloatField(blank=True, null=True)),
-                ('longitude', models.FloatField(blank=True, null=True)),
+                ("post_id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "user_uuid",
+                    models.CharField(default=uuid.uuid4, editable=False, max_length=36),
+                ),
+                ("title", models.CharField(max_length=255)),
+                ("content", models.TextField()),
+                ("post_type", models.CharField(max_length=100)),
+                ("visibility", models.CharField(default="public", max_length=10)),
+                ("tags", models.JSONField(blank=True, default=list)),
+                (
+                    "image",
+                    models.ImageField(
+                        blank=True,
+                        null=True,
+                        upload_to=neighborly_bulletin.models.bulletin_image_upload_path,
+                    ),
+                ),
+                ("date_posted", models.DateTimeField(auto_now_add=True)),
+                (
+                    "date_updated",
+                    models.DateTimeField(
+                        blank=True, default=django.utils.timezone.now, null=True
+                    ),
+                ),
+                ("location", models.CharField(max_length=255)),
+                (
+                    "street_address",
+                    models.CharField(blank=True, max_length=255, null=True),
+                ),
+                ("city", models.CharField(blank=True, max_length=100, null=True)),
+                ("state", models.CharField(blank=True, max_length=100, null=True)),
+                ("zip_code", models.CharField(blank=True, max_length=20, null=True)),
+                (
+                    "neighborhood",
+                    models.CharField(blank=True, max_length=100, null=True),
+                ),
+                ("latitude", models.FloatField(blank=True, null=True)),
+                ("longitude", models.FloatField(blank=True, null=True)),
             ],
         ),
     ]
