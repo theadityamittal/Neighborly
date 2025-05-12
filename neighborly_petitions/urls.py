@@ -8,6 +8,7 @@ from .views import (
     get_petitions,
     get_petitions_not_users,
     get_petition_data,
+    edit_petitions,
 )
 
 urlpatterns = [
@@ -37,4 +38,5 @@ urlpatterns = [
         get_petition_data,
         name="get_petition_data",
     ),
+    path("edit_petitions/<int:petition_id>/", edit_petitions, name="edit_petitions"),
 ]

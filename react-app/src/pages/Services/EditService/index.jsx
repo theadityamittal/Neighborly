@@ -19,8 +19,7 @@ const EditService = () => {
         setSelectedEdit(false);
     };
 
-    useEffect(() => {
-        const fetchService = async () => {
+    const fetchService = async () => {
 
         try {
             const response = await axiosInstance.get(`/services/${service_id}/`, {
@@ -37,8 +36,10 @@ const EditService = () => {
         } finally {
             setLoading(false);
         }
-        };
+    };
 
+
+    useEffect(() => {
         fetchService();
     }, [access, service_id]);
 
@@ -83,9 +84,12 @@ const EditService = () => {
             <span className="meta-label">Location:</span> {serviceDetails.location}
             </div>
         </div>
+        <div className="service-location">
+            <span className="meta-label">Visibility:</span> {serviceDetails.visibility}
+        </div>
         <h2 className="description-title">Description</h2>
-        {serviceDetails.description}
-        <div className="service-description"></div>
+
+        <div className="service-description">{serviceDetails.description}</div>
         </div>
         <div className="service-description-container">
         {/* <div>
@@ -110,9 +114,11 @@ const EditService = () => {
                 id: serviceDetails.service_id,
                 visibility: serviceDetails.visibility,
                 location: serviceDetails.location,
+                latitude: serviceDetails.latitude,
+                longitude: serviceDetails.longitude,
             }}
             type="Service"
-            api="services/services"
+            api="services"
             />
         )}
         </div>

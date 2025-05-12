@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.viewsets import ModelViewSet
 
 # for api filtering
 from .filters import ServiceItemFilter
@@ -18,7 +19,6 @@ from .serializers import (
 )
 
 """For all service items & creation of new service items"""
-
 
 class ServiceItemListView(APIView):
     permission_classes = [IsAuthenticated]
@@ -47,9 +47,7 @@ class ServiceItemListView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
 """For a service item"""
-
 
 class ServiceItemDetailView(APIView):
     permission_classes = [IsAuthenticated]
@@ -161,3 +159,15 @@ def get_services_by_user(request, user_id):
     services = ServiceItem.objects.filter(service_provider=user_id)
     serialized = ServiceItemSerializer(services, many=True)
     return Response({"services": serialized.data})
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def update_visibility(request):
+    service = get_object_or_404(ServiceItem, service_id=request.data.get("service_id"))
+    serializer = ServiceItemDetailSerializer(
+        service, data={ "visibility": request.data.get("visibility") }, partial=True
+    )
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

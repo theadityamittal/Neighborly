@@ -1,13 +1,12 @@
-from django.urls import path
+from django.urls import path, include
 from .views import (
     ServiceItemListView,
     ServiceItemDetailView,
     ServiceItemSignUpView,
     ServiceSignUpDetailView,
     get_services_by_user,
+    update_visibility,
 )
-
-
 urlpatterns = [
     path("", ServiceItemListView.as_view(), name="service-list"),
     path("<int:service_id>/", ServiceItemDetailView.as_view(), name="service-detail"),
@@ -22,4 +21,5 @@ urlpatterns = [
         name="service-signup-detail",
     ),
     path("user/<str:user_id>/", get_services_by_user),
+    path("updateVisibility/", update_visibility)
 ]

@@ -168,3 +168,15 @@ def get_tools(request):
 
     serializer = ToolSerializer(tools, many=True)
     return Response(serializer.data)
+
+@api_view(["PATCH"])
+@permission_classes([IsAuthenticated])
+def update_tool(request, tool_id):
+    tool = get_object_or_404(Tool, tool_id=tool_id)
+    serializer = ToolSerializer(
+        tool, data=request.data, partial=True
+    )
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

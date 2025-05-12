@@ -85,6 +85,11 @@ const EditPetition = () => {
               <span className="meta-label">Location:</span> {petitionDetails.location}
             </div>
           </div>
+          <div className="petition-meta">
+            <div className="petition-date">
+              <span className="meta-label">Visibility:</span> {petitionDetails.visibility}
+            </div>
+          </div>          
           <h2 className="description-title">Description</h2>
           {petitionDetails.description}
           <div className="petition-description"></div>
@@ -112,9 +117,11 @@ const EditPetition = () => {
                 date: petitionDetails.voting_ends_at,
                 visibility: petitionDetails.visibility,
                 location: petitionDetails.location,
+                latitude: petitionDetails.latitude,
+                longitude: petitionDetails.longitude,
               }}
-              type="petition"
-              api="petitions/petitions"
+              type="Petition"
+              api="petitions/edit_petitions"
             />
           )}
         </div>
