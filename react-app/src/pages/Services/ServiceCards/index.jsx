@@ -45,6 +45,7 @@ const ServiceCards = ({services, handleCardClick}) => {
                     setSelectedService(service);
                 }
             }}
+            isNGO={service.provider_details.account_type === "NGO"}
           />
         ))}
       </div>
