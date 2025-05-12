@@ -5,6 +5,7 @@ from neighborly_users.serializers import UserSerializer
 
 CustomUser = get_user_model()
 
+
 class BorrowRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = BorrowRequest
@@ -29,7 +30,7 @@ class ToolSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tool
         fields = "__all__"
-    
+
     def get_provider_details(self, obj):
         user = CustomUser.objects.filter(user_id=obj.owner_id).first()
         return UserSerializer(user).data if user else None

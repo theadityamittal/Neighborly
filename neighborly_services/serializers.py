@@ -5,6 +5,7 @@ from neighborly_users.serializers import UserSerializer
 
 CustomUser = get_user_model()
 
+
 class ServiceSignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceSignUp
@@ -24,10 +25,11 @@ class ServiceSignupSerializer(serializers.ModelSerializer):
 class ServiceItemSerializer(serializers.ModelSerializer):
     servicesignup = ServiceSignupSerializer(many=True, read_only=True)
     provider_details = serializers.SerializerMethodField()
+
     class Meta:
         model = ServiceItem
         fields = "__all__"
-    
+
     def get_provider_details(self, obj):
         user = CustomUser.objects.filter(user_id=obj.service_provider).first()
         return UserSerializer(user).data if user else None
