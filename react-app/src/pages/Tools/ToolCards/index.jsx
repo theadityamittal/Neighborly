@@ -28,7 +28,7 @@ const ToolCards = ({tools, handleCardClick}) => {
         location={tool.neighborhood}
         price={tool.price}
         tags={[tool.condition]}      
-        available={tool.available}
+        closestAvailability={tool.closestAvailability}
         image={tool.images}                   
         onView={() => {
             if (handleCardClick) {
