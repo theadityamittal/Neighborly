@@ -73,7 +73,7 @@
         "zip_code": "12345",
         "latitude": 39.781900,
         "longitude": -89.650300,
-        "account_type": "service_provider",
+        "account_type": "NGO",
         "verified": true,
         "created_at": "2025-04-15T08:45:00Z",
         "password": "pbkdf2_sha256$600000$y3RcdrGz9JMhFzLIWyrSo3$BbZnX4kXz+Sfowf1HyCouV6WYzPYdBRdSfj4ZhcWYUE="

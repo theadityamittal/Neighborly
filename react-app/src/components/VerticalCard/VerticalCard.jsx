@@ -1,10 +1,10 @@
 import './VerticalCard.css'
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 
-function VerticalCard({ title, description, provider, tabs, image, numberSigned, handleClick, NoButton = false }) {
+function VerticalCard({ title, description, provider, tabs, image, numberSigned, handleClick, NoButton = false, isNGO = false }) {
 
   return (
-    <div className="vertical-card">
+    <div className={`vertical-card ${isNGO ? 'ngo-card' : ''}`}>
       { NoButton ? <></> :
         <div onClick={handleClick} className="vertical-card-button">
           <ArrowForwardRoundedIcon style={{ color: 'white', fontSize: '40px' }} />

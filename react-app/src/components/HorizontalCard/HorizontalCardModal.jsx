@@ -69,7 +69,7 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key, description
 
   return (
     <div className="horizontal-modal-overlay" onClick={onClose}>
-      <div className="horizontal-modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className={`horizontal-modal-content ${item.provider_details.account_type==="NGO" ? 'ngo-modal' : ''}`} onClick={(e) => e.stopPropagation()}>
         <button className="horizontal-modal-close" onClick={onClose}>×</button>
         
         {/* Title Section */}
@@ -94,19 +94,12 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key, description
             />
           ) : null}
         </div>
-
-        {/* Gallery Section */}
-        {/* <div className="modal-gallery">
-          {galleryImages.map((img, index) => (
-            <img key={index} src={img} alt={`${item.title} ${index + 1}`} />
-          ))}
-        </div> */}
         
         {/* Details Section */}
         <div className="modal-details">
           {/* Combined Information Line */}
             <div className="modal-info-line">
-            <span className="modal-provider">{item.provider}</span>
+            <span className="modal-provider">{item.provider_details.name}</span>
             <span className="modal-location">
                 <span className="location-icon">📍</span> {item.location}
             </span>

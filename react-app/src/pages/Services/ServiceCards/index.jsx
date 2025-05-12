@@ -27,8 +27,9 @@ const ServiceCards = ({services, handleCardClick}) => {
             key={service.service_id}
             id={service.service_id}
             title={service.title}
+            provider={service.provider_details.name}
             description={service.description}
-            location={service.location}
+            location={service.neighborhood}
             price={service.price}
             available={service.available}
             closestAvailability={service.closestAvailability}
@@ -44,6 +45,7 @@ const ServiceCards = ({services, handleCardClick}) => {
                     setSelectedService(service);
                 }
             }}
+            isNGO={service.provider_details.account_type === "NGO"}
           />
         ))}
       </div>
