@@ -95,7 +95,7 @@
   position: relative;
 }
 
-/* NGO Corner Ribbon - CSS Only */
+/* NGO Corner Ribbon */
 .ngo-card::before {
   content: "NGO";
   position: absolute;
@@ -112,7 +112,7 @@
   z-index: 10;
 }
 
-/* NGO Badge - CSS Only */
+/* NGO Badge */
 .ngo-card .horizontal-card-provider::after {
   content: "✓ Verified NGO";
   display: inline-flex;
@@ -124,23 +124,6 @@
   font-size: 0.8rem;
   color: #1e7e34;
   font-weight: 600;
-}
-
-/* NGO-specific button styling */
-.ngo-card .button-container button {
-  background-color: #34a853;
-  font-weight: 600;
-}
-
-.ngo-card .button-container button:hover {
-  background-color: #2c8a43;
-}
-
-/* NGO hover effect */
-.ngo-card:hover {
-  box-shadow: 0 4px 12px rgba(52, 168, 83, 0.2);
-  transform: translateY(-2px);
-  transition: all 0.3s ease;
 }
 
 /* NGO provider text styling */

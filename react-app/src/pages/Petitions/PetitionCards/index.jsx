@@ -45,6 +45,7 @@ const PetitionCards = ({ petitions, handleCardClick }) => {
                     viewPetition(item.petition_id);
                   }
                 }}
+                isNGO={item.provider_details.account_type === "NGO"}
               />
             </div>
           ))

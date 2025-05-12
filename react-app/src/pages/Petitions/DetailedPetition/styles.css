@@ -215,3 +215,56 @@
     transition: width 0.6s ease-in-out;
     border-radius: 8px;
   }
+
+  /* NGO Petition Styling */
+
+
+.ngo-petition .petition-tags::before {
+  content: "NGO";
+  background-color: #34a853;
+  color: white;
+  padding: 4px 16px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 4px;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+/* NGO Badge after provider name */
+.ngo-petition .petition-author::after {
+  content: "✓ Verified NGO";
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  padding: 2px 10px;
+  background-color: #e6f4ea;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  color: #1e7e34;
+  font-weight: 600;
+}
+
+/* NGO provider text styling */
+.ngo-petition .petition-author {
+  color: #1e7e34;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Green accent for NGO title */
+.ngo-petition .petition-title {
+  color: #2c5530;
+}
+
+/* NGO progress bar color */
+.ngo-petition .progress-bar {
+  background-color: #34a853;
+}
+
+
+

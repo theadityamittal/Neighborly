@@ -5,7 +5,7 @@
       "fields": {
         "title": "Save Our Community Garden",
         "description": "Our neighborhood garden is threatened by new development plans. Sign to protect this green space, preserve biodiversity, and keep our community healthy.",
-        "organizer_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "organizer_id": "a3dcb4d5-6f39-4b9e-bf38-5f9cb87d2f63",
         "visibility": true,
         "tags": ["Environment", "Parks & Recreation"],
         "created_at": "2025-04-15T10:00:00Z",
@@ -17,7 +17,7 @@
         "city": "New York",
         "neighborhood": "Prospect Park",
         "zip_code": "11225",
-        "provider": "Alice Resident",
+        "provider": "John Doe",
         "voting_ends_at": "2025-05-15",
         "hero_image": "petitions/uploads/garden.jpg"
       }
