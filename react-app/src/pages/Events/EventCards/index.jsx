@@ -62,6 +62,7 @@ const EventCards = ({eventCards, handleCardClick}) => {
                         setSelectedEvent(event);
                     }
                 }}
+                isNGO={event.provider_details.account_type === "NGO"}
             />
         </div>
         ))}

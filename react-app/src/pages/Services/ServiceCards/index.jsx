@@ -29,7 +29,7 @@ const ServiceCards = ({services, handleCardClick}) => {
             title={service.title}
             provider={service.provider_details.name}
             description={service.description}
-            location={service.location}
+            location={service.neighborhood}
             price={service.price}
             available={service.available}
             closestAvailability={service.closestAvailability}

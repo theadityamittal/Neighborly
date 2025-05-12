@@ -21,6 +21,7 @@ class EventSignUpSerializer(serializers.ModelSerializer):
 
 class EventSerializer(serializers.ModelSerializer):
     eventsignup = EventSignUpSerializer(many=True, read_only=True)
+    provider_details = serializers.SerializerMethodField()
 
     class Meta:
         model = Event
@@ -29,6 +30,7 @@ class EventSerializer(serializers.ModelSerializer):
             "event_name",
             "organizer_name",
             "organizer_id",
+            "provider_details",
             "description",
             "location",
             "date",
@@ -46,3 +48,6 @@ class EventSerializer(serializers.ModelSerializer):
         if obj.image:
             return f"{settings.AWS_S3_BASE_URL}{obj.image}"
         return None
+    def get_provider_details(self, obj):
+        user = CustomUser.objects.filter(user_id=obj.organizer_id).first()
+        return UserSerializer(user).data if user else None

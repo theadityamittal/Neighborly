@@ -22,6 +22,7 @@ const ToolCards = ({tools, handleCardClick}) => {
         <HorizontalCard
         key={tool.tool_id}
         id={tool.tool_id}
+        provider={tool.provider_details.name}
         title={tool.title}
         description={tool.description}
         location={tool.neighborhood}
@@ -36,6 +37,7 @@ const ToolCards = ({tools, handleCardClick}) => {
                 setSelectedTool(tool);
             }
         }}
+        isNGO={tool.provider_details.account_type === "NGO"}
         />
     ))}
     </div>

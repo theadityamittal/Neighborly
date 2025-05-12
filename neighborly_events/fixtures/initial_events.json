@@ -4,8 +4,8 @@
       "pk": 1,
       "fields": {
         "event_name": "Community Yoga Session",
-        "organizer_name": "Alice Resident",
-        "organizer_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+        "organizer_name": "John Doe",
+        "organizer_id": "a3dcb4d5-6f39-4b9e-bf38-5f9cb87d2f63",
         "description": "Join us for a relaxing community yoga session in the park every Saturday morning.",
         "location": "Central Park",
         "date": "2025-05-01",
