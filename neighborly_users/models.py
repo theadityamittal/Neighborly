@@ -6,7 +6,12 @@ from django.contrib.auth.models import (
 from django.db import models
 from django.utils.timezone import now
 import uuid
+import os
 
+def user_icon_upload_path(instance, filename):
+    ext = filename.split(".")[-1]
+    filename = f"{uuid.uuid4().hex}.{ext}"
+    return os.path.join("user_icons/", filename)
 
 class CustomUserManager(BaseUserManager):
     def create_user(
@@ -22,6 +27,7 @@ class CustomUserManager(BaseUserManager):
         password=None,
         latitude=None,
         longitude=None,
+        icon=None,
     ):
         if not email:
             raise ValueError("Users must have an email address")
@@ -35,6 +41,7 @@ class CustomUserManager(BaseUserManager):
             zip_code=zip_code,
             latitude=latitude,
             longitude=longitude,
+            icon=icon,
             account_type=account_type,  # two possible types, [resident, NGO]
             verified=False,
         )
@@ -90,6 +97,11 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     )
     longitude = models.DecimalField(
         max_digits=9, decimal_places=6, null=True, blank=True
+    )
+    icon = models.FileField(
+    upload_to=user_icon_upload_path,
+    null=True,
+    blank=True,
     )
     account_type = models.CharField(
         max_length=255

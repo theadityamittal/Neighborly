@@ -2,7 +2,12 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 from django.urls import reverse
 from .models import CustomUser
-
+from PIL import Image
+import io
+from django.core.files.uploadedfile import SimpleUploadedFile
+from moto import mock_aws
+import boto3
+from django.test import override_settings
 
 class AuthenticationTests(APITestCase):
 
@@ -114,3 +119,69 @@ class AuthenticationTests(APITestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("access", response.data)
+
+
+    @override_settings(
+        DEFAULT_FILE_STORAGE="storages.backends.s3boto3.S3Boto3Storage",
+        AWS_STORAGE_BUCKET_NAME="test-bucket",
+        AWS_ACCESS_KEY_ID="testing",
+        AWS_SECRET_ACCESS_KEY="testing",
+        AWS_S3_REGION_NAME="us-east-1",
+    )
+    @mock_aws
+    def test_user_icon_upload(self):
+        """Test user can upload icon"""
+        # Create mock S3 bucket
+        s3 = boto3.client("s3", region_name="us-east-1")
+        s3.create_bucket(Bucket="test-bucket")
+        
+        # Register the user
+        register_response = self.client.post(
+            self.register_url, self.user_data, format="json"
+        )
+        self.assertEqual(register_response.status_code, status.HTTP_201_CREATED)
+        
+        # Set user as verified
+        user = CustomUser.objects.get(email=self.user_data["email"])
+        user.verified = True
+        user.save()
+        
+        # Login
+        login_response = self.client.post(
+            self.login_url,
+            {"email": self.user_data["email"], "password": self.user_data["password"]},
+            format="json"
+        )
+        
+        self.assertEqual(login_response.status_code, status.HTTP_200_OK)
+        self.assertIn("access", login_response.data)
+        access = login_response.data["access"]
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {access}")
+        
+        image = Image.new("RGB", (100, 100), color="red")
+        image_file = io.BytesIO()
+        image.save(image_file, format="JPEG")
+        image_file.seek(0)
+        
+        test_image = SimpleUploadedFile(
+            name="test_icon.jpg",
+            content=image_file.read(),
+            content_type="image/jpeg"
+        )
+        
+        # Update user with icon
+        response = self.client.patch(
+            "/auth/update/", 
+            data={"icon": test_image},
+            format="multipart"
+        )
+        
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["message"], "User updated successfully")
+        
+        # Verify icon was saved
+        user.refresh_from_db()
+        self.assertIsNotNone(user.icon)
+        self.assertTrue(user.icon.name.startswith("user_icons/"))
+        
+        print("\n✓ test_user_icon_upload passed!")

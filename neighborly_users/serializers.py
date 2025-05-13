@@ -18,6 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
             "zip_code",
             "latitude",
             "longitude",
+            "icon",
             "account_type",
             "verified",
             "created_at",
