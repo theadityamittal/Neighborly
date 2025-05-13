@@ -11,6 +11,7 @@ const initialState = {
   zipCode: '',
   latitude: null,
   longitude: null,
+  icon: null,
   accountType: '',     // ← new
   access: '',
   refresh: '',
@@ -39,6 +40,7 @@ export const authSlice = createSlice({
         zip_code,
         latitude,
         longitude,
+        icon,
         account_type,
         verified,
         user_id,
@@ -54,6 +56,7 @@ export const authSlice = createSlice({
       state.zipCode      = zip_code;
       state.latitude     = latitude;
       state.longitude    = longitude;
+      state.icon         = icon;
       state.accountType  = account_type;   // ← map account_type
       state.verified     = verified;
       state.user_id      = user_id
