@@ -89,9 +89,17 @@ const Events = () => {
       <div>
         <div className="events-header">
           <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterEvents} resetFilter={resetEvents} tagOptions={EVENT_TAGS}/>
-          <div className="events-header-btn" onClick={() => navigate("/create-event")}>
-            <AddIcon fontSize="large"/>
-          </div>
+          <button 
+            className="create-event-button-new" 
+            onClick={() => navigate("/create-event")}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="16" />
+              <line x1="8" y1="12" x2="16" y2="12" />
+            </svg>
+            Create
+          </button>
         </div>
         <EventCards eventCards={events}/>
       </div>
