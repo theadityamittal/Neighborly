@@ -1,7 +1,13 @@
 /* =========================== */
 /* BULLETIN PAGE STYLES */
 /* =========================== */
+.bulletin-content {
+  padding-top: 60px;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0;
 
+}
 /* Header section for Bulletin page */
 .events-header {
   display: flex;
@@ -59,9 +65,9 @@
 
 /* Cards Layout */
 .bulletin-cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
 }
 
 /* Individual Card */

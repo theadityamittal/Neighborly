@@ -21,15 +21,15 @@
     top: 90px;          /* same as header height */
     left: 0;
     bottom: 0;
-    width: 298px;       /* match your SideNav width */
+    width: 230px;       /* match your SideNav width */
     z-index: 90;
   }
   
   /* content area offset by header height & sidebar width */
   .protected-layout__content {
     margin-top: 90px;   /* push content below header */
-    margin-left: 313px; /* push content right past sidebar */
-    padding: 20px;      /* optional inner padding */
+    margin-left: 230px; /* push content right past sidebar */
+    padding: 30px;      /* optional inner padding */
     height: 100vh;
     overflow-y: auto;
   }

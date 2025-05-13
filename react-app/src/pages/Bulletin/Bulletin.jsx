@@ -81,15 +81,15 @@ const Bulletin = () => {
   };
 
   if (loading) {
-    return <div className="p-6 max-w-3xl mx-auto">Loading posts...</div>;
+    return <div className="bulletin-content">Loading posts...</div>;
   }
 
   if (error && posts.length === 0) {
-    return <div className="p-6 max-w-3xl mx-auto text-red-500">{error}</div>;
+    return <div className="bulletin-content">{error}</div>;
   }
 
   return (
-    <div className="p-6 max-w-5xl mx-auto space-y-6">
+    <div className="bulletin-content">
       <div className="events-header">
         <SearchBar
           searchTerm={searchTerm}

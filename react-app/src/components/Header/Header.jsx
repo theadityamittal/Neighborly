@@ -5,34 +5,29 @@ import { useSelector } from "react-redux";
 import { selectAuth } from "../../redux/authSlice";
 import "./Header.css";
 import avatar from "../../assets/avatar.png"; 
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo-purple.png";
 import { useNavigate } from "react-router";
 
 const Header = () => {
   const navigate = useNavigate();
-
   const { name } = useSelector(selectAuth);
   
   return (
-    <AppBar position="fixed" className="header">
+    <AppBar position="fixed" className="header" elevation={0}>
       <Toolbar className="header-content">
         {/* Logo Section */}
         <Box className="header-left" onClick={() => navigate("/")}>
-          <img src={logo} alt="Neighbourly Logo" className="logo" />
+          <div className="brand-container">
+            <img src={logo} alt="Neighbourly Logo" className="logo" />
+          </div>
         </Box>
 
-        {/* Icons & Profile Section */}
-        <Box className="header-right" >
-          {/* <IconButton className="icon-button" onClick={() => handleItemClick("/messages")}>
-            <Mail />
-          </IconButton>
-          <IconButton className="icon-button" onClick={() => handleItemClick("/notifications")}>
-            <Notifications />
-          </IconButton> */}
-
-          {/* Avatar & Name */}
+        {/* Profile Section */}
+        <Box className="header-right">
           <Box className="user-profile" onClick={() => navigate("/profile")}>
-            <Avatar src={avatar} alt="User Avatar" className="profile-pic" />
+            <Avatar src={avatar} alt="User Avatar" className="profile-pic">
+              {!avatar && name?.charAt(0).toUpperCase()}
+            </Avatar>
             <Typography variant="body1" className="username">{name}</Typography>
           </Box>
         </Box>
