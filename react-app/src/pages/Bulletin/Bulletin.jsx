@@ -98,12 +98,23 @@ const Bulletin = () => {
           resetFilter={resetPosts}
           tagOptions={BULLETIN_TAGS}
         />
-        <div
+        {/* <div
           className="events-header-btn"
           onClick={() => navigate("/create-post")}
         >
           <AddIcon fontSize="large" />
-        </div>
+        </div> */}
+        <button 
+            className="create-button-new" 
+            onClick={() => navigate("/create-post")}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="16" />
+              <line x1="8" y1="12" x2="16" y2="12" />
+            </svg>
+            Create
+          </button>
       </div>
 
       {/* Quick Post Element */}
