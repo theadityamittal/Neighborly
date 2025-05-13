@@ -1,6 +1,5 @@
 import './HorizontalCard.css';
 import Button from '../Button/Button';
-import { FaCheckCircle, FaHeart } from 'react-icons/fa';
 
 function HorizontalCard({
   id,
