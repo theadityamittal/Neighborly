@@ -1,16 +1,5 @@
 import axiosInstance from "../utils/axiosInstance";
 
-// export const registerUser = async (userData) => {
-//   try {
-//     const response = await axiosInstance.post('/auth/register/', userData);
-//     return response;
-
-//   } catch (error) {
-//     console.error(error);
-//     throw error;
-//   }
-// };
-
 export const registerUser = async (userData) => {
   try {
     const response = await axiosInstance.post("/auth/register/", userData, {
@@ -47,6 +36,7 @@ export const updateUserInformation = async (userData, token) => {
   try {
     const response = await axiosInstance.patch('/auth/update/', userData, {
       headers: {
+        "Content-Type": "multipart/form-data",
         'Authorization': `Bearer ${token}`
       }
     });
