@@ -8,10 +8,12 @@ from django.utils.timezone import now
 import uuid
 import os
 
+
 def user_icon_upload_path(instance, filename):
     ext = filename.split(".")[-1]
     filename = f"{uuid.uuid4().hex}.{ext}"
     return os.path.join("users/uploads", filename)
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(
@@ -99,9 +101,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         max_digits=9, decimal_places=6, null=True, blank=True
     )
     icon = models.ImageField(
-    upload_to=user_icon_upload_path,
-    null=True,
-    blank=True,
+        upload_to=user_icon_upload_path,
+        null=True,
+        blank=True,
     )
     account_type = models.CharField(
         max_length=255
