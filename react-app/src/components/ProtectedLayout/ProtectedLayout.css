@@ -27,7 +27,7 @@
   
   /* content area offset by header height & sidebar width */
   .protected-layout__content {
-    margin-top: 90px;   /* push content below header */
+    margin-top: 75px;   /* push content below header */
     margin-left: 230px; /* push content right past sidebar */
     padding: 30px;      /* optional inner padding */
     height: 100vh;
