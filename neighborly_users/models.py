@@ -11,7 +11,7 @@ import os
 def user_icon_upload_path(instance, filename):
     ext = filename.split(".")[-1]
     filename = f"{uuid.uuid4().hex}.{ext}"
-    return os.path.join("user_icons/", filename)
+    return os.path.join("users/uploads", filename)
 
 class CustomUserManager(BaseUserManager):
     def create_user(
@@ -98,7 +98,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     longitude = models.DecimalField(
         max_digits=9, decimal_places=6, null=True, blank=True
     )
-    icon = models.FileField(
+    icon = models.ImageField(
     upload_to=user_icon_upload_path,
     null=True,
     blank=True,

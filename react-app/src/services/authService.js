@@ -1,12 +1,26 @@
 import axiosInstance from "../utils/axiosInstance";
 
+// export const registerUser = async (userData) => {
+//   try {
+//     const response = await axiosInstance.post('/auth/register/', userData);
+//     return response;
+
+//   } catch (error) {
+//     console.error(error);
+//     throw error;
+//   }
+// };
+
 export const registerUser = async (userData) => {
   try {
-    const response = await axiosInstance.post('/auth/register/', userData);
-    return response;
-
+    const response = await axiosInstance.post("/auth/register/", userData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
   } catch (error) {
-    console.error(error);
+    console.error('API Error:', error.response?.data);
     throw error;
   }
 };
