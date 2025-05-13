@@ -25,7 +25,7 @@ class GrabEventsByOrganizerTests(APITestCase):
         self.event = Event.objects.create(
             event_name="Test Event",
             organizer_name=self.user.name,
-            organizer_id=str(self.user.id),
+            organizer_id=str(self.user.user_id),
             description="This is a test event.",
             location="Test Location",
             date="2024-05-01",
@@ -46,7 +46,7 @@ class GrabEventsByOrganizerTests(APITestCase):
         self.token = response.data["access"]
 
     def test_grab_events_by_organizer(self):
-        url = f"/events/grabEventsData/organizer/{self.user.id}"
+        url = f"/events/grabEventsData/organizer/{self.user.user_id}"
 
         response = self.client.get(url, HTTP_AUTHORIZATION=f"Bearer {self.token}")
 

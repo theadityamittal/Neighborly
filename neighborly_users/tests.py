@@ -178,6 +178,6 @@ class AuthenticationTests(APITestCase):
         # Verify icon was saved
         user.refresh_from_db()
         self.assertIsNotNone(user.icon)
-        self.assertTrue(user.icon.name.startswith("user_icons/"))
+        self.assertTrue(user.icon.name.startswith("users/"))
 
         print("\n✓ test_user_icon_upload passed!")
