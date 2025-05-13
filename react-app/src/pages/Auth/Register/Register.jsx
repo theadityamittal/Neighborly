@@ -150,6 +150,25 @@ const Register = () => {
         {errors.email && <div className="error-message">{errors.email}</div>}
 
         <form onSubmit={handleSubmit} className="register-form">
+        <div className="form-group">
+            <label htmlFor="icon">Profile Picture (optional)</label>
+            <input
+              id="icon"
+              name="icon"
+              type="file"
+              accept="image/*"
+              onChange={handleIconChange}
+            />
+            {iconPreview && (
+              <img 
+                src={iconPreview} 
+                alt="Preview" 
+                style={{ width: '100px', height: '100px', marginTop: '10px', borderRadius: '50%' }}
+              />
+            )}
+            {errors.icon && <span className="error-text">{errors.icon}</span>}
+          </div>
+
           {/* Name */}
           <div className="form-row">
             <div className="form-group">
@@ -228,25 +247,6 @@ const Register = () => {
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="icon">Profile Picture (optional)</label>
-            <input
-              id="icon"
-              name="icon"
-              type="file"
-              accept="image/*"
-              onChange={handleIconChange}
-            />
-            {iconPreview && (
-              <img 
-                src={iconPreview} 
-                alt="Preview" 
-                style={{ width: '100px', height: '100px', marginTop: '10px', borderRadius: '50%' }}
-              />
-            )}
-            {errors.icon && <span className="error-text">{errors.icon}</span>}
-          </div>
-
           {/* Account Type */}
           <div className="form-group">
             <label htmlFor="accountType">Account Type</label>
@@ -255,6 +255,7 @@ const Register = () => {
               name="accountType"
               value={formData.accountType}
               onChange={handleChange}
+              className='form-select'
             >
               <option value="resident">Resident</option>
               <option value="ngo">NGO</option>
