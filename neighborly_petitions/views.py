@@ -74,7 +74,7 @@ def create_petition(request):
 @permission_classes([IsAuthenticated])
 def sign_petition(request, petition_id):
     petition = get_object_or_404(Petition, petition_id=petition_id)
-    user_id = request.user.id
+    user_id = request.user.user_id
 
     if PetitionSignature.objects.filter(petition=petition, user_id=user_id).exists():
         return Response({"detail": "Already signed."}, status=status.HTTP_200_OK)
@@ -84,6 +84,7 @@ def sign_petition(request, petition_id):
 
 @api_view(["PATCH"])
 @permission_classes([IsAuthenticated])
+<<<<<<< HEAD
 def edit_petitions(request, petition_id):
     service = get_object_or_404(Petition, petition_id=petition_id)
     print(service)
@@ -95,3 +96,10 @@ def edit_petitions(request, petition_id):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+=======
+def get_petitions(request):
+    petitions = Petition.objects.filter(petitionsignature__user_id=request.user.user_id)
+
+    serializer = PetitionSerializer(petitions, many=True)
+    return Response(serializer.data)
+>>>>>>> b5ab2042dc143c3c412f12f0213a921fa45dbd02
