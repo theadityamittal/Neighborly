@@ -191,3 +191,7 @@ Powered by DRF‑Spectacular (OpenAPI / Swagger UI).
 ## 📜 License
 
 This project is released under the **MIT License**. See [LICENSE](LICENSE) for details.
+
+## Fixture credentials
+
+With each of the user fixtures loaded from the previous step dev_setup the default password for the user account is password123. Feel to use these accounts to look at the website! Or checkout the live site here: http://3.145.158.84/
