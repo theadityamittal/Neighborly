@@ -19,7 +19,7 @@ class TestPetitionView(APIView):
         # annotate each petition with its signature_count
         petitions = Petition.objects.annotate(
             signature_count=Count("petitionsignature")
-        )
+        ).exclude(organizer_id=request.user.user_id)
         petition_data = PetitionSerializer(petitions, many=True).data
 
         # if you still need full signature list:
@@ -61,28 +61,9 @@ def grab_petition_data_by_organizer(request, user_id):
     return Response({"petitions": petition_data})
 
 
-@api_view(["GET"])
-@permission_classes([IsAuthenticated])
-def get_petitions_not_users(request):
-    petitions = Petition.objects.filter(organizer_id=request.user.user_id)
-    serializer = PetitionSerializer(data=petitions, many=True)
-    if serializer.is_valid():
-        serializer.save()
-    return Response(serializer.data)
-
-
-@api_view(["GET"])
-@permission_classes([IsAuthenticated])
-def get_petition_data(request, petition_id):
-    petition = get_object_or_404(Petition, petition_id=petition_id)
-    serializer = PetitionSerializer(petition)
-    return Response(serializer.data)
-
-
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 @parser_classes([MultiPartParser, FormParser])
-@permission_classes([IsAuthenticated])
 def create_petition(request):
     serializer = PetitionSerializer(data=request.data)
     if serializer.is_valid():
@@ -104,10 +85,14 @@ def sign_petition(request, petition_id):
     return Response({"detail": "Petition signed successfully."})
 
 
-@api_view(["GET"])
+@api_view(["PATCH"])
 @permission_classes([IsAuthenticated])
-def get_petitions(request):
-    petitions = Petition.objects.filter(petitionsignature__user_id=request.user.user_id)
-
-    serializer = PetitionSerializer(petitions, many=True)
-    return Response(serializer.data)
+def edit_petitions(request, petition_id):
+    service = get_object_or_404(Petition, petition_id=petition_id)
+    print(service)
+    print(request.data)
+    serializer = PetitionSerializer(service, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

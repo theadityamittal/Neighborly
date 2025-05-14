@@ -93,6 +93,9 @@ const EditEvent = () => {
             <div className="event-location">
               <span className="meta-label">Location:</span> {eventDetails.location}
             </div>
+            <div className="event-location">
+              <span className="meta-label">Visibility:</span> {eventDetails.visibility}
+            </div>
           </div>
           <h2 className="description-title">Description</h2>
           {eventDetails.description}

@@ -84,6 +84,9 @@ const EditTool = () => {
                 <span className="meta-label">Location:</span> {toolDetails.location}
                 </div>
             </div>
+            <div className="tool-date">
+                <span className="meta-label">Visibility:</span> {toolDetails.visibility}
+            </div>
             <h2 className="description-title">Description</h2>
             {toolDetails.description}
             <div className="tool-description"></div>
@@ -110,9 +113,11 @@ const EditTool = () => {
                         id: toolDetails.tool_id,
                         visibility: toolDetails.visibility,
                         location: toolDetails.location,
+                        longitude: toolDetails.longitude,
+                        latitude: toolDetails.latitude,
                     }}
                     type="Tool"
-                    api="tools/tools"
+                    api="tools/update_tool"
                     />
                 )}
             </div>

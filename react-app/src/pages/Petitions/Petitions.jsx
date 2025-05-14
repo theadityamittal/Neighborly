@@ -17,7 +17,7 @@ const Petitions = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const { access } = useSelector((state) => state.auth);
-  const { latitude, longitude } = useSelector((state) => state.auth);
+  const { latitude, longitude, neighborhood } = useSelector((state) => state.auth);
 
   const fetchPetitions = async () => {
     // Fetch petitions from the API
@@ -29,11 +29,19 @@ const Petitions = () => {
         }
       });
 
-      const data = response.data;
-      console.log("Fetched petition data:", data);
 
-      setPetitions(data.petitions);
-      setLoading(false);
+      if (response.data.petitions.length > 0) {
+        let newData = [];
+        response.data.petitions.forEach((petition) => {
+          if ((petition["visibility"] === "neighborhood" && petition["neighborhood"] === neighborhood) || petition["visibility"] !== "neighborhood") {
+            newData.push(petition);
+          } 
+        });
+          
+        setPetitions(newData);
+        console.log("Fetched petition data:", newData);
+        setLoading(false);        
+      }
     } catch (err) {
       console.error("Error fetching petition data:", err);
       setError("Failed to load petitions. Please try again later.");

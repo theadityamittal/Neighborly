@@ -30,7 +30,7 @@ export const formatTime = (time) => {
 const Events = () => {
   const [events, setEvents] = useState([]);
   const { access, user_id } = useSelector((state) => state.auth);
-  const { latitude, longitude } = useSelector((state) => state.auth);
+  const { latitude, longitude, neighborhood } = useSelector((state) => state.auth);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
@@ -41,8 +41,18 @@ const Events = () => {
 
     try {
       const response = await getEventsByUser({ organizer_id: user_id }, access);
-      setEvents(response.data);
-      console.log("Fetched events:", response.data);
+
+      if (response.data.length > 0) {
+        let newData = [];
+        response.data.forEach((event) => {
+          if ((event["visibility"] === "neighborhood" && event["neighborhood"] === neighborhood) || event["visibility"] !== "neighborhood") {
+            newData.push(event);
+          } 
+        });
+        
+        setEvents(newData);
+        console.log("Fetched events:", newData);
+      }
     } catch (err) {
       console.error(err);
       // fallback to local data

@@ -39,7 +39,7 @@ class ServiceItemListView(APIView):
 
     def post(self, request):
         data = request.data.copy()
-        data["service_provider"] = request.user.id  # auto-assign creator
+        data["service_provider"] = str(request.user.user_id)  # auto-assign creator
 
         serializer = ServiceItemSerializer(data=data)
         if serializer.is_valid():
@@ -161,3 +161,24 @@ def get_services_by_user(request, user_id):
     services = ServiceItem.objects.filter(service_provider=user_id)
     serialized = ServiceItemSerializer(services, many=True)
     return Response({"services": serialized.data})
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_services_exculde_user(request):
+    services = ServiceItem.objects.exclude(service_provider=request.user.user_id)
+    serialized = ServiceItemSerializer(services, many=True)
+    return Response(serialized.data)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def update_visibility(request):
+    service = get_object_or_404(ServiceItem, service_id=request.data.get("service_id"))
+    serializer = ServiceItemDetailSerializer(
+        service, data={"visibility": request.data.get("visibility")}, partial=True
+    )
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -7,6 +7,7 @@ const QuickPost = ({ postCreate }) => {
   const [text, setText] = useState("");
   const [image, setImage] = useState(null);
   const { name, neighborhood } = useSelector((state) => state.auth);
+  const { access } = useSelector((state) => state.auth);
 
   const handleQuickPost = async (e) => {
     e.preventDefault();
@@ -26,7 +27,12 @@ const QuickPost = ({ postCreate }) => {
     formData.append("post_type", "quick_post");
 
     try {
-      await axiosInstance.post("/bulletin/", formData);
+      await axiosInstance.post("/bulletin/", formData, {
+        headers: {
+          Authorization: `Bearer ${access}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
       alert("Post created successfully!");
     } catch (err) {
       console.error("Error creating post:", err.response || err);

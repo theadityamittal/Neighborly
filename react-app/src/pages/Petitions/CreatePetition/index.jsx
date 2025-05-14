@@ -80,7 +80,7 @@ const CreatePetition = () => {
       await axiosInstance.post("/petitions/createPetition/", formData, {
         headers: {
           Authorization: `Bearer ${access}`,
-          "Content-Type": undefined,
+          "Content-Type": "multipart/form-data",
         },
       });
 

@@ -26,8 +26,10 @@ class ToolListView(APIView):
 
     def post(self, request):
         data = request.data.copy()
-        data["owner_id"] = request.user.id  # auto-assign creator
+        print("hello")
 
+        data["owner_id"] = str(request.user.user_id)  # auto-assign creator
+        print(data)
         serializer = ToolSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -38,7 +40,7 @@ class ToolListView(APIView):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_tools_exclude_user(request):
-    excluded_user_id = request.user.id
+    excluded_user_id = request.user.user_id
     tools = Tool.objects.exclude(owner_id=excluded_user_id)
     serializer = ToolSerializer(tools, many=True)
     return Response(serializer.data)
@@ -168,3 +170,14 @@ def get_tools(request):
 
     serializer = ToolSerializer(tools, many=True)
     return Response(serializer.data)
+
+
+@api_view(["PATCH"])
+@permission_classes([IsAuthenticated])
+def update_tool(request, tool_id):
+    tool = get_object_or_404(Tool, tool_id=tool_id)
+    serializer = ToolSerializer(tool, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

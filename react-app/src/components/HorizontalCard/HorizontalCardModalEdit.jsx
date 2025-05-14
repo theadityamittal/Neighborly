@@ -3,7 +3,11 @@ import "./HorizontalCardModal.css";
 import axiosInstance from "../../utils/axiosInstance"; 
 import CalendarPicker from "../CalendarPicker/CalendarPicker";
 import FormLocationPicker from "../LocationPicker/FormLocationPicker";
-import { Visibility } from "@mui/icons-material";
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+
 
 const HorizontalCardModalEdit = ({ isOpen, onClose, item, item_name, type, api}) => {
     const [date, setDate] = useState(item.date);
@@ -39,9 +43,8 @@ const HorizontalCardModalEdit = ({ isOpen, onClose, item, item_name, type, api})
                 formData.append("title", title);
                 formData.append("location", location);
                 formData.append("description", description);
-                formData.append("time", time);
                 formData.append("visibility", visibility);
-                formData.append("address", locationInfo["address"]);
+                formData.append("street_address", locationInfo["address"]);
                 formData.append("city", locationInfo["city"]);
                 formData.append("neighborhood", locationInfo["neighborhood"]);
                 formData.append("zip_code", locationInfo["zipCode"]);
@@ -111,6 +114,21 @@ const HorizontalCardModalEdit = ({ isOpen, onClose, item, item_name, type, api})
               onChange={(e) => setTitle(e.target.value)}
             />
         </h2>
+        <FormControl>
+            <label className="input-label">Visibility</label>
+            <RadioGroup
+            row
+            aria-labelledby="visibility-group-label"
+            name="visibility"
+            value={visibility}
+            onChange={(e) => setVisibility(e.target.value)}
+            >
+            <FormControlLabel value="public" control={<Radio />} label="Public" />
+            <FormControlLabel value="neighborhood" control={<Radio />} label="Neighborhood Only" />
+            <FormControlLabel value="invitation" control={<Radio />} label="Invitation Only" />
+            </RadioGroup>
+        </FormControl>
+
         
         {/* Details Section */}
         <div className="modal-details">
@@ -141,22 +159,22 @@ const HorizontalCardModalEdit = ({ isOpen, onClose, item, item_name, type, api})
             </div>
             </div>            
             : <></>}
-            <label className="input-label">Time</label>
-            <input
-              className="input"
-              type="time"
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
-            />
-
+            { type !== 'Service' && type !== 'Petition' && type !== 'Tool' ?
+                <>
+                    <label className="input-label">Time</label>
+                    <input
+                    className="input"
+                    type="time"
+                    value={time}
+                    onChange={(e) => setTime(e.target.value)}
+                    />
+                </>
+            : <></> }
 
             <div className="form-group">
             <label htmlFor="address">Street Address</label>
             { type === 'Event' ?
-                <FormLocationPicker
-                location={location}
-                setLocation={(val) => setLocation(val)}
-                />
+                <></>
             :
                 <FormLocationPicker
                 location={location}
@@ -172,6 +190,8 @@ const HorizontalCardModalEdit = ({ isOpen, onClose, item, item_name, type, api})
                         city: loc.city,
                     }));
                 }}
+                latitude={item.latitude}
+                longitude={item.longitude}
                 />
             }
             </div>
