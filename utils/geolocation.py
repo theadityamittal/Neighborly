@@ -1,10 +1,11 @@
 import requests
 from django.conf import settings
 
+
 def geocode_location(location_name):
     token = settings.MAPBOX_ACCESS_TOKEN
     if not token:
-        return None, None # When no valid
+        return None, None  # When no valid
 
     url = f"https://api.mapbox.com/geocoding/v5/mapbox.places/{location_name}.json"
     params = {"access_token": token, "limit": 1}

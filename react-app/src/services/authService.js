@@ -2,11 +2,14 @@ import axiosInstance from "../utils/axiosInstance";
 
 export const registerUser = async (userData) => {
   try {
-    const response = await axiosInstance.post('/auth/register/', userData);
-    return response;
-
+    const response = await axiosInstance.post("/auth/register/", userData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
   } catch (error) {
-    console.error(error);
+    console.error('API Error:', error.response?.data);
     throw error;
   }
 };
@@ -33,6 +36,7 @@ export const updateUserInformation = async (userData, token) => {
   try {
     const response = await axiosInstance.patch('/auth/update/', userData, {
       headers: {
+        "Content-Type": "multipart/form-data",
         'Authorization': `Bearer ${token}`
       }
     });
@@ -70,7 +74,7 @@ export const checkAuthState = () => async (dispatch) => {
     });
     
     if (response.ok) {
-      const userData = await response.json();
+      await response.json();
     } else {
       // If token is invalid, log the user out
       localStorage.removeItem('token');

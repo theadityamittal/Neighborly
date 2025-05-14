@@ -7,9 +7,13 @@ import {
     FormGroup,
     FormControlLabel,
     Checkbox,
-    Slider
+    Slider,
+    Chip
 } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import CloseIcon from '@mui/icons-material/Close';
+import SearchIcon from '@mui/icons-material/Search';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import "./SearchBar.css";
 
 const SearchBar = ({ searchTerm, setSearchTerm, filterActiveContent, resetFilter, tagOptions=[] }) => {
@@ -34,69 +38,170 @@ const SearchBar = ({ searchTerm, setSearchTerm, filterActiveContent, resetFilter
         handleFilterClose();
     };
 
+    const handleReset = () => {
+        setSelectedTags([]);
+        setRadius(50);
+        setSearchTerm('');
+        resetFilter();
+    };
+
+    const removeTag = (tag) => {
+        setSelectedTags(prev => prev.filter(t => t !== tag));
+    };
+
     return (
         <div className="search-bar-container">
-            <IconButton className="filter-button" onClick={handleFilterClick}>
-                <FilterListIcon />
-            </IconButton>
-            <Menu anchorEl={anchorEl} open={open} onClose={handleFilterClose}>
-                <Box px={2} py={1} width={250}>
-                    <Typography variant="subtitle1">Tags</Typography>
-                    <FormGroup>
-                        {tagOptions.map(tag => (
-                        <FormControlLabel
-                            key={tag}
-                            control={
-                            <Checkbox
-                                checked={selectedTags.includes(tag)}
-                                onChange={() => toggleTag(tag)}
-                            />
+            <div className="search-bar-wrapper">
+                <div className="search-bar">
+                    <SearchIcon className="search-icon" />
+                    <input 
+                        type="text"
+                        placeholder="Search..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                handleSearch();
                             }
-                            label={tag}
-                        />
-                        ))}
-                    </FormGroup>
-
-                    <Typography variant="subtitle1" sx={{ mt: 2 }}>Radius ({radius} km)</Typography>
-                    <Slider
-                        value={radius}
-                        onChange={(_, val) => setRadius(val)}
-                        min={0}
-                        max={100}
-                        valueLabelDisplay="auto"
+                        }}
                     />
+                </div>
+                
+                <div className="search-controls">
+                    <IconButton 
+                        className="filter-button" 
+                        onClick={handleFilterClick}
+                        color={selectedTags.length > 0 || radius !== 50 ? "primary" : "default"}
+                    >
+                        <FilterListIcon />
+                    </IconButton>
+                    
                     <button
                         onClick={handleSearch}
-                        className="apply-button"
+                        className="search-button primary"
                     >
-                        Apply Filters
+                        Search
                     </button>
+                    
+                    <IconButton 
+                        className="reset-button" 
+                        onClick={handleReset}
+                        size="small"
+                    >
+                        <RestartAltIcon />
+                    </IconButton>
+                </div>
+            </div>
+
+            {/* Active filters display */}
+            {(selectedTags.length > 0 || radius !== 50) && (
+                <div className="active-filters">
+                    {selectedTags.map(tag => (
+                        <Chip
+                            key={tag}
+                            label={tag}
+                            onDelete={() => removeTag(tag)}
+                            size="small"
+                            className="filter-chip"
+                        />
+                    ))}
+                    {radius !== 50 && (
+                        <Chip
+                            label={`${radius} km radius`}
+                            onDelete={() => setRadius(50)}
+                            size="small"
+                            className="filter-chip radius-chip"
+                        />
+                    )}
+                </div>
+            )}
+
+            <Menu 
+                anchorEl={anchorEl} 
+                open={open} 
+                onClose={handleFilterClose}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                PaperProps={{
+                    sx: {
+                        maxHeight: '400px',
+                        width: '320px'
+                    }
+                }}
+            >
+                <Box className="filter-menu">
+                    <div className="filter-header">
+                        <Typography variant="h6">Filters</Typography>
+                        <IconButton size="small" onClick={handleFilterClose}>
+                            <CloseIcon />
+                        </IconButton>
+                    </div>
+
+                    <Box className="filter-content">
+                        <Typography variant="subtitle2" color="textSecondary" sx={{ mb: 1 }}>
+                            Categories
+                        </Typography>
+                        <div className="tag-grid">
+                            {tagOptions.map(tag => (
+                                <Chip
+                                    key={tag}
+                                    label={tag}
+                                    onClick={() => toggleTag(tag)}
+                                    color={selectedTags.includes(tag) ? "primary" : "default"}
+                                    variant={selectedTags.includes(tag) ? "filled" : "outlined"}
+                                    size="small"
+                                    className="filter-tag"
+                                />
+                            ))}
+                        </div>
+
+                        <Typography variant="subtitle2" color="textSecondary" sx={{ mt: 2, mb: 1 }}>
+                            Distance: {radius} km
+                        </Typography>
+                        <Box sx={{ px: 1 }}>
+                            <Slider
+                                value={radius}
+                                onChange={(_, val) => setRadius(val)}
+                                min={0}
+                                max={100}
+                                valueLabelDisplay="auto"
+                                marks={[
+                                    { value: 0, label: '0' },
+                                    { value: 50, label: '50' },
+                                    { value: 100, label: '100' }
+                                ]}
+                                size="small"
+                            />
+                        </Box>
+                    </Box>
+                    
+                    <div className="filter-actions">
+                        <button
+                            onClick={() => {
+                                setSelectedTags([]);
+                                setRadius(50);
+                            }}
+                            className="filter-reset"
+                        >
+                            Reset Filters
+                        </button>
+                        <button
+                            onClick={handleSearch}
+                            className="apply-button"
+                        >
+                            Apply Filters
+                        </button>
+                    </div>
                 </Box>
             </Menu>
-            <div className="search-bar">
-                <input 
-                    type="text"
-                    placeholder="Search..."
-                    value={searchTerm}
-                    onChange={(e) => {
-                        setSearchTerm(e.target.value)
-                    }}
-                    onKeyDown={(e => {
-                        if (e.key === "Enter") {
-                            handleSearch();
-                        }
-                    })}
-                />
-            </div>
-            <div className="search-bar-buttons">
-                <div className="search-button" onClick={() => resetFilter()}>
-                    Reset
-                </div>
-                <div className="search-button" onClick={() => handleSearch()}>
-                    Search
-                </div>
-            </div>
         </div>
     );
 }
+
 export default SearchBar;

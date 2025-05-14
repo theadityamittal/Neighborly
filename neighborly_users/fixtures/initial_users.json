@@ -1,115 +1,170 @@
 [
-    {
-      "model": "neighborly_users.customuser",
-      "pk": 1,
-      "fields": {
-        "user_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
-        "name": "Alice Resident",
-        "email": "alice.resident@example.com",
-        "phone_number": "+15555550123",
-        "address": "123 Maple St, Springfield",
-        "city": "Springfield",
-        "neighborhood": "Downtown",
-        "zip_code": "12345",
-        "latitude": 39.781700,
-        "longitude": -89.650100,
-        "account_type": "resident",
-        "verified": false,
-        "created_at": "2025-04-17T12:00:00Z",
-        "password": "pbkdf2_sha256$600000$soDNyxoNsN70JFVU6kB6ya$clhgnxzWrddkjyJn25aIdyrnIbSHsKHjvrlLHI5wrHA="
-      }
-    },
-    {
-      "model": "neighborly_users.customuser",
-      "pk": 2,
-      "fields": {
-        "user_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
-        "name": "Aditya Mittal",
-        "email": "aditya@gmail.com",
-        "phone_number": "+15555550124",
-        "address": "321 86th Street, Brooklyn, New York 11209, United States",
-        "city": "Brooklyn",
-        "neighborhood": "Bay Ridge",
-        "zip_code": "11209",
-        "latitude": 40.623574,
-        "longitude": -74.030338,
-        "account_type": "resident",
-        "verified": true,
-        "created_at": "2025-04-16T09:30:00Z",
-        "password": "pbkdf2_sha256$600000$soDNyxoNsN70JFVU6kB6ya$clhgnxzWrddkjyJn25aIdyrnIbSHsKHjvrlLHI5wrHA="
-      }
-    },
-    {
-      "model": "neighborly_users.customuser",
-      "pk": 3,
-      "fields": {
-        "user_id": "6cffc2dffe9247aba9c36f5ac89c59a5",
-        "name": "Cathy Tsui",
-        "email": "cathytest@gmail.com",
-        "phone_number": "+1234567891",
-        "address": "370 Jay St, Brooklyn",
-        "city": "Brooklyn",
-        "neighborhood": "Downtown Brooklyn",
-        "zip_code": "11201",
-        "latitude": 40.695500,
-        "longitude": -73.986900,
-        "account_type": "resident",
-        "verified": true,
-        "created_at": "2025-04-21T19:56:23.635498Z",
-        "password": "pbkdf2_sha256$600000$y3RcdrGz9JMhFzLIWyrSo3$BbZnX4kXz+Sfowf1HyCouV6WYzPYdBRdSfj4ZhcWYUE="
-      }
-    },
-    {
-      "model": "neighborly_users.customuser",
-      "pk": 4,
-      "fields": {
-        "user_id": "a3dcb4d5-6f39-4b9e-bf38-5f9cb87d2f63",
-        "name": "John Doe",
-        "email": "johndoe@gmail.com",
-        "phone_number": "+15555550125",
-        "address": "789 Pine St, Springfield",
-        "city": "Springfield",
-        "neighborhood": "Midtown",
-        "zip_code": "12345",
-        "latitude": 39.781900,
-        "longitude": -89.650300,
-        "account_type": "service_provider",
-        "verified": true,
-        "created_at": "2025-04-15T08:45:00Z",
-        "password": "pbkdf2_sha256$600000$y3RcdrGz9JMhFzLIWyrSo3$BbZnX4kXz+Sfowf1HyCouV6WYzPYdBRdSfj4ZhcWYUE="
-      }
-    },
-    {
-        "model": "neighborly_users.customuser",
-        "pk": 5,
-        "fields": {
-        "user_id": "6b1c6bfc-3e2a-11ee-be56-0242ac120002",
-        "name": "Lakshmi",
-        "email": "ls6588@nyu.edu",
-        "phone_number": "+1234567890",
-        "address": "789 Pine St, Springfield",
-        "neighborhood": "Midtown",
-        "account_type": "resident",
-        "verified": true,
-        "created_at": "2025-04-15T08:45:00Z",
-        "password": "pbkdf2_sha256$600000$i2Db1Hk7iDWcUIieeXZ6mY$wu9Irivf/PH6OdcCy6bqkuKYnCaPpdxFkXoxTUGYQAA="
-        }
-    },
-    {
-        "model": "neighborly_users.customuser",
-        "pk": 6,
-        "fields": {
-        "user_id": "2ce7a1ae-26ec-11f0-b0c2-ca1deaa14517",
-        "name": "Sheetal",
-        "email": "sp7990@nyu.edu",
-        "phone_number": "+2345678901",
-        "address": "789 Pine St, Springfield",
-        "neighborhood": "Midtown",
-        "account_type": "resident",
-        "verified": true,
-        "created_at": "2025-04-15T08:45:00Z",
-        "password": "pbkdf2_sha256$600000$i2Db1Hk7iDWcUIieeXZ6mY$wu9Irivf/PH6OdcCy6bqkuKYnCaPpdxFkXoxTUGYQAA="
-        }
+  {
+    "model": "neighborly_users.customuser",
+    "pk": 1,
+    "fields": {
+      "user_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+      "name": "Alice Resident",
+      "email": "alice.resident@example.com",
+      "phone_number": "+15555550123",
+      "address": "123 Maple St, Springfield",
+      "city": "Springfield",
+      "neighborhood": "Downtown",
+      "zip_code": "12345",
+      "latitude": 39.781700,
+      "longitude": -89.650100,
+      "icon": "users/uploads/40285b483afe4e0db8abc027001a4411.jpg",
+      "account_type": "resident",
+      "verified": true,
+      "created_at": "2025-04-17T12:00:00Z",
+      "password": "pbkdf2_sha256$600000$soDNyxoNsN70JFVU6kB6ya$clhgnxzWrddkjyJn25aIdyrnIbSHsKHjvrlLHI5wrHA="
     }
-  ]
-  
+  },
+  {
+    "model": "neighborly_users.customuser",
+    "pk": 2,
+    "fields": {
+      "user_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+      "name": "Aditya Mittal",
+      "email": "aditya@gmail.com",
+      "phone_number": "+15555550124",
+      "address": "321 86th Street, Brooklyn, New York 11209, United States",
+      "city": "Brooklyn",
+      "neighborhood": "Bay Ridge",
+      "zip_code": "11209",
+      "latitude": 40.623574,
+      "longitude": -74.030338,
+      "icon": "users/uploads/92d9d6e9ae2d4f488e9b7a529f16ab91.jpg",
+      "account_type": "resident",
+      "verified": true,
+      "created_at": "2025-04-16T09:30:00Z",
+      "password": "pbkdf2_sha256$600000$soDNyxoNsN70JFVU6kB6ya$clhgnxzWrddkjyJn25aIdyrnIbSHsKHjvrlLHI5wrHA="
+    }
+  },
+  {
+    "model": "neighborly_users.customuser",
+    "pk": 3,
+    "fields": {
+      "user_id": "6cffc2dffe9247aba9c36f5ac89c59a5",
+      "name": "Cathy Tsui",
+      "email": "cathytest@gmail.com",
+      "phone_number": "+1234567891",
+      "address": "370 Jay St, Brooklyn",
+      "city": "Brooklyn",
+      "neighborhood": "Downtown Brooklyn",
+      "zip_code": "11201",
+      "latitude": 40.695500,
+      "longitude": -73.986900,
+      "icon": "users/uploads/test.jpg",
+      "account_type": "resident",
+      "verified": true,
+      "created_at": "2025-04-21T19:56:23.635498Z",
+      "password": "pbkdf2_sha256$600000$y3RcdrGz9JMhFzLIWyrSo3$BbZnX4kXz+Sfowf1HyCouV6WYzPYdBRdSfj4ZhcWYUE="
+    }
+  },
+  {
+    "model": "neighborly_users.customuser",
+    "pk": 4,
+    "fields": {
+      "user_id": "a3dcb4d5-6f39-4b9e-bf38-5f9cb87d2f63",
+      "name": "John Doe",
+      "email": "johndoe@gmail.com",
+      "phone_number": "+15555550125",
+      "address": "789 Pine St, Springfield",
+      "city": "Springfield",
+      "neighborhood": "Midtown",
+      "zip_code": "12345",
+      "latitude": 39.781900,
+      "longitude": -89.650300,
+      "icon": "users/uploads/default.jpg",
+      "account_type": "NGO",
+      "verified": true,
+      "created_at": "2025-04-15T08:45:00Z",
+      "password": "pbkdf2_sha256$600000$cNDOVrfLWigc8mF5tJzbGR$ekxwTtYk/EN5+Mwd4iFa0+J4Dcl4Ic8QyU9lW85klE4="
+    }
+  },
+  {
+      "model": "neighborly_users.customuser",
+      "pk": 5,
+      "fields": {
+      "user_id": "6b1c6bfc-3e2a-11ee-be56-0242ac120002",
+      "name": "Lakshmi Patel",
+      "email": "ls6588@nyu.edu",
+      "phone_number": "+1234567890",
+      "address": "456 Oak Avenue, Brooklyn",
+      "city": "Brooklyn",
+      "neighborhood": "Park Slope",
+      "zip_code": "11215",
+      "latitude": 40.674843,
+      "longitude": -73.989574,
+      "icon": "users/uploads/default.jpg",
+      "account_type": "resident",
+      "verified": true,
+      "created_at": "2025-04-15T08:45:00Z",
+      "password": "pbkdf2_sha256$600000$i2Db1Hk7iDWcUIieeXZ6mY$wu9Irivf/PH6OdcCy6bqkuKYnCaPpdxFkXoxTUGYQAA="
+      }
+  },
+  {
+      "model": "neighborly_users.customuser",
+      "pk": 6,
+      "fields": {
+      "user_id": "2ce7a1ae-26ec-11f0-b0c2-ca1deaa14517",
+      "name": "Sheetal Sharma",
+      "email": "sp7990@nyu.edu",
+      "phone_number": "+2345678901",
+      "address": "892 Elm Street, Queens",
+      "city": "Queens",
+      "neighborhood": "Astoria",
+      "zip_code": "11102",
+      "latitude": 40.772096,
+      "longitude": -73.932022,
+      "icon": "users/uploads/default.jpg",
+      "account_type": "resident",
+      "verified": true,
+      "created_at": "2025-04-15T08:45:00Z",
+      "password": "pbkdf2_sha256$600000$i2Db1Hk7iDWcUIieeXZ6mY$wu9Irivf/PH6OdcCy6bqkuKYnCaPpdxFkXoxTUGYQAA="
+      }
+  },
+  {
+      "model": "neighborly_users.customuser",
+      "pk": 7,
+      "fields": {
+      "user_id": "f4e9c1b7-8d2f-4a3e-b1f4-7c3b5d9e2f8a",
+      "name": "Water for All Foundation",
+      "email": "contact@waterforall.org",
+      "phone_number": "+17185550201",
+      "address": "234 Flatbush Avenue, Brooklyn",
+      "city": "Brooklyn",
+      "neighborhood": "Prospect Heights",
+      "zip_code": "11217",
+      "latitude": 40.678945,
+      "longitude": -73.975687,
+      "icon": "users/uploads/waterngo.jpg",
+      "account_type": "NGO",
+      "verified": true,
+      "created_at": "2025-04-18T10:15:00Z",
+      "password": "pbkdf2_sha256$600000$cNDOVrfLWigc8mF5tJzbGR$ekxwTtYk/EN5+Mwd4iFa0+J4Dcl4Ic8QyU9lW85klE4="
+      }
+  },
+  {
+      "model": "neighborly_users.customuser",
+      "pk": 8,
+      "fields": {
+      "user_id": "8c7f5e3a-9b2d-4f6e-a3c1-2e8d9f7c5b4a",
+      "name": "Love & Care Community Charity",
+      "email": "info@lovecarecharity.org",
+      "phone_number": "+17185550302",
+      "address": "567 Northern Boulevard, Queens",
+      "city": "Queens",
+      "neighborhood": "Flushing",
+      "zip_code": "11354",
+      "latitude": 40.759901,
+      "longitude": -73.833079,
+      "icon": "users/uploads/ngo1.jpg",
+      "account_type": "NGO",
+      "verified": true,
+      "created_at": "2025-04-19T14:30:00Z",
+      "password": "pbkdf2_sha256$600000$cNDOVrfLWigc8mF5tJzbGR$ekxwTtYk/EN5+Mwd4iFa0+J4Dcl4Ic8QyU9lW85klE4="
+      }
+  }
+]

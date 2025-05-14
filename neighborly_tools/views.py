@@ -2,11 +2,9 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import api_view, permission_classes, action
 from rest_framework.decorators import api_view, permission_classes
 
-#for api filtering
-from django_filters.rest_framework import DjangoFilterBackend
+# for api filtering
 from .filters import ToolFilter
 
 from django.shortcuts import get_object_or_404
@@ -15,46 +13,56 @@ from .models import Tool, BorrowRequest
 
 from .serializers import ToolSerializer, BorrowRequestSerializer
 
-'''For all tools & creation of new tools'''    
+"""For all tools & creation of new tools"""
+
+
 class ToolListView(APIView):
-    permission_classes = [IsAuthenticated] 
-    
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         filtered = ToolFilter(request.GET, queryset=Tool.objects.all())
         serializer = ToolSerializer(filtered.qs, many=True)
         return Response(serializer.data)
-    
+
     def post(self, request):
         data = request.data.copy()
-        data["owner_id"] = request.user.id  # auto-assign creator
+        print("hello")
 
+        data["owner_id"] = str(request.user.user_id)  # auto-assign creator
+        print(data)
         serializer = ToolSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET'])
+
+@api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_tools_exclude_user(request):
-    excluded_user_id = request.user.id
+    excluded_user_id = request.user.user_id
     tools = Tool.objects.exclude(owner_id=excluded_user_id)
     serializer = ToolSerializer(tools, many=True)
     return Response(serializer.data)
 
-'''For a tool'''
+
+"""For a tool"""
+
+
 class ToolDetailView(APIView):
-    permission_classes = [IsAuthenticated] 
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, tool_id):
         try:
             tool = get_object_or_404(Tool, tool_id=tool_id)
         except Tool.DoesNotExist:
-            return Response({"error": "Tool not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {"error": "Tool not found"}, status=status.HTTP_404_NOT_FOUND
+            )
 
-        serializer = ToolSerializer(tool) 
+        serializer = ToolSerializer(tool)
         return Response(serializer.data)
-    
-    
+
     def patch(self, request, tool_id):
         tool = get_object_or_404(Tool, tool_id=tool_id)
         serializer = ToolSerializer(tool, data=request.data, partial=True)
@@ -62,14 +70,16 @@ class ToolDetailView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
     def delete(self, request, tool_id):
         tool = get_object_or_404(Tool, tool_id=tool_id)
         tool.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-'''For creating a new signup item'''
+"""For creating a new signup item"""
+
+
 class ToolSignUpView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -84,18 +94,30 @@ class ToolSignUpView(APIView):
         if rsvp_found.exists():
             return Response({"message": "User has already signed up"}, status=status.HTTP_200_OK)
 
+        rsvp_found = BorrowRequest.objects.filter(
+            user_id=request.user.user_id, tool=tool
+        )
+
+        if rsvp_found.exists():
+            return Response(
+                {"message": "User has already signed up"}, status=status.HTTP_200_OK
+            )
+
         signup = BorrowRequest.objects.create(
-            user_id=str(request.user.id),
+            user_id=str(request.user.user_id),
             tool=tool,
-            start_date=request.data.get('start_date'),
-            end_date=request.data.get('end_date'),
-            messages=request.data.get('messages'),
+            start_date=request.data.get("start_date"),
+            end_date=request.data.get("end_date"),
+            messages=request.data.get("messages"),
         )
 
         serializer = BorrowRequestSerializer(signup)
         return Response(serializer.data, status=201)
 
-'''For getting all signups for a specific tool'''
+
+"""For getting all signups for a specific tool"""
+
+
 class ToolSignUpDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -110,37 +132,59 @@ class ToolSignUpDetailView(APIView):
         new_status = request.data.get("status")  # expected: "accepted" or "rejected"
 
         if new_status not in ["accepted", "rejected"]:
-            return Response({"error": "Invalid status."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": "Invalid status."}, status=status.HTTP_400_BAD_REQUEST
+            )
 
         signup = get_object_or_404(BorrowRequest, pk=signup_id)
         tool = signup.tool
 
         # Enforce only the tool provider can approve/reject
-        if str(tool.owner_id) != str(request.user.id):
-            return Response({"error": "Unauthorized."}, status=status.HTTP_403_FORBIDDEN)
+        if str(tool.owner_id) != str(request.user.user_id):
+            return Response(
+                {"error": "Unauthorized."}, status=status.HTTP_403_FORBIDDEN
+            )
 
         # Just update status — do not modify unavailable dates
         signup.status = new_status
         signup.save()
         print(signup)
 
-        return Response({"message": f"Signup status updated to '{new_status}'."}, status=status.HTTP_200_OK)
-    
+        return Response(
+            {"message": f"Signup status updated to '{new_status}'."},
+            status=status.HTTP_200_OK,
+        )
+
     # To delete specific signup details
     def delete(self, request, signup_id):
         signup = get_object_or_404(BorrowRequest, signup_id=signup_id)
         signup.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-@api_view(['GET'])
+
+
+@api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def grab_tools_by_owner(request, user_id):
     tools = Tool.objects.filter(owner_id=user_id)
     data = ToolSerializer(tools, many=True).data
     return Response({"tools": data})
-@api_view(['GET'])
+
+
+@api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_tools(request):
-    tools = Tool.objects.filter(borrow_requests__user_id=request.user.id)
+    tools = Tool.objects.filter(borrow_requests__user_id=request.user.user_id)
 
     serializer = ToolSerializer(tools, many=True)
     return Response(serializer.data)
+
+
+@api_view(["PATCH"])
+@permission_classes([IsAuthenticated])
+def update_tool(request, tool_id):
+    tool = get_object_or_404(Tool, tool_id=tool_id)
+    serializer = ToolSerializer(tool, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

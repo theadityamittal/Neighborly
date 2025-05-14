@@ -8,6 +8,10 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import "./CreatePost.css";
 import { BULLETIN_TAGS } from "../../assets/tags";
+<<<<<<< HEAD
+=======
+import { useSelector } from "react-redux";
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
 
 const postTypes = ["Event", "Announcement", "Discussion"];
 
@@ -27,6 +31,10 @@ const CreatePost = ({ onPost = () => {} }) => {
   const [neighborhood, setNeighborhood] = useState("");
   const [location, setLocation] = useState("");
   const navigate = useNavigate();
+<<<<<<< HEAD
+=======
+  const { access } = useSelector((state) => state.auth);
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
 
   const handleTagChange = (e) => {
     const value = e.target.value;
@@ -53,10 +61,15 @@ const CreatePost = ({ onPost = () => {} }) => {
     formData.append("post_type", postType.toLowerCase());
     formData.append("visibility", visibility);
 
+<<<<<<< HEAD
     // append each tag separately
     selectedTags.forEach((tag) => formData.append("tags", tag));
 
     // optional location fields
+=======
+    formData.append("tags", JSON.stringify(selectedTags))
+
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
     if (latitude != null && longitude != null) {
       formData.append("latitude", latitude.toString());
       formData.append("longitude", longitude.toString());
@@ -73,6 +86,10 @@ const CreatePost = ({ onPost = () => {} }) => {
 
     // image file if provided
     if (image) {
+<<<<<<< HEAD
+=======
+      console.log(image);
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
       formData.append("image", image);
     }
 
@@ -80,7 +97,16 @@ const CreatePost = ({ onPost = () => {} }) => {
     console.log("Submitting FormData:", Array.from(formData.entries()));
 
     try {
+<<<<<<< HEAD
       const response = await axiosInstance.post("/bulletin/", formData);
+=======
+      const response = await axiosInstance.post("/bulletin/", formData, {
+        headers: {
+          Authorization: `Bearer ${access}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
       alert("Post created successfully!");
       onPost(response.data);
       navigate("/bulletin");

@@ -3,7 +3,15 @@ import "./HorizontalCardModal.css";
 import axiosInstance from "../../utils/axiosInstance"; 
 import CalendarPicker from "../CalendarPicker/CalendarPicker";
 import FormLocationPicker from "../LocationPicker/FormLocationPicker";
+<<<<<<< HEAD
 import { Visibility } from "@mui/icons-material";
+=======
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
 
 const HorizontalCardModalEdit = ({ isOpen, onClose, item, item_name, type, api}) => {
     const [date, setDate] = useState(item.date);
@@ -39,9 +47,14 @@ const HorizontalCardModalEdit = ({ isOpen, onClose, item, item_name, type, api})
                 formData.append("title", title);
                 formData.append("location", location);
                 formData.append("description", description);
+<<<<<<< HEAD
                 formData.append("time", time);
                 formData.append("visibility", visibility);
                 formData.append("address", locationInfo["address"]);
+=======
+                formData.append("visibility", visibility);
+                formData.append("street_address", locationInfo["address"]);
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
                 formData.append("city", locationInfo["city"]);
                 formData.append("neighborhood", locationInfo["neighborhood"]);
                 formData.append("zip_code", locationInfo["zipCode"]);
@@ -67,6 +80,16 @@ const HorizontalCardModalEdit = ({ isOpen, onClose, item, item_name, type, api})
                 formData.append("description", description);
                 formData.append("visibility", visibility);
                 formData.append("location", location);
+<<<<<<< HEAD
+=======
+                formData.append("street_address", locationInfo["address"]);
+                formData.append("city", locationInfo["city"]);
+                formData.append("neighborhood", locationInfo["neighborhood"]);
+                formData.append("zip_code", locationInfo["zipCode"]);
+                formData.append("latitude", locationInfo["latitude"]);
+                formData.append("longitude", locationInfo["longitude"]);
+                formData.append("voting_ends_at", date);
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
             }
 
           await axiosInstance.patch(`/${api}/${item.id}/`, formData, {
@@ -104,6 +127,24 @@ const HorizontalCardModalEdit = ({ isOpen, onClose, item, item_name, type, api})
               onChange={(e) => setTitle(e.target.value)}
             />
         </h2>
+<<<<<<< HEAD
+=======
+        <FormControl>
+            <label className="input-label">Visibility</label>
+            <RadioGroup
+            row
+            aria-labelledby="visibility-group-label"
+            name="visibility"
+            value={visibility}
+            onChange={(e) => setVisibility(e.target.value)}
+            >
+            <FormControlLabel value="public" control={<Radio />} label="Public" />
+            <FormControlLabel value="neighborhood" control={<Radio />} label="Neighborhood Only" />
+            <FormControlLabel value="invitation" control={<Radio />} label="Invitation Only" />
+            </RadioGroup>
+        </FormControl>
+
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
         
         {/* Details Section */}
         <div className="modal-details">
@@ -134,6 +175,7 @@ const HorizontalCardModalEdit = ({ isOpen, onClose, item, item_name, type, api})
             </div>
             </div>            
             : <></>}
+<<<<<<< HEAD
             <label className="input-label">Time</label>
             <input
               className="input"
@@ -142,20 +184,41 @@ const HorizontalCardModalEdit = ({ isOpen, onClose, item, item_name, type, api})
               onChange={(e) => setTime(e.target.value)}
             />
 
+=======
+            { type !== 'Service' && type !== 'Petition' && type !== 'Tool' ?
+                <>
+                    <label className="input-label">Time</label>
+                    <input
+                    className="input"
+                    type="time"
+                    value={time}
+                    onChange={(e) => setTime(e.target.value)}
+                    />
+                </>
+            : <></> }
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
 
             <div className="form-group">
             <label htmlFor="address">Street Address</label>
             { type === 'Event' ?
+<<<<<<< HEAD
                 <FormLocationPicker
                 location={location}
                 setLocation={(val) => setLocation(val)}
                 />
+=======
+                <></>
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
             :
                 <FormLocationPicker
                 location={location}
                 setLocation={(val) => setLocation(val)}
                 onCoordinatesChange={(loc) => {
+<<<<<<< HEAD
                     setLocation((prev) => ({
+=======
+                    setLocationInfo((prev) => ({
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
                         ...prev,
                         latitude: parseFloat(loc.latitude.toFixed(6)),
                         longitude: parseFloat(loc.longitude.toFixed(6)),
@@ -165,6 +228,11 @@ const HorizontalCardModalEdit = ({ isOpen, onClose, item, item_name, type, api})
                         city: loc.city,
                     }));
                 }}
+<<<<<<< HEAD
+=======
+                latitude={item.latitude}
+                longitude={item.longitude}
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
                 />
             }
             </div>

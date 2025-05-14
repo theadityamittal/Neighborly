@@ -1,121 +1,188 @@
 # Neighborly
 
-Neighborly is a community engagement website that connects local residents by allowing them to share posts, organize events, exchange services, and participate in community petitions in a safe and moderated environment.
+**Neighborly** is a hyper‑local community hub that brings neighbors together through verified residency. The platform empowers residents to share posts, lend & borrow tools, exchange services, organize & RSVP to events, and create or sign community petitions—all within a secure, address‑verified environment.
 
-## Project Structure
+---
 
-- **Django Backend**  
-  Located in the `neighborly/` directory with custom apps in the `apps/` folder.  
-  Handles server-side logic, authentication, and data management.
+## Key Features
 
-- **React Frontend**  
-  Located in the `react-app/` folder.  
-  Provides a modern, interactive user interface that integrates with the Django backend.
+- **User Authentication & Residency Verification**  
+  Secure sign‑up and login with proof‑of‑address upload, staff review, and JWT‑backed sessions.
 
-### Key Frontend Features
+- **Geo‑Filtered Bulletin Board**  
+  Browse and post neighborhood updates filtered by ZIP, radius, and tags.
 
-- **User Authentication**: Sign up, login, and profile management
-- **Tool Sharing**: List and request to borrow tools from neighbors
-- **Community Petitions**: Create, sign, and track local petitions
-- **Event Organization**: Post and RSVP to community events
-- **Service Exchange**: Offer and request services from community members
-- **Interactive UI Components**: Calendar date picking, modal dialogs, and responsive cards
+- **Tool Sharing Marketplace**  
+  List, request, lend, and return tools with real‑time status and usage history.
 
-### Key Components
+- **Service Exchange Platform**  
+  Offer and request local services, with built‑in request & fulfillment flows.
 
-- **Dashboard**: Central navigation hub with sidebar menu and content area
-- **HorizontalCard/VerticalCard**: Display community items in an appealing format
-- **CalendarPicker**: Date selection with availability tracking
-- **Modal Dialogs**: Rich interactive forms for item details and booking
+- **Community Events Calendar**  
+  Create, RSVP, modify, and cancel events. Interactive map picker for location selection.
 
-## Setup Instructions
+- **Petitions & Civic Engagement**  
+  Launch petitions, track signature counts, and sign/un‑sign from personal dashboards.
+
+- **Personal Dashboards**  
+  - **My Creations**: All posts, events, services, petitions you’ve created.  
+  - **My Activity**: All posts, RSVPs, sign‑ups, and petition signatures you’ve joined.
+
+- **Media Handling**  
+  Secure image uploads via S3 presigned URLs & CloudFront CDN for fast, reliable delivery.
+
+- **Search & Filtering**  
+  Keyword, tag, and location radii filters powered by an integrated Mapbox/Leaflet picker.
+
+- **Responsive & Accessible UI**  
+  Built with React & MUI for desktop, tablet, and mobile; WCAG‑informed components.
+
+---
+
+## Architecture & Tech Stack
+
+- **Frontend**  
+  - React 18  
+  - Material‑UI (MUI v5)  
+  - Redux Toolkit & Axios  
+  - Mapbox GL JS / Leaflet for maps  
+  - Jest + React Testing Library + (planned) Cypress
+
+- **Backend**  
+  - Python 3.11 & Django 4  
+  - Django REST Framework (DRF) & DRF‑Spectacular (OpenAPI)  
+  - SimpleJWT for token auth  
+  - PostgreSQL on AWS RDS (SQLite for local dev)
+
+- **Media & CDN**  
+  - AWS S3 for file storage  
+  - CloudFront for global distribution
+
+- **Infrastructure & CI/CD**  
+  - AWS EC2 + Nginx + Gunicorn  
+  - GitHub Actions (build, tests, migrations, deploy)  
+  - Docker‑Compose & GitHub Codespaces for dev environments
+
+- **Observability (Roadmap)**  
+  - AWS CloudWatch (metrics & alarms)  
+  - k6 load‑testing scripts  
+  - Sentry for front‑end error tracking
+
+---
+
+## Installation & Local Setup
 
 ### Prerequisites
-- Python 3.9+  
-- Node.js 20+ and npm  
-- (Optional) Docker—for those who prefer local containerization, though remote development is recommended via GitHub Codespaces
 
-### Django Setup
-1. **Create a virtual environment and install dependencies:**
+- **Git**  
+- **Python 3.9+**  
+- **Node.js 14+ & npm**  
+
+### Clone & Configure
+
+```bash
+git clone https://github.com/theadityamittal/Neighborly.git
+cd Neighborly
+````
+
+#### Backend
+
+1. Create & activate a Python virtual environment:
+
    ```bash
    python -m venv venv
-   source venv/bin/activate   # On Windows use: venv\Scripts\activate
-   pip install -r requirements.txt
+   source venv/bin/activate   # Windows: venv\Scripts\activate
    ```
-2. **Apply migrations:**
+2. Install dependencies and apply migrations:
+
    ```bash
+   pip install -r requirements.txt
    python manage.py migrate
    ```
-3. **Run the Django development server:**
+3. Create a `.env` file (see `.env.example`) and set:
+
+   ```
+   ACCESS_KEY=your_aws_access_key_here
+   SECRET_KEY=your_aws_secret_key_here
+   BUCKET_NAME=your_bucket_name_here
+   REGION_NAME=your_aws_region_here
+   MAPBOX_ACCESS_TOKEN=your_mapbox_token_here
+   ```
+4. Run the backend:
+
    ```bash
    python manage.py runserver
    ```
-   Visit [http://127.0.0.1:8000](http://127.0.0.1:8000) to view the site.
 
-### React Setup
-1. **Navigate to the React directory:**
+#### Frontend
+
+1. Navigate to the React app:
+
    ```bash
    cd react-app
    ```
-2. **Install dependencies:**
+2. Install & configure:
+
    ```bash
    npm install
+   cp .env.example .env.local
+   # Update REACT_APP_BACKEND_URL as needed
    ```
-3. **Run the React development server:**
+3. Start the frontend:
+
    ```bash
    npm start
    ```
-   The app will open at [http://localhost:3000](http://localhost:3000).
+4. Open your browser at [http://localhost:3000](http://localhost:3000).
 
-### Remote Development via GitHub Codespaces (Recommended)
-1. **Start services automatically:**  
-   The project includes a script that starts both Django and React servers automatically in Codespaces using the configuration in `.devcontainer/start_servers.sh`.
+---
 
-2. **Opening the Workspace:**  
-   - To launch a GitHub Codespace, navigate to the repository on GitHub, click the **Code** button, then select **Open with Codespaces**.  
-   - Alternatively, use the GitHub Codespaces extension for Visual Studio Code to open a codespace directly from your repository.
+## Testing
 
-### Environment Variables
+* **Backend Unit & API Tests**
 
-The React frontend uses environment variables for configuration:
-
-- `REACT_APP_BACKEND_URL`: The URL for the Django backend (default: http://127.0.0.1:8000)
-
-## Project Pages
-
-- **Authentication**: User registration and login
-- **Bulletin**: Main community feed
-- **Tools**: Community tool sharing marketplace
-- **Services**: Service exchange platform
-- **Events**: Community events calendar
-- **Petitions**: Community petitions with signing capability
-- **User Profile**: Personal profile management
-
-## State Management
-
-The project uses Redux for state management with:
-- Authentication state handling
-- Persistent login sessions
-- Centralized store configuration
-
-## Running Tests
-
-- **Django Tests:**  
-  Run Django tests with:
   ```bash
   python manage.py test
   ```
-- **React Tests:**  
-  Navigate to the `react-app` directory and run:
+* **Frontend Unit Tests**
+
   ```bash
+  cd react-app
   npm test -- --watchAll=false
   ```
 
-## Contributing
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Make your changes and commit them.
-4. Submit a pull request.
+---
 
-## License
-This project is licensed under the [MIT License](LICENSE).
+## Deployment
+
+The `deploy` workflow in GitHub Actions builds and pushes Docker images, migrates the database, and updates the EC2 fleet via SSH/GitHub Deployments. Configuration is defined in:
+
+* `.github/workflows/deploy.yml`
+
+---
+
+## API Documentation
+
+Interactive API docs are available at:
+
+```
+GET /api_doc/
+```
+
+Powered by DRF‑Spectacular (OpenAPI / Swagger UI).
+
+---
+
+## 🤝 Contributing
+
+1. **Fork** the repo and create a feature branch.
+2. Develop against the latest `main`.
+3. Ensure all tests pass locally.
+4. Submit a **Pull Request** with clear descriptions and linked issues.
+5. Maintainers will review and merge after CI checks succeed.
+
+---
+
+## 📜 License
+
+This project is released under the **MIT License**. See [LICENSE](LICENSE) for details.

@@ -125,3 +125,31 @@
   .register-footer a:hover {
     text-decoration: underline;
   }
+
+  .form-select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    cursor: pointer;
+    appearance: none; /* Remove default browser styling */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23333' d='M10.293.293a1 1 0 0 1 1.414 0l.001.001a1 1 0 0 1 0 1.414l-5 5a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 0-1.414l.001-.001a1 1 0 0 1 1.414 0L6 4.586 10.293.293z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
+  }
+  
+  .form-select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 1px rgba(0, 123, 255, 0.1);
+  }
+
+  /* Style the dropdown options */
+  .form-select option {
+    padding: 12px;
+    background-color: #ffffff;
+    color: #333;
+  }

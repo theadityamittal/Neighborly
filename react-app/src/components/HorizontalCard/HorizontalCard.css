@@ -87,3 +87,66 @@
     background-color: #d97706;
   }
   
+
+  /* NGO Card Styling */
+.ngo-card {
+  border: 2px solid #34a853;
+  background: linear-gradient(to right, #f8fcf9 0%, #ffffff 100%);
+  position: relative;
+}
+
+/* NGO Corner Ribbon */
+.ngo-card::before {
+  content: "NGO";
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #34a853;
+  color: white;
+  padding: 4px 16px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom-right-radius: 8px;
+  z-index: 10;
+}
+
+/* NGO Badge */
+.ngo-card .horizontal-card-provider::after {
+  content: "✓ Verified NGO";
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  padding: 2px 10px;
+  background-color: #e6f4ea;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  color: #1e7e34;
+  font-weight: 600;
+}
+
+/* NGO provider text styling */
+.ngo-card .horizontal-card-provider {
+  color: #1e7e34;
+  font-weight: 600;
+}
+
+/* Green accent for NGO title */
+.ngo-card .horizontal-card-title {
+  color: #2c5530;
+}
+
+/* Ensure flexbox alignment for badges */
+.horizontal-card-provider {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Ensure tabs container is flex */
+.horizontal-card-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}

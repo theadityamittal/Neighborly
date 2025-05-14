@@ -1,0 +1,282 @@
+[
+  {
+    "model": "neighborly_services.servicesignup",
+    "pk": 1,
+    "fields": {
+      "service": 1,
+      "user_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+      "start_date": "2025-04-20",
+      "end_date": "2025-04-20",
+      "messages": "Hi, I'm interested in joining the premium yoga class. I have some experience with yoga and would love to improve my practice.",
+      "price": "7",
+      "status": "pending",
+      "signed_at": "2025-04-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "neighborly_services.servicesignup",
+    "pk": 2,
+    "fields": {
+      "service": 1,
+      "user_id": "6cffc2dffe9247aba9c36f5ac89c59a5",
+      "start_date": "2025-04-21",
+      "end_date": "2025-04-21",
+      "messages": "Looking forward to the yoga session! Is there anything I should bring?",
+      "price": "7",
+      "status": "accepted",
+      "signed_at": "2025-04-16T14:30:00Z"
+    }
+  },
+  {
+    "model": "neighborly_services.servicesignup",
+    "pk": 3,
+    "fields": {
+      "service": 2,
+      "user_id": "6b1c6bfc-3e2a-11ee-be56-0242ac120002",
+      "start_date": "2025-04-12",
+      "end_date": "2025-04-12",
+      "messages": "I've been wanting to improve my photography skills. Is this suitable for intermediate photographers?",
+      "price": "20",
+      "status": "accepted",
+      "signed_at": "2025-04-08T11:00:00Z"
+    }
+  },
+  {
+    "model": "neighborly_services.servicesignup",
+    "pk": 4,
+    "fields": {
+      "service": 3,
+      "user_id": "2ce7a1ae-26ec-11f0-b0c2-ca1deaa14517",
+      "start_date": "2025-04-25",
+      "end_date": "2025-04-25",
+      "messages": "I need to improve my digital marketing skills for my freelance work. Looking forward to the course!",
+      "price": "10",
+      "status": "pending",
+      "signed_at": "2025-04-18T09:00:00Z"
+    }
+  },
+  {
+    "model": "neighborly_services.servicesignup",
+    "pk": 5,
+    "fields": {
+      "service": 4,
+      "user_id": "f4e9c1b7-8d2f-4a3e-b1f4-7c3b5d9e2f8a",
+      "start_date": "2025-04-28",
+      "end_date": "2025-04-28",
+      "messages": "Our water foundation needs some legal guidance on compliance matters. Thank you for offering this service!",
+      "price": "0",
+      "status": "accepted",
+      "signed_at": "2025-04-20T13:00:00Z"
+    }
+  },
+  {
+    "model": "neighborly_services.servicesignup",
+    "pk": 6,
+    "fields": {
+      "service": 5,
+      "user_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+      "start_date": "2025-04-15",
+      "end_date": "2025-04-15",
+      "messages": "I'm a web developer looking to expand my Python skills. Excited about the advanced topics!",
+      "price": "25",
+      "status": "accepted",
+      "signed_at": "2025-04-10T15:30:00Z"
+    }
+  },
+  {
+    "model": "neighborly_services.servicesignup",
+    "pk": 7,
+    "fields": {
+      "service": 6,
+      "user_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+      "start_date": "2025-04-30",
+      "end_date": "2025-04-30",
+      "messages": "I've been stressed lately and want to try meditation. Is this good for beginners?",
+      "price": "5",
+      "status": "pending",
+      "signed_at": "2025-04-21T08:00:00Z"
+    }
+  },
+  {
+    "model": "neighborly_services.servicesignup",
+    "pk": 8,
+    "fields": {
+      "service": 7,
+      "user_id": "6cffc2dffe9247aba9c36f5ac89c59a5",
+      "start_date": "2025-04-22",
+      "end_date": "2025-04-22",
+      "messages": "I want to learn about water conservation for my home. The free rain barrel sounds great!",
+      "price": "0",
+      "status": "accepted",
+      "signed_at": "2025-04-19T16:00:00Z"
+    }
+  },
+  {
+    "model": "neighborly_services.servicesignup",
+    "pk": 9,
+    "fields": {
+      "service": 8,
+      "user_id": "6b1c6bfc-3e2a-11ee-be56-0242ac120002",
+      "start_date": "2025-04-22",
+      "end_date": "2025-04-24",
+      "messages": "I'm concerned about our water quality. Please test our home water supply.",
+      "price": "0",
+      "status": "accepted",
+      "signed_at": "2025-04-18T10:00:00Z"
+    }
+  },
+  {
+    "model": "neighborly_services.servicesignup",
+    "pk": 10,
+    "fields": {
+      "service": 9,
+      "user_id": "a3dcb4d5-6f39-4b9e-bf38-5f9cb87d2f63",
+      "start_date": "2025-04-26",
+      "end_date": "2025-04-26",
+      "messages": "Our NGO would like to help distribute food to the community. Can we volunteer as well?",
+      "price": "0",
+      "status": "accepted",
+      "signed_at": "2025-04-20T11:00:00Z"
+    }
+  },
+  {
+    "model": "neighborly_services.servicesignup",
+    "pk": 11,
+    "fields": {
+      "service": 10,
+      "user_id": "2ce7a1ae-26ec-11f0-b0c2-ca1deaa14517",
+      "start_date": "2025-04-25",
+      "end_date": "2025-04-25",
+      "messages": "My elderly neighbor needs companionship. She's very friendly but lonely. Can you visit once a week?",
+      "price": "0",
+      "status": "pending",
+      "signed_at": "2025-04-21T09:30:00Z"
+    }
+  },
+  {
+    "model": "neighborly_services.servicesignup",
+    "pk": 12,
+    "fields": {
+      "service": 11,
+      "user_id": "6b1c6bfc-3e2a-11ee-be56-0242ac120002",
+      "start_date": "2025-04-26",
+      "end_date": "2025-04-26",
+      "messages": "I'm transitioning careers and need help with my resume and LinkedIn profile.",
+      "price": "35",
+      "status": "accepted",
+      "signed_at": "2025-04-22T14:00:00Z"
+    }
+  },
+  {
+    "model": "neighborly_services.servicesignup",
+    "pk": 13,
+    "fields": {
+      "service": 12,
+      "user_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+      "start_date": "2025-04-28",
+      "end_date": "2025-04-28",
+      "messages": "I love Indian food and want to learn how to make it at home. Can I bring my daughter?",
+      "price": "40",
+      "status": "pending",
+      "signed_at": "2025-04-23T10:00:00Z"
+    }
+  },
+  {
+    "model": "neighborly_services.servicesignup",
+    "pk": 14,
+    "fields": {
+      "service": 13,
+      "user_id": "a3dcb4d5-6f39-4b9e-bf38-5f9cb87d2f63",
+      "start_date": "2025-05-02",
+      "end_date": "2025-05-02",
+      "messages": "Our NGO office needs some basic repairs. This workshop will help us save money on maintenance.",
+      "price": "15",
+      "status": "accepted",
+      "signed_at": "2025-04-24T11:30:00Z"
+    }
+  },
+  {
+    "model": "neighborly_services.servicesignup",
+    "pk": 15,
+    "fields": {
+      "service": 1,
+      "user_id": "a3dcb4d5-6f39-4b9e-bf38-5f9cb87d2f63",
+      "start_date": "2025-04-23",
+      "end_date": "2025-04-23",
+      "messages": "Hi, I'd like to join the yoga class as a beginner. Is that okay?",
+      "price": "7",
+      "status": "pending",
+      "signed_at": "2025-04-18T08:00:00Z"
+    }
+  },
+  {
+    "model": "neighborly_services.servicesignup",
+    "pk": 16,
+    "fields": {
+      "service": 4,
+      "user_id": "8c7f5e3a-9b2d-4f6e-a3c1-2e8d9f7c5b4a",
+      "start_date": "2025-04-30",
+      "end_date": "2025-04-30",
+      "messages": "Love & Care Charity needs help understanding new tax regulations for nonprofits.",
+      "price": "0",
+      "status": "pending",
+      "signed_at": "2025-04-25T15:00:00Z"
+    }
+  },
+  {
+    "model": "neighborly_services.servicesignup",
+    "pk": 17,
+    "fields": {
+      "service": 7,
+      "user_id": "2ce7a1ae-26ec-11f0-b0c2-ca1deaa14517",
+      "start_date": "2025-04-22",
+      "end_date": "2025-04-22",
+      "messages": "My building wants to reduce water usage. Can we bring multiple residents?",
+      "price": "0",
+      "status": "accepted",
+      "signed_at": "2025-04-17T12:00:00Z"
+    }
+  },
+  {
+    "model": "neighborly_services.servicesignup",
+    "pk": 18,
+    "fields": {
+      "service": 9,
+      "user_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+      "start_date": "2025-04-26",
+      "end_date": "2025-04-26",
+      "messages": "I'd like to receive food assistance for my family of 4. Thank you for this service.",
+      "price": "0",
+      "status": "accepted",
+      "signed_at": "2025-04-22T09:00:00Z"
+    }
+  },
+  {
+    "model": "neighborly_services.servicesignup",
+    "pk": 19,
+    "fields": {
+      "service": 3,
+      "user_id": "a3dcb4d5-6f39-4b9e-bf38-5f9cb87d2f63",
+      "start_date": "2025-04-25",
+      "end_date": "2025-04-25",
+      "messages": "Our NGO needs digital marketing training for our outreach programs.",
+      "price": "10",
+      "status": "accepted",
+      "signed_at": "2025-04-19T14:45:00Z"
+    }
+  },
+  {
+    "model": "neighborly_services.servicesignup",
+    "pk": 20,
+    "fields": {
+      "service": 2,
+      "user_id": "2ce7a1ae-26ec-11f0-b0c2-ca1deaa14517",
+      "start_date": "2025-04-12",
+      "end_date": "2025-04-12",
+      "messages": "I'm a complete beginner in photography but very eager to learn!",
+      "price": "20",
+      "status": "accepted",
+      "signed_at": "2025-04-07T16:00:00Z"
+    }
+  }
+]

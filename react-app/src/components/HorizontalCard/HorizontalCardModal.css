@@ -212,3 +212,52 @@
     justify-content: flex-start;
     display: flex;
   }
+
+  /* NGO Modal Styling */
+
+  /* NGO Corner Badge - CSS Only */
+  .ngo-modal::before {
+    content: "NGO";
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #34a853;
+    color: white;
+    padding: 4px 16px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom-right-radius: 8px;
+    z-index: 10;
+  }
+
+  /* NGO Badge after provider name - CSS Only */
+  .ngo-modal .modal-provider::after {
+    content: "✓ Verified NGO";
+    display: inline-flex;
+    align-items: center;
+    margin-left: 8px;
+    padding: 2px 10px;
+    background-color: #e6f4ea;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    color: #1e7e34;
+    font-weight: 600;
+  }
+
+  /* NGO provider text styling */
+  .ngo-modal .modal-provider {
+    color: #1e7e34;
+  }
+
+  /* Green accent for NGO title */
+  .ngo-modal .modal-title {
+    color: #2c5530;
+  }
+
+  /* NGO hover effect on modal */
+  .ngo-modal:hover {
+    box-shadow: 0 4px 12px rgba(52, 168, 83, 0.2);
+    transition: all 0.3s ease;
+  }

@@ -12,6 +12,10 @@ function HorizontalCard({
   viewType,
   onView, // this is passed from CardTest to trigger showing VerticalCard
   changeButtonName = "View",
+<<<<<<< HEAD
+=======
+  isNGO = false,
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
 }) {
   const handleClick = () => {
     console.log(`You clicked on card ID: ${id}`);
@@ -21,7 +25,8 @@ function HorizontalCard({
   };
 
   return (
-    <div className="horizontal-card">
+    // <div className="horizontal-card">
+    <div className={`horizontal-card ${isNGO ? 'ngo-card' : ''}`}>
       <img className="horizontal-card-image" src={image} alt={title} />
       <div className="horizontal-card-content">
         {/* Tags */}
@@ -35,7 +40,11 @@ function HorizontalCard({
 
         {/* Main Info */}
         <div className="horizontal-card-title">{title}</div>
-        <div className="horizontal-card-provider">{provider}</div>
+        <div className="horizontal-card-provider">
+  
+          {provider}
+          
+        </div>
         <div>{location}</div>
 
         {/* Availability */}

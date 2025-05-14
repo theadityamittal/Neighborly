@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../utils/axiosInstance";
 import { useSelector } from "react-redux";
-import HorizontalCardList from "./HorizontalCardList";
-import PostCard from "../../components/VerticalCard/PostCard";
 import PetitionCards from "../Petitions/PetitionCards";
 import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
 import "./UserProfile.css";
 import { useNavigate } from "react-router";
+import EventCards from "../Events/EventCards";
+import BulletinCards from "../Bulletin/BulletinCards";
+import ToolCards from "../Tools/ToolCards";
+import ServiceCards from "../Services/ServiceCards";
 
 const formatDate = (iso) =>
   new Date(iso).toLocaleDateString(undefined, {
@@ -27,7 +29,7 @@ const formatTime = (time) => {
 
 const UserProfileTabs = () => {
   const navigate = useNavigate()
-  const [selectedTab, setSelectedTab] = useState("myPosts");
+  const [selectedTab, setSelectedTab] = useState("posts");
   const { access } = useSelector((state) => state.auth);
   const { user_id: userId } = useSelector((state) => state.auth);
   const [error, setError] = useState(null);
@@ -46,34 +48,51 @@ const UserProfileTabs = () => {
     setSelectedTab(tab);
   };
 
-  const handleEditEvent = (id) => {
-    console.log(`Card with ID ${id} clicked`);
+  const handleEditEvent = (event) => {
+    console.log(`Card with ID ${event.event_id} clicked`);
     // Navigate to the detailed petition page
-    navigate(`/event/${id}`);
+    navigate(`/event/edit/${event.event_id}`);
+  };
+
+  const handleEditPetition = (petition) => {
+    console.log(`Card with ID ${petition.petition_id} clicked`);
+    // Navigate to the detailed petition page
+    navigate(`/petition/edit/${petition.petition_id}`);
+  };
+
+  const handleEditTool = (tool) => {
+    console.log(`Card with ID ${tool.tool_id} clicked`);
+    // Navigate to the detailed petition page
+    navigate(`/tool/edit/${tool.tool_id}`);
+  };
+
+  const handleEditService = (service) => {
+    console.log(`Card with ID ${service.service_id} clicked`);
+    // Navigate to the detailed petition page
+    navigate(`/service/edit/${service.service_id}`);
   };
 
   const fetchUserPosts = async () => {
+    setLoading(true);
+
     try {
-      setLoading(true);
       const response = await axiosInstance.get(`/bulletin/user/${userId}/`, {
         headers: { Authorization: `Bearer ${access}` },
       });
       const sorted = [...response.data].sort(
         (a, b) => new Date(b.date_posted) - new Date(a.date_posted)
       );
+      console.log("Fetched posts:", response.data);
       const processed = sorted.map((post) => ({
-        id: post.post_id,
-        userName: post.user_name,
-        dateTime: new Date(post.date_posted).toLocaleString(),
-        postContent: post.content,
-        tags: post.tags,
-        image: post.image,
+        ...post,
+        date_posted: new Date(post.date_posted).toLocaleString(),
       }));
       setUserPosts(processed);
       setLoading(false);
     } catch (err) {
-      console.error("Error fetching user posts:", err);
-      setError("Failed to load your posts.");
+      console.error("Error fetching posts:", err);
+      setError("Could not load posts from server.");
+    } finally {
       setLoading(false);
     }
   };
@@ -103,20 +122,14 @@ const UserProfileTabs = () => {
   const fetchUserTools = async () => {
     try {
       setLoading(true);
-      const response = await axiosInstance.get(
-        `/tools/grabToolsData/owner/${userId}`,
-        {
+      const response = await axiosInstance.get(`/tools/grabToolsData/owner/${userId}`, {
           headers: { Authorization: `Bearer ${access}` },
-        }
-      );
-      const processed = response.data.tools.map((tool) => ({
-        id: tool.tool_id,
-        title: tool.title,
+      });
+      const data = response.data.tools;
+      const processed = data.map((tool) => ({
+        ...tool,
         provider: "You",
-        location: tool.neighborhood,
         closestAvailability: tool.closestAvailability || "",
-        image: tool.images?.[0],
-        tags: [tool.condition, tool.visibility],
       }));
       setUserTools(processed);
       setLoading(false);
@@ -163,15 +176,9 @@ const UserProfileTabs = () => {
         }
       );
       const data = response.data;
-      const processed = data.petitions.map((pet) => ({
-        id: pet.petition_id,
-        title: pet.title,
-        provider: pet.provider,
-        location: pet.location,
-        tags: pet.tags,
-        numberSigned: pet.signature_count,
-        image: pet.hero_image,
-      }));
+      console.log("Fetched petitions:", data);
+      const processed = data.petitions
+      console.log("Processed petitions:", processed);
       setUserPetitions(processed);
       setLoading(false);
     } catch (err) {
@@ -182,87 +189,52 @@ const UserProfileTabs = () => {
   };
 
   useEffect(() => {
-    if (selectedTab === "myPosts") fetchUserPosts();
-    else if (selectedTab === "listedTools") fetchUserTools();
-    else if (selectedTab === "createdServices") fetchUserServices();
-    else if (selectedTab === "hostedEvents") fetchUserEvents();
-    else if (selectedTab === "openedPetitions") fetchUserPetitions();
+    if (selectedTab === "posts") fetchUserPosts();
+    else if (selectedTab === "tools") fetchUserTools();
+    else if (selectedTab === "services") fetchUserServices();
+    else if (selectedTab === "events") fetchUserEvents();
+    else if (selectedTab === "petitions") fetchUserPetitions();
   }, [selectedTab]);
 
   const tabs = [
     {
       label: "My Posts",
-      value: "myPosts",
-      content: (
-        <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
-          {userPosts.length === 0 ? (
-            <div>No posts available.</div>
-          ) : (
-            userPosts.map((post) => (
-              <PostCard
-                key={post.id}
-                userName={post.userName}
-                dateTime={post.dateTime}
-                postContent={post.postContent}
-                tags={post.tags}
-                image={post.image}
-              />
-            ))
-          )}
-        </div>
-      ),
-    },
-    {
-      label: "Listed Tools",
-      value: "listedTools",
-      content: (
-        <HorizontalCardList
-          items={userTools}
-          viewRouteBase="tools"
-          onView={(item) => setSelectedItem(item)}
-        />
-      ),
-    },
-    {
-      label: "Created Services",
-      value: "createdServices",
-      content: (
-        <HorizontalCardList
-          items={userServices}
-          viewRouteBase="services"
-          onView={(item) => setSelectedItem(item)}
-        />
-      ),
+      value: "posts",
+      content: <BulletinCards posts={userPosts} />
     },
     {
       label: "Hosted Events",
-      value: "hostedEvents",
-      content: (
-        <HorizontalCardList
-          items={userEvents}
-          viewRouteBase="events"
-          onView={(item) => handleEditEvent(item.id)}
-        />
-      ),
+      value: "events",
+      content: <EventCards eventCards={userEvents} handleCardClick={handleEditEvent}/>
+    },
+    {
+      label: "Listed Tools",
+      value: "tools",
+      content: <ToolCards tools={userTools} handleCardClick={handleEditTool}/>,
+    },
+    {
+      label: "Created Services",
+      value: "services",
+      content: <ServiceCards services={userServices} handleCardClick={handleEditService}/>,
     },
     {
       label: "Opened Petitions",
-      value: "openedPetitions",
-      content: <PetitionCards petitions={userPetitions} />,
+      value: "petitions",
+      content: <PetitionCards petitions={userPetitions} handleCardClick={handleEditPetition}/>,
     },
   ];
 
   const modalType =
-    selectedTab === "listedTools"
+    selectedTab === "tools"
       ? "tool"
-      : selectedTab === "createdServices"
+      : selectedTab === "services"
       ? "service"
       : "event";
 
   const apiKey =
-    selectedTab === "listedTools"
+    selectedTab === "tools"
       ? "borrow"
-      : selectedTab === "createdServices"
+      : selectedTab === "services"
       ? "signup"
       : "signup";
 

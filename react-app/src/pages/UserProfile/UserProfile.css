@@ -285,3 +285,107 @@
   color: white;
   border: 1.5px solid #6c5ed8;
 }
+<<<<<<< HEAD
+=======
+
+/* =========================== */
+/* TABS */
+/* =========================== */
+
+.user-profile-tabs{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tabs-selector {
+  margin: 0;
+  display: flex;
+  gap: 12px;
+}
+
+/* =========================== */
+/* Form icon */
+/* =========================== */
+.profile-icon-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.profile-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #e0e0e0;
+  margin-bottom: 15px;
+}
+
+.upload-label {
+  color: #3f51b5;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.upload-label:hover {
+  color: #303f9f;
+}
+
+.hidden-input {
+  display: none;
+}
+
+/* =========================== */
+/* NGO PROFILE STYLES */
+/* =========================== */
+
+
+.ngo-profile-banner .MuiTypography-root {
+  color: white;
+  font-weight: bold;
+}
+
+/* NGO Header */
+
+/* NGO Badge for Avatar */
+.profile-icon-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.ngo-badge-avatar {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  background-color: #34a853;
+  color: white;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 12px;
+  border: 2px solid white;
+  letter-spacing: 0.5px;
+}
+
+/* NGO Verified Badge */
+.ngo-verified-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 12px;
+  padding: 4px 12px;
+  background-color: #e6f4ea;
+  border-radius: 20px;
+  font-size: 14px;
+  color: #1e7e34;
+  font-weight: 600;
+  vertical-align: middle;
+}
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf

@@ -6,13 +6,21 @@ import Register from "../pages/Auth/Register/Register";
 import { selectAuth } from "../redux/authSlice";
 import ProtectedLayout from "../components/ProtectedLayout";
 import Events from "../pages/Events/Events";
+<<<<<<< HEAD
 import DetailedEvent from "../pages/Events/DetailedEvent";
+=======
+import EditEvent from "../pages/Events/EditEvent";
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
 import Services from "../pages/Services/Services";
 import Tools from "../pages/Tools/Tools";
 import Petitions from "../pages/Petitions/Petitions";
 import CreatePetition from "../pages/Petitions/CreatePetition";
 import DetailedPetition from "../pages/Petitions/DetailedPetition";
+<<<<<<< HEAD
 import MyDetailedPetition from "../pages/Petitions/MyDetailedPetition";
+=======
+import EditPetition from "../pages/Petitions/EditPetition";
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
 import UserProfile from "../pages/UserProfile/UserProfile";
 import Bulletin from "../pages/Bulletin/Bulletin";
 import CreatePost from "../pages/Bulletin/CreatePost";
@@ -27,6 +35,8 @@ import MyPetitions from "../pages/Petitions/myPetitions";
 // Testing purpose
 import CardTest from "../pages/CardTest/CardTest";
 import MapTest from "../pages/MapTest/MapTest";
+import EditTool from "../pages/Tools/EditTool";
+import EditService from "../pages/Services/EditService";
 
 
 // Protected route component
@@ -75,21 +85,31 @@ const AppRoutes = () => {
             <Route path="/events" element={<Events />} />
             <Route path="/create-event" element={<CreateEvent />} />
             <Route path="/myEvents" element={<MyEvents />} />
+<<<<<<< HEAD
             <Route path="/event/:event_id" element={<DetailedEvent />} />
+=======
+            <Route path="/event/edit/:event_id" element={<EditEvent />} />
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
 
             <Route path="/tools" element={<Tools />} />
             {/* <Route path="/create-tool" element={<CreateTool />} /> */}
             <Route path="/create-tool" element={<CreateTool />} />
+            <Route path="/tool/edit/:tool_id" element={<EditTool />} />
 
             <Route path="/services" element={<Services />} />
             {/* <Route path="/create-service" element={<CreateService />} /> */}
             <Route path="/create-service" element={<CreateService />} />
+            <Route path="/service/edit/:service_id" element={<EditService />} />
 
             <Route path="/petitions" element={<Petitions />} />
             <Route path="/petition/:id" element={<DetailedPetition />} />
             <Route path="/create-petition" element={<CreatePetition />} />
             <Route path="/myPetitions" element={<MyPetitions />} />
+<<<<<<< HEAD
             <Route path="/petitions/:petition_id" element={<MyDetailedPetition />} />
+=======
+            <Route path="/petition/edit/:petition_id" element={<EditPetition />} />
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
 
             <Route path="/profile" element={<UserProfile />} />
 

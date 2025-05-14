@@ -4,7 +4,7 @@
 
 /* Ensure Main Content is Properly Spaced */
 .main-content {
-  margin-left: 320px; /* Adjust based on sidebar width */
+  margin-left: 200px; /* Adjust based on sidebar width */
   margin-top: 90px; /* Space from header */
   padding: 20px;
   height: calc(100vh - 130px); /* Full height minus header */

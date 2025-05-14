@@ -1,26 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../utils/axiosInstance";
-import HorizontalCard from "../../components/HorizontalCard/HorizontalCard";
-import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
-import { Avatar, Button, Typography } from "@mui/material";
 import { TOOL_TAGS } from "../../assets/tags";
 
 import "./Tools.css";
-import AddIcon from '@mui/icons-material/Add';
 
 import { useNavigate } from "react-router-dom"; // Import navigate
 import SearchBar from "../../components/SearchBar";
+import ToolCards from "./ToolCards";
 
 const haversine = require('haversine-distance')
+
 
 const Tools = () => {
   const [tools, setTools] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [selectedTool, setSelectedTool] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const { latitude, longitude } = useSelector((state) => state.auth);
+  const { latitude, longitude, neighborhood } = useSelector((state) => state.auth);
   const { access } = useSelector((state) => state.auth);
   const navigate = useNavigate(); // Initialize navigate for redirection
 
@@ -33,11 +30,20 @@ const Tools = () => {
     // return;
 
     try {
-      const res = await axiosInstance.get("/tools/", {
+      const response = await axiosInstance.get("/tools/get_tools_exclude_user/", {
         headers: { Authorization: `Bearer ${access}` },
       });
-      console.log("Fetched tools:", res.data);
-      setTools(res.data);
+      if (response.data.length > 0) {
+        let newData = [];
+        response.data.forEach((event) => {
+          if ((event["visibility"] === "neighborhood" && event["neighborhood"] === neighborhood) || event["visibility"] !== "neighborhood") {
+            newData.push(event);
+          } 
+        });
+          
+        setTools(newData);
+        console.log("Fetched Tools data:", newData);
+      }
     } catch (err) {
       console.error("❌ Failed to fetch tools:", err);
       setError("Could not load tools from server, showing local data.");
@@ -86,15 +92,9 @@ const Tools = () => {
     setSearchTerm("");
     fetchTools();
   }
-  
-  const handleView = (id) => {
-    const selectedTool = tools.find((tool) => tool.tool_id === id);
-    setSelectedTool(selectedTool);
-  };
 
-  const handleClose = () => {
-    setSelectedTool(null);
-  }
+
+  
 
   if (loading) return <p>Loading tools...</p>;
   if (error && Array.isArray(tools) && tools.length === 0) return <p style={{ color: "red" }}>{error}</p>;
@@ -103,42 +103,19 @@ const Tools = () => {
     <div>
       <div className="tools-header">
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterTools} resetFilter={resetTools} tagOptions={TOOL_TAGS}/>      
-        <div className="tools-header-btn" onClick={() => navigate("/create-tool")}>
-          <AddIcon fontSize="large"/>
-        </div>
+        <button 
+            className="create-button-new" 
+            onClick={() => navigate("/create-tool")}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="16" />
+              <line x1="8" y1="12" x2="16" y2="12" />
+            </svg>
+            Create
+          </button>
       </div>
-      <div
-        style={{
-          display: "grid",
-          gap: "1rem",
-          gridTemplateColumns: "repeat(2, 1fr)",
-        }}
-      >
-        {Array.isArray(tools) ? tools.map((tool) => (
-          <HorizontalCard
-            key={tool.tool_id}
-            id={tool.tool_id}
-            title={tool.title}
-            description={tool.description}
-            location={tool.neighborhood}
-            price={tool.price}
-            tags={[tool.condition]}      
-            available={tool.available}
-            image={tool.images}                   
-            onView={() => handleView(tool.tool_id)}
-          />
-        )) : <></>}
-      </div>
-
-      {selectedTool && (
-        <HorizontalCardModal
-          isOpen={!!selectedTool}
-          onClose={handleClose}
-          item={selectedTool}
-          type="tool"  // must match your API prefix if used
-          api_key="borrow"
-        />
-      )}
+      <ToolCards tools={tools}/>
     </div>
   );
 };

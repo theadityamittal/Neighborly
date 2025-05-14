@@ -1,75 +1,204 @@
 .header {
-  background-color: #F1F3F7 !important;
-  box-shadow: none;
-  padding: 10px 20px;
+  /* Background changed from transparent to white with subtle shadow */
+  background-color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: 72px;
+  /* padding: 10px 20px; */
+  padding: 0 30px;
+  /* Added z-index to ensure header stays on top */
+  z-index: 1100;
+  /* Added position fixed explicitly */
+  position: fixed;
+  /* Added bottom border for better visibility */
+  border-bottom: 2px solid #e8e5ff;
+  /* Ensure vertical centering */
+  display: flex;
+  align-items: center;
+}
+
+/* Override Material-UI AppBar default styles */
+.MuiAppBar-root.header {
+  background-color: #ffffff !important;
+  color: #333333 !important;
+}
+
+/* Override Material-UI Toolbar height */
+.header .MuiToolbar-root {
+  min-height: 72px !important;
+  height: 72px !important;
+  padding: 0;
+  display: flex;
+  align-items: center;
 }
 
 .header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  height: 100%;
 }
 
 .header-left {
   display: flex;
   align-items: center;
+  transition: transform 0.2s ease;
+  /* Added position relative to control logo positioning */
+  position: relative;
 }
 
 .header-left:hover {
-  border-radius: 10px;
+  transform: scale(1.02);
   cursor: pointer;
 }
 
-.logo-text {
-  font-size: 20px;
-  font-weight: bold;
-  color: #6C5ED8;
-  margin-left: 10px;
+.logo {
+  height: 64px !important;
+  width: auto !important;
+  object-fit: contain;
+  max-width: none !important;
+  /* Added to ensure logo is properly positioned */
+  display: block;
 }
 
 .header-right {
   display: flex;
   align-items: center;
-  gap: 15px;
-}
-
-.icon-button {
-  background: #e6e6e6 !important;
-  color: #EA942C !important;
-  border-radius: 10px;
-  padding: 8px;
-}
-
-.icon-button:hover {
-  background: #D1D1D1 !important;
+  gap: 16px;
 }
 
 .user-profile {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 5px 10px;
-  background: #F1F3F7;
+  gap: 12px;
+  padding: 6px 16px 6px 6px;
+  background: #f8f9fa;
+  border-radius: 28px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 2px solid transparent;
+  position: relative;
+  /* Ensure it fits within header */
+  max-height: 48px;
 }
 
 .user-profile:hover {
-  background: #E6E6E6;
-  border-radius: 10px;
-  cursor: pointer;
+  background: #493CAE;
+  border-color: #493CAE;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(73, 60, 174, 0.15);
 }
 
 .username {
   font-size: 14px;
   font-weight: 600;
-  color: black;
+  color: #1a1a1a;
+  margin-right: 0;
+  transition: color 0.2s ease;
 }
 
-.logo {
-  width: 150px;
-  height: 70px;
-  object-fit: contain;
+.user-profile:hover .username {
+  color: white;
 }
 
 .profile-pic {
-  border: 2px solid #EA942C;
+  width: 32px !important;
+  height: 32px !important;
+  border: 2px solid #493CAE !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  background-color: white;
+}
+
+.user-profile:hover::after {
+  color: white;
+  transform: rotate(180deg);
+}
+
+/* Logo and brand text */
+.brand-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-text {
+  font-size: 22px;
+  font-weight: 700;
+  color: #493CAE;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+/* Modern loading state */
+.header-loading {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #493CAE, transparent);
+  animation: loading 1.5s ease-in-out infinite;
+  display: none;
+}
+
+@keyframes loading {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .header {
+    padding: 10px 16px;
+    height: 64px;
+  }
+  
+  .header .MuiToolbar-root {
+    min-height: 64px !important;
+    height: 64px !important;
+  }
+  
+  .logo {
+    height: 40px !important;
+  }
+  
+  .username {
+    display: none;
+  }
+  
+  .user-profile {
+    padding: 8px;
+  }
+  
+  .user-profile::after {
+    display: none;
+  }
+  
+  .header-right {
+    gap: 12px;
+  }
+}
+
+/* Avatar wrapper for NGO badge positioning */
+.avatar-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Small NGO badge for header */
+.ngo-badge-small {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background-color: #34a853;
+  color: white;
+  padding: 2px 6px;
+  font-size: 9px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 10px;
+  border: 2px solid white;
+  letter-spacing: 0.5px;
+  z-index: 2;
 }

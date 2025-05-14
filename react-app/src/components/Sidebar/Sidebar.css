@@ -1,35 +1,69 @@
+
 .sidebar {
-  width: 250px;
+  width: 190px;
   background-color: #493CAE;
   color: white;
-  padding: 24px;
+  padding: 20px 12px;
   position: fixed;
   top: 105px;
   left: 15px;
-  border-radius: 12px;
-  height: calc(100vh - 160px); /* Full height minus header */
+  border-radius: 16px;
+  height: auto;
+  max-height: 500px;
+  box-shadow: 0 0 24px rgba(73, 60, 174, 0.2);
+  border: 1px solid #5a41dc;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Remove gradient background - just use solid purple */
+.sidebar::before {
+  display: none;
 }
 
 .menu-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 10px;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin-bottom: 4px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  font-weight: 500;
+  color: white;
+  text-decoration: none;
 }
 
+/* Hover effect - subtle white overlay */
 .menu-item:hover {
-  background: #5A41DC;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  transform: translateX(4px);
+}
+
+.menu-item:hover::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: white;
 }
 
 .menu-icon {
   color: white !important;
   font-size: 20px !important;
+  transition: color 0.2s ease;
+  min-width: 20px;
 }
 
+<<<<<<< HEAD
 .inline-space {
   display: inline-block;
   width: 60px; /* matches icon size */
@@ -44,9 +78,47 @@
   font-size: 12px !important;
 }
 
+=======
+.menu-item:hover .menu-icon {
+  color: white !important;
+}
+
+.inline-space {
+  display: inline-block;
+  width: 30px;
+}
+
+.menu-text {
+  color: inherit !important;
+  font-size: 14px !important;
+  letter-spacing: 0.01em;
+}
+
+/* Active state - white background with purple text */
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
 .menu-item.active {
   background: white !important;
   color: #493CAE !important;
+  font-weight: 600;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  transform: none;
+}
+
+.menu-item.active:hover {
+  transform: translateX(2px);
+  background: white !important;
+}
+
+.menu-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 20px;
+  background: #493CAE;
+  border-radius: 0 3px 3px 0;
 }
 
 .menu-item.active .menu-icon {
@@ -55,4 +127,51 @@
 
 .menu-item.active .menu-text {
   color: #493CAE !important;
+}
+
+/* Sub-menu items styling */
+.menu-item .MuiListItemText-root[primaryTypographyProps] {
+  padding-left: 10px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.menu-item:hover .MuiListItemText-root[primaryTypographyProps] {
+  color: white;
+}
+
+.menu-item.active .MuiListItemText-root[primaryTypographyProps] {
+  color: #493CAE !important;
+}
+
+/* Last item spacing */
+.menu-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Scrollbar styling for purple sidebar */
+.sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .sidebar {
+    left: 0;
+    top: 80px;
+    border-radius: 0 16px 16px 0;
+    max-height: calc(100vh - 100px);
+  }
 }

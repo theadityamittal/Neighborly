@@ -122,9 +122,9 @@ const DetailedPetition = () => {
   if (loading || !petitionDetails) {
     return <div className="loading">Loading petition details...</div>;
   }
-
+  const isNGO = petitionDetails.provider_details.account_type === 'NGO';
   return (
-    <div className="detailed-petition-container">
+    <div className={`detailed-petition-container ${isNGO ? 'ngo-petition' : ''}`}>
       <div className="petition-header">
         <button className="back-button" onClick={() => window.history.back()}>
           <ArrowBackIcon /> Back

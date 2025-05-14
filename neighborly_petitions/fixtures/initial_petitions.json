@@ -1,4 +1,5 @@
 [
+<<<<<<< HEAD
     {
       "model": "neighborly_petitions.petition",
       "pk": 1,
@@ -219,6 +220,305 @@
         "voting_ends_at": "2025-06-30",
         "hero_image": "petitions/uploads/water.jpg"
       }
+=======
+  {
+    "model": "neighborly_petitions.petition",
+    "pk": 1,
+    "fields": {
+      "title": "Save Our Community Garden",
+      "description": "Our neighborhood garden is threatened by new development plans. Sign to protect this green space, preserve biodiversity, and keep our community healthy.",
+      "organizer_id": "a3dcb4d5-6f39-4b9e-bf38-5f9cb87d2f63",
+      "visibility": true,
+      "tags": ["Environment", "Parks & Recreation"],
+      "created_at": "2025-04-15T10:00:00Z",
+      "target": 1000,
+      "location": "789 Pine St, Springfield",
+      "latitude": 39.781900,
+      "longitude": -89.650300,
+      "street_address": "789 Pine St",
+      "city": "Springfield",
+      "neighborhood": "Midtown",
+      "zip_code": "12345",
+      "provider": "John Doe NGO",
+      "voting_ends_at": "2025-05-15",
+      "hero_image": "petitions/uploads/garden.jpg"
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
     }
-  ]
-  
+  },
+  {
+    "model": "neighborly_petitions.petition",
+    "pk": 2,
+    "fields": {
+      "title": "Improve Neighborhood Street Lighting",
+      "description": "Many streets lack adequate lighting, making evening walks unsafe. We're asking the city to install LED lamps along Oak and Maple avenues.",
+      "organizer_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+      "visibility": true,
+      "tags": ["Public Safety", "Infrastructure"],
+      "created_at": "2025-04-16T14:30:00Z",
+      "target": 750,
+      "location": "321 86th Street, Brooklyn",
+      "latitude": 40.623574,
+      "longitude": -74.030338,
+      "street_address": "321 86th Street",
+      "city": "Brooklyn",
+      "neighborhood": "Bay Ridge",
+      "zip_code": "11209",
+      "provider": "Aditya Mittal",
+      "voting_ends_at": "2025-05-20",
+      "hero_image": "petitions/uploads/light.jpg"
+    }
+  },
+  {
+    "model": "neighborly_petitions.petition",
+    "pk": 3,
+    "fields": {
+      "title": "Start a Weekly Community Cleanup",
+      "description": "Let's come together to keep our sidewalks and parks litter‑free. Sign here to launch a weekly volunteer cleanup event.",
+      "organizer_id": "8c7f5e3a-9b2d-4f6e-a3c1-2e8d9f7c5b4a",
+      "visibility": true,
+      "tags": ["Community", "Transportation", "Education"],
+      "created_at": "2025-04-17T09:00:00Z",
+      "target": 300,
+      "location": "567 Northern Boulevard, Queens",
+      "latitude": 40.759901,
+      "longitude": -73.833079,
+      "street_address": "567 Northern Boulevard",
+      "city": "Queens",
+      "neighborhood": "Flushing",
+      "zip_code": "11354",
+      "provider": "Love & Care Community Charity",
+      "voting_ends_at": "2025-06-01",
+      "hero_image": "petitions/uploads/clean.jpg"
+    }
+  },
+  {
+    "model": "neighborly_petitions.petition",
+    "pk": 4,
+    "fields": {
+      "title": "Install Bike Racks at Main Street Shops",
+      "description": "Cyclists need safe places to park. Requesting the city install secure bike racks outside the Main Street commercial district.",
+      "organizer_id": "2ce7a1ae-26ec-11f0-b0c2-ca1deaa14517",
+      "visibility": true,
+      "tags": ["Transportation", "Infrastructure", "Community"],
+      "created_at": "2025-04-10T08:45:00Z",
+      "target": 500,
+      "location": "892 Elm Street, Queens",
+      "latitude": 40.772096,
+      "longitude": -73.932022,
+      "street_address": "892 Elm Street",
+      "city": "Queens",
+      "neighborhood": "Astoria",
+      "zip_code": "11102",
+      "provider": "Sheetal Sharma",
+      "voting_ends_at": "2025-05-10",
+      "hero_image": "petitions/uploads/bike.jpg"
+    }
+  },
+  {
+    "model": "neighborly_petitions.petition",
+    "pk": 5,
+    "fields": {
+      "title": "Repaint Faded Crosswalks",
+      "description": "Many crosswalks in our neighborhood are nearly invisible. Sign to ask the public works department to repaint all faded pedestrian crossings.",
+      "organizer_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+      "visibility": true,
+      "tags": ["Public Safety", "Infrastructure"],
+      "created_at": "2025-04-11T11:20:00Z",
+      "target": 800,
+      "location": "123 Maple St, Springfield",
+      "latitude": 39.781700,
+      "longitude": -89.650100,
+      "street_address": "123 Maple St",
+      "city": "Springfield",
+      "neighborhood": "Downtown",
+      "zip_code": "12345",
+      "provider": "Alice Resident",
+      "voting_ends_at": "2025-05-12",
+      "hero_image": "petitions/uploads/crosswalk.jpg"
+    }
+  },
+  {
+    "model": "neighborly_petitions.petition",
+    "pk": 6,
+    "fields": {
+      "title": "Build a Dog Park at Riverside Avenue",
+      "description": "Our community needs a safe, fenced area where dogs can run free. Please support the creation of a dog park on Riverside Avenue.",
+      "organizer_id": "6b1c6bfc-3e2a-11ee-be56-0242ac120002",
+      "visibility": true,
+      "tags": ["Parks & Recreation", "Community"],
+      "created_at": "2025-04-12T09:15:00Z",
+      "target": 1200,
+      "location": "456 Oak Avenue, Brooklyn",
+      "latitude": 40.674843,
+      "longitude": -73.989574,
+      "street_address": "456 Oak Avenue",
+      "city": "Brooklyn",
+      "neighborhood": "Park Slope",
+      "zip_code": "11215",
+      "provider": "Lakshmi Patel",
+      "voting_ends_at": "2025-06-01",
+      "hero_image": "petitions/uploads/dog.jpg"
+    }
+  },
+  {
+    "model": "neighborly_petitions.petition",
+    "pk": 7,
+    "fields": {
+      "title": "Launch After-School Tutoring Program",
+      "description": "Many students need help with homework. Sign up to bring an after‑school tutoring program to our local elementary school.",
+      "organizer_id": "8c7f5e3a-9b2d-4f6e-a3c1-2e8d9f7c5b4a",
+      "visibility": true,
+      "tags": ["Education", "Community"],
+      "created_at": "2025-04-13T13:00:00Z",
+      "target": 600,
+      "location": "567 Northern Boulevard, Queens",
+      "latitude": 40.759901,
+      "longitude": -73.833079,
+      "street_address": "567 Northern Boulevard",
+      "city": "Queens",
+      "neighborhood": "Flushing",
+      "zip_code": "11354",
+      "provider": "Love & Care Community Charity",
+      "voting_ends_at": "2025-06-15",
+      "hero_image": "petitions/uploads/tutor.jpg"
+    }
+  },
+  {
+    "model": "neighborly_petitions.petition",
+    "pk": 8,
+    "fields": {
+      "title": "Plant 50 New Street Trees",
+      "description": "Trees improve air quality and beautify our streets. Let's petition the city to plant 50 new trees along Elm and Pine streets.",
+      "organizer_id": "e7b9c1a4-3f8d-4b9f-9e7a-1d2c3b4a5f6e",
+      "visibility": true,
+      "tags": ["Environment", "Infrastructure", "Public Safety"],
+      "created_at": "2025-04-14T16:45:00Z",
+      "target": 1000,
+      "location": "321 86th Street, Brooklyn",
+      "latitude": 40.623574,
+      "longitude": -74.030338,
+      "street_address": "321 86th Street",
+      "city": "Brooklyn",
+      "neighborhood": "Bay Ridge",
+      "zip_code": "11209",
+      "provider": "Aditya Mittal",
+      "voting_ends_at": "2025-05-30",
+      "hero_image": "petitions/uploads/tree.jpg"
+    }
+  },
+  {
+    "model": "neighborly_petitions.petition",
+    "pk": 9,
+    "fields": {
+      "title": "Extend Library Hours on Weekends",
+      "description": "Students and working families need more weekend study time. Sign to extend the public library's weekend hours until 8pm.",
+      "organizer_id": "c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
+      "visibility": true,
+      "tags": ["Education", "Community"],
+      "created_at": "2025-04-14T19:10:00Z",
+      "target": 400,
+      "location": "123 Maple St, Springfield",
+      "latitude": 39.781700,
+      "longitude": -89.650100,
+      "street_address": "123 Maple St",
+      "city": "Springfield",
+      "neighborhood": "Downtown",
+      "zip_code": "12345",
+      "provider": "Alice Resident",
+      "voting_ends_at": "2025-05-25",
+      "hero_image": "petitions/uploads/library.jpg"
+    }
+  },
+  {
+    "model": "neighborly_petitions.petition",
+    "pk": 10,
+    "fields": {
+      "title": "Reduce Speed Limit Near Schools",
+      "description": "Cars speed through our school zone. Request lowering the speed limit to 20 mph during school hours for student safety.",
+      "organizer_id": "a3dcb4d5-6f39-4b9e-bf38-5f9cb87d2f63",
+      "visibility": true,
+      "tags": ["Public Safety", "Transportation"],
+      "created_at": "2025-04-15T07:30:00Z",
+      "target": 900,
+      "location": "789 Pine St, Springfield",
+      "latitude": 39.781900,
+      "longitude": -89.650300,
+      "street_address": "789 Pine St",
+      "city": "Springfield",
+      "neighborhood": "Midtown",
+      "zip_code": "12345",
+      "provider": "John Doe NGO",
+      "voting_ends_at": "2025-06-05",
+      "hero_image": "petitions/uploads/speed.jpg"
+    }
+  },
+  {
+    "model": "neighborly_petitions.petition",
+    "pk": 11,
+    "fields": {
+      "title": "Host a Monthly Farmers' Market",
+      "description": "Support local producers by hosting a monthly farmers' market in the city square. Sign to encourage fresh, local food options.",
+      "organizer_id": "2ce7a1ae-26ec-11f0-b0c2-ca1deaa14517",
+      "visibility": true,
+      "tags": ["Community", "Infrastructure", "Education"],
+      "created_at": "2025-04-16T08:00:00Z",
+      "target": 700,
+      "location": "892 Elm Street, Queens",
+      "latitude": 40.772096,
+      "longitude": -73.932022,
+      "street_address": "892 Elm Street",
+      "city": "Queens",
+      "neighborhood": "Astoria",
+      "zip_code": "11102",
+      "provider": "Sheetal Sharma",
+      "voting_ends_at": "2025-06-10",
+      "hero_image": "petitions/uploads/market.jpg"
+    }
+  },
+  {
+    "model": "neighborly_petitions.petition",
+    "pk": 12,
+    "fields": {
+      "title": "Create a Neighborhood Watch Program",
+      "description": "Let's keep our streets safe by organizing a volunteer neighborhood watch. Sign up to start patrolling evenings in our block.",
+      "organizer_id": "6b1c6bfc-3e2a-11ee-be56-0242ac120002",
+      "visibility": true,
+      "tags": ["Public Safety", "Community"],
+      "created_at": "2025-04-16T18:25:00Z",
+      "target": 350,
+      "location": "456 Oak Avenue, Brooklyn",
+      "latitude": 40.674843,
+      "longitude": -73.989574,
+      "street_address": "456 Oak Avenue",
+      "city": "Brooklyn",
+      "neighborhood": "Park Slope",
+      "zip_code": "11215",
+      "provider": "Lakshmi Patel",
+      "voting_ends_at": "2025-06-20",
+      "hero_image": "petitions/uploads/watch.jpg"
+    }
+  },
+  {
+    "model": "neighborly_petitions.petition",
+    "pk": 13,
+    "fields": {
+      "title": "Install Water Bottle Filling Stations",
+      "description": "Water for All Foundation advocates for installing water bottle filling stations at city parks and public plazas to reduce plastic waste and promote hydration.",
+      "organizer_id": "f4e9c1b7-8d2f-4a3e-b1f4-7c3b5d9e2f8a",
+      "location": "234 Flatbush Avenue, Brooklyn",
+      "latitude": 40.678945,
+      "longitude": -73.975687,
+      "street_address": "234 Flatbush Avenue",
+      "city": "Brooklyn",
+      "neighborhood": "Prospect Heights",
+      "zip_code": "11217",
+      "visibility": true,
+      "tags": ["Environment", "Parks & Recreation"],
+      "created_at": "2025-04-17T07:50:00Z",
+      "target": 450,
+      "provider": "Water for All Foundation",
+      "voting_ends_at": "2025-06-30",
+      "hero_image": "petitions/uploads/water.jpg"
+    }
+  }
+]

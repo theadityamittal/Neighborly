@@ -1,5 +1,6 @@
 from datetime import date, timedelta
 
+
 def get_earliest_availability(unavailable_dates):
     """
     Find the earliest date from today that is not in the unavailable_dates list.

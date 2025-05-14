@@ -1,38 +1,43 @@
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../../utils/axiosInstance"; 
-import HorizontalCard from "../../components/HorizontalCard/HorizontalCard"; 
-import HorizontalCardModal from "../../components/HorizontalCard/HorizontalCardModal";
+import axiosInstance from "../../utils/axiosInstance";
 import { useSelector } from "react-redux";
 import "./Services.css";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../../components/SearchBar";
 import AddIcon from '@mui/icons-material/Add';
 import { SERVICE_TAGS } from "../../assets/tags";
+import ServiceCards from "./ServiceCards";
 
 const haversine = require('haversine-distance')
 
 const Services = () => {
   const [services, setServices] = useState([]);
-  const [selectedServiceId, setSelectedServiceId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const { access } = useSelector((state) => state.auth);
-  const { latitude, longitude } = useSelector((state) => state.auth);
+  const { latitude, longitude, neighborhood } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   const fetchServices = async () => {
     setLoading(true);
     try {
-      const res = await axiosInstance.get("/services/", {
+      const response = await axiosInstance.get("/services/get_services_exculde_user/", {
         headers: {
           Authorization: `Bearer ${access}`
         }
       });
-      console.log(res);
-      console.log("hellO?????");
-      setServices(res.data);
-      console.log("Fetched services:", res.data);
+      if (response.data.length > 0) {
+        let newData = [];
+        response.data.forEach((event) => {
+          if ((event["visibility"] === "neighborhood" && event["neighborhood"] === neighborhood) || event["visibility"] !== "neighborhood") {
+            newData.push(event);
+          } 
+        });
+          
+        setServices(newData);
+        console.log("Fetched service data:", newData);
+      }
 
     } catch (err) {
       console.error("Failed to fetch services:", err);
@@ -47,13 +52,7 @@ const Services = () => {
     fetchServices();
   }, []);
 
-  const handleView = (id) => {
-    setSelectedServiceId(id);
-  };
-
-  const handleClose = () => {
-    setSelectedServiceId(null);
-  };
+  
 
   const filterServices = (searchTerm, {tags, radius}) => {
     const filteredServices = services.filter((service) => {
@@ -85,16 +84,6 @@ const Services = () => {
     fetchServices();
   }
 
-  console.log('services at selectedService:', services);
-
-  const selectedService = Array.isArray(services)
-    ? services.find(service => service.service_id === selectedServiceId)
-    : null;
-  
-  const selectedServiceWithDisable = selectedService
-    ? { ...selectedService, disableBeforeToday: true }
-    : null;
-
   if (loading) return <p>Loading services...</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
@@ -102,44 +91,22 @@ const Services = () => {
     <div>
       <div className="service-header">
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterServices} resetFilter={resetServices} tagOptions={SERVICE_TAGS}/>
-        <div className="service-header-btn" onClick={() => navigate("/create-service")}>
+        {/* <div className="service-header-btn" onClick={() => navigate("/create-service")}>
           <AddIcon fontSize="large"/>
-        </div>
+        </div> */}
+        <button 
+            className="create-button-new" 
+            onClick={() => navigate("/create-service")}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="16" />
+              <line x1="8" y1="12" x2="16" y2="12" />
+            </svg>
+            Create
+          </button>
       </div>
-      <div
-        style={{
-          display: "grid",
-          gap: "1rem",
-          gridTemplateColumns: "repeat(2, 1fr)"
-        }}
-      >
-        {Array.isArray(services) ? services.map(service => (
-          <HorizontalCard
-            key={service.service_id}
-            id={service.service_id}
-            title={service.title}
-            description={service.description}
-            location={service.location}
-            price={service.price}
-            available={service.available}
-            closestAvailability={service.closestAvailability}
-            tags={service.tags}
-            image={service.images}
-            onView={() => handleView(service.service_id)}
-          />
-        )) :
-        <></>}
-      </div>
-
-      {selectedServiceWithDisable && (
-        <HorizontalCardModal
-          isOpen={!!selectedService}
-          onClose={handleClose}
-          item={selectedServiceWithDisable}
-          type="service" // must match the API prefix without 's'
-          api_key = "signup"
-        />
-      )}
+      <ServiceCards services={services}/>
     </div>
   );
 };

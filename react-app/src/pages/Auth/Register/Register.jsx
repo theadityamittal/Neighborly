@@ -5,6 +5,10 @@ import { registerUser } from '../../../services/authService';
 import { selectAuth } from '../../../redux/authSlice';
 import './Register.css';
 import LocationPicker from '../../../components/LocationPicker/LocationPicker';
+<<<<<<< HEAD
+=======
+import defaultAvatar from '../../../assets/avatar.png'; 
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -19,9 +23,17 @@ const Register = () => {
     zipCode: '',
     latitude: null,
     longitude: null,
+<<<<<<< HEAD
     accountType: 'resident',
   });
   const [errors, setErrors] = useState({});
+=======
+    icon:null,
+    accountType: 'resident',
+  });
+  const [errors, setErrors] = useState({});
+  const [iconPreview, setIconPreview] = useState(null); // Add preview state
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
 
   const navigate = useNavigate();
   const { loading } = useSelector(selectAuth);
@@ -37,12 +49,45 @@ const Register = () => {
     zipCode,
     latitude,
     longitude,
+<<<<<<< HEAD
+=======
+    icon,
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
     accountType,
   } = formData;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+<<<<<<< HEAD
+=======
+  };
+
+  // Add icon change handler
+  const handleIconChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 3 * 1024 * 1024) { // 3MB limit
+        setErrors({ ...errors, icon: 'File size must be less than 5MB' });
+        return;
+      }
+      
+      setFormData((prev) => ({ ...prev, icon: file }));
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setIconPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+      
+      // Clear any previous error
+      if (errors.icon) {
+        const { icon, ...restErrors } = errors;
+        setErrors(restErrors);
+      }
+    }
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
   };
 
   const validate = () => {
@@ -70,6 +115,7 @@ const Register = () => {
       setErrors(validationErrors);
       return;
     }
+<<<<<<< HEAD
 
     const userData = {
       name: `${firstName} ${lastName}`,
@@ -85,11 +131,45 @@ const Register = () => {
       account_type: accountType,
     };
 
+=======
+  
+    const userData = new FormData();
+    userData.append('name', `${firstName} ${lastName}`);
+    userData.append('email', email);
+    userData.append('password', password);
+    userData.append('phone_number', phoneNumber);
+    userData.append('address', address);
+    userData.append('city', city);
+    userData.append('neighborhood', neighborhood);
+    userData.append('zip_code', zipCode);
+    userData.append('latitude', parseFloat(latitude.toFixed(6)));
+    userData.append('longitude', parseFloat(longitude.toFixed(6)));
+    userData.append('account_type', accountType);
+    
+    if (icon) {
+      userData.append('icon', icon);
+      console.log('Icon details:', {
+        name: icon.name,
+        size: icon.size,
+        type: icon.type
+      });
+    }
+  
+    // Debug log FormData contents
+    for (let [key, value] of userData.entries()) {
+      console.log(key, value);
+    }
+  
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
     try {
       await registerUser(userData);
       navigate('/login', { state: { message: 'Registration successful! Please log in.' } });
     } catch (err) {
       console.error('Registration failed:', err);
+      // Log the exact error response
+      if (err.response) {
+        console.error('Error response:', err.response.data);
+      }
       setErrors({ email: 'Email already exists' });
     }
   };
@@ -103,6 +183,28 @@ const Register = () => {
         {errors.email && <div className="error-message">{errors.email}</div>}
 
         <form onSubmit={handleSubmit} className="register-form">
+<<<<<<< HEAD
+=======
+        <div className="form-group">
+            <label htmlFor="icon">Profile Picture (optional)</label>
+            <input
+              id="icon"
+              name="icon"
+              type="file"
+              accept="image/*"
+              onChange={handleIconChange}
+            />
+            {iconPreview && (
+              <img 
+                src={iconPreview} 
+                alt="Preview" 
+                style={{ width: '100px', height: '100px', marginTop: '10px', borderRadius: '50%' }}
+              />
+            )}
+            {errors.icon && <span className="error-text">{errors.icon}</span>}
+          </div>
+
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
           {/* Name */}
           <div className="form-row">
             <div className="form-group">
@@ -189,6 +291,7 @@ const Register = () => {
               name="accountType"
               value={formData.accountType}
               onChange={handleChange}
+              className='form-select'
             >
               <option value="resident">Resident</option>
               <option value="ngo">NGO</option>

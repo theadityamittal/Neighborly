@@ -1,6 +1,7 @@
 import django_filters
 from .models import Tool
 
+
 class ToolFilter(django_filters.FilterSet):
     title = django_filters.CharFilter(lookup_expr="icontains")
     description = django_filters.CharFilter(lookup_expr="icontains")
@@ -12,16 +13,24 @@ class ToolFilter(django_filters.FilterSet):
 
     # dates
     date_posted = django_filters.DateFilter(field_name="date_posted")  # exact
-    date_posted__gte = django_filters.DateFilter(field_name="date_posted", lookup_expr='gte')  # on or after
-    date_posted__lte = django_filters.DateFilter(field_name="date_posted", lookup_expr='lte')  # on or before
+    date_posted__gte = django_filters.DateFilter(
+        field_name="date_posted", lookup_expr="gte"
+    )  # on or after
+    date_posted__lte = django_filters.DateFilter(
+        field_name="date_posted", lookup_expr="lte"
+    )  # on or before
 
     # quota
     quota = django_filters.NumberFilter()  # exact match
-    quota_min = django_filters.NumberFilter(field_name="quota", lookup_expr="gte")  # greater than or equal to
-    quota_max = django_filters.NumberFilter(field_name="quota", lookup_expr="lte")  # less than or equal to
+    quota_min = django_filters.NumberFilter(
+        field_name="quota", lookup_expr="gte"
+    )  # greater than or equal to
+    quota_max = django_filters.NumberFilter(
+        field_name="quota", lookup_expr="lte"
+    )  # less than or equal to
 
     tags = django_filters.CharFilter(lookup_expr="icontains")
-    
+
     visibility = django_filters.CharFilter(lookup_expr="iexact")
 
     #  location
@@ -48,5 +57,5 @@ class ToolFilter(django_filters.FilterSet):
             "visibility",
             "tags",
             "condition",
-            "available"
+            "available",
         ]
