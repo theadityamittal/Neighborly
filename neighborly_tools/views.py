@@ -89,7 +89,9 @@ class ToolSignUpView(APIView):
         except Tool.DoesNotExist:
             return Response({"error": "Tool not found."}, status=404)
 
-        rsvp_found = BorrowRequest.objects.filter(user_id=request.user.id, tool=tool)
+        rsvp_found = BorrowRequest.objects.filter(
+            user_id=request.user.user_id, tool=tool
+        )
 
         if rsvp_found.exists():
             return Response(
@@ -97,7 +99,7 @@ class ToolSignUpView(APIView):
             )
 
         signup = BorrowRequest.objects.create(
-            user_id=str(request.user.id),
+            user_id=str(request.user.user_id),
             tool=tool,
             start_date=request.data.get("start_date"),
             end_date=request.data.get("end_date"),
@@ -133,7 +135,7 @@ class ToolSignUpDetailView(APIView):
         tool = signup.tool
 
         # Enforce only the tool provider can approve/reject
-        if str(tool.owner_id) != str(request.user.id):
+        if str(tool.owner_id) != str(request.user.user_id):
             return Response(
                 {"error": "Unauthorized."}, status=status.HTTP_403_FORBIDDEN
             )
@@ -166,7 +168,7 @@ def grab_tools_by_owner(request, user_id):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_tools(request):
-    tools = Tool.objects.filter(borrow_requests__user_id=request.user.id)
+    tools = Tool.objects.filter(borrow_requests__user_id=request.user.user_id)
 
     serializer = ToolSerializer(tools, many=True)
     return Response(serializer.data)

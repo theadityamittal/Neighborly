@@ -178,3 +178,27 @@
     gap: 12px;
   }
 }
+
+/* Avatar wrapper for NGO badge positioning */
+.avatar-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Small NGO badge for header */
+.ngo-badge-small {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background-color: #34a853;
+  color: white;
+  padding: 2px 6px;
+  font-size: 9px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 10px;
+  border: 2px solid white;
+  letter-spacing: 0.5px;
+  z-index: 2;
+}

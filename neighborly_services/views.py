@@ -27,7 +27,7 @@ class ServiceItemListView(APIView):
         if request.query_params.get("user_services"):
             # Handle `/api/services/?user_services=true`
             services = ServiceItem.objects.filter(
-                servicesignup__user_id=request.user.id
+                servicesignup__user_id=request.user.user_id
             )
             serializer = ServiceItemSerializer(services, many=True)
             return Response(serializer.data)
@@ -96,7 +96,7 @@ class ServiceItemSignUpView(APIView):
             return Response({"error": "Service not found."}, status=404)
 
         signup = ServiceSignUp.objects.create(
-            user_id=str(request.user.id),
+            user_id=str(request.user.user_id),
             service=service,
             start_date=request.data.get("start_date"),
             end_date=request.data.get("end_date"),

@@ -7,6 +7,8 @@ CustomUser = get_user_model()
 
 
 class ServiceSignupSerializer(serializers.ModelSerializer):
+    user_details = serializers.SerializerMethodField()
+
     class Meta:
         model = ServiceSignUp
         fields = [
@@ -18,8 +20,13 @@ class ServiceSignupSerializer(serializers.ModelSerializer):
             "messages",
             "status",
             "signed_at",
+            "user_details",
         ]
         read_only_fields = ["user_id", "signed_at", "status"]
+
+    def get_user_details(self, obj):
+        user = CustomUser.objects.filter(user_id=obj.user_id).first()
+        return UserSerializer(user).data if user else None
 
 
 class ServiceItemSerializer(serializers.ModelSerializer):

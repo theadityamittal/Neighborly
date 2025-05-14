@@ -10,7 +10,8 @@ import { useNavigate } from "react-router";
 
 const Header = () => {
   const navigate = useNavigate();
-  const { name, icon } = useSelector(selectAuth);
+  const { name, icon, accountType } = useSelector(selectAuth);
+  const isNGO = accountType === "NGO";
   
   return (
     <AppBar position="fixed" className="header" elevation={0}>
@@ -25,9 +26,12 @@ const Header = () => {
         {/* Profile Section */}
         <Box className="header-right">
           <Box className="user-profile" onClick={() => navigate("/profile")}>
-            <Avatar src={icon||avatar} alt="User Avatar" className="profile-pic">
-              {!avatar && name?.charAt(0).toUpperCase()}
-            </Avatar>
+            <div className="avatar-wrapper">
+              <Avatar src={icon||avatar} alt="User Avatar" className="profile-pic">
+                {!icon && name?.charAt(0).toUpperCase()}
+              </Avatar>
+              {isNGO && <div className="ngo-badge-small">NGO</div>}
+            </div>
             <Typography variant="body1" className="username">{name}</Typography>
           </Box>
         </Box>

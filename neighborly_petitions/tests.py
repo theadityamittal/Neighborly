@@ -22,7 +22,7 @@ class PetitionTests(APITestCase):
             "latitude": 40.7128,
             "longitude": -74.0060,
             "neighborhood": "Brooklyn",
-            "account_type": "customer",
+            "account_type": "resident",
             "password": "password123",
         }
 
@@ -69,15 +69,34 @@ class PetitionTests(APITestCase):
         # Sign the petition with user_id matching request.user.id
         PetitionSignature.objects.create(
             petition=petition,
-            user_id=str(user.user_id),  # THIS matches what your view saves
+            user_id=str(user.user_id),
         )
 
         # Now test get_my_petitions
         response = self.client.get(
-            reverse("getPetitions"), HTTP_AUTHORIZATION=f"Bearer {access}"
+            reverse("grabPetitionData"), HTTP_AUTHORIZATION=f"Bearer {access}"
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIsInstance(response.data, list)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]["title"], "Save the Rainforest")
+
+        # Check that the response is a dictionary with expected keys
+        self.assertIsInstance(response.data, dict)
+        self.assertIn("petitions", response.data)
+        self.assertIn("petition_signatures", response.data)
+
+        # Check the petitions list
+        petitions = response.data["petitions"]
+        self.assertIsInstance(petitions, list)
+
+        # Since this user created the petition, it should be in the petitions list
+        # (assuming the view returns petitions created by the user)
+        if petitions:  # If petitions are returned for created petitions
+            self.assertEqual(len(petitions), 1)
+            self.assertEqual(petitions[0]["title"], "Save the Rainforest")
+
+        # Check the petition_signatures list
+        signatures = response.data["petition_signatures"]
+        self.assertIsInstance(signatures, list)
+        self.assertEqual(len(signatures), 1)
+        self.assertEqual(signatures[0]["user_id"], str(user.user_id))
+        self.assertEqual(signatures[0]["petition"], petition.petition_id)

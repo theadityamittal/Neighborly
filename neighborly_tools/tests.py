@@ -116,7 +116,8 @@ class ToolTests(APITestCase):
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]["title"], "Drill")
         print("\n√ test_filter_tools_by_city_and_availability passed!")
-        """==============Grab Tools by Owner=============="""
+
+    """==============Grab Tools by Owner=============="""
 
     def test_grab_tools_by_owner(self):
         # Create some tools owned by the user
@@ -149,7 +150,7 @@ class ToolTests(APITestCase):
         )
         Tool.objects.create(
             title="Paint Sprayer",
-            owner_id=other_user.id,
+            owner_id=other_user.user_id,
             location="Brooklyn",
             available=True,
             condition="New",

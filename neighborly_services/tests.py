@@ -23,7 +23,7 @@ class ServiceTests(APITestCase):
             "latitude": 40.7128,
             "longitude": -74.0060,
             "neighborhood": "Brooklyn",
-            "account_type": "customer",
+            "account_type": "resident",
             "password": "password123",
         }
 
