@@ -14,6 +14,8 @@ from .models import Tool, BorrowRequest
 from .serializers import ToolSerializer, BorrowRequestSerializer
 
 """For all tools & creation of new tools"""
+
+
 class ToolListView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -45,6 +47,8 @@ def get_tools_exclude_user(request):
 
 
 """For a tool"""
+
+
 class ToolDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -74,6 +78,8 @@ class ToolDetailView(APIView):
 
 
 """For creating a new signup item"""
+
+
 class ToolSignUpView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -83,7 +89,9 @@ class ToolSignUpView(APIView):
         except Tool.DoesNotExist:
             return Response({"error": "Tool not found."}, status=404)
 
-        rsvp_found = BorrowRequest.objects.filter(user_id=request.user.user_id, tool=tool)
+        rsvp_found = BorrowRequest.objects.filter(
+            user_id=request.user.user_id, tool=tool
+        )
 
         if rsvp_found.exists():
             return Response(
@@ -103,6 +111,8 @@ class ToolSignUpView(APIView):
 
 
 """For getting all signups for a specific tool"""
+
+
 class ToolSignUpDetailView(APIView):
     permission_classes = [IsAuthenticated]
 

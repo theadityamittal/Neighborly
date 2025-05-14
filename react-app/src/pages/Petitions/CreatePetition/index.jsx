@@ -84,7 +84,9 @@ const CreatePetition = () => {
         },
       });
 
-      // setSuccessMessage("🎉 Petition created successfully!");
+      // setSuccessMessage("Petition created successfully!");
+      alert("Petition created successfully!");
+      navigate("/petitions"); // Navigate back to the Petitions page
     } catch (err) {
       console.error("Error creating petition:", err.response?.data || err.message);
       setSubmitError(
@@ -130,7 +132,8 @@ const CreatePetition = () => {
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-            />
+              required
+            /> 
 
             <label className="input-label">Description</label>
             <textarea
@@ -138,6 +141,7 @@ const CreatePetition = () => {
               placeholder="Write a short description..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              required
             />
 
           <FormControl fullWidth margin="normal">
@@ -175,7 +179,7 @@ const CreatePetition = () => {
               type="number"
               placeholder="Target Signatures"
               value={targetSignatures}
-              onChange={(e) => setTargetSignatures(e.target.value)}
+              onChange={(e) => setTargetSignatures(e.target.value)} required
             />
             <FormControl className="visibility-control">
               <label className="input-label">Visibility</label>
@@ -215,6 +219,7 @@ const CreatePetition = () => {
                 setNeighborhood(loc.neighborhood);
                 setZipCode(loc.zipCode);
               }}
+              required
             />
           </div>
         </div>

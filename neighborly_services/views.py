@@ -18,6 +18,8 @@ from .serializers import (
 )
 
 """For all service items & creation of new service items"""
+
+
 class ServiceItemListView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -47,6 +49,8 @@ class ServiceItemListView(APIView):
 
 
 """For a service item"""
+
+
 class ServiceItemDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -80,6 +84,8 @@ class ServiceItemDetailView(APIView):
 
 
 """For creating a new signup item"""
+
+
 class ServiceItemSignUpView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -102,6 +108,8 @@ class ServiceItemSignUpView(APIView):
 
 
 """For getting all signups for a specific service"""
+
+
 class ServiceSignUpDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
