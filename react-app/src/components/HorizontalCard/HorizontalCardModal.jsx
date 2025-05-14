@@ -106,7 +106,7 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key, description
       });
       console.log("axios response:", response);
       
-      if (response.status !== 201) {
+      if (response.status !== 201 && response.status!== 200) {
         throw new Error("RSVP failed");
       }
   
