@@ -112,7 +112,7 @@ cd Neighborly
    ```bash
    python manage.py dev_setup
    ```
-4. Run the backend:
+5. Run the backend:
 
    ```bash
    python manage.py migrate
