@@ -12,11 +12,10 @@ import React, { useState } from "react";
 const UserProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { name, neighborhood, icon } = useSelector((state) => state.auth);
+  const { name, neighborhood, icon, accountType } = useSelector((state) => state.auth);
   const [isEditing, setIsEditing] = useState(false);
-  // get tab from url
 
-  console.log("UserProfile: ", name, neighborhood, icon);
+  const isNGO = accountType === "NGO";
 
   const handleLogOut = () => {
     dispatch(logout());
@@ -29,13 +28,23 @@ const UserProfile = () => {
         <UserProfileForm onCancel={() => setIsEditing(false)} />
       ) : (
         <>
+
           {/* Header */}
-          <div className="bulletin-header">
+          <div className={`bulletin-header ${isNGO ? 'ngo-header' : ''}`}>
             <div className="profile">
-              <Avatar src={icon || avatar} alt="User Avatar" sx={{ width: 80, height: 80 }} />
+              <div className="profile-icon-wrapper">
+                <Avatar src={icon || avatar} alt="User Avatar" sx={{ width: 80, height: 80 }} />
+                {isNGO && <div className="ngo-badge-avatar">NGO</div>}
+              </div>
               <div>
-                <Typography variant="h4" className="username">{name}</Typography>
+                <Typography variant="h4" className="username">
+                  {name}
+                  {isNGO && (
+                    <span className="ngo-verified-badge">✓ Verified NGO</span>
+                  )}
+                </Typography>
                 <Typography variant="body2" className="location">📍 {neighborhood}</Typography>
+                
               </div>
             </div>
 

@@ -339,3 +339,50 @@
 .hidden-input {
   display: none;
 }
+
+/* =========================== */
+/* NGO PROFILE STYLES */
+/* =========================== */
+
+
+.ngo-profile-banner .MuiTypography-root {
+  color: white;
+  font-weight: bold;
+}
+
+/* NGO Header */
+
+/* NGO Badge for Avatar */
+.profile-icon-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.ngo-badge-avatar {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  background-color: #34a853;
+  color: white;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 12px;
+  border: 2px solid white;
+  letter-spacing: 0.5px;
+}
+
+/* NGO Verified Badge */
+.ngo-verified-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 12px;
+  padding: 4px 12px;
+  background-color: #e6f4ea;
+  border-radius: 20px;
+  font-size: 14px;
+  color: #1e7e34;
+  font-weight: 600;
+  vertical-align: middle;
+}

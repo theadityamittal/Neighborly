@@ -12,7 +12,7 @@ const initialState = {
   latitude: null,
   longitude: null,
   icon: null,
-  accountType: '',     // ← new
+  accountType: '',    
   access: '',
   refresh: '',
   user_id: '',
