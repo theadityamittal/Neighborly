@@ -4,7 +4,6 @@ import axiosInstance from "../../utils/axiosInstance";
 import { TOOL_TAGS } from "../../assets/tags";
 
 import "./Tools.css";
-import AddIcon from '@mui/icons-material/Add';
 
 import { useNavigate } from "react-router-dom"; // Import navigate
 import SearchBar from "../../components/SearchBar";
@@ -103,9 +102,6 @@ const Tools = () => {
     <div>
       <div className="tools-header">
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filterActiveContent={filterTools} resetFilter={resetTools} tagOptions={TOOL_TAGS}/>      
-        {/* <div className="tools-header-btn" onClick={() => navigate("/create-tool")}>
-          <AddIcon fontSize="large"/>
-        </div> */}
         <button 
             className="create-button-new" 
             onClick={() => navigate("/create-tool")}

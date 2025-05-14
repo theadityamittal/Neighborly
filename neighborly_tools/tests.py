@@ -61,7 +61,6 @@ class ToolTests(APITestCase):
         print("\n√ test_user_can_create_tool passed!")
 
     """==============Borrow a Tool=============="""
-
     def test_user_can_borrow_tool(self):
         tool = Tool.objects.create(
             title="Hammer",
@@ -84,7 +83,6 @@ class ToolTests(APITestCase):
         print("\n√ test_user_can_borrow_tool passed!")
 
     """==============Filter Tools=============="""
-
     def test_filter_tools_by_city_and_availability(self):
         Tool.objects.create(
             title="Drill",
@@ -116,8 +114,8 @@ class ToolTests(APITestCase):
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]["title"], "Drill")
         print("\n√ test_filter_tools_by_city_and_availability passed!")
-        """==============Grab Tools by Owner=============="""
-
+    
+    """==============Grab Tools by Owner=============="""
     def test_grab_tools_by_owner(self):
         # Create some tools owned by the user
         Tool.objects.create(
@@ -149,7 +147,7 @@ class ToolTests(APITestCase):
         )
         Tool.objects.create(
             title="Paint Sprayer",
-            owner_id=other_user.id,
+            owner_id=other_user.user_id,
             location="Brooklyn",
             available=True,
             condition="New",
