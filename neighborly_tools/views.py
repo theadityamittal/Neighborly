@@ -26,8 +26,8 @@ class ToolListView(APIView):
 
     def post(self, request):
         data = request.data.copy()
-        print('hello')
-        
+        print("hello")
+
         data["owner_id"] = str(request.user.user_id)  # auto-assign creator
         print(data)
         serializer = ToolSerializer(data=data)
@@ -171,13 +171,12 @@ def get_tools(request):
     serializer = ToolSerializer(tools, many=True)
     return Response(serializer.data)
 
+
 @api_view(["PATCH"])
 @permission_classes([IsAuthenticated])
 def update_tool(request, tool_id):
     tool = get_object_or_404(Tool, tool_id=tool_id)
-    serializer = ToolSerializer(
-        tool, data=request.data, partial=True
-    )
+    serializer = ToolSerializer(tool, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)

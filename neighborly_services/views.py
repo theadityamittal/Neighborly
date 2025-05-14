@@ -20,6 +20,7 @@ from .serializers import (
 
 """For all service items & creation of new service items"""
 
+
 class ServiceItemListView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -47,7 +48,9 @@ class ServiceItemListView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 """For a service item"""
+
 
 class ServiceItemDetailView(APIView):
     permission_classes = [IsAuthenticated]
@@ -168,12 +171,13 @@ def get_services_exculde_user(request):
     serialized = ServiceItemSerializer(services, many=True)
     return Response(serialized.data)
 
+
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def update_visibility(request):
     service = get_object_or_404(ServiceItem, service_id=request.data.get("service_id"))
     serializer = ServiceItemDetailSerializer(
-        service, data={ "visibility": request.data.get("visibility") }, partial=True
+        service, data={"visibility": request.data.get("visibility")}, partial=True
     )
     if serializer.is_valid():
         serializer.save()

@@ -68,7 +68,8 @@ class PetitionTests(APITestCase):
 
         # Sign the petition with user_id matching request.user.id
         PetitionSignature.objects.create(
-            petition=petition, user_id=str(user.user_id)  # THIS matches what your view saves
+            petition=petition,
+            user_id=str(user.user_id),  # THIS matches what your view saves
         )
 
         # Now test get_my_petitions
