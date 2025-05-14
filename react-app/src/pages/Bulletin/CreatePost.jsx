@@ -8,6 +8,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import "./CreatePost.css";
 import { BULLETIN_TAGS } from "../../assets/tags";
+import { useSelector } from "react-redux";
 
 const postTypes = ["Event", "Announcement", "Discussion"];
 
@@ -27,6 +28,7 @@ const CreatePost = ({ onPost = () => {} }) => {
   const [neighborhood, setNeighborhood] = useState("");
   const [location, setLocation] = useState("");
   const navigate = useNavigate();
+  const { access } = useSelector((state) => state.auth);
 
   const handleTagChange = (e) => {
     const value = e.target.value;
@@ -53,10 +55,8 @@ const CreatePost = ({ onPost = () => {} }) => {
     formData.append("post_type", postType.toLowerCase());
     formData.append("visibility", visibility);
 
-    // append each tag separately
-    selectedTags.forEach((tag) => formData.append("tags", tag));
+    formData.append("tags", JSON.stringify(selectedTags))
 
-    // optional location fields
     if (latitude != null && longitude != null) {
       formData.append("latitude", latitude.toString());
       formData.append("longitude", longitude.toString());
@@ -73,6 +73,7 @@ const CreatePost = ({ onPost = () => {} }) => {
 
     // image file if provided
     if (image) {
+      console.log(image);
       formData.append("image", image);
     }
 
@@ -80,7 +81,12 @@ const CreatePost = ({ onPost = () => {} }) => {
     console.log("Submitting FormData:", Array.from(formData.entries()));
 
     try {
-      const response = await axiosInstance.post("/bulletin/", formData);
+      const response = await axiosInstance.post("/bulletin/", formData, {
+        headers: {
+          Authorization: `Bearer ${access}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
       alert("Post created successfully!");
       onPost(response.data);
       navigate("/bulletin");

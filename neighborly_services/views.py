@@ -39,7 +39,7 @@ class ServiceItemListView(APIView):
 
     def post(self, request):
         data = request.data.copy()
-        data["service_provider"] = request.user.id  # auto-assign creator
+        data["service_provider"] = str(request.user.user_id)  # auto-assign creator
 
         serializer = ServiceItemSerializer(data=data)
         if serializer.is_valid():
@@ -159,6 +159,14 @@ def get_services_by_user(request, user_id):
     services = ServiceItem.objects.filter(service_provider=user_id)
     serialized = ServiceItemSerializer(services, many=True)
     return Response({"services": serialized.data})
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_services_exculde_user(request):
+    services = ServiceItem.objects.exclude(service_provider=request.user.user_id)
+    serialized = ServiceItemSerializer(services, many=True)
+    return Response(serialized.data)
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])

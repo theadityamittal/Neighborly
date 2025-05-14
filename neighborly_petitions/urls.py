@@ -5,9 +5,6 @@ from .views import (
     grab_petition_data_by_organizer,
     create_petition,
     sign_petition,
-    get_petitions,
-    get_petitions_not_users,
-    get_petition_data,
     edit_petitions,
 )
 
@@ -25,18 +22,6 @@ urlpatterns = [
         name="grabPetitionDataByOrganizerId",
     ),
     path("createPetition/", create_petition, name="createPetition"),
-    path("testPetitions/", TestPetitionView.as_view(), name="test_petitions"),
     path("signPetition/<int:petition_id>/", sign_petition, name="signPetition"),
-    path("get_my_petitions/", get_petitions, name="getPetitions"),
-    path(
-        "get_petitions_not_users/",
-        get_petitions_not_users,
-        name="get_petitions_not_users",
-    ),
-    path(
-        "get_petition_data/<int:petition_id>/",
-        get_petition_data,
-        name="get_petition_data",
-    ),
     path("edit_petitions/<int:petition_id>/", edit_petitions, name="edit_petitions"),
 ]

@@ -16,19 +16,28 @@ const Services = () => {
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const { access } = useSelector((state) => state.auth);
-  const { latitude, longitude } = useSelector((state) => state.auth);
+  const { latitude, longitude, neighborhood } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   const fetchServices = async () => {
     setLoading(true);
     try {
-      const res = await axiosInstance.get("/services/", {
+      const response = await axiosInstance.get("/services/get_services_exculde_user/", {
         headers: {
           Authorization: `Bearer ${access}`
         }
       });
-      setServices(res.data);
-      console.log("Fetched services:", res.data);
+      if (response.data.length > 0) {
+        let newData = [];
+        response.data.forEach((event) => {
+          if ((event["visibility"] === "neighborhood" && event["neighborhood"] === neighborhood) || event["visibility"] !== "neighborhood") {
+            newData.push(event);
+          } 
+        });
+          
+        setServices(newData);
+        console.log("Fetched service data:", newData);
+      }
 
     } catch (err) {
       console.error("Failed to fetch services:", err);

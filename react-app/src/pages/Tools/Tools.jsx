@@ -17,7 +17,7 @@ const Tools = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const { latitude, longitude } = useSelector((state) => state.auth);
+  const { latitude, longitude, neighborhood } = useSelector((state) => state.auth);
   const { access } = useSelector((state) => state.auth);
   const navigate = useNavigate(); // Initialize navigate for redirection
 
@@ -30,11 +30,20 @@ const Tools = () => {
     // return;
 
     try {
-      const res = await axiosInstance.get("/tools/", {
+      const response = await axiosInstance.get("/tools/get_tools_exclude_user/", {
         headers: { Authorization: `Bearer ${access}` },
       });
-      console.log("Fetched tools:", res.data);
-      setTools(res.data);
+      if (response.data.length > 0) {
+        let newData = [];
+        response.data.forEach((event) => {
+          if ((event["visibility"] === "neighborhood" && event["neighborhood"] === neighborhood) || event["visibility"] !== "neighborhood") {
+            newData.push(event);
+          } 
+        });
+          
+        setTools(newData);
+        console.log("Fetched Tools data:", newData);
+      }
     } catch (err) {
       console.error("❌ Failed to fetch tools:", err);
       setError("Could not load tools from server, showing local data.");

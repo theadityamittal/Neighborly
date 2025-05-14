@@ -67,7 +67,7 @@ class ServiceTests(APITestCase):
         service = ServiceItem.objects.first()
         self.assertEqual(service.title, "Pet Sitting")
         self.assertEqual(service.location, "Queens")
-        self.assertEqual(service.service_provider, str(self.id))
+        self.assertEqual(service.service_provider, str(self.user_id))
 
         print("\n√ test_user_can_create_service_item passed!")
 

@@ -29,7 +29,7 @@ class ToolTests(APITestCase):
 
         self.token = self.authenticate_user()
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.token}")
-        self.user_id = User.objects.get(email=self.user_data["email"]).id
+        self.user_id = User.objects.get(email=self.user_data["email"]).user_id
 
     def authenticate_user(self):
         self.client.post(self.register_url, self.user_data, format="json")
@@ -113,8 +113,6 @@ class ToolTests(APITestCase):
 
         response = self.client.get("/tools/?city=NY&condition=Used")
         self.assertEqual(response.status_code, 200)
-        print("hello")
-        print(response)
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]["title"], "Drill")
         print("\n√ test_filter_tools_by_city_and_availability passed!")
