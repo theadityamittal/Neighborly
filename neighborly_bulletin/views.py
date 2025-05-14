@@ -3,14 +3,19 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
+<<<<<<< HEAD
 #for api filtering
 from django_filters.rest_framework import DjangoFilterBackend
+=======
+# for api filtering
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
 from .filters import BulletinItemFilter
 
 from django.shortcuts import get_object_or_404
 
 # Models and serializers
 from .models import BulletinItem
+<<<<<<< HEAD
 from .serializers import BulletinItemSerializer#, BulletinItemSerializer
 
 # Geolocation
@@ -19,10 +24,20 @@ from utils.geolocation import geocode_location
 '''For all bulletin items & creation of new bulletin items'''    
 class BulletinItemListView(APIView):
     permission_classes = [IsAuthenticated] 
+=======
+from .serializers import BulletinItemSerializer  # , BulletinItemSerializer
+
+"""For all bulletin items & creation of new bulletin items"""
+
+
+class BulletinItemListView(APIView):
+    permission_classes = [IsAuthenticated]
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
 
     def get(self, request):
         filtered = BulletinItemFilter(request.GET, queryset=BulletinItem.objects.all())
         serializer = BulletinItemSerializer(filtered.qs, many=True)
+<<<<<<< HEAD
         
         return Response(serializer.data)
     
@@ -36,12 +51,28 @@ class BulletinItemListView(APIView):
         data["user"] = request.user.user_id
 
         #serializer = BulletinItemSerializer(data=data)
+=======
+
+        return Response(serializer.data)
+
+    def post(self, request):
+        # data = request.data.copy()
+        print(request)
+        # data = request.POST.copy()
+        # files = request.FILES
+        # data["user"] = request.user.id  # auto-assign creator
+        data = request.data.copy()
+        data["user"] = request.user.user_id
+
+        # serializer = BulletinItemSerializer(data=data)
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
         serializer = BulletinItemSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+<<<<<<< HEAD
 '''For a bulletin item'''
 class BulletinItemDetailView(APIView):
     permission_classes = [IsAuthenticated] 
@@ -51,6 +82,22 @@ class BulletinItemDetailView(APIView):
         return Response(serializer.data)
     
     
+=======
+
+"""For a bulletin item"""
+
+
+class BulletinItemDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, post_id):
+        bulletin = get_object_or_404(
+            BulletinItem, post_id=post_id
+        )  # BulletinItem.objects.get(post_id=post_id)
+        serializer = BulletinItemSerializer(bulletin)
+        return Response(serializer.data)
+
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
     def patch(self, request, post_id):
         bulletin = get_object_or_404(BulletinItem, post_id=post_id)
         serializer = BulletinItemSerializer(bulletin, data=request.data, partial=True)
@@ -58,13 +105,26 @@ class BulletinItemDetailView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
     def delete(self, request, post_id):
         bulletin = get_object_or_404(BulletinItem, post_id=post_id)
         bulletin.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
 class UserBulletinPostsView(APIView):
     def get(self, request, user_uuid):
         posts = BulletinItem.objects.filter(user_id=user_uuid)
         serializer = BulletinItemSerializer(posts, many=True)
+<<<<<<< HEAD
         return Response(serializer.data, status=status.HTTP_200_OK)
+=======
+        return Response(serializer.data, status=status.HTTP_200_OK)
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf

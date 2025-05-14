@@ -20,56 +20,116 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key, description
 
   if (!isOpen || !item) return null;
 
+  // const handleRSVP = async (e) => {
+  //   e.preventDefault();
+   
+  //   // Dynamically resolve the item ID key (e.g., service_id, event_id, etc.)
+  //   const idKey = `${type}_id`;
+  //   const itemId = item?.[idKey]
+
+  //   console.log("Item ID:", item);
+  
+  //   if (!itemId || !type) {
+  //     alert("Invalid item or type.");
+  //     return;
+  //   }
+  //   const url = `${process.env.REACT_APP_BACKEND_URL}/${type}s/${itemId}/${api_key}/`;
+  //   // const url = `${process.env.REACT_APP_BACKEND_URL}/${type}s/${itemId}/signup/`;
+  //   console.log("RSVP URL:", url);
+  
+  //   try {
+  //     const response = await axiosInstance.post(url, {
+  //       // start_date: startDate?.toISOString().split("T")[0], // "YYYY-MM-DD"
+  //       // end_date: endDate?.toISOString().split("T")[0],
+  //       start_date: new Date(startDate).toISOString().split("T")[0],
+  //       end_date: new Date(endDate).toISOString().split("T")[0],
+  //       messages: message,
+  //       price: price,
+  //     });
+  //     console.log("Submitting RSVP with:", {
+  //       // start_date: startDate?.toISOString().split("T")[0],
+  //       // end_date: endDate?.toISOString().split("T")[0],
+  //       start_date: new Date(startDate).toISOString().split("T")[0],
+  //       end_date: new Date(endDate).toISOString().split("T")[0],
+  //       messages: message,
+  //       price: price
+  //     });
+  //     console.log("axios response:", response);
+  //     if (response.status !== 201) {
+  //       throw new Error("RSVP failed");
+  //     }
+
+  //     alert("RSVP successful!");
+  //     console.log("RSVP response:", response.data);
+  //   } catch (err) {
+  //     console.error("RSVP error:", err);
+  //     alert("Failed to submit RSVP.");
+  //   }
+  //   };
+
   const handleRSVP = async (e) => {
     e.preventDefault();
+    
+    // Check if dates are required and not null
+    if (!toggleOffDates && (!startDate || !endDate)) {
+      alert("Please select both start and end dates.");
+      return;
+    }
    
     // Dynamically resolve the item ID key (e.g., service_id, event_id, etc.)
     const idKey = `${type}_id`;
-    const itemId = item?.[idKey]
-
+    const itemId = item?.[idKey];
+  
     console.log("Item ID:", item);
   
     if (!itemId || !type) {
       alert("Invalid item or type.");
       return;
     }
+<<<<<<< HEAD
     const url = `${process.env.REACT_APP_BACKEND_URL}/${type}s/${itemId}/${api_key}/`;
     // const url = `${process.env.REACT_APP_BACKEND_URL}/${type}s/${itemId}/signup/`;
+=======
+    
+    const url = `${process.env.REACT_APP_BACKEND_URL}/${type}s/${itemId}/${api_key}/`;
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
     console.log("RSVP URL:", url);
   
     try {
       const response = await axiosInstance.post(url, {
-        // start_date: startDate?.toISOString().split("T")[0], // "YYYY-MM-DD"
-        // end_date: endDate?.toISOString().split("T")[0],
-        start_date: new Date(startDate).toISOString().split("T")[0],
-        end_date: new Date(endDate).toISOString().split("T")[0],
+        start_date: startDate ? new Date(startDate).toISOString().split("T")[0] : undefined,
+        end_date: endDate ? new Date(endDate).toISOString().split("T")[0] : undefined,
         messages: message,
         price: price,
       });
+      
       console.log("Submitting RSVP with:", {
-        // start_date: startDate?.toISOString().split("T")[0],
-        // end_date: endDate?.toISOString().split("T")[0],
-        start_date: new Date(startDate).toISOString().split("T")[0],
-        end_date: new Date(endDate).toISOString().split("T")[0],
+        start_date: startDate ? new Date(startDate).toISOString().split("T")[0] : undefined,
+        end_date: endDate ? new Date(endDate).toISOString().split("T")[0] : undefined,
         messages: message,
         price: price
       });
       console.log("axios response:", response);
+      
       if (response.status !== 201) {
         throw new Error("RSVP failed");
       }
-
+  
       alert("RSVP successful!");
       console.log("RSVP response:", response.data);
     } catch (err) {
       console.error("RSVP error:", err);
       alert("Failed to submit RSVP.");
     }
+<<<<<<< HEAD
     };
+=======
+  };
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
 
   return (
     <div className="horizontal-modal-overlay" onClick={onClose}>
-      <div className="horizontal-modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className={`horizontal-modal-content ${item.provider_details.account_type==="NGO" ? 'ngo-modal' : ''}`} onClick={(e) => e.stopPropagation()}>
         <button className="horizontal-modal-close" onClick={onClose}>×</button>
         
         {/* Title Section */}
@@ -94,6 +154,7 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key, description
             />
           ) : null}
         </div>
+<<<<<<< HEAD
 
         {/* Gallery Section */}
         {/* <div className="modal-gallery">
@@ -101,12 +162,14 @@ const HorizontalCardModal = ({ isOpen, onClose, item, type, api_key, description
             <img key={index} src={img} alt={`${item.title} ${index + 1}`} />
           ))}
         </div> */}
+=======
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
         
         {/* Details Section */}
         <div className="modal-details">
           {/* Combined Information Line */}
             <div className="modal-info-line">
-            <span className="modal-provider">{item.provider}</span>
+            <span className="modal-provider">{item.provider_details.name}</span>
             <span className="modal-location">
                 <span className="location-icon">📍</span> {item.location}
             </span>

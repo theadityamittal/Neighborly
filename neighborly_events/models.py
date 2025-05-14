@@ -1,12 +1,13 @@
 from django.db import models
 import os
 import uuid
-from django.utils.timezone import now
+
 
 def event_image_upload_path(instance, filename):
-    ext = filename.split('.')[-1]
+    ext = filename.split(".")[-1]
     filename = f"{uuid.uuid4().hex}.{ext}"
     return os.path.join("events/uploads/", filename)
+
 
 class Event(models.Model):
     event_id = models.AutoField(primary_key=True)
@@ -24,14 +25,18 @@ class Event(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to=event_image_upload_path, null=True, blank=True)
 
+
 class EventSignUp(models.Model):
     signup_id = models.AutoField(primary_key=True)
+<<<<<<< HEAD
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="eventsignup")
+=======
+    event = models.ForeignKey(
+        Event, on_delete=models.CASCADE, related_name="eventsignup"
+    )
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
     user_id = models.CharField(max_length=255)
     signed_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Signature {self.signature_id} on {self.petition.title}"
 
     def __str__(self):
         return self.event_name

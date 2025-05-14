@@ -1,4 +1,4 @@
-name: Deployment Tests (No Deployment)
+name: CI and Lint
 
 on:
   push:
@@ -13,45 +13,57 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout source
         uses: actions/checkout@v3
 
-      # Django setup and testing
-      - name: Set up Python for Django
+      # ---------------- Python backend ----------------
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
-      - name: Install Django dependencies
-        run: pip install -r requirements.txt
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          # dev‑time tools for style, lint, typing, and tests
+          pip install black flake8 mypy pytest
 
       - name: Run Django migrations
         run: python manage.py migrate
+<<<<<<< HEAD
 
       - name: Load django fixtures
         run: python manage.py dev_setup
 
       - name: Run Django tests
         run: python manage.py test
+=======
+>>>>>>> 2853bf3805e39ed850dac0c989affcba4e0192cf
 
-      # React setup and testing
-      - name: Set up Node.js for React
+      - name: Load Django fixtures
+        run: python manage.py dev_setup
+
+      - name: Code style (black)
+        run: black --check .
+
+      - name: Lint (flake8)
+        run: flake8 .
+
+      # ---------------- React frontend ----------------
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-        
-      - name: Install React dependencies
-        working-directory: react-app
-        run: npm install
 
-      - name: Run React tests
+      - name: Install Node dependencies
         working-directory: react-app
-        run: npm test -- --watchAll=false
+        run: npm ci
 
-      # Deployment step is commented out for now
-      # - name: Deploy to Azure Web App
-      #   uses: azure/webapps-deploy@v2
-      #   with:
-      #     app-name: 'neighborly-django-app-6063'
-      #     slot-name: production
-      #     publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+      - name: Lint (ESLint)
+        working-directory: react-app
+        run: npx eslint . --max-warnings 0
+
+      - name: Run frontend tests (Jest)
+        working-directory: react-app
+        run: npm test -- --ci --passWithNoTests

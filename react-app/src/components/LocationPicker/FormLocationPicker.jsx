@@ -6,7 +6,7 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
-const FormLocationPicker = ({ location, setLocation, onCoordinatesChange }) => {
+const FormLocationPicker = ({ location, setLocation, onCoordinatesChange, latitude = null, longitude = null}) => {
   const mapRef = useRef(null);
   const mapInstance = useRef(null);
   const markerRef = useRef(null);
@@ -25,11 +25,14 @@ const FormLocationPicker = ({ location, setLocation, onCoordinatesChange }) => {
     const map = new mapboxgl.Map({
       container: mapRef.current,
       style: 'mapbox://styles/mapbox/streets-v11',
-      center: [-73.935242, 40.73061],
+      center: longitude && latitude ? [longitude, latitude] : [-73.935242, 40.73061],
       zoom: 12,
       interactive: true,
     });
     mapInstance.current = map;
+    if (longitude && latitude) {
+      reverseGeocode(longitude, latitude);
+    }    
 
     map.on('click', (e) => {
       const { lng, lat } = e.lngLat;
