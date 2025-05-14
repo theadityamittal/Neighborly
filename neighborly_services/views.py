@@ -18,8 +18,6 @@ from .serializers import (
 )
 
 """For all service items & creation of new service items"""
-
-
 class ServiceItemListView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -27,7 +25,7 @@ class ServiceItemListView(APIView):
         if request.query_params.get("user_services"):
             # Handle `/api/services/?user_services=true`
             services = ServiceItem.objects.filter(
-                servicesignup__user_id=request.user.id
+                servicesignup__user_id=request.user.user_id
             )
             serializer = ServiceItemSerializer(services, many=True)
             return Response(serializer.data)
@@ -49,8 +47,6 @@ class ServiceItemListView(APIView):
 
 
 """For a service item"""
-
-
 class ServiceItemDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -84,8 +80,6 @@ class ServiceItemDetailView(APIView):
 
 
 """For creating a new signup item"""
-
-
 class ServiceItemSignUpView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -96,7 +90,7 @@ class ServiceItemSignUpView(APIView):
             return Response({"error": "Service not found."}, status=404)
 
         signup = ServiceSignUp.objects.create(
-            user_id=str(request.user.id),
+            user_id=str(request.user.user_id),
             service=service,
             start_date=request.data.get("start_date"),
             end_date=request.data.get("end_date"),
@@ -108,8 +102,6 @@ class ServiceItemSignUpView(APIView):
 
 
 """For getting all signups for a specific service"""
-
-
 class ServiceSignUpDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
