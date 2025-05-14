@@ -62,14 +62,12 @@ class PetitionTests(APITestCase):
         petition = Petition.objects.create(
             title="Save the Rainforest",
             description="Protecting rainforests around the world.",
-            organizer_id="organizer_1",
+            organizer_id="c1a4e8f2-2a39-4b9f-9f6c-0d9e6b47c1a2",
             target=1000,
         )
 
         # Sign the petition with user_id matching request.user.id
-        PetitionSignature.objects.create(
-            petition=petition, user_id=str(user.user_id) 
-        )
+        PetitionSignature.objects.create(petition=petition, user_id=str(user.user_id))
 
         # Now test get_my_petitions
         response = self.client.get(

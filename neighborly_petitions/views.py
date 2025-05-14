@@ -95,7 +95,7 @@ def create_petition(request):
 @permission_classes([IsAuthenticated])
 def sign_petition(request, petition_id):
     petition = get_object_or_404(Petition, petition_id=petition_id)
-    user_id = request.user.id
+    user_id = request.user.user_id
 
     if PetitionSignature.objects.filter(petition=petition, user_id=user_id).exists():
         return Response({"detail": "Already signed."}, status=status.HTTP_200_OK)
@@ -107,7 +107,7 @@ def sign_petition(request, petition_id):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_petitions(request):
-    petitions = Petition.objects.filter(petitionsignature__user_id=request.user.id)
+    petitions = Petition.objects.filter(petitionsignature__user_id=request.user.user_id)
 
     serializer = PetitionSerializer(petitions, many=True)
     return Response(serializer.data)
