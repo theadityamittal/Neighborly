@@ -46,11 +46,7 @@ class GrabEventsByOrganizerTests(APITestCase):
         self.token = response.data["access"]
 
     def test_grab_events_by_organizer(self):
-<<<<<<< HEAD
         url = f"/events/grabEventsData/organizer/{str(self.user.user_id)}"
-=======
-        url = f"/events/grabEventsData/organizer/{self.user.user_id}"
->>>>>>> b5ab2042dc143c3c412f12f0213a921fa45dbd02
 
         response = self.client.get(url, HTTP_AUTHORIZATION=f"Bearer {self.token}")
 
