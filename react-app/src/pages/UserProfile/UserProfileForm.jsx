@@ -8,14 +8,14 @@ import { storeUserInformation } from "../../redux/authSlice";
 import { useNavigate } from "react-router-dom";
 
 const UserProfileForm = ({ onCancel }) => {
-  const { access, name, email, phoneNumber, address, neighborhood } = useSelector((state) => state.auth);
-  console.log(phoneNumber);
+  const { access, name, email, phoneNumber, address, neighborhood, icon } = useSelector((state) => state.auth);
   const firstName = name.split(" ")[0];
   const lastName = name.split(" ")[1];
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [saved, setSaved] = useState(false);
+  const [iconPreview, setIconPreview] = useState(null);
 
   const [formData, setFormData] = useState({
     firstName: firstName,
@@ -32,14 +32,32 @@ const UserProfileForm = ({ onCancel }) => {
     setFormData({ ...formData, [field]: e.target.value });
   };
 
+  const handleIconChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setIconPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async () => {
     try {
-      const newFormData = {};
-      newFormData["name"] = `${formData.firstName} ${formData.lastName}`;
-      newFormData["phone_number"] = formData.phoneNumber;
-      newFormData["email"] = formData.email;
-      newFormData["address"] = formData.address;
-      newFormData["neighborhood"] = formData.neighborhood;
+      const newFormData = new FormData();
+      newFormData.append("name", `${formData.firstName} ${formData.lastName}`);
+      newFormData.append("phone_number", formData.phoneNumber);
+      newFormData.append("email", formData.email);
+      newFormData.append("address", formData.address);
+      newFormData.append("neighborhood", formData.neighborhood);
+      
+      // Add the icon if selected
+      const iconInput = document.getElementById('icon');
+      if (iconInput.files[0]) {
+        newFormData.append("icon", iconInput.files[0]);
+      }
+      
       const response = await updateUserInformation(newFormData, access);
       console.log("Profile updated successfully:", response.data);
       const userInfo = await getUserInformation(access);
@@ -52,11 +70,30 @@ const UserProfileForm = ({ onCancel }) => {
   }
 
   const handleSnackbarClose = () => {
-    setSnackbarOpen(false); // Close the Snackbar
+    setSnackbarOpen(false);
   };
 
   return (
     <div className="profile-form-wrapper">
+      <div className="profile-icon-section">
+        <img 
+          src={iconPreview || icon || '/default-avatar.png'} 
+          alt="Profile" 
+          className="profile-icon"
+        />
+        <label htmlFor="icon" className="upload-label">
+          Change Profile Picture
+        </label>
+        <input
+          id="icon"
+          name="icon"
+          type="file"
+          accept="image/*"
+          onChange={handleIconChange}
+          className="hidden-input"
+        />
+      </div>
+
       <form className="profile-form">
         <Grid container spacing={2}>
           <Grid item xs={6}>
@@ -86,7 +123,7 @@ const UserProfileForm = ({ onCancel }) => {
       </form>
       <Snackbar
         open={snackbarOpen}
-        autoHideDuration={3000} // Automatically close after 3 seconds
+        autoHideDuration={3000}
         onClose={handleSnackbarClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >

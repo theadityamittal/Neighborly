@@ -18,6 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
             "zip_code",
             "latitude",
             "longitude",
+            "icon",
             "account_type",
             "verified",
             "created_at",
@@ -27,10 +28,34 @@ class UserSerializer(serializers.ModelSerializer):
         read_only_fields = ("user_id", "created_at", "is_staff")
 
     def create(self, validated_data):
-        # Extract password and create user via manager to ensure all fields are
-        # handled properly
+        print(f"validated_data before  = {validated_data}")
         password = validated_data.pop("password")
-        user = CustomUser.objects.create_user(password=password, **validated_data)
+
+        # Only pass fields that create_user accepts
+        create_user_fields = {
+            "email": validated_data.get("email"),
+            "name": validated_data.get("name"),
+            "phone_number": validated_data.get("phone_number"),
+            "address": validated_data.get("address"),
+            "city": validated_data.get("city"),
+            "neighborhood": validated_data.get("neighborhood"),
+            "zip_code": validated_data.get("zip_code"),
+            "account_type": validated_data.get("account_type"),
+            "latitude": validated_data.get("latitude"),
+            "longitude": validated_data.get("longitude"),
+            "password": password,
+        }
+
+        # Handle icon separately
+        icon = validated_data.pop("icon", None)
+        print(f"validated_data after  = {validated_data}")
+        user = CustomUser.objects.create_user(**create_user_fields)
+
+        # Set icon if provided
+        if icon:
+            user.icon = icon
+            user.save()
+
         return user
 
     def update(self, instance, validated_data):

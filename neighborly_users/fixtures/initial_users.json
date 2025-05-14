@@ -53,6 +53,7 @@
         "zip_code": "11201",
         "latitude": 40.695500,
         "longitude": -73.986900,
+        "icon": "users/uploads/test.jpg",
         "account_type": "resident",
         "verified": true,
         "created_at": "2025-04-21T19:56:23.635498Z",

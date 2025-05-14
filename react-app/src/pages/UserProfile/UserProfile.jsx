@@ -12,9 +12,11 @@ import React, { useState } from "react";
 const UserProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { name, neighborhood } = useSelector((state) => state.auth);
+  const { name, neighborhood, icon } = useSelector((state) => state.auth);
   const [isEditing, setIsEditing] = useState(false);
   // get tab from url
+
+  console.log("UserProfile: ", name, neighborhood, icon);
 
   const handleLogOut = () => {
     dispatch(logout());
@@ -30,7 +32,7 @@ const UserProfile = () => {
           {/* Header */}
           <div className="bulletin-header">
             <div className="profile">
-              <Avatar src={avatar} alt="User Avatar" sx={{ width: 80, height: 80 }} />
+              <Avatar src={icon || avatar} alt="User Avatar" sx={{ width: 80, height: 80 }} />
               <div>
                 <Typography variant="h4" className="username">{name}</Typography>
                 <Typography variant="body2" className="location">📍 {neighborhood}</Typography>
