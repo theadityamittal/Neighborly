@@ -48,7 +48,7 @@ const EditService = () => {
         setUpdating(signupId);
         try {
             const response = await axiosInstance.patch(
-                `services/signup/${signupId}/`,
+                `/services/signup/${signupId}/`,
                 { status: action },
                 {
                     headers: {

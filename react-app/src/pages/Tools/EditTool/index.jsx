@@ -23,7 +23,7 @@ const EditTool = () => {
 
     const fetchTool = async () => {
         try {
-            const response = await axiosInstance.get(`tools/${tool_id}`, {
+            const response = await axiosInstance.get(`/tools/${tool_id}/`, {
                 headers: {
                     Authorization: `Bearer ${access}`,
                 }
@@ -51,7 +51,7 @@ const EditTool = () => {
         setUpdating(signupId);
         try {
             const response = await axiosInstance.patch(
-                `tools/borrow/${signupId}/`,
+                `/tools/borrow/${signupId}/`,
                 { status: action },
                 {
                     headers: {
