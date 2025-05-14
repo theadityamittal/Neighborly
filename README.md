@@ -198,4 +198,6 @@ With each of the user fixtures loaded from the previous step dev_setup the defau
 
 NGO accounts have the password 123456 for simplicity.
 
+To make a custom admin account, use python3 manage.py createsuperuser. After you make that account, you can immediately login without verificaiton as well!
+
 Feel to use these accounts to look at the website! Or checkout the live site here: http://3.145.158.84/
