@@ -1,4 +1,4 @@
 [flake8]
-max-line-length = 95
+max-line-length = 120
 exclude = .git,__pycache__,react-app/node_modules/,migrations/
 ignore = F403,F405
