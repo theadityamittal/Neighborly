@@ -108,9 +108,14 @@ cd Neighborly
    REGION_NAME=your_aws_region_here
    MAPBOX_ACCESS_TOKEN=your_mapbox_token_here
    ```
-4. Run the backend:
+4. Load the DB with dummies
+   ```bash
+   python manage.py dev_setup
+   ```
+5. Run the backend:
 
    ```bash
+   python manage.py migrate
    python manage.py runserver
    ```
 
