@@ -7,6 +7,4 @@ node_modules/
 venv/
 db.sqlite3
 *.sqlite3
-.env
-env/
 *.log
